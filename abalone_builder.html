@@ -5,34 +5,75 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>전복 데이터 생성기</title>
 <style>
-:root {
-  --bg:#f7f6f2; --surface:#fff; --surface2:#f0ede6;
-  --border:#e2ddd5; --border2:#ccc8bf;
-  --text:#1a1916; --text2:#6b6860; --text3:#9b9890;
-  --accent:#2a6e4e; --accent-light:#e6f2ec; --accent-text:#1a4a32;
-  --danger:#c0392b; --danger-light:#fdf0ee;
-  --tag-s-bg:#dff0ea; --tag-s-tx:#1a4a32;
-  --tag-m-bg:#fff3db; --tag-m-tx:#7a4f00;
-  --tag-l-bg:#ffe8e8; --tag-l-tx:#8b1a1a;
+:root{
+  --bg:#f7f6f2;--surface:#fff;--surface2:#f0ede6;
+  --border:#e2ddd5;--border2:#ccc8bf;
+  --text:#1a1916;--text2:#6b6860;--text3:#9b9890;
+  --accent:#2a6e4e;--accent-light:#e6f2ec;--accent-text:#1a4a32;
+  --danger:#c0392b;--danger-light:#fdf0ee;
+  --ok:#1a6e2e;--ok-light:#e6f4ea;--ok-text:#1a4a2a;
+  --warn:#7a4f00;--warn-light:#fff8e6;
+  --tag-s-bg:#dff0ea;--tag-s-tx:#1a4a32;
+  --tag-m-bg:#fff3db;--tag-m-tx:#7a4f00;
+  --tag-l-bg:#ffe8e8;--tag-l-tx:#8b1a1a;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;}
-.page{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem;}
+.page{max-width:860px;margin:0 auto;padding:2.5rem 1.5rem 4rem;}
+
+/* hero */
 .hero{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);}
 .hero-tag{display:inline-block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:var(--accent-light);color:var(--accent-text);padding:3px 10px;border-radius:20px;margin-bottom:10px;font-weight:600;}
 .hero h1{font-size:26px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px;}
 .hero p{font-size:14px;color:var(--text2);}
+
+/* steps */
 .steps{display:flex;gap:8px;margin-bottom:2rem;flex-wrap:wrap;}
 .step{display:flex;align-items:flex-start;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;flex:1;min-width:170px;}
 .step-num{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
 .step-text{font-size:13px;color:var(--text2);line-height:1.45;}
 .step-text strong{color:var(--text);font-weight:600;display:block;margin-bottom:2px;}
+
+/* 메인 탭 */
 .tab-bar{display:flex;border-bottom:2px solid var(--border);margin-bottom:2rem;}
 .tab-btn{padding:10px 20px;font-size:14px;font-weight:600;color:var(--text3);background:transparent;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;cursor:pointer;font-family:inherit;transition:all .15s;}
 .tab-btn:hover{color:var(--text2);}
 .tab-btn.active{color:var(--accent-text);border-bottom-color:var(--accent);}
 .tab-panel{display:none;}
 .tab-panel.active{display:block;}
+
+/* 범위 설정 섹션 */
+.range-setup{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1.5rem;}
+.range-setup-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface2);border-bottom:1px solid var(--border);}
+.range-setup-head h3{font-size:14px;font-weight:600;}
+.range-setup-body{padding:14px 16px 16px;}
+.range-guide{font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6;}
+.range-guide code{background:var(--surface2);padding:1px 6px;border-radius:4px;font-size:12px;font-family:'Menlo',monospace;color:var(--accent-text);}
+.range-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px 16px;}
+.range-row{display:flex;align-items:center;gap:8px;}
+.range-key{font-size:12px;color:var(--text2);width:56px;flex-shrink:0;}
+.range-inp{width:68px;padding:4px 8px;border:1px solid var(--border2);border-radius:6px;font-size:12px;font-family:inherit;background:var(--bg);color:var(--text);text-align:center;}
+.range-inp:focus{outline:none;border-color:var(--accent);}
+.range-inp.set{border-color:var(--accent);background:var(--accent-light);}
+.range-inp.err{border-color:var(--danger);background:var(--danger-light);}
+.range-sep{font-size:11px;color:var(--text3);}
+.range-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;align-items:center;}
+.apply-btn{padding:8px 18px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s;}
+.apply-btn:hover{background:var(--accent-text);}
+.apply-btn:disabled{background:var(--border2);cursor:not-allowed;}
+.reset-btn{padding:8px 14px;background:transparent;color:var(--text2);border:1px solid var(--border2);border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;transition:all .15s;}
+.reset-btn:hover{border-color:var(--accent);color:var(--accent-text);}
+.range-status{font-size:12px;color:var(--text3);}
+.range-status.ok{color:var(--ok);}
+.range-status.err{color:var(--danger);}
+
+/* 슬라이더 영역 — 잠금 상태 */
+.slider-area{position:relative;}
+.slider-lock{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:2.5rem;background:var(--surface2);border:1.5px dashed var(--border2);border-radius:12px;margin-bottom:1.5rem;text-align:center;}
+.slider-lock p{font-size:14px;color:var(--text2);}
+.slider-lock p strong{color:var(--text);}
+
+/* 슬라이더 카드 */
 .settings-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:10px;}
 .settings-bar h2{font-size:15px;font-weight:600;}
 .mix-ctl{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:13px;color:var(--text2);}
@@ -74,27 +115,58 @@ input[type=range]{width:100%;accent-color:var(--accent);}
 .dl-btn:hover{background:var(--accent-text);}
 .dl-btn svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;}
 .dl-note{font-size:12px;color:var(--text3);line-height:1.5;}
+
+/* 파이썬 서브탭 */
+.sub-tab-bar{display:flex;gap:6px;margin-bottom:1.5rem;flex-wrap:wrap;}
+.sub-tab-btn{padding:7px 16px;font-size:13px;font-weight:600;color:var(--text2);background:var(--surface);border:1px solid var(--border);border-radius:20px;cursor:pointer;font-family:inherit;transition:all .15s;}
+.sub-tab-btn:hover{border-color:var(--accent);color:var(--accent-text);}
+.sub-tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.sub-panel{display:none;}
+.sub-panel.active{display:block;}
+
+/* 빈칸 채우기 */
+.blank-guide{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:1.5rem;font-size:13px;color:var(--text2);line-height:1.7;}
+.blank-guide strong{color:var(--text);}
+.blank-guide code{background:var(--surface2);padding:1px 6px;border-radius:4px;font-size:12px;font-family:'Menlo',monospace;color:var(--accent-text);}
+.blank-n-row{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem;font-size:13px;color:var(--text2);}
+.blank-n-row input[type=number]{width:80px;padding:6px 10px;border:1px solid var(--border2);border-radius:6px;font-size:13px;font-family:inherit;background:var(--bg);color:var(--text);}
+.blank-code-box{background:#1e1e1e;border-radius:10px;padding:20px;margin-bottom:1rem;overflow-x:auto;}
+.blank-code-box pre{font-family:'Menlo','Consolas',monospace;font-size:12.5px;line-height:2.2;white-space:pre;color:#d4d4d4;margin:0;}
+.blank-input{display:inline-block;width:64px;padding:1px 6px;background:#2d2d2d;border:1.5px solid #555;border-radius:4px;color:#ffd700;font-family:'Menlo','Consolas',monospace;font-size:12px;text-align:center;vertical-align:middle;transition:border-color .15s;outline:none;}
+.blank-input:focus{border-color:#4ec9b0;background:#252525;}
+.blank-input.ok{border-color:#4caf50;color:#a8d5a2;}
+.blank-input.err{border-color:#e57373;color:#e57373;}
+.blank-input::placeholder{color:#666;font-style:italic;}
+.check-row{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem;flex-wrap:wrap;}
+.check-btn{padding:9px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s;}
+.check-btn:hover{background:var(--accent-text);}
+.reveal-btn{padding:9px 20px;background:transparent;color:var(--text2);border:1px solid var(--border2);border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;transition:all .15s;}
+.reveal-btn:hover{border-color:var(--accent);color:var(--accent-text);}
+.check-result{font-size:13px;padding:10px 14px;border-radius:8px;display:none;}
+.check-result.show{display:block;}
+.check-result.all-ok{background:var(--ok-light);color:var(--ok-text);border:1px solid #b2dfdb;}
+.check-result.has-err{background:var(--warn-light);color:var(--warn);border:1px solid #ffe082;}
 .py-sec-lbl{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:10px;letter-spacing:.03em;text-transform:uppercase;}
+.code-box{position:relative;background:#1e1e1e;border-radius:10px;padding:16px;margin-bottom:1rem;}
+.code-box pre{color:#d4d4d4;font-family:'Menlo','Consolas',monospace;font-size:12px;line-height:1.7;white-space:pre;overflow-x:auto;max-height:420px;overflow-y:auto;margin:0;}
+.copy-btn{position:absolute;top:10px;right:10px;padding:5px 12px;background:#3a3a3a;color:#ccc;border:1px solid #555;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;transition:all .15s;}
+.copy-btn:hover{background:#4a4a4a;color:#fff;}
+.copy-btn.ok2{background:var(--accent);color:#fff;border-color:var(--accent);}
 .py-controls{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:1.5rem;}
 .py-ctrl{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;}
 .py-ctrl label{display:block;font-size:12px;color:var(--text2);margin-bottom:6px;}
 .py-ctrl input[type=number],.py-ctrl select{width:100%;padding:6px 10px;border:1px solid var(--border2);border-radius:6px;font-size:13px;font-family:inherit;background:var(--bg);color:var(--text);}
 .py-ctrl input[type=range]{width:100%;accent-color:var(--accent);margin-top:4px;}
 .range-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:2px;}
-.code-box{position:relative;background:#1e1e1e;border-radius:10px;padding:16px;margin-bottom:1rem;}
-.code-box pre{color:#d4d4d4;font-family:'Menlo','Consolas',monospace;font-size:12px;line-height:1.7;white-space:pre;overflow-x:auto;max-height:420px;overflow-y:auto;margin:0;}
-.copy-btn{position:absolute;top:10px;right:10px;padding:5px 12px;background:#3a3a3a;color:#ccc;border:1px solid #555;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;transition:all .15s;}
-.copy-btn:hover{background:#4a4a4a;color:#fff;}
-.copy-btn.ok{background:var(--accent);color:#fff;border-color:var(--accent);}
 .py-note{font-size:13px;color:var(--text2);margin-bottom:1.5rem;}
 .py-note code{background:var(--surface2);padding:1px 6px;border-radius:4px;font-size:12px;font-family:'Menlo',monospace;color:var(--accent-text);}
 .explain-grid{display:flex;flex-direction:column;gap:8px;margin-bottom:2rem;}
 .explain-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;}
 .explain-code{font-size:12px;font-family:'Menlo',monospace;color:var(--accent-text);margin-bottom:4px;}
 .explain-desc{font-size:13px;color:var(--text2);}
-.kw{color:#569cd6;} .fn{color:#dcdcaa;} .st{color:#ce9178;}
-.cm{color:#6a9955;font-style:italic;} .nm{color:#b5cea8;}
-.op{color:#d4d4d4;} .id2{color:#9cdcfe;} .bi{color:#4ec9b0;}
+.kw{color:#569cd6;}.fn{color:#dcdcaa;}.st{color:#ce9178;}
+.cm{color:#6a9955;font-style:italic;}.nm{color:#b5cea8;}
+.id2{color:#9cdcfe;}.bi{color:#4ec9b0;}
 .tip-box{margin-top:2.5rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.5rem;}
 .tip-box h3{font-size:14px;font-weight:600;margin-bottom:8px;}
 .tip-steps{display:flex;flex-direction:column;gap:6px;}
@@ -104,7 +176,7 @@ input[type=range]{width:100%;accent-color:var(--accent);}
 @media(max-width:520px){
   .page{padding:1.5rem 1rem 3rem;}
   .slider-grid{grid-template-columns:1fr 1fr;}
-  .steps{flex-direction:column;}
+  .steps,.range-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -114,13 +186,13 @@ input[type=range]{width:100%;accent-color:var(--accent);}
 <div class="hero">
   <div class="hero-tag">Orange3 실습 도구</div>
   <h1>🐚 전복 데이터 생성기</h1>
-  <p>나만의 전복을 만들고 CSV로 저장하세요. Orange3 Predictions 위젯에서 바로 사용할 수 있습니다.</p>
+  <p>Orange3에서 min/max를 직접 찾아 입력하고, 나만의 전복 데이터를 만들어보세요.</p>
 </div>
 
 <div class="steps">
-  <div class="step"><div class="step-num">1</div><div class="step-text"><strong>전복 설계</strong>슬라이더 또는 파이썬 코드로 만드세요</div></div>
-  <div class="step"><div class="step-num">2</div><div class="step-text"><strong>CSV 다운로드</strong>실제 데이터와 섞어 파일로 저장해요</div></div>
-  <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Orange3 연결</strong>File → Predictions로 순살무게 예측!</div></div>
+  <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Orange3 탐색</strong>Feature Statistics로 각 변수 min/max 확인</div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-text"><strong>범위 입력</strong>찾은 값을 입력해 슬라이더/코드 범위 설정</div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-text"><strong>전복 설계 & CSV</strong>범위 안에서 전복 만들고 Predictions 연결!</div></div>
 </div>
 
 <div class="tab-bar">
@@ -128,83 +200,127 @@ input[type=range]{width:100%;accent-color:var(--accent);}
   <button class="tab-btn" id="tbPython" onclick="switchTab('python')">🐍 파이썬 코드로 만들기</button>
 </div>
 
-<!-- TAB 1 -->
+<!-- ===== 슬라이더 탭 ===== -->
 <div class="tab-panel active" id="tab-slider">
-  <div class="settings-bar">
-    <h2>내 전복 만들기</h2>
-    <div class="mix-ctl">
-      <label>실제 데이터 <strong class="mix-val" id="mixVal">20</strong>개 섞기</label>
-      <input type="range" min="10" max="50" step="5" value="20" oninput="document.getElementById('mixVal').textContent=this.value; updatePreview()">
+
+  <!-- STEP 1: 범위 설정 -->
+  <div class="range-setup">
+    <div class="range-setup-head">
+      <h3>1단계 — Orange3에서 찾은 min/max 입력하기</h3>
+      <span class="range-status" id="rangeStatus">0 / 7 완료</span>
+    </div>
+    <div class="range-setup-body">
+      <p class="range-guide">
+        Orange3 → <code>Feature Statistics</code> 위젯을 열어 각 변수의 최솟값(min)과 최댓값(max)을 확인한 뒤 아래에 입력하세요.<br>
+        모두 입력하면 슬라이더 범위가 설정되고 전복을 만들 수 있어요.
+      </p>
+      <div class="range-grid" id="rangeGrid"></div>
+      <div class="range-actions">
+        <button class="apply-btn" id="applyBtn" onclick="applyRanges()" disabled>슬라이더 범위 적용하기</button>
+        <button class="reset-btn" onclick="resetRanges()">초기화</button>
+        <span class="range-status" id="rangeMsg"></span>
+      </div>
     </div>
   </div>
-  <div class="rows-area" id="rows"></div>
-  <button class="add-btn" onclick="addRow(-1)">+ 전복 추가하기</button>
-  <div class="sec-lbl">CSV 미리보기</div>
-  <div class="preview-box">
-    <div class="stat-pills" id="statPills"></div>
-    <pre id="preview"></pre>
-    <div class="mix-note" id="mixNote"></div>
+
+  <!-- STEP 2: 슬라이더 (잠금/해제) -->
+  <div id="sliderLock" class="slider-lock">
+    <p><strong>위에서 min/max를 모두 입력하고</strong><br>슬라이더 범위 적용하기를 누르면 전복을 만들 수 있어요.</p>
   </div>
-  <div class="dl-row">
-    <button class="dl-btn" onclick="downloadCSV()">
-      <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2"/></svg>
-      CSV 다운로드
-    </button>
-    <div class="dl-note">파일명: <strong>my_abalone.csv</strong><br>순살무게 없이 저장 (Predictions용)</div>
+
+  <div id="sliderUnlocked" style="display:none;">
+    <div class="settings-bar">
+      <h2>내 전복 만들기</h2>
+      <div class="mix-ctl">
+        <label>실제 데이터 <strong class="mix-val" id="mixVal">20</strong>개 섞기</label>
+        <input type="range" min="10" max="50" step="5" value="20" oninput="document.getElementById('mixVal').textContent=this.value; updatePreview()">
+      </div>
+    </div>
+    <div class="rows-area" id="rows"></div>
+    <button class="add-btn" onclick="addRow(-1)">+ 전복 추가하기</button>
+    <div class="sec-lbl">CSV 미리보기</div>
+    <div class="preview-box">
+      <div class="stat-pills" id="statPills"></div>
+      <pre id="preview"></pre>
+      <div class="mix-note" id="mixNote"></div>
+    </div>
+    <div class="dl-row">
+      <button class="dl-btn" onclick="downloadCSV()">
+        <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2"/></svg>
+        CSV 다운로드
+      </button>
+      <div class="dl-note">파일명: <strong>my_abalone.csv</strong><br>순살무게 없이 저장 (Predictions용)</div>
+    </div>
   </div>
 </div>
 
-<!-- TAB 2 -->
+<!-- ===== 파이썬 탭 ===== -->
 <div class="tab-panel" id="tab-python">
-  <div class="py-sec-lbl">코드 옵션 설정</div>
-  <div class="py-controls">
-    <div class="py-ctrl">
-      <label>생성할 전복 수</label>
-      <input type="number" id="pyN" value="50" min="5" max="500" oninput="renderCode()">
-    </div>
-    <div class="py-ctrl">
-      <label>크기 분포</label>
-      <select id="pyDist" onchange="renderCode()">
-        <option value="uniform">균일 (전 범위 랜덤)</option>
-        <option value="small">작은 전복 위주</option>
-        <option value="large">큰 전복 위주</option>
-        <option value="mixed">소·중·대 균등 분포</option>
-      </select>
-    </div>
-    <div class="py-ctrl">
-      <label>랜덤 시드 (재현성)</label>
-      <input type="number" id="pySeed" value="42" min="0" max="9999" oninput="renderCode()">
-    </div>
-    <div class="py-ctrl">
-      <label>나이테 범위: <strong id="ringsLbl">5 ~ 15</strong></label>
-      <input type="range" id="pyRMin" min="1" max="14" value="5" oninput="syncRings()">
-      <input type="range" id="pyRMax" min="6" max="29" value="15" oninput="syncRings()">
-      <div class="range-lbl"><span>최솟값</span><span>최댓값</span></div>
-    </div>
+  <div class="sub-tab-bar">
+    <button class="sub-tab-btn active" id="stbBlank" onclick="switchSub('blank')">✏️ 빈칸 채우기</button>
+    <button class="sub-tab-btn" id="stbFree" onclick="switchSub('free')">🔧 자유 생성</button>
   </div>
-  <div class="py-sec-lbl">파이썬 코드</div>
-  <div class="code-box">
-    <button class="copy-btn" id="copyBtn" onclick="copyCode()">복사</button>
-    <pre id="pyCode"></pre>
+
+  <!-- 빈칸 채우기 -->
+  <div class="sub-panel active" id="sub-blank">
+    <div class="blank-guide">
+      <strong>Orange3에서 min/max를 찾아서 빈칸을 채워보세요!</strong><br>
+      Orange3 → <code>Feature Statistics</code> 위젯을 열면 각 변수의 min/max를 한 번에 확인할 수 있어요.<br>
+      찾은 값을 아래 <code style="color:#ffd700;background:#2d2d2d;border:none;">노란 빈칸</code>에 입력하면 코드가 실시간으로 완성됩니다.
+    </div>
+    <div class="blank-n-row">
+      <span>생성할 전복 수:</span>
+      <input type="number" id="blankN" value="50" min="5" max="500" oninput="updateBlankPreview()">
+      <span style="color:var(--text3);">개</span>
+    </div>
+    <div class="blank-code-box"><pre id="blankCodeDisplay"></pre></div>
+    <div class="check-row">
+      <button class="check-btn" onclick="checkBlanks()">정답 확인하기</button>
+      <button class="reveal-btn" onclick="revealAnswers()">정답 보기</button>
+      <div class="check-result" id="checkResult"></div>
+    </div>
+    <div class="py-sec-lbl">완성된 코드 미리보기</div>
+    <div class="code-box">
+      <button class="copy-btn" id="copyBlankBtn" onclick="copyBlankCode()">복사</button>
+      <pre id="blankFinalCode"></pre>
+    </div>
+    <p class="py-note">위 코드를 복사해서 <strong>VS Code</strong>, <strong>구글 Colab</strong>, <strong>파이썬 IDLE</strong>에서 실행하면 <code>my_abalone.csv</code>가 생성됩니다.</p>
   </div>
-  <p class="py-note">위 코드를 복사해서 <strong>VS Code</strong>, <strong>구글 Colab</strong>, 또는 <strong>파이썬 IDLE</strong>에 붙여넣고 실행하면 <code>my_abalone.csv</code> 파일이 생성됩니다.</p>
-  <div class="py-sec-lbl">코드 한 줄씩 이해하기</div>
-  <div class="explain-grid">
-    <div class="explain-item">
-      <div class="explain-code">import pandas as pd, numpy as np</div>
-      <div class="explain-desc">pandas는 표 형태 데이터를 다루는 라이브러리, numpy는 수학 계산과 난수 생성에 사용해요.</div>
+
+  <!-- 자유 생성 -->
+  <div class="sub-panel" id="sub-free">
+    <div class="py-sec-lbl">코드 옵션 설정</div>
+    <div class="py-controls">
+      <div class="py-ctrl"><label>생성할 전복 수</label><input type="number" id="pyN" value="50" min="5" max="500" oninput="renderFreeCode()"></div>
+      <div class="py-ctrl"><label>크기 분포</label>
+        <select id="pyDist" onchange="renderFreeCode()">
+          <option value="uniform">균일 (전 범위 랜덤)</option>
+          <option value="small">작은 전복 위주</option>
+          <option value="large">큰 전복 위주</option>
+          <option value="mixed">소·중·대 균등 분포</option>
+        </select>
+      </div>
+      <div class="py-ctrl"><label>랜덤 시드</label><input type="number" id="pySeed" value="42" min="0" max="9999" oninput="renderFreeCode()"></div>
+      <div class="py-ctrl">
+        <label>나이테 범위: <strong id="ringsLbl">1 ~ 29</strong></label>
+        <input type="range" id="pyRMin" min="1" max="14" value="1" oninput="syncRings()">
+        <input type="range" id="pyRMax" min="6" max="29" value="29" oninput="syncRings()">
+        <div class="range-lbl"><span>최솟값</span><span>최댓값</span></div>
+      </div>
     </div>
-    <div class="explain-item">
-      <div class="explain-code">np.random.seed(42)</div>
-      <div class="explain-desc">시드를 고정하면 코드를 다시 실행해도 같은 결과가 나와요. 친구와 결과를 비교할 때 유용합니다.</div>
+    <div class="py-sec-lbl">파이썬 코드</div>
+    <div class="code-box">
+      <button class="copy-btn" id="copyFreeBtn" onclick="copyFreeCode()">복사</button>
+      <pre id="pyCode"></pre>
     </div>
-    <div class="explain-item">
-      <div class="explain-code">np.random.uniform(min, max, n)</div>
-      <div class="explain-desc">min~max 사이에서 n개의 숫자를 무작위로 뽑아요. 전복의 길이나 무게처럼 연속적인 값을 만들 때 써요.</div>
-    </div>
-    <div class="explain-item">
-      <div class="explain-code">df.to_csv('파일명.csv', index=False)</div>
-      <div class="explain-desc">DataFrame을 CSV 파일로 저장해요. index=False를 쓰면 행 번호(0,1,2...)가 파일에 포함되지 않아요.</div>
+    <p class="py-note">위 코드를 복사해서 <strong>VS Code</strong>, <strong>구글 Colab</strong>, <strong>파이썬 IDLE</strong>에 붙여넣고 실행하면 <code>my_abalone.csv</code>가 생성됩니다.</p>
+    <div class="py-sec-lbl">코드 한 줄씩 이해하기</div>
+    <div class="explain-grid">
+      <div class="explain-item"><div class="explain-code">import pandas as pd, numpy as np</div><div class="explain-desc">pandas는 표 형태 데이터 라이브러리, numpy는 수학 계산과 난수 생성에 사용해요.</div></div>
+      <div class="explain-item"><div class="explain-code">np.random.seed(42)</div><div class="explain-desc">시드를 고정하면 코드를 다시 실행해도 같은 결과가 나와요. 숫자를 바꾸면 완전히 다른 데이터가 나와요.</div></div>
+      <div class="explain-item"><div class="explain-code">np.random.uniform(min, max, n)</div><div class="explain-desc">min~max 사이 소수를 n개 무작위로 뽑아요. 길이, 무게처럼 연속적인 값에 사용해요.</div></div>
+      <div class="explain-item"><div class="explain-code">np.random.randint(min, max, n)</div><div class="explain-desc">min~max-1 사이 정수를 n개 뽑아요. 나이테처럼 자연수로 세는 값에 사용해요. max는 포함 안 돼요!</div></div>
+      <div class="explain-item"><div class="explain-code">df.to_csv('파일명.csv', index=False)</div><div class="explain-desc">DataFrame을 CSV로 저장해요. index=False를 쓰면 행 번호가 파일에 포함되지 않아요.</div></div>
     </div>
   </div>
 </div>
@@ -222,15 +338,27 @@ input[type=range]{width:100%;accent-color:var(--accent);}
 </div>
 <script>
 var FIELDS = [
-  {key:'길이',    min:0.07, max:0.82, step:0.01, def:[0.33,0.53,0.70]},
-  {key:'직경',    min:0.05, max:0.65, step:0.01, def:[0.25,0.42,0.55]},
-  {key:'두께',    min:0.00, max:0.25, step:0.01, def:[0.09,0.14,0.20]},
-  {key:'전체무게', min:0.00, max:2.82, step:0.01, def:[0.20,0.68,1.20]},
-  {key:'내장무게', min:0.00, max:0.76, step:0.01, def:[0.04,0.15,0.28]},
-  {key:'껍질무게', min:0.00, max:1.00, step:0.01, def:[0.05,0.15,0.28]},
-  {key:'나이테',  min:1,    max:29,   step:1,    def:[7,10,14]}
+  {key:'길이',    isInt:false, def:[0.33,0.53,0.70]},
+  {key:'직경',    isInt:false, def:[0.25,0.42,0.55]},
+  {key:'두께',    isInt:false, def:[0.09,0.14,0.20]},
+  {key:'전체무게', isInt:false, def:[0.20,0.68,1.20]},
+  {key:'내장무게', isInt:false, def:[0.04,0.15,0.28]},
+  {key:'껍질무게', isInt:false, def:[0.05,0.15,0.28]},
+  {key:'나이테',  isInt:true,  def:[7,   10,  14  ]}
 ];
-var REAL = [
+
+var ANSWERS = {
+  '길이':    {min:0.075,max:0.815,tol:0.05},
+  '직경':    {min:0.055,max:0.650,tol:0.05},
+  '두께':    {min:0.000,max:0.250,tol:0.03},
+  '전체무게': {min:0.002,max:2.826,tol:0.1},
+  '내장무게': {min:0.001,max:0.760,tol:0.05},
+  '껍질무게': {min:0.002,max:1.005,tol:0.05},
+  '나이테':  {min:1,    max:29,   tol:2}
+};
+
+// 실제 데이터 샘플
+var REAL=[
   [0.45,0.35,0.11,0.376,0.0656,0.092,9],[0.53,0.42,0.14,0.678,0.157,0.144,10],
   [0.44,0.37,0.12,0.516,0.115,0.124,10],[0.33,0.255,0.08,0.205,0.0395,0.055,7],
   [0.425,0.3,0.095,0.352,0.093,0.079,8],[0.53,0.415,0.15,0.777,0.237,0.142,20],
@@ -257,262 +385,447 @@ var REAL = [
   [0.63,0.495,0.165,1.124,0.424,0.2355,13],[0.655,0.51,0.175,1.3065,0.4765,0.28,14],
   [0.47,0.36,0.11,0.4555,0.166,0.1005,10],[0.52,0.41,0.14,0.672,0.257,0.136,11]
 ];
-var SZ = ['작은 전복','보통 전복','큰 전복'];
-var SC = ['ps','pm','pl'];
-var rows = [];
-var uid = 0;
 
-function switchTab(name) {
-  document.getElementById('tbSlider').className = 'tab-btn' + (name==='slider' ? ' active' : '');
-  document.getElementById('tbPython').className = 'tab-btn' + (name==='python' ? ' active' : '');
-  document.getElementById('tab-slider').className = 'tab-panel' + (name==='slider' ? ' active' : '');
-  document.getElementById('tab-python').className = 'tab-panel' + (name==='python' ? ' active' : '');
+var SZ=['작은 전복','보통 전복','큰 전복'];
+var SC=['ps','pm','pl'];
+var rows=[];
+var uid=0;
+// 학생이 입력한 범위 (적용 전까지 null)
+var appliedRanges = null;
+
+// ===== 탭 =====
+function switchTab(name){
+  document.getElementById('tbSlider').className='tab-btn'+(name==='slider'?' active':'');
+  document.getElementById('tbPython').className='tab-btn'+(name==='python'?' active':'');
+  document.getElementById('tab-slider').className='tab-panel'+(name==='slider'?' active':'');
+  document.getElementById('tab-python').className='tab-panel'+(name==='python'?' active':'');
+}
+function switchSub(name){
+  document.getElementById('stbBlank').className='sub-tab-btn'+(name==='blank'?' active':'');
+  document.getElementById('stbFree').className='sub-tab-btn'+(name==='free'?' active':'');
+  document.getElementById('sub-blank').className='sub-panel'+(name==='blank'?' active':'');
+  document.getElementById('sub-free').className='sub-panel'+(name==='free'?' active':'');
 }
 
-function addRow(si) {
-  if (si < 0) si = 1;
-  var id = uid++;
-  var vals = {};
-  for (var i=0; i<FIELDS.length; i++) vals[FIELDS[i].key] = FIELDS[i].def[si];
-  rows.push({id:id, vals:vals, label:SZ[si], si:si});
+// ===== 범위 설정 그리드 =====
+function buildRangeGrid(){
+  var grid=document.getElementById('rangeGrid');
+  grid.innerHTML='';
+  for(var i=0;i<FIELDS.length;i++){
+    var f=FIELDS[i];
+    var row=document.createElement('div');
+    row.className='range-row';
+    row.innerHTML=
+      '<span class="range-key">'+f.key+'</span>'+
+      '<input class="range-inp" id="rmin_'+f.key+'" type="number" placeholder="min" step="'+(f.isInt?'1':'0.001')+'" oninput="onRangeInput()">'+
+      '<span class="range-sep">~</span>'+
+      '<input class="range-inp" id="rmax_'+f.key+'" type="number" placeholder="max" step="'+(f.isInt?'1':'0.001')+'" oninput="onRangeInput()">';
+    grid.appendChild(row);
+  }
+}
+
+function onRangeInput(){
+  var filled=0;
+  var hasErr=false;
+  for(var i=0;i<FIELDS.length;i++){
+    var f=FIELDS[i];
+    var mn=document.getElementById('rmin_'+f.key).value;
+    var mx=document.getElementById('rmax_'+f.key).value;
+    if(mn!==''&&mx!==''){
+      filled++;
+      var mnv=parseFloat(mn), mxv=parseFloat(mx);
+      var minEl=document.getElementById('rmin_'+f.key);
+      var maxEl=document.getElementById('rmax_'+f.key);
+      if(mnv>=mxv){
+        minEl.className='range-inp err';
+        maxEl.className='range-inp err';
+        hasErr=true;
+      } else {
+        minEl.className='range-inp set';
+        maxEl.className='range-inp set';
+      }
+    }
+  }
+  var status=document.getElementById('rangeStatus');
+  status.textContent=filled+' / 7 완료';
+  status.className='range-status'+(filled===7?' ok':'');
+  var applyBtn=document.getElementById('applyBtn');
+  applyBtn.disabled=(filled<7||hasErr);
+  document.getElementById('rangeMsg').textContent='';
+}
+
+function applyRanges(){
+  var ranges={};
+  for(var i=0;i<FIELDS.length;i++){
+    var f=FIELDS[i];
+    var mn=parseFloat(document.getElementById('rmin_'+f.key).value);
+    var mx=parseFloat(document.getElementById('rmax_'+f.key).value);
+    if(isNaN(mn)||isNaN(mx)||mn>=mx){
+      document.getElementById('rangeMsg').textContent='min이 max보다 크거나 같은 항목이 있어요.';
+      document.getElementById('rangeMsg').className='range-status err';
+      return;
+    }
+    ranges[f.key]={min:mn, max:mx};
+  }
+  appliedRanges=ranges;
+  document.getElementById('sliderLock').style.display='none';
+  document.getElementById('sliderUnlocked').style.display='block';
+  document.getElementById('rangeMsg').textContent='✓ 범위가 적용됐어요!';
+  document.getElementById('rangeMsg').className='range-status ok';
+  rows=[];uid=0;
+  addRow(0);addRow(1);addRow(2);
+}
+
+function resetRanges(){
+  for(var i=0;i<FIELDS.length;i++){
+    var f=FIELDS[i];
+    var mn=document.getElementById('rmin_'+f.key);
+    var mx=document.getElementById('rmax_'+f.key);
+    mn.value=''; mx.value='';
+    mn.className='range-inp'; mx.className='range-inp';
+  }
+  appliedRanges=null;
+  document.getElementById('sliderLock').style.display='flex';
+  document.getElementById('sliderUnlocked').style.display='none';
+  document.getElementById('rangeStatus').textContent='0 / 7 완료';
+  document.getElementById('rangeStatus').className='range-status';
+  document.getElementById('rangeMsg').textContent='';
+  document.getElementById('applyBtn').disabled=true;
+  rows=[];
+  document.getElementById('rows').innerHTML='';
+}
+
+// ===== 슬라이더 카드 =====
+function getRange(key){
+  if(appliedRanges&&appliedRanges[key]) return appliedRanges[key];
+  var a=ANSWERS[key];
+  return {min:a.min, max:a.max};
+}
+
+function getDefVal(key, si){
+  var r=getRange(key);
+  var f=null;
+  for(var i=0;i<FIELDS.length;i++) if(FIELDS[i].key===key){f=FIELDS[i];break;}
+  // 3분위 기반 기본값
+  var thirds=[
+    r.min+(r.max-r.min)*0.2,
+    r.min+(r.max-r.min)*0.5,
+    r.min+(r.max-r.min)*0.8
+  ];
+  var v=thirds[si];
+  return f.isInt ? Math.round(v) : Math.round(v*100)/100;
+}
+
+function addRow(si){
+  if(si<0) si=1;
+  var id=uid++;
+  var vals={};
+  for(var i=0;i<FIELDS.length;i++) vals[FIELDS[i].key]=getDefVal(FIELDS[i].key,si);
+  rows.push({id:id,vals:vals,label:SZ[si],si:si});
   render();
 }
 
-function deleteRow(id) {
-  if (rows.length <= 1) { alert('전복이 최소 1마리는 있어야 해요!'); return; }
-  var next = [];
-  for (var i=0; i<rows.length; i++) if (rows[i].id !== id) next.push(rows[i]);
-  rows = next;
-  render();
+function deleteRow(id){
+  if(rows.length<=1){alert('전복이 최소 1마리는 있어야 해요!');return;}
+  var next=[];
+  for(var i=0;i<rows.length;i++) if(rows[i].id!==id) next.push(rows[i]);
+  rows=next; render();
 }
 
-function setPreset(id, si) {
-  for (var i=0; i<rows.length; i++) {
-    if (rows[i].id === id) {
-      for (var j=0; j<FIELDS.length; j++) rows[i].vals[FIELDS[j].key] = FIELDS[j].def[si];
-      rows[i].label = SZ[si];
-      rows[i].si = si;
-      break;
+function setPreset(id,si){
+  for(var i=0;i<rows.length;i++){
+    if(rows[i].id===id){
+      for(var j=0;j<FIELDS.length;j++) rows[i].vals[FIELDS[j].key]=getDefVal(FIELDS[j].key,si);
+      rows[i].label=SZ[si]; rows[i].si=si; break;
     }
   }
   render();
 }
 
-function updateVal(id, key, val) {
-  for (var i=0; i<rows.length; i++) {
-    if (rows[i].id === id) {
-      rows[i].vals[key] = parseFloat(val);
-      rows[i].si = -1;
-      break;
-    }
+function updateVal(id,key,val){
+  for(var i=0;i<rows.length;i++){
+    if(rows[i].id===id){rows[i].vals[key]=parseFloat(val);rows[i].si=-1;break;}
   }
-  var f = null;
-  for (var i=0; i<FIELDS.length; i++) if (FIELDS[i].key === key) { f = FIELDS[i]; break; }
-  var el = document.getElementById('v_'+id+'_'+key);
-  if (el && f) el.textContent = f.step < 1 ? parseFloat(val).toFixed(2) : parseInt(val);
-  for (var si=0; si<3; si++) {
-    var btn = document.getElementById('pb_'+id+'_'+si);
-    if (btn) btn.className = 'pbtn';
+  var f=null;
+  for(var i=0;i<FIELDS.length;i++) if(FIELDS[i].key===key){f=FIELDS[i];break;}
+  var el=document.getElementById('v_'+id+'_'+key);
+  if(el&&f) el.textContent=f.isInt?parseInt(val):parseFloat(val).toFixed(2);
+  for(var si=0;si<3;si++){
+    var btn=document.getElementById('pb_'+id+'_'+si);
+    if(btn) btn.className='pbtn';
   }
   updatePreview();
 }
 
-function getMix() {
-  return parseInt(document.querySelector('.mix-ctl input[type=range]').value);
-}
+function getMix(){return parseInt(document.querySelector('.mix-ctl input[type=range]').value);}
 
-function shuffle(arr) {
-  var a = arr.slice();
-  for (var i=a.length-1; i>0; i--) {
-    var j = Math.floor(Math.random()*(i+1));
-    var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+function shuffle(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var tmp=a[i];a[i]=a[j];a[j]=tmp;
   }
   return a;
 }
 
-function fv(v, step) {
-  return step < 1 ? parseFloat(v).toFixed(2) : ''+parseInt(v);
-}
+function fv(v,isInt){return isInt?''+parseInt(v):parseFloat(v).toFixed(2);}
 
-function getCSVParts() {
-  var header = [];
-  for (var i=0; i<FIELDS.length; i++) header.push(FIELDS[i].key);
-  var myRows = [];
-  for (var i=0; i<rows.length; i++) {
-    var cols = [];
-    for (var j=0; j<FIELDS.length; j++) cols.push(fv(rows[i].vals[FIELDS[j].key], FIELDS[j].step));
+function getCSVParts(){
+  var header=[];
+  for(var i=0;i<FIELDS.length;i++) header.push(FIELDS[i].key);
+  var myRows=[];
+  for(var i=0;i<rows.length;i++){
+    var cols=[];
+    for(var j=0;j<FIELDS.length;j++) cols.push(fv(rows[i].vals[FIELDS[j].key],FIELDS[j].isInt));
     myRows.push(cols.join(','));
   }
-  var sample = shuffle(REAL).slice(0, getMix());
-  var realRows = [];
-  for (var i=0; i<sample.length; i++) {
-    var cols = [];
-    for (var j=0; j<sample[i].length; j++) cols.push(fv(sample[i][j], FIELDS[j].step));
+  var sample=shuffle(REAL).slice(0,getMix());
+  var realRows=[];
+  for(var i=0;i<sample.length;i++){
+    var cols=[];
+    for(var j=0;j<sample[i].length;j++) cols.push(fv(sample[i][j],FIELDS[j].isInt));
     realRows.push(cols.join(','));
   }
-  return {header: header.join(','), myRows: myRows, realRows: realRows};
+  return{header:header.join(','),myRows:myRows,realRows:realRows};
 }
 
-function updatePreview() {
-  var p = getCSVParts();
-  var total = p.myRows.length + p.realRows.length;
-  document.getElementById('statPills').innerHTML =
+function updatePreview(){
+  var p=getCSVParts();
+  var total=p.myRows.length+p.realRows.length;
+  document.getElementById('statPills').innerHTML=
     '<div class="pill">전체 <span>'+total+'개</span></div>'+
     '<div class="pill">내 전복 <span>'+p.myRows.length+'개</span></div>'+
     '<div class="pill">실제 데이터 <span>'+p.realRows.length+'개</span></div>';
-  var lines = [p.header];
-  for (var i=0; i<p.myRows.length; i++) lines.push('★ '+p.myRows[i]);
-  for (var i=0; i<p.realRows.length; i++) lines.push(p.realRows[i]);
-  document.getElementById('preview').textContent = lines.join('\n');
-  document.getElementById('mixNote').textContent = '★ 표시는 내가 만든 전복이에요.';
+  var lines=[p.header];
+  for(var i=0;i<p.myRows.length;i++) lines.push('★ '+p.myRows[i]);
+  for(var i=0;i<p.realRows.length;i++) lines.push(p.realRows[i]);
+  document.getElementById('preview').textContent=lines.join('\n');
+  document.getElementById('mixNote').textContent='★ 표시는 내가 만든 전복이에요.';
 }
 
-function downloadCSV() {
-  var p = getCSVParts();
-  var lines = [p.header].concat(p.myRows).concat(p.realRows);
-  var csv = lines.join('\n');
-  var blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url; a.download = 'my_abalone.csv';
-  document.body.appendChild(a); a.click();
-  document.body.removeChild(a); URL.revokeObjectURL(url);
+function downloadCSV(){
+  var p=getCSVParts();
+  var lines=[p.header].concat(p.myRows).concat(p.realRows);
+  var blob=new Blob(['\uFEFF'+lines.join('\n')],{type:'text/csv;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download='my_abalone.csv';
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);
 }
 
-function render() {
-  var area = document.getElementById('rows');
-  area.innerHTML = '';
-  for (var ri=0; ri<rows.length; ri++) {
-    var row = rows[ri];
-    var card = document.createElement('div');
-    card.className = 'row-card';
-    var presetBtns = '';
-    for (var si=0; si<3; si++) {
-      var cls = 'pbtn' + (row.si===si ? ' '+SC[si] : '');
-      presetBtns += '<button id="pb_'+row.id+'_'+si+'" class="'+cls+'" onclick="setPreset('+row.id+','+si+')">'+SZ[si]+'</button>';
+function render(){
+  var area=document.getElementById('rows');
+  area.innerHTML='';
+  for(var ri=0;ri<rows.length;ri++){
+    var row=rows[ri];
+    var card=document.createElement('div');
+    card.className='row-card';
+    var presetBtns='';
+    for(var si=0;si<3;si++){
+      var cls='pbtn'+(row.si===si?' '+SC[si]:'');
+      presetBtns+='<button id="pb_'+row.id+'_'+si+'" class="'+cls+'" onclick="setPreset('+row.id+','+si+')">'+SZ[si]+'</button>';
     }
-    var sliders = '';
-    for (var j=0; j<FIELDS.length; j++) {
-      var f = FIELDS[j];
-      var v = row.vals[f.key];
-      var disp = f.step < 1 ? parseFloat(v).toFixed(2) : parseInt(v);
-      sliders +=
-        '<div class="srow">'+
-          '<div class="smeta"><span class="sname">'+f.key+'</span><span class="sval" id="v_'+row.id+'_'+f.key+'">'+disp+'</span></div>'+
-          '<input type="range" min="'+f.min+'" max="'+f.max+'" step="'+f.step+'" value="'+v+'" oninput="updateVal('+row.id+',\''+f.key+'\',this.value)">'+
-        '</div>';
+    var sliders='';
+    for(var j=0;j<FIELDS.length;j++){
+      var f=FIELDS[j];
+      var r=getRange(f.key);
+      var v=row.vals[f.key];
+      var disp=f.isInt?parseInt(v):parseFloat(v).toFixed(2);
+      var step=f.isInt?1:0.01;
+      sliders+='<div class="srow"><div class="smeta"><span class="sname">'+f.key+'</span><span class="sval" id="v_'+row.id+'_'+f.key+'">'+disp+'</span></div>'+
+        '<input type="range" min="'+r.min+'" max="'+r.max+'" step="'+step+'" value="'+v+'" oninput="updateVal('+row.id+',\''+f.key+'\',this.value)"></div>';
     }
-    card.innerHTML =
-      '<div class="row-head">'+
-        '<div class="row-title"><div class="row-num">'+(ri+1)+'</div><div class="row-name">내 전복 — '+row.label+'</div></div>'+
-        '<button class="del-btn" onclick="deleteRow('+row.id+')">삭제</button>'+
-      '</div>'+
-      '<div class="row-body">'+
-        '<div class="preset-row"><span class="preset-lbl">빠른 설정</span>'+presetBtns+'</div>'+
-        '<div class="slider-grid">'+sliders+'</div>'+
-      '</div>';
+    card.innerHTML=
+      '<div class="row-head"><div class="row-title"><div class="row-num">'+(ri+1)+'</div><div class="row-name">내 전복 — '+row.label+'</div></div>'+
+      '<button class="del-btn" onclick="deleteRow('+row.id+')">삭제</button></div>'+
+      '<div class="row-body"><div class="preset-row"><span class="preset-lbl">빠른 설정</span>'+presetBtns+'</div>'+
+      '<div class="slider-grid">'+sliders+'</div></div>';
     area.appendChild(card);
   }
   updatePreview();
 }
 
-function syncRings() {
-  var mn = parseInt(document.getElementById('pyRMin').value);
-  var mx = parseInt(document.getElementById('pyRMax').value);
-  if (mn >= mx) { document.getElementById('pyRMin').value = mx-1; mn = mx-1; }
-  document.getElementById('ringsLbl').textContent = mn+' ~ '+mx;
-  renderCode();
-}
+// ===== 빈칸 채우기 =====
+function bId(key,t){return 'blank_'+key+'_'+t;}
 
-function renderCode() {
-  var n    = parseInt(document.getElementById('pyN').value) || 50;
-  var dist = document.getElementById('pyDist').value;
-  var seed = parseInt(document.getElementById('pySeed').value) || 42;
-  var rMin = parseInt(document.getElementById('pyRMin').value);
-  var rMax = parseInt(document.getElementById('pyRMax').value);
-
-  function kw(s){ return '<span class="kw">'+s+'</span>'; }
-  function fn(s){ return '<span class="fn">'+s+'</span>'; }
-  function st(s){ return '<span class="st">'+s+'</span>'; }
-  function cm(s){ return '<span class="cm">'+s+'</span>'; }
-  function nm(s){ return '<span class="nm">'+s+'</span>'; }
-  function id(s){ return '<span class="id2">'+s+'</span>'; }
-  function bi(s){ return '<span class="bi">'+s+'</span>'; }
-
-  function uni(a,b){ return bi('np')+'.'+fn('random')+'.'+fn('uniform')+'('+nm(a)+', '+nm(b)+', n)'; }
-  function rint(a,b){ return bi('np')+'.'+fn('random')+'.'+fn('randint')+'('+nm(a)+', '+nm(b)+', n)'; }
-  function rnd(expr){ return fn('np.round')+'('+expr+', '+nm('2')+')'; }
-
-  var L,D,T,W,V,S,R;
-  if (dist==='uniform') {
-    L=rnd(uni('0.07','0.82')); D=rnd(uni('0.05','0.65')); T=rnd(uni('0.00','0.25'));
-    W=rnd(uni('0.10','2.82')); V=rnd(uni('0.01','0.76')); S=rnd(uni('0.02','1.00'));
-    R=rint(rMin, rMax+1);
-  } else if (dist==='small') {
-    L=rnd(uni('0.07','0.42')); D=rnd(uni('0.05','0.33')); T=rnd(uni('0.00','0.12'));
-    W=rnd(uni('0.05','0.38')); V=rnd(uni('0.01','0.08')); S=rnd(uni('0.02','0.09'));
-    R=rint(rMin, Math.min(rMax+1,11));
-  } else if (dist==='large') {
-    L=rnd(uni('0.58','0.82')); D=rnd(uni('0.45','0.65')); T=rnd(uni('0.15','0.25'));
-    W=rnd(uni('0.90','2.82')); V=rnd(uni('0.22','0.76')); S=rnd(uni('0.22','1.00'));
-    R=rint(Math.max(rMin,10), rMax+1);
-  } else {
-    function mix3(a1,b1,a2,b2,a3,b3){
-      return fn('np.round')+'('+fn('np.concatenate')+'([\n'+
-        '        '+bi('np')+'.'+fn('random')+'.'+fn('uniform')+'('+nm(a1)+','+nm(b1)+',n//3),\n'+
-        '        '+bi('np')+'.'+fn('random')+'.'+fn('uniform')+'('+nm(a2)+','+nm(b2)+',n//3),\n'+
-        '        '+bi('np')+'.'+fn('random')+'.'+fn('uniform')+'('+nm(a3)+','+nm(b3)+',n-n//3*2)]), '+nm('2')+')';
-    }
-    L=mix3('0.07','0.40','0.41','0.58','0.59','0.82');
-    D=mix3('0.05','0.30','0.31','0.47','0.48','0.65');
-    T=rnd(uni('0.00','0.25'));
-    W=mix3('0.05','0.38','0.39','0.88','0.89','2.82');
-    V=rnd(uni('0.01','0.76')); S=rnd(uni('0.02','1.00'));
-    R=rint(rMin, rMax+1);
+function buildBlankCode(){
+  var n=parseInt(document.getElementById('blankN').value)||50;
+  var html='';
+  html+='<span class="kw">import</span> pandas <span class="kw">as</span> <span class="id2">pd</span>\n';
+  html+='<span class="kw">import</span> numpy <span class="kw">as</span> <span class="id2">np</span>\n\n';
+  html+='<span class="cm"># 랜덤 시드 고정</span>\n';
+  html+='<span class="id2">np</span>.<span class="fn">random</span>.<span class="fn">seed</span>(<span class="nm">42</span>)\n\n';
+  html+='<span class="cm"># 생성할 전복 수</span>\n';
+  html+='<span class="id2">n</span> = <span class="nm">'+n+'</span>\n\n';
+  html+='<span class="cm"># Orange3에서 찾은 min, max 값을 노란 빈칸에 입력하세요!</span>\n';
+  html+='<span class="id2">df</span> = <span class="bi">pd</span>.<span class="fn">DataFrame</span>({\n';
+  for(var i=0;i<FIELDS.length;i++){
+    var f=FIELDS[i];
+    var func=f.isInt?'randint':'uniform';
+    var note=f.isInt?'  <span class="cm"># 정수! max는 실제max+1 입력</span>':'';
+    html+='    <span class="st">\''+f.key+'\'</span>: ';
+    if(!f.isInt) html+='<span class="fn">np.round</span>(<span class="bi">np</span>.<span class="fn">random</span>.<span class="fn">'+func+'</span>(';
+    else html+='<span class="bi">np</span>.<span class="fn">random</span>.<span class="fn">'+func+'</span>(';
+    html+='<input class="blank-input" id="'+bId(f.key,'min')+'" placeholder="min" oninput="updateBlankPreview()">';
+    html+=', ';
+    html+='<input class="blank-input" id="'+bId(f.key,'max')+'" placeholder="max" oninput="updateBlankPreview()">';
+    html+=', n)';
+    if(!f.isInt) html+=', <span class="nm">2</span>)';
+    html+=','+note+'\n';
   }
-
-  var code =
-    kw('import')+' pandas '+kw('as')+' '+id('pd')+'\n'+
-    kw('import')+' numpy '+kw('as')+' '+id('np')+'\n\n'+
-    cm('# 랜덤 시드 고정 — 같은 시드면 항상 같은 결과가 나와요')+'\n'+
-    id('np')+'.'+fn('random')+'.'+fn('seed')+'('+nm(seed)+')\n\n'+
-    cm('# 생성할 전복 수')+'\n'+
-    id('n')+' = '+nm(n)+'\n\n'+
-    cm('# 각 컬럼을 무작위로 생성 (순살무게는 포함하지 않음)')+'\n'+
-    id('df')+' = '+bi('pd')+'.'+fn('DataFrame')+'({\n'+
-    '    '+st("'길이'")+':    '+L+',\n'+
-    '    '+st("'직경'")+':    '+D+',\n'+
-    '    '+st("'두께'")+':    '+T+',\n'+
-    '    '+st("'전체무게'")+': '+W+',\n'+
-    '    '+st("'내장무게'")+': '+V+',\n'+
-    '    '+st("'껍질무게'")+': '+S+',\n'+
-    '    '+st("'나이테'")+':   '+R+',\n'+
-    '})\n\n'+
-    cm('# CSV로 저장 — Orange3 File 위젯에서 불러오세요')+'\n'+
-    id('df')+'.'+fn('to_csv')+'('+st("'my_abalone.csv'")+', index='+kw('False')+', encoding='+st("'utf-8-sig'")+')'+'\n\n'+
-    fn('print')+'('+st('f"✅ {n}개의 전복 데이터가 저장되었습니다!"')+')\n'+
-    fn('print')+'('+id('df')+'.'+fn('head')+'())';
-
-  document.getElementById('pyCode').innerHTML = code;
-  document.getElementById('copyBtn').className = 'copy-btn';
-  document.getElementById('copyBtn').textContent = '복사';
+  html+='})\n\n';
+  html+='<span class="cm"># CSV 저장</span>\n';
+  html+='<span class="id2">df</span>.<span class="fn">to_csv</span>(<span class="st">\'my_abalone.csv\'</span>, index=<span class="kw">False</span>, encoding=<span class="st">\'utf-8-sig\'</span>)\n';
+  html+='<span class="fn">print</span>(<span class="st">f"✅ {n}개 전복 데이터 저장 완료!"</span>)\n';
+  html+='<span class="fn">print</span>(<span class="id2">df</span>.<span class="fn">head</span>())';
+  document.getElementById('blankCodeDisplay').innerHTML=html;
 }
 
-function copyCode() {
-  var text = document.getElementById('pyCode').textContent;
-  navigator.clipboard.writeText(text).then(function() {
-    var btn = document.getElementById('copyBtn');
-    btn.textContent = '복사됨 ✓';
-    btn.className = 'copy-btn ok';
-    setTimeout(function() {
-      btn.textContent = '복사';
-      btn.className = 'copy-btn';
-    }, 2000);
+function updateBlankPreview(){
+  var n=parseInt(document.getElementById('blankN').value)||50;
+  var lines=['import pandas as pd','import numpy as np','','np.random.seed(42)','n = '+n,'','df = pd.DataFrame({'];
+  for(var i=0;i<FIELDS.length;i++){
+    var f=FIELDS[i];
+    var mv=document.getElementById(bId(f.key,'min'));
+    var xv=document.getElementById(bId(f.key,'max'));
+    var mn=mv&&mv.value!==''?mv.value:'___';
+    var mx=xv&&xv.value!==''?xv.value:'___';
+    if(f.isInt) lines.push("    '"+f.key+"': np.random.randint("+mn+", "+mx+", n),");
+    else lines.push("    '"+f.key+"': np.round(np.random.uniform("+mn+", "+mx+", n), 2),");
+  }
+  lines.push("})","","df.to_csv('my_abalone.csv', index=False, encoding='utf-8-sig')",'print(f"✅ {n}개 전복 데이터 저장 완료!")', 'print(df.head())');
+  document.getElementById('blankFinalCode').textContent=lines.join('\n');
+}
+
+function checkBlanks(){
+  var errors=[],oks=[];
+  for(var i=0;i<FIELDS.length;i++){
+    var f=FIELDS[i];
+    var ans=ANSWERS[f.key];
+    var minEl=document.getElementById(bId(f.key,'min'));
+    var maxEl=document.getElementById(bId(f.key,'max'));
+    if(!minEl.value){errors.push(f.key+' 최솟값이 비어있어요.');minEl.className='blank-input err';}
+    else{
+      var mv=parseFloat(minEl.value);
+      if(Math.abs(mv-ans.min)<=ans.tol){minEl.className='blank-input ok';oks.push(f.key+' min');}
+      else{minEl.className='blank-input err';errors.push(f.key+' 최솟값 '+mv+' → 다시 확인해봐요! (힌트: '+ans.min+' 근처)');}
+    }
+    if(!maxEl.value){errors.push(f.key+' 최댓값이 비어있어요.');maxEl.className='blank-input err';}
+    else{
+      var xv=parseFloat(maxEl.value);
+      if(Math.abs(xv-ans.max)<=ans.tol){maxEl.className='blank-input ok';oks.push(f.key+' max');}
+      else{maxEl.className='blank-input err';errors.push(f.key+' 최댓값 '+xv+' → 다시 확인해봐요! (힌트: '+ans.max+' 근처)');}
+    }
+  }
+  var res=document.getElementById('checkResult');
+  if(errors.length===0){res.className='check-result show all-ok';res.innerHTML='✅ 모든 빈칸이 정확해요! 코드를 복사해서 실행해보세요.';}
+  else{res.className='check-result show has-err';res.innerHTML='⚠️ '+errors.length+'개 항목을 다시 확인해봐요:<br>• '+errors.join('<br>• ');}
+}
+
+function revealAnswers(){
+  for(var i=0;i<FIELDS.length;i++){
+    var f=FIELDS[i];
+    var ans=ANSWERS[f.key];
+    var minEl=document.getElementById(bId(f.key,'min'));
+    var maxEl=document.getElementById(bId(f.key,'max'));
+    minEl.value=ans.min; maxEl.value=ans.max;
+    minEl.className='blank-input ok'; maxEl.className='blank-input ok';
+  }
+  updateBlankPreview();
+  var res=document.getElementById('checkResult');
+  res.className='check-result show all-ok';
+  res.innerHTML='📖 정답을 보여드렸어요. Orange3에서 직접 확인한 값과 비교해보세요!';
+}
+
+function copyBlankCode(){
+  navigator.clipboard.writeText(document.getElementById('blankFinalCode').textContent).then(function(){
+    var btn=document.getElementById('copyBlankBtn');
+    btn.textContent='복사됨 ✓';btn.className='copy-btn ok2';
+    setTimeout(function(){btn.textContent='복사';btn.className='copy-btn';},2000);
   });
 }
 
-addRow(0); addRow(1); addRow(2);
-renderCode();
+// ===== 자유 생성 =====
+function syncRings(){
+  var mn=parseInt(document.getElementById('pyRMin').value);
+  var mx=parseInt(document.getElementById('pyRMax').value);
+  if(mn>=mx){document.getElementById('pyRMin').value=mx-1;mn=mx-1;}
+  document.getElementById('ringsLbl').textContent=mn+' ~ '+mx;
+  renderFreeCode();
+}
+
+function renderFreeCode(){
+  var n=parseInt(document.getElementById('pyN').value)||50;
+  var dist=document.getElementById('pyDist').value;
+  var seed=parseInt(document.getElementById('pySeed').value)||42;
+  var rMin=parseInt(document.getElementById('pyRMin').value);
+  var rMax=parseInt(document.getElementById('pyRMax').value);
+  function kw(s){return '<span class="kw">'+s+'</span>';}
+  function fn(s){return '<span class="fn">'+s+'</span>';}
+  function st(s){return '<span class="st">'+s+'</span>';}
+  function cm(s){return '<span class="cm">'+s+'</span>';}
+  function nm(s){return '<span class="nm">'+s+'</span>';}
+  function id(s){return '<span class="id2">'+s+'</span>';}
+  function bi(s){return '<span class="bi">'+s+'</span>';}
+  function uni(a,b){return bi('np')+'.'+fn('random')+'.'+fn('uniform')+'('+nm(a)+', '+nm(b)+', n)';}
+  function rint(a,b){return bi('np')+'.'+fn('random')+'.'+fn('randint')+'('+nm(a)+', '+nm(b)+', n)';}
+  function rnd(expr){return fn('np.round')+'('+expr+', '+nm('2')+')';}
+  var L,D,T,W,V,S,R;
+  if(dist==='uniform'){
+    L=rnd(uni('0.075','0.815'));D=rnd(uni('0.055','0.650'));T=rnd(uni('0.000','0.250'));
+    W=rnd(uni('0.002','2.826'));V=rnd(uni('0.001','0.760'));S=rnd(uni('0.002','1.005'));
+    R=rint(rMin,rMax+1);
+  }else if(dist==='small'){
+    L=rnd(uni('0.075','0.400'));D=rnd(uni('0.055','0.320'));T=rnd(uni('0.000','0.120'));
+    W=rnd(uni('0.002','0.380'));V=rnd(uni('0.001','0.080'));S=rnd(uni('0.002','0.090'));
+    R=rint(rMin,Math.min(rMax+1,11));
+  }else if(dist==='large'){
+    L=rnd(uni('0.580','0.815'));D=rnd(uni('0.450','0.650'));T=rnd(uni('0.150','0.250'));
+    W=rnd(uni('0.900','2.826'));V=rnd(uni('0.220','0.760'));S=rnd(uni('0.220','1.005'));
+    R=rint(Math.max(rMin,10),rMax+1);
+  }else{
+    function mix3(a1,b1,a2,b2,a3,b3){return fn('np.round')+'('+fn('np.concatenate')+'([\n        '+bi('np')+'.'+fn('random')+'.'+fn('uniform')+'('+nm(a1)+','+nm(b1)+',n//3),\n        '+bi('np')+'.'+fn('random')+'.'+fn('uniform')+'('+nm(a2)+','+nm(b2)+',n//3),\n        '+bi('np')+'.'+fn('random')+'.'+fn('uniform')+'('+nm(a3)+','+nm(b3)+',n-n//3*2)]), '+nm('2')+')';}
+    L=mix3('0.075','0.400','0.401','0.580','0.581','0.815');
+    D=mix3('0.055','0.300','0.301','0.470','0.471','0.650');
+    T=rnd(uni('0.000','0.250'));
+    W=mix3('0.002','0.380','0.381','0.880','0.881','2.826');
+    V=rnd(uni('0.001','0.760'));S=rnd(uni('0.002','1.005'));
+    R=rint(rMin,rMax+1);
+  }
+  var code=
+    kw('import')+' pandas '+kw('as')+' '+id('pd')+'\n'+
+    kw('import')+' numpy '+kw('as')+' '+id('np')+'\n\n'+
+    cm('# 랜덤 시드 고정')+'\n'+id('np')+'.'+fn('random')+'.'+fn('seed')+'('+nm(seed)+')\n\n'+
+    cm('# 생성할 전복 수')+'\n'+id('n')+' = '+nm(n)+'\n\n'+
+    cm('# 각 컬럼 무작위 생성 (순살무게 없음)')+'\n'+
+    id('df')+' = '+bi('pd')+'.'+fn('DataFrame')+'({\n'+
+    '    '+st("'길이'")+':    '+L+',\n'+'    '+st("'직경'")+':    '+D+',\n'+
+    '    '+st("'두께'")+':    '+T+',\n'+'    '+st("'전체무게'")+': '+W+',\n'+
+    '    '+st("'내장무게'")+': '+V+',\n'+'    '+st("'껍질무게'")+': '+S+',\n'+
+    '    '+st("'나이테'")+':   '+R+',\n'+
+    '})\n\n'+cm('# CSV 저장')+'\n'+
+    id('df')+'.'+fn('to_csv')+'('+st("'my_abalone.csv'")+', index='+kw('False')+', encoding='+st("'utf-8-sig'")+')'+'\n\n'+
+    fn('print')+'('+st('f"✅ {n}개의 전복 데이터가 저장되었습니다!"')+')\n'+
+    fn('print')+'('+id('df')+'.'+fn('head')+'())';
+  document.getElementById('pyCode').innerHTML=code;
+  document.getElementById('copyFreeBtn').className='copy-btn';
+  document.getElementById('copyFreeBtn').textContent='복사';
+}
+
+function copyFreeCode(){
+  navigator.clipboard.writeText(document.getElementById('pyCode').textContent).then(function(){
+    var btn=document.getElementById('copyFreeBtn');
+    btn.textContent='복사됨 ✓';btn.className='copy-btn ok2';
+    setTimeout(function(){btn.textContent='복사';btn.className='copy-btn';},2000);
+  });
+}
+
+// ===== 초기화 =====
+buildRangeGrid();
+buildBlankCode();
+updateBlankPreview();
+renderFreeCode();
 </script>
 </body>
 </html>
