@@ -1,0 +1,83 @@
+/* 전체 페이지 */
+body {
+  background: #1a1a2e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  font-family: sans-serif;
+  color: white;
+}
+
+h1 {
+  font-size: 30px;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+/* 점수판 */
+#scoreboard {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+/* 게임판 */
+#game-area {
+  width: 600px;
+  height: 400px;
+  background: #16213e;
+  border: 3px solid #e94560;
+  border-radius: 12px;
+  position: relative;   /* 원 위치의 기준점! */
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+/* 원 (타겟) */
+.target {
+  border-radius: 50%;
+  background: #e94560;
+  position: absolute;
+  cursor: pointer;
+  transition: transform 0.1s;
+  box-shadow: 0 0 16px rgba(233, 69, 96, 0.5);
+}
+
+.target:hover {
+  transform: scale(1.1);
+}
+
+/* 버튼 */
+#start-btn {
+  margin-top: 20px;
+  padding: 12px 40px;
+  font-size: 18px;
+  background: #e94560;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+#start-btn:hover {
+  background: #c73652;
+}
+
+#start-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 결과 메시지 */
+#result {
+  font-size: 24px;
+  font-weight: bold;
+  color: #e94560;
+  margin-top: 12px;
+  height: 36px;
+}

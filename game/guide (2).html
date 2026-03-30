@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>클릭 타겟 게임 만들기 — 실습 가이드</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f7f4ee;
+    --surface: #ffffff;
+    --surface2: #f0ece2;
+    --border: #ddd8c8;
+    --border2: #c8c0ae;
+    --text: #252018;
+    --text2: #665c4a;
+    --text3: #9c9080;
+    --html: #e44d26;
+    --html-bg: #fef3f0;
+    --html-border: #f5c4b8;
+    --css: #264de4;
+    --css-bg: #f0f3fe;
+    --css-border: #b8c8f5;
+    --js: #c8a000;
+    --js-bg: #fefbe8;
+    --js-border: #e8d870;
+    --green: #2d7050;
+    --green-bg: #eaf6f0;
+    --green-border: #9dd4be;
+    --red: #c03040;
+    --red-bg: #fdf0f2;
+    --red-border: #f0b8c0;
+    --win: #0078d4;
+    --win-bg: #f0f7ff;
+    --win-border: #b0d4f5;
+    --mac: #555;
+    --mac-bg: #f5f5f5;
+    --mac-border: #ccc;
+    --code-bg: #1e1e2e;
+  }
+
+  body { background: var(--bg); font-family: 'Noto Sans KR', sans-serif; color: var(--text); line-height: 1.7; }
+  .page { max-width: 900px; margin: 0 auto; padding: 52px 44px 100px; }
+
+  /* 헤더 */
+  .header {
+    text-align: center;
+    padding-bottom: 36px;
+    margin-bottom: 48px;
+    border-bottom: 2.5px solid var(--text);
+  }
+  .header-label {
+    display: inline-block;
+    background: var(--text); color: var(--bg);
+    font-size: 11px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase;
+    padding: 5px 16px; border-radius: 20px; margin-bottom: 14px;
+  }
+  .header h1 { font-size: 30px; font-weight: 900; margin-bottom: 8px; }
+  .header h1 em { color: var(--red); font-style: normal; }
+  .header p { font-size: 14px; color: var(--text2); }
+  .goal-chips { display: flex; justify-content: center; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+  .chip { font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 20px; }
+  .chip.html { background: var(--html-bg); color: var(--html); border: 1.5px solid var(--html-border); }
+  .chip.css  { background: var(--css-bg);  color: var(--css);  border: 1.5px solid var(--css-border); }
+  .chip.js   { background: var(--js-bg);   color: var(--js);   border: 1.5px solid var(--js-border); }
+
+  /* 섹션 */
+  .sec-title {
+    font-size: 20px; font-weight: 900; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .sec-title::after { content: ''; flex: 1; height: 1.5px; background: var(--border); }
+  .part { margin-bottom: 56px; }
+
+  /* 박스 */
+  .box {
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 20px 22px; margin-bottom: 14px; font-size: 13.5px;
+  }
+  .box.green { background: var(--green-bg); border-color: var(--green-border); }
+  .box.red   { background: var(--red-bg);   border-color: var(--red-border); }
+  .box.win   { background: var(--win-bg);   border-color: var(--win-border); }
+  .box.mac   { background: var(--mac-bg);   border-color: var(--mac-border); }
+  .box-label {
+    font-size: 10px; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; margin-bottom: 10px; color: var(--text3);
+  }
+  .box-label.win { color: var(--win); }
+  .box-label.mac { color: var(--mac); }
+  .box-label.green { color: var(--green); }
+  .box-label.red { color: var(--red); }
+
+  /* OS 탭 */
+  .os-tabs { display: flex; gap: 0; margin-bottom: 0; }
+  .os-tab {
+    flex: 1; padding: 12px 16px; text-align: center;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+    border: 1.5px solid var(--border); background: var(--surface2);
+    color: var(--text3); transition: all .15s;
+  }
+  .os-tab:first-child { border-radius: 10px 0 0 0; }
+  .os-tab:last-child  { border-radius: 0 10px 0 0; border-left: none; }
+  .os-tab.active.win { background: var(--win-bg); color: var(--win); border-color: var(--win-border); border-bottom: none; }
+  .os-tab.active.mac { background: var(--mac-bg); color: #333; border-color: var(--mac-border); border-bottom: none; }
+  .os-panel {
+    border: 1.5px solid var(--border); border-radius: 0 0 10px 10px;
+    padding: 20px 22px; display: none; background: var(--surface);
+    margin-bottom: 14px;
+  }
+  .os-panel.win.show { display: block; border-color: var(--win-border); background: var(--win-bg); }
+  .os-panel.mac.show { display: block; border-color: var(--mac-border); background: var(--mac-bg); }
+
+  /* 순서 단계 */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 12px 0; border-bottom: 1px dashed var(--border);
+  }
+  .step-item:last-child { border-bottom: none; }
+  .step-n {
+    width: 28px; height: 28px; border-radius: 50%;
+    font-size: 13px; font-weight: 700; color: white;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .step-n.win { background: var(--win); }
+  .step-n.mac { background: #555; }
+  .step-content strong { font-size: 14px; color: var(--text); display: block; margin-bottom: 2px; }
+  .step-content p { font-size: 13px; color: var(--text2); }
+  .step-code {
+    background: var(--code-bg); border-radius: 6px;
+    padding: 8px 12px; margin-top: 6px;
+    font-family: 'DM Mono', monospace; font-size: 12px; color: #e8eaf2;
+    line-height: 1.7;
+  }
+  .step-warn {
+    background: var(--red-bg); border: 1px solid var(--red-border);
+    border-radius: 6px; padding: 8px 12px; margin-top: 6px;
+    font-size: 12px; color: var(--red);
+  }
+  .step-tip {
+    background: var(--green-bg); border: 1px solid var(--green-border);
+    border-radius: 6px; padding: 8px 12px; margin-top: 6px;
+    font-size: 12px; color: var(--green);
+  }
+
+  /* 원리 시각화 */
+  .principle-wrap { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+  .principle-card { border-radius: 12px; overflow: hidden; border: 2px solid; }
+  .principle-card.html { border-color: var(--html); }
+  .principle-card.css  { border-color: var(--css); }
+  .principle-card.js   { border-color: var(--js); }
+  .pc-head { padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+  .pc-head.html { background: var(--html); }
+  .pc-head.css  { background: var(--css); }
+  .pc-head.js   { background: #c8a000; }
+  .pc-icon { font-size: 20px; }
+  .pc-title { color: white; font-size: 14px; font-weight: 700; }
+  .pc-subtitle { color: rgba(255,255,255,.8); font-size: 11px; }
+  .pc-body { padding: 14px 16px; background: var(--surface); font-size: 12.5px; color: var(--text2); line-height: 1.75; }
+  .pc-body strong { color: var(--text); }
+  .pc-example {
+    margin-top: 10px; background: var(--code-bg); border-radius: 6px;
+    padding: 10px 12px; font-family: 'DM Mono', monospace;
+    font-size: 11.5px; color: #e8eaf2; line-height: 1.7;
+  }
+
+  /* 연결 흐름 */
+  .connection-viz { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  .connection-title { font-size: 13px; font-weight: 700; color: var(--text2); margin-bottom: 16px; text-align: center; }
+  .connection-flow { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+  .conn-file { border-radius: 10px; padding: 12px 16px; text-align: center; min-width: 100px; }
+  .conn-file.html { background: var(--html-bg); border: 2px solid var(--html); }
+  .conn-file.css  { background: var(--css-bg);  border: 2px solid var(--css); }
+  .conn-file.js   { background: var(--js-bg);   border: 2px solid var(--js); }
+  .conn-file.browser { background: var(--green-bg); border: 2px solid var(--green); }
+  .conn-filename { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 700; margin-bottom: 3px; }
+  .conn-filename.html { color: var(--html); }
+  .conn-filename.css  { color: var(--css); }
+  .conn-filename.js   { color: var(--js); }
+  .conn-filename.browser { color: var(--green); }
+  .conn-role { font-size: 11px; color: var(--text3); }
+  .conn-arrow { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; color: var(--text3); }
+  .conn-arrow span { font-size: 18px; }
+
+  /* 파일 트리 */
+  .file-tree {
+    background: var(--code-bg); border-radius: 10px;
+    padding: 20px 24px; font-family: 'DM Mono', monospace;
+    font-size: 13px; color: #e8eaf2; line-height: 2; margin-bottom: 14px;
+  }
+  .ft-folder { color: #ffd700; }
+  .ft-html { color: #f28b82; }
+  .ft-css  { color: #82c7ff; }
+  .ft-js   { color: #ffd700; }
+  .ft-cm   { color: #6c7a8c; }
+
+  /* 코드 블록 */
+  .code-wrap {
+    background: var(--code-bg); border-radius: 10px;
+    padding: 20px 22px; margin-bottom: 14px; overflow-x: auto; position: relative;
+  }
+  .code-wrap pre { font-family: 'DM Mono', monospace; font-size: 13px; color: #e8eaf2; line-height: 1.85; white-space: pre; }
+  .code-filename { position: absolute; top: 10px; right: 14px; font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,.3); letter-spacing: .06em; }
+
+  .tag  { color: #f28b82; }
+  .attr { color: #82c7ff; }
+  .val  { color: #a8d8a8; }
+  .cm   { color: #6c7a8c; font-style: italic; }
+  .prop { color: #82c7ff; }
+  .pval { color: #a8d8a8; }
+  .kw   { color: #c792ea; }
+  .fn   { color: #82aaff; }
+  .str  { color: #c3e88d; }
+  .num  { color: #f78c6c; }
+  .op   { color: #89ddff; }
+
+  /* 팁/경고 */
+  .tip {
+    background: var(--css-bg); border: 1px solid var(--css-border);
+    border-left: 3px solid var(--css); border-radius: 0 8px 8px 0;
+    padding: 10px 14px; font-size: 13px; color: var(--text2); margin-bottom: 10px;
+  }
+  .tip strong { color: var(--css); }
+  .warn {
+    background: var(--red-bg); border: 1px solid var(--red-border);
+    border-left: 3px solid var(--red); border-radius: 0 8px 8px 0;
+    padding: 10px 14px; font-size: 13px; color: var(--text2); margin-bottom: 10px;
+  }
+  .warn strong { color: var(--red); }
+
+  /* 체크리스트 */
+  .checklist { list-style: none; margin: 10px 0; }
+  .checklist li {
+    font-size: 13px; color: var(--text2); padding: 5px 0;
+    display: flex; align-items: flex-start; gap: 8px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before { content: '☐'; font-size: 16px; color: var(--text3); flex-shrink: 0; }
+
+  /* 도전과제 */
+  .challenge { background: var(--green-bg); border: 1.5px solid var(--green-border); border-radius: 10px; padding: 16px 20px; margin-top: 14px; }
+  .challenge-title { font-size: 11px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+  .challenge ul { list-style: none; }
+  .challenge ul li { font-size: 13px; color: var(--text2); padding: 4px 0; }
+  .challenge ul li::before { content: '🎯 '; }
+
+  /* 완성 체크 */
+  .final { background: var(--surface); border: 2.5px solid var(--text); border-radius: 14px; padding: 28px 32px; margin-top: 48px; }
+  .final-title { font-size: 18px; font-weight: 900; margin-bottom: 16px; }
+  .final ul { list-style: none; }
+  .final ul li { font-size: 14px; color: var(--text); padding: 8px 0; display: flex; gap: 10px; border-bottom: 1px solid var(--border); }
+  .final ul li:last-child { border-bottom: none; }
+  .final ul li::before { content: '☐'; font-size: 18px; color: var(--text3); }
+
+  .habit-box { background: var(--js-bg); border: 2px solid var(--js-border); border-radius: 12px; padding: 18px 22px; margin-bottom: 36px; display: flex; align-items: center; gap: 16px; }
+  .habit-icon { font-size: 32px; flex-shrink: 0; }
+  .habit-text { font-size: 15px; font-weight: 700; color: var(--text); }
+  .habit-text span { color: var(--js); }
+  .habit-sub { font-size: 13px; color: var(--text2); margin-top: 3px; }
+
+  p.desc { font-size: 13.5px; color: var(--text2); line-height: 1.8; margin-bottom: 14px; }
+  strong { color: var(--text); }
+  hr.div { border: none; border-top: 1px dashed var(--border); margin: 20px 0; }
+
+  /* ── 메인 탭 ── */
+  .main-tabs {
+    display: flex; gap: 0; margin-bottom: 40px;
+    border: 2px solid var(--text); border-radius: 12px; overflow: hidden;
+  }
+  .main-tab {
+    flex: 1; padding: 16px 20px; text-align: center;
+    font-size: 15px; font-weight: 700; cursor: pointer;
+    background: var(--surface2); color: var(--text3);
+    border: none; transition: all .2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .main-tab:first-child { border-right: 2px solid var(--text); }
+  .main-tab.active { background: var(--text); color: var(--bg); }
+  .main-tab:not(.active):hover { background: var(--border); color: var(--text); }
+
+  .main-panel { display: none; }
+  .main-panel.show { display: block; }
+
+  /* ── AI 활동 섹션 ── */
+  .ai-step {
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: 12px; margin-bottom: 20px; overflow: hidden;
+  }
+  .ai-step-head {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 20px; background: var(--surface2);
+    border-bottom: 1.5px solid var(--border);
+  }
+  .ai-step-num {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--text); color: var(--bg);
+    font-size: 15px; font-weight: 900;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .ai-step-title { font-size: 16px; font-weight: 700; }
+  .ai-step-body { padding: 20px 22px; font-size: 13.5px; color: var(--text2); line-height: 1.8; }
+
+  .prompt-box {
+    background: var(--code-bg); border-radius: 10px;
+    padding: 18px 20px; font-family: 'DM Mono', monospace;
+    font-size: 13px; color: #e8eaf2; line-height: 1.85;
+    margin: 12px 0; white-space: pre-wrap;
+  }
+  .prompt-box .ph { color: #82c7ff; } /* placeholder */
+  .prompt-bad  { background: var(--red-bg); border: 1.5px solid var(--red-border); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; font-size: 13px; color: var(--red); }
+  .prompt-good { background: var(--green-bg); border: 1.5px solid var(--green-border); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; font-size: 13px; color: var(--green); }
+  .prompt-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 5px; }
+
+  .idea-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 14px 0; }
+  .idea-card {
+    border-radius: 10px; padding: 14px 16px;
+    border: 1.5px solid var(--border); background: var(--surface);
+  }
+  .idea-level { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; }
+  .idea-level.easy { color: var(--green); }
+  .idea-level.mid  { color: var(--js); }
+  .idea-level.hard { color: var(--red); }
+  .idea-list { list-style: none; }
+  .idea-list li { font-size: 12.5px; color: var(--text2); padding: 3px 0; }
+  .idea-list li::before { content: '• '; color: var(--text3); }
+
+  .error-box {
+    background: #1e1e2e; border-radius: 8px; padding: 12px 16px;
+    font-family: 'DM Mono', monospace; font-size: 12px;
+    color: #f28b82; margin: 10px 0; line-height: 1.7;
+  }
+
+  .flow-activity {
+    display: flex; flex-direction: column; gap: 0;
+    border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden;
+    margin: 14px 0;
+  }
+  .flow-act-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 16px; border-bottom: 1px solid var(--border);
+    background: var(--surface); font-size: 13px;
+  }
+  .flow-act-item:last-child { border-bottom: none; }
+  .flow-act-num {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--text); color: var(--bg);
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .flow-act-time { font-size: 11px; color: var(--text3); margin-left: auto; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- 헤더 -->
+  <div class="header">
+    <div class="header-label">1~2차시 실습 가이드</div>
+    <h1>🎯 클릭 타겟 <em>게임 만들기</em></h1>
+    <p>HTML · CSS · JS 세 파일로 나눠서 게임을 만들어요</p>
+    <div class="goal-chips">
+      <span class="chip html">HTML — 뼈대</span>
+      <span class="chip css">CSS — 꾸미기</span>
+      <span class="chip js">JS — 동작</span>
+    </div>
+  </div>
+
+  <!-- 메인 탭 -->
+  <div class="main-tabs">
+    <div class="main-tab active" onclick="switchMain('game')">🎮 게임 만들기</div>
+    <div class="main-tab" onclick="switchMain('ai')">🤖 AI로 기능 추가하기</div>
+  </div>
+
+  <!-- ══ 탭1: 게임 만들기 ══ -->
+  <div class="main-panel show" id="main-game">
+
+  <!-- 핵심 습관 -->
+  <div class="habit-box">
+    <div class="habit-icon">⚡</div>
+    <div>
+      <div class="habit-text">오늘 제일 중요한 습관: <span>저장 → 새로고침</span></div>
+      <div class="habit-sub">
+        윈도우: <strong>Ctrl+S</strong> 저장 → <strong>F5</strong> 새로고침 &nbsp;|&nbsp;
+        맥북: <strong>Cmd+S</strong> 저장 → <strong>Cmd+R</strong> 새로고침<br>
+        코드 바꿀 때마다 이 두 개 해야 화면이 바뀌어요.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════ PART 0: 원리 시각화 ══════ -->
+  <div class="part">
+    <div class="sec-title">웹페이지는 어떻게 만들어지나요?</div>
+
+    <p class="desc">웹페이지는 <strong>세 가지 파일</strong>이 협력해서 만들어져요. 각자 역할이 달라요.</p>
+
+    <div class="principle-wrap">
+      <div class="principle-card html">
+        <div class="pc-head html">
+          <div class="pc-icon">🦴</div>
+          <div><div class="pc-title">HTML</div><div class="pc-subtitle">뼈대 · 구조</div></div>
+        </div>
+        <div class="pc-body">
+          <strong>무엇이 어디에 있는지</strong> 정해요.<br>
+          여기 제목, 여기 버튼, 여기 게임판.
+          <div class="pc-example">&lt;h1&gt;게임 제목&lt;/h1&gt;
+&lt;div id="game-area"&gt;&lt;/div&gt;
+&lt;button&gt;시작&lt;/button&gt;</div>
+        </div>
+      </div>
+      <div class="principle-card css">
+        <div class="pc-head css">
+          <div class="pc-icon">👗</div>
+          <div><div class="pc-title">CSS</div><div class="pc-subtitle">옷 · 꾸미기</div></div>
+        </div>
+        <div class="pc-body">
+          <strong>색, 크기, 위치</strong>를 정해요.<br>
+          배경 어둡게, 버튼 빨갛게, 원 동그랗게.
+          <div class="pc-example">#game-area {
+  background: #16213e;
+  width: 600px;
+}
+.target {
+  border-radius: 50%;
+}</div>
+        </div>
+      </div>
+      <div class="principle-card js">
+        <div class="pc-head js">
+          <div class="pc-icon">🧠</div>
+          <div><div class="pc-title">JavaScript</div><div class="pc-subtitle">뇌 · 동작</div></div>
+        </div>
+        <div class="pc-body">
+          <strong>클릭하면, 시간이 지나면</strong> 어떻게 할지.<br>
+          점수 올리기, 타이머, 게임 오버.
+          <div class="pc-example">원.addEventListener('click',
+  function() {
+    점수++;
+    원만들기();
+  }
+);</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 연결 흐름 -->
+    <div class="connection-viz">
+      <div class="connection-title">세 파일이 어떻게 연결되나요?</div>
+      <div class="connection-flow">
+        <div class="conn-file html">
+          <div class="conn-filename html">index.html</div>
+          <div class="conn-role">뼈대</div>
+        </div>
+        <div class="conn-arrow">
+          <span>→</span>
+          <div style="text-align:center; font-size:10px;">
+            CSS 연결<br>
+            <code style="font-size:9px; color:var(--css)">&lt;link href="style.css"&gt;</code>
+          </div>
+        </div>
+        <div class="conn-file css">
+          <div class="conn-filename css">style.css</div>
+          <div class="conn-role">꾸미기</div>
+        </div>
+        <div class="conn-arrow">
+          <span>→</span>
+          <div style="text-align:center; font-size:10px;">
+            JS 연결<br>
+            <code style="font-size:9px; color:var(--js)">&lt;script src="script.js"&gt;</code>
+          </div>
+        </div>
+        <div class="conn-file js">
+          <div class="conn-filename js">script.js</div>
+          <div class="conn-role">동작</div>
+        </div>
+        <div class="conn-arrow">
+          <span>→</span>
+          <div style="text-align:center;">브라우저가<br>합쳐서 보여줌</div>
+        </div>
+        <div class="conn-file browser">
+          <div class="conn-filename browser">🌐 브라우저</div>
+          <div class="conn-role">완성된 게임!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════ PART 1: 파일 만들기 ══════ -->
+  <div class="part">
+    <div class="sec-title">PART 0 — 파일 3개 만들기</div>
+
+    <p class="desc">
+      윈도우는 <strong>메모장</strong>, 맥북은 <strong>TextEdit(텍스트 편집기)</strong>를 써요.
+      아래에서 내 컴퓨터에 맞는 탭을 눌러요.
+    </p>
+
+    <!-- 파일 구조 -->
+    <div class="file-tree">
+<span class="ft-folder">📁 game/</span>  <span class="ft-cm">← 바탕화면에 이 폴더 만들기</span>
+├── <span class="ft-html">index.html</span>  <span class="ft-cm">← 뼈대</span>
+├── <span class="ft-css">style.css</span>   <span class="ft-cm">← 꾸미기</span>
+└── <span class="ft-js">script.js</span>   <span class="ft-cm">← 동작</span>
+    </div>
+
+    <div class="warn"><strong>파일 이름 주의!</strong> index.HTML, Style.css 처럼 대소문자 틀리면 연결이 안 돼요. 정확하게 소문자로 써요.</div>
+
+    <!-- OS 탭 -->
+    <div class="os-tabs">
+      <div class="os-tab active win" onclick="switchTab('win')">🪟 윈도우 — 메모장</div>
+      <div class="os-tab mac"        onclick="switchTab('mac')">🍎 맥북 — TextEdit</div>
+    </div>
+
+    <!-- 윈도우 패널 -->
+    <div class="os-panel win show" id="panel-win">
+      <div class="box-label win">윈도우 메모장으로 파일 만들기</div>
+      <div class="steps">
+
+        <div class="step-item">
+          <div class="step-n win">1</div>
+          <div class="step-content">
+            <strong>바탕화면에 폴더 만들기</strong>
+            <p>바탕화면 빈 곳에서 우클릭 → 새로 만들기 → 폴더 → 이름: <code style="font-family:monospace; color:var(--win)">game</code></p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-n win">2</div>
+          <div class="step-content">
+            <strong>메모장 열기</strong>
+            <p>시작 버튼 → "메모장" 검색 → 열기</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-n win">3</div>
+          <div class="step-content">
+            <strong>index.html 저장하기</strong>
+            <p>메모장이 빈 상태에서 → 파일 → 다른 이름으로 저장</p>
+            <div class="step-code">저장 위치: 방금 만든 game 폴더
+파일 이름: index.html
+파일 형식: 모든 파일 (*.*)  ← 반드시 이걸로!
+인코딩: UTF-8
+→ 저장</div>
+            <div class="step-warn">⚠️ 파일 형식을 "텍스트 문서"로 놔두면 index.html.txt 로 저장돼요!</div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-n win">4</div>
+          <div class="step-content">
+            <strong>style.css, script.js도 같은 방법으로 만들기</strong>
+            <p>새 메모장 창 열고 → 파일 → 다른 이름으로 저장 → game 폴더에 저장</p>
+            <div class="step-code">두 번째 파일: style.css
+세 번째 파일: script.js
+(파일 형식: 모든 파일, 인코딩: UTF-8 동일)</div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-n win">5</div>
+          <div class="step-content">
+            <strong>game 폴더 확인</strong>
+            <p>game 폴더 열어보면 파일 3개가 있어야 해요.</p>
+            <div class="step-tip">✅ 파일 아이콘이 브라우저 모양(index.html), 메모장 모양(style.css, script.js)으로 보이면 성공!</div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-n win">6</div>
+          <div class="step-content">
+            <strong>파일 열어서 코딩하기</strong>
+            <p>파일에서 우클릭 → 연결 프로그램 → 메모장 → 코드 입력 → 저장</p>
+            <div class="step-tip">💡 index.html을 더블클릭하면 브라우저로 열려요. 코딩할 때는 꼭 우클릭 → 메모장으로 열어요!</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 맥북 패널 -->
+    <div class="os-panel mac" id="panel-mac">
+      <div class="box-label mac">맥북 TextEdit(텍스트 편집기)으로 파일 만들기</div>
+      <div class="steps">
+
+        <div class="step-item">
+          <div class="step-n mac">1</div>
+          <div class="step-content">
+            <strong>바탕화면에 폴더 만들기</strong>
+            <p>바탕화면 빈 곳에서 우클릭 → 새로운 폴더 → 이름: <code style="font-family:monospace; color:#555">game</code></p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-n mac">2</div>
+          <div class="step-content">
+            <strong>TextEdit 열기</strong>
+            <p>Launchpad → TextEdit 또는 Spotlight(Cmd+Space) → "텍스트 편집기" 검색</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-n mac">3</div>
+          <div class="step-content">
+            <strong>⭐ 핵심: 일반 텍스트로 바꾸기</strong>
+            <p>새 문서가 열리면 상단 메뉴에서:</p>
+            <div class="step-code">Format(포맷) → Make Plain Text(일반 텍스트로 변환)</div>
+            <div class="step-warn">⚠️ 이 단계 안 하면 HTML 코드가 아니라 서식 있는 문서로 저장돼요. 반드시 먼저 해요!</div>
+            <div class="step-tip">💡 화면 위쪽에 서식 도구모음(굵게, 기울임 버튼들)이 사라지면 성공이에요.</div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-n mac">4</div>
+          <div class="step-content">
+            <strong>index.html로 저장하기</strong>
+            <p>파일 → 저장 (Cmd+S)</p>
+            <div class="step-code">저장 위치: game 폴더
+파일명: index.html  ← .html 꼭 붙이기!
+→ 저장</div>
+            <p style="margin-top:8px; font-size:13px; color:var(--text2);">"Use .html" 창이 뜨면 → <strong>"Use .html" 클릭</strong></p>
+            <div class="step-tip">💡 "Don't Append" 또는 "Use .html" 중 <strong>Use .html</strong>을 클릭해요.</div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-n mac">5</div>
+          <div class="step-content">
+            <strong>style.css, script.js도 같은 방법으로</strong>
+            <p>새 창 열기(Cmd+N) → Format → Make Plain Text → 저장</p>
+            <div class="step-code">두 번째: style.css
+세 번째: script.js
+(Make Plain Text 단계 매번 해야 해요!)</div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-n mac">6</div>
+          <div class="step-content">
+            <strong>파일 다시 열 때 주의!</strong>
+            <p>html 파일을 더블클릭하면 Safari로 열려요. 코딩할 때는:</p>
+            <div class="step-code">파일에서 우클릭 → 다음으로 열기 → TextEdit</div>
+            <div class="step-tip">💡 완성된 게임 확인할 때만 더블클릭(Safari로 열기), 코딩할 때는 우클릭 → TextEdit!</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════ PART 2: index.html ══════ -->
+  <div class="part">
+    <div class="sec-title">PART 1 — index.html 만들기</div>
+
+    <p class="desc">HTML은 <strong>뼈대</strong>예요. 어디에 무엇이 있는지 구조를 잡고, CSS와 JS 파일을 연결해요.</p>
+
+    <div class="code-wrap">
+      <div class="code-filename">index.html</div>
+      <pre><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;title&gt;</span>클릭 타겟 게임<span class="tag">&lt;/title&gt;</span>
+
+  <span class="cm">&lt;!-- CSS 파일 연결 --&gt;</span>
+  <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"style.css"</span><span class="tag">&gt;</span>
+
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+
+  <span class="tag">&lt;h1&gt;</span>🎯 클릭 타겟 게임<span class="tag">&lt;/h1&gt;</span>
+
+  <span class="cm">&lt;!-- 점수판 --&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">id</span>=<span class="val">"scoreboard"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;span&gt;</span>점수: <span class="tag">&lt;strong</span> <span class="attr">id</span>=<span class="val">"score"</span><span class="tag">&gt;</span>0<span class="tag">&lt;/strong&gt;&lt;/span&gt;</span>
+    <span class="tag">&lt;span&gt;</span>시간: <span class="tag">&lt;strong</span> <span class="attr">id</span>=<span class="val">"timer"</span><span class="tag">&gt;</span>10<span class="tag">&lt;/strong&gt;</span>초<span class="tag">&lt;/span&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+
+  <span class="cm">&lt;!-- 게임판 --&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">id</span>=<span class="val">"game-area"</span><span class="tag">&gt;&lt;/div&gt;</span>
+
+  <span class="cm">&lt;!-- 결과 메시지 --&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">id</span>=<span class="val">"result"</span><span class="tag">&gt;&lt;/div&gt;</span>
+
+  <span class="cm">&lt;!-- 시작 버튼 --&gt;</span>
+  <span class="tag">&lt;button</span> <span class="attr">id</span>=<span class="val">"start-btn"</span> <span class="attr">onclick</span>=<span class="val">"startGame()"</span><span class="tag">&gt;</span>게임 시작<span class="tag">&lt;/button&gt;</span>
+
+  <span class="cm">&lt;!-- JS 파일 연결 — body 맨 끝에! --&gt;</span>
+  <span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="val">"script.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></pre>
+    </div>
+
+    <div class="tip"><strong>id가 뭔가요?</strong> 이름표예요. JS에서 나중에 "score라는 id를 가진 요소를 찾아서 숫자를 바꿔라" 이렇게 써요.</div>
+    <div class="tip"><strong>script는 왜 body 맨 끝에?</strong> HTML이 다 만들어진 다음에 JS가 실행돼야 해요. 위에 있으면 HTML이 아직 없어서 오류가 나요.</div>
+
+    <ul class="checklist">
+      <li>저장 후 index.html을 브라우저로 열었을 때 제목, 점수, 버튼이 보이나요?</li>
+      <li>못생겨도 정상이에요 — CSS 아직 없어서 그래요!</li>
+    </ul>
+  </div>
+
+
+  <!-- ══════ PART 3: style.css ══════ -->
+  <div class="part">
+    <div class="sec-title">PART 2 — style.css 만들기</div>
+
+    <p class="desc">CSS는 <strong>꾸미기</strong>예요. <strong>style.css</strong> 파일을 열고 아래 코드를 입력해요.</p>
+
+    <div class="code-wrap">
+      <div class="code-filename">style.css</div>
+      <pre><span class="cm">/* 전체 페이지 */</span>
+<span class="prop">body</span> {
+  <span class="prop">background</span>: <span class="pval">#1a1a2e</span>;      <span class="cm">/* 배경색 ← 바꿔보세요! */</span>
+  <span class="prop">display</span>: <span class="pval">flex</span>;
+  <span class="prop">flex-direction</span>: <span class="pval">column</span>;
+  <span class="prop">align-items</span>: <span class="pval">center</span>;
+  <span class="prop">justify-content</span>: <span class="pval">center</span>;
+  <span class="prop">height</span>: <span class="pval">100vh</span>;
+  <span class="prop">margin</span>: <span class="pval">0</span>;
+  <span class="prop">font-family</span>: <span class="pval">sans-serif</span>;
+  <span class="prop">color</span>: <span class="pval">white</span>;
+}
+
+<span class="cm">/* 점수판 */</span>
+<span class="prop">#scoreboard</span> {
+  <span class="prop">display</span>: <span class="pval">flex</span>;
+  <span class="prop">gap</span>: <span class="pval">40px</span>;
+  <span class="prop">margin-bottom</span>: <span class="pval">20px</span>;
+  <span class="prop">font-size</span>: <span class="pval">22px</span>;
+}
+
+<span class="cm">/* 게임판 */</span>
+<span class="prop">#game-area</span> {
+  <span class="prop">width</span>: <span class="pval">600px</span>;
+  <span class="prop">height</span>: <span class="pval">400px</span>;
+  <span class="prop">background</span>: <span class="pval">#16213e</span>;
+  <span class="prop">border</span>: <span class="pval">3px solid #e94560</span>;
+  <span class="prop">border-radius</span>: <span class="pval">12px</span>;
+  <span class="prop">position</span>: <span class="pval">relative</span>;   <span class="cm">/* 원 위치의 기준점! */</span>
+  <span class="prop">overflow</span>: <span class="pval">hidden</span>;
+}
+
+<span class="cm">/* 원 (타겟) */</span>
+<span class="prop">.target</span> {
+  <span class="prop">border-radius</span>: <span class="pval">50%</span>;    <span class="cm">/* 50% = 원, 0% = 사각형 */</span>
+  <span class="prop">background</span>: <span class="pval">#e94560</span>;  <span class="cm">/* 원 색 ← 바꿔보세요! */</span>
+  <span class="prop">position</span>: <span class="pval">absolute</span>;
+  <span class="prop">cursor</span>: <span class="pval">pointer</span>;
+  <span class="prop">transition</span>: <span class="pval">transform 0.1s</span>;
+}
+
+<span class="prop">.target:hover</span> {
+  <span class="prop">transform</span>: <span class="pval">scale(1.1)</span>;
+}
+
+<span class="cm">/* 버튼 */</span>
+<span class="prop">#start-btn</span> {
+  <span class="prop">margin-top</span>: <span class="pval">20px</span>;
+  <span class="prop">padding</span>: <span class="pval">12px 40px</span>;
+  <span class="prop">font-size</span>: <span class="pval">18px</span>;
+  <span class="prop">background</span>: <span class="pval">#e94560</span>;
+  <span class="prop">color</span>: <span class="pval">white</span>;
+  <span class="prop">border</span>: <span class="pval">none</span>;
+  <span class="prop">border-radius</span>: <span class="pval">8px</span>;
+  <span class="prop">cursor</span>: <span class="pval">pointer</span>;
+}
+
+<span class="cm">/* 결과 메시지 */</span>
+<span class="prop">#result</span> {
+  <span class="prop">font-size</span>: <span class="pval">24px</span>;
+  <span class="prop">font-weight</span>: <span class="pval">bold</span>;
+  <span class="prop">color</span>: <span class="pval">#e94560</span>;
+  <span class="prop">margin-top</span>: <span class="pval">12px</span>;
+  <span class="prop">height</span>: <span class="pval">36px</span>;
+}</pre>
+    </div>
+
+    <div class="tip"><strong>position: relative vs absolute?</strong> 게임판(relative)이 기준, 원(absolute)이 그 기준 안에서 위치를 잡아요.</div>
+
+    <div class="challenge">
+      <div class="challenge-title">CSS 도전 과제</div>
+      <ul>
+        <li>배경색 바꿔보기 (#1a1a2e → 다른 색 코드)</li>
+        <li>border-radius를 0%로 바꾸면 어떻게 될까?</li>
+        <li>게임판 크기 바꿔보기 (width, height 숫자 변경)</li>
+      </ul>
+    </div>
+
+    <!-- 이미지 추가 섹션 -->
+    <hr class="div">
+    <p class="desc"><strong>🖼️ 배경이나 원을 사진으로 바꾸고 싶다면?</strong></p>
+
+    <div class="warn">
+      <strong>먼저 이미지 파일을 game 폴더 안에 넣어요!</strong><br>
+      파일명은 꼭 영어로 — <code style="font-family:monospace">공 사진.png</code> ❌ &nbsp;→&nbsp; <code style="font-family:monospace">ball.png</code> ✅<br>
+      jpg, png, gif 다 돼요.
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:12px;">
+
+      <div>
+        <div class="box-label" style="margin-bottom:8px;">배경을 사진으로 바꾸기</div>
+        <div class="code-wrap" style="margin-bottom:6px;">
+          <div class="code-filename">style.css</div>
+          <pre><span class="prop">#game-area</span> {
+  <span class="cm">/* 기존 background 줄을 지우고 */</span>
+  <span class="prop">background-image</span>: <span class="fn">url</span>(<span class="str">'bg.png'</span>);
+  <span class="prop">background-size</span>: <span class="pval">cover</span>;
+  <span class="prop">background-position</span>: <span class="pval">center</span>;
+}</pre>
+        </div>
+        <p style="font-size:12px; color:var(--text3);">bg.png 자리에 내 파일명을 넣어요</p>
+      </div>
+
+      <div>
+        <div class="box-label" style="margin-bottom:8px;">원 대신 이미지 넣기</div>
+        <div class="code-wrap" style="margin-bottom:6px;">
+          <div class="code-filename">style.css</div>
+          <pre><span class="prop">.target</span> {
+  <span class="cm">/* 기존 background 줄을 지우고 */</span>
+  <span class="prop">background-image</span>: <span class="fn">url</span>(<span class="str">'ball.png'</span>);
+  <span class="prop">background-size</span>: <span class="pval">cover</span>;
+  <span class="cm">/* border-radius: 50% 유지하면</span>
+  <span class="cm">   이미지도 원으로 잘려요 */</span>
+}</pre>
+        </div>
+        <p style="font-size:12px; color:var(--text3);">ball.png 자리에 내 파일명을 넣어요</p>
+      </div>
+
+    </div>
+
+    <div class="tip">
+      <strong>이미지가 안 보여요!</strong> → 파일이 game 폴더 <strong>안에</strong> 있는지 확인해요.
+      폴더 밖에 있거나 파일명 오타가 있으면 안 나와요.
+    </div>
+  </div>
+
+
+  <!-- ══════ PART 4: script.js ══════ -->
+  <div class="part">
+    <div class="sec-title">PART 3 — script.js 만들기</div>
+
+    <p class="desc">JS는 <strong>뇌</strong>예요. <strong>script.js</strong> 파일을 열고 단계별로 입력해요.</p>
+
+    <!-- 변수명 설명 박스 -->
+    <div class="box" style="background:var(--js-bg); border-color:var(--js-border); margin-bottom:20px;">
+      <div class="box-label" style="color:var(--js);">📌 변수명은 왜 영어로 쓰나요?</div>
+      <p style="margin-bottom:10px;">
+        JavaScript는 사실 <strong>한글 변수명도 기술적으로 됩니다.</strong>
+        <code style="font-family:monospace; font-size:12px; background:var(--surface2); padding:2px 6px; border-radius:4px;">let 점수 = 0;</code> 이렇게 써도 실제로 작동해요.
+      </p>
+      <p style="margin-bottom:10px;">근데 실제 개발자들은 <strong>영어로</strong> 써요. 이유가 있어요:</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
+        <div style="background:var(--surface); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--text2);">
+          🌍 전세계 개발자가 다 영어로 써요
+        </div>
+        <div style="background:var(--surface); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--text2);">
+          🤖 AI한테 물어볼 때 영어 변수명이 훨씬 잘 통해요
+        </div>
+        <div style="background:var(--surface); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--text2);">
+          📚 나중에 더 배울 때 혼란이 없어요
+        </div>
+        <div style="background:var(--surface); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--text2);">
+          🔧 일부 환경에서 한글이 깨지는 경우가 있어요
+        </div>
+      </div>
+      <p style="font-size:13px; color:var(--text2);">
+        그래서 이 수업에서도 <strong>영어 변수명 + 옆에 주석으로 설명</strong>을 다는 방식으로 써요.<br>
+        <code style="font-family:monospace; font-size:12px; background:var(--surface2); padding:2px 6px; border-radius:4px;">let score = 0; &nbsp;&nbsp;// 점수</code> &nbsp;← 이렇게요!
+      </p>
+    </div>
+
+    <hr class="div">
+    <p class="desc"><strong>3-1. 변수 선언</strong> — 데이터를 담는 상자</p>
+    <div class="code-wrap">
+      <div class="code-filename">script.js</div>
+      <pre><span class="cm">// 변수 = 데이터를 담는 상자</span>
+<span class="kw">let</span> 점수 = <span class="num">0</span>;        <span class="cm">// 현재 점수</span>
+<span class="kw">let</span> 남은시간 = <span class="num">10</span>;   <span class="cm">// 10초 타이머</span>
+<span class="kw">let</span> 게임중 = <span class="kw">false</span>;  <span class="cm">// 게임 진행 중인지</span>
+<span class="kw">let</span> 타이머ID;          <span class="cm">// 타이머 ID</span></pre>
+    </div>
+
+    <hr class="div">
+    <p class="desc"><strong>3-2. 원 만들기 함수</strong> — 랜덤 크기 + 랜덤 위치</p>
+    <div class="code-wrap">
+      <div class="code-filename">script.js 이어서</div>
+      <pre><span class="kw">function</span> <span class="fn">원만들기</span>() {
+
+  <span class="cm">// 기존 원 제거</span>
+  <span class="kw">let</span> 기존원 = document.<span class="fn">querySelector</span>(<span class="str">'.target'</span>);
+  <span class="kw">if</span> (기존원) 기존원.<span class="fn">remove</span>();
+
+  <span class="cm">// 새 원 만들기</span>
+  <span class="kw">let</span> 원 = document.<span class="fn">createElement</span>(<span class="str">'div'</span>);
+  원.classList.<span class="fn">add</span>(<span class="str">'target'</span>);
+
+  <span class="cm">// 크기 랜덤 (30px ~ 80px)</span>
+  <span class="kw">let</span> 크기 = Math.<span class="fn">random</span>() * (<span class="num">80</span> - <span class="num">30</span>) + <span class="num">30</span>;
+  원.style.width  = 크기 + <span class="str">'px'</span>;
+  원.style.height = 크기 + <span class="str">'px'</span>;
+
+  <span class="cm">// 위치 랜덤</span>
+  <span class="kw">let</span> x = Math.<span class="fn">random</span>() * (<span class="num">600</span> - 크기);
+  <span class="kw">let</span> y = Math.<span class="fn">random</span>() * (<span class="num">400</span> - 크기);
+  원.style.left = x + <span class="str">'px'</span>;
+  원.style.top  = y + <span class="str">'px'</span>;
+
+  <span class="cm">// 클릭하면 점수 +1, 딜레이 후 새 원</span>
+  원.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
+    <span class="kw">if</span> (!게임중) <span class="kw">return</span>;
+    점수++;
+    document.<span class="fn">getElementById</span>(<span class="str">'score'</span>).innerText = 점수;
+
+    <span class="cm">// 랜덤 딜레이 (200ms ~ 800ms)</span>
+    <span class="kw">let</span> 딜레이 = Math.<span class="fn">random</span>() * (<span class="num">800</span> - <span class="num">200</span>) + <span class="num">200</span>;
+    <span class="fn">setTimeout</span>(원만들기, 딜레이);
+  });
+
+  document.<span class="fn">getElementById</span>(<span class="str">'game-area'</span>).<span class="fn">appendChild</span>(원);
+}</pre>
+    </div>
+
+    <div class="tip"><strong>Math.random()이 뭔가요?</strong> 0~1 사이 소수를 뽑아요. × 50 + 30 하면 30~80 사이 숫자가 돼요.</div>
+    <div class="tip"><strong>setTimeout vs setInterval?</strong> setTimeout은 한 번만, setInterval은 계속 반복해요. 원은 클릭할 때마다 한 번씩 나오니까 setTimeout이에요.</div>
+
+    <hr class="div">
+    <p class="desc"><strong>3-3. 게임 시작 + 타이머</strong></p>
+    <div class="code-wrap">
+      <div class="code-filename">script.js 이어서</div>
+      <pre><span class="kw">function</span> <span class="fn">startGame</span>() {
+  점수 = <span class="num">0</span>;
+  남은시간 = <span class="num">10</span>;
+  게임중 = <span class="kw">true</span>;
+
+  document.<span class="fn">getElementById</span>(<span class="str">'score'</span>).innerText = <span class="num">0</span>;
+  document.<span class="fn">getElementById</span>(<span class="str">'timer'</span>).innerText = <span class="num">10</span>;
+  document.<span class="fn">getElementById</span>(<span class="str">'result'</span>).innerText = <span class="str">''</span>;
+  document.<span class="fn">getElementById</span>(<span class="str">'start-btn'</span>).disabled = <span class="kw">true</span>;
+
+  <span class="fn">원만들기</span>();
+
+  <span class="cm">// 1초(1000ms)마다 타이머 줄이기</span>
+  타이머ID = <span class="fn">setInterval</span>(<span class="kw">function</span>() {
+    남은시간--;
+    document.<span class="fn">getElementById</span>(<span class="str">'timer'</span>).innerText = 남은시간;
+    <span class="kw">if</span> (남은시간 <span class="op">&lt;=</span> <span class="num">0</span>) <span class="fn">게임오버</span>();
+  }, <span class="num">1000</span>);
+}</pre>
+    </div>
+
+    <hr class="div">
+    <p class="desc"><strong>3-4. 게임 오버</strong></p>
+    <div class="code-wrap">
+      <div class="code-filename">script.js 이어서</div>
+      <pre><span class="kw">function</span> <span class="fn">게임오버</span>() {
+  게임중 = <span class="kw">false</span>;
+  <span class="fn">clearInterval</span>(타이머ID);
+
+  <span class="kw">let</span> 원 = document.<span class="fn">querySelector</span>(<span class="str">'.target'</span>);
+  <span class="kw">if</span> (원) 원.<span class="fn">remove</span>();
+
+  document.<span class="fn">getElementById</span>(<span class="str">'result'</span>).innerText =
+    <span class="str">'게임 오버! 최종 점수: '</span> + 점수 + <span class="str">'점 🎉'</span>;
+  document.<span class="fn">getElementById</span>(<span class="str">'start-btn'</span>).disabled = <span class="kw">false</span>;
+  document.<span class="fn">getElementById</span>(<span class="str">'start-btn'</span>).innerText = <span class="str">'다시 시작'</span>;
+}</pre>
+    </div>
+
+    <div class="challenge">
+      <div class="challenge-title">JS 도전 과제</div>
+      <ul>
+        <li>시간 바꾸기 — 10초 → 15초 (어디를 바꾸면 될까?)</li>
+        <li>원 크기 범위 바꾸기 — 30~80 → 20~100</li>
+        <li>딜레이 없애기 — setTimeout 부분 지우고 원만들기() 바로 호출</li>
+        <li>점수 20점 넘으면 "클리어!" 메시지 추가하기</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- 완성 체크 -->
+  <div class="final">
+    <div class="final-title">✅ 완성 체크리스트</div>
+    <ul>
+      <li>game 폴더 안에 파일 3개가 있나요? (index.html / style.css / script.js)</li>
+      <li>index.html을 브라우저로 열면 게임 화면이 보이나요?</li>
+      <li>게임 시작 버튼을 누르면 원이 나타나나요?</li>
+      <li>원 크기가 매번 달라지나요?</li>
+      <li>클릭하면 잠깐 후 새 원이 나타나나요?</li>
+      <li>10초 후 게임이 끝나고 점수가 나오나요?</li>
+      <li>배경색이나 원 색을 내 취향으로 바꿨나요?</li>
+    </ul>
+  </div>
+
+  </div><!-- 탭1 끝 -->
+
+
+  <!-- ══ 탭2: AI로 기능 추가하기 ══ -->
+  <div class="main-panel" id="main-ai">
+
+    <p class="desc" style="margin-bottom:28px;">
+      AI(LLM)와 함께 게임을 만들어봐요.
+      코드를 다 외울 필요 없어요 — <strong>원하는 것을 정확하게 설명하는 능력</strong>이 핵심이에요.
+    </p>
+
+    <!-- ── 0단계: 게임 처음 만들기 ── -->
+    <div class="ai-step" style="border-color:var(--html-border);">
+      <div class="ai-step-head" style="background:var(--html-bg);">
+        <div class="ai-step-num" style="background:var(--html);">0</div>
+        <div class="ai-step-title">게임 코드를 처음 만들 때 — 이렇게 요청해요</div>
+      </div>
+      <div class="ai-step-body">
+
+        <p style="margin-bottom:12px;">
+          LLM은 파일을 직접 만들어주지는 못해요.
+          대신 <strong>각 파일에 넣을 코드를 보여줘요.</strong>
+          그걸 보고 내가 파일 만들어서 붙여넣으면 돼요.
+        </p>
+
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px; font-size:13px; color:var(--text2);">
+          <div style="background:var(--surface2); border-radius:8px; padding:10px 14px; flex:1; text-align:center;">
+            📝 LLM에게 프롬프트 작성
+          </div>
+          <div style="font-size:18px; color:var(--text3);">→</div>
+          <div style="background:var(--surface2); border-radius:8px; padding:10px 14px; flex:1; text-align:center;">
+            💬 각 파일 코드 받기
+          </div>
+          <div style="font-size:18px; color:var(--text3);">→</div>
+          <div style="background:var(--surface2); border-radius:8px; padding:10px 14px; flex:1; text-align:center;">
+            📄 파일 만들어서 붙여넣기
+          </div>
+          <div style="font-size:18px; color:var(--text3);">→</div>
+          <div style="background:var(--green-bg); border:1.5px solid var(--green-border); border-radius:8px; padding:10px 14px; flex:1; text-align:center; color:var(--green); font-weight:700;">
+            🎮 게임 완성!
+          </div>
+        </div>
+
+        <hr class="div">
+
+        <div class="prompt-label" style="color:var(--html); margin-bottom:8px;">📋 우리가 만들 게임 기능 정리</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px;">
+          <div style="background:var(--surface2); border-radius:8px; padding:12px 14px; font-size:13px; color:var(--text2); line-height:1.8;">
+            <strong style="color:var(--text); display:block; margin-bottom:4px;">🎯 기본 동작</strong>
+            빨간 원이 게임판 안에 랜덤 위치에 나타남<br>
+            원을 클릭하면 점수 +1<br>
+            10초 타이머<br>
+            시간 끝나면 게임 오버 + 점수 표시<br>
+            다시 시작 버튼
+          </div>
+          <div style="background:var(--surface2); border-radius:8px; padding:12px 14px; font-size:13px; color:var(--text2); line-height:1.8;">
+            <strong style="color:var(--text); display:block; margin-bottom:4px;">✨ 추가 기능</strong>
+            원 크기가 매번 랜덤 (30~80px)<br>
+            클릭 후 다음 원 나오는 딜레이 랜덤<br>
+            파일 3개로 분리<br>
+            변수명 영어, 주석 한국어<br>
+            게임판 600×400px
+          </div>
+        </div>
+
+        <div class="prompt-label" style="color:var(--green); margin-bottom:8px;">✅ 처음 만들 때 프롬프트 예시</div>
+        <div class="prompt-box">나는 고등학생인데 HTML/CSS/JS를 처음 배우고 있어.
+클릭 타겟 게임을 만들고 싶어.
+
+<span class="ph">[ 게임 기능 ]</span>
+- 게임판(600x400px) 안에 원이 랜덤 위치에 나타남
+- 원 크기는 매번 랜덤 (30px~80px)
+- 원 클릭하면 점수 +1, 잠깐 딜레이 후 새 원 나타남
+- 딜레이도 랜덤 (200ms~800ms)
+- 10초 타이머, 0초 되면 게임 오버
+- 최종 점수 표시, 다시 시작 버튼
+
+<span class="ph">[ 조건 ]</span>
+- 파일 3개로 분리: index.html, style.css, script.js
+- index.html에서 style.css와 script.js 연결
+- 변수명은 영어로, 주석은 한국어로
+- 어두운 배경 (예: #1a1a2e)
+
+각 파일 코드를 따로따로 보여줘.</div>
+
+        <div class="tip" style="margin-top:12px;">
+          <strong>코드 받은 다음:</strong> index.html, style.css, script.js 파일을 game 폴더에 만들고 각각 붙여넣으면 돼요.
+          세 파일이 반드시 <strong>같은 폴더 안에</strong> 있어야 연결이 돼요.
+        </div>
+
+        <div class="warn" style="margin-top:10px;">
+          <strong>주의:</strong> LLM마다 코드가 조금씩 달라요. 안 되는 부분이 있으면 오류 메시지를 그대로 붙여넣어서 다시 물어봐요.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- STEP 1: 아이디어 -->
+    <div class="ai-step">
+      <div class="ai-step-head">
+        <div class="ai-step-num">1</div>
+        <div class="ai-step-title">추가하고 싶은 기능 생각하기</div>
+      </div>
+      <div class="ai-step-body">
+        <p style="margin-bottom:14px;">"게임에 뭐가 있으면 더 재밌을 것 같아요?" 자유롭게 아이디어를 내봐요.</p>
+        <div class="idea-grid">
+          <div class="idea-card">
+            <div class="idea-level easy">⭐ 쉬운 것</div>
+            <ul class="idea-list">
+              <li>클릭할 때 원 색 랜덤 변경</li>
+              <li>점수 올라갈 때 숫자 커졌다 작아지기</li>
+              <li>배경색이 점점 바뀌기</li>
+              <li>원 클릭 시 별 이모지 표시</li>
+            </ul>
+          </div>
+          <div class="idea-card">
+            <div class="idea-level mid">⭐⭐ 중간</div>
+            <ul class="idea-list">
+              <li>원 여러 개 동시에 나오기</li>
+              <li>점수 높을수록 원이 작아지기</li>
+              <li>원 놓치면 -1점</li>
+              <li>남은 시간 바에 시각화</li>
+            </ul>
+          </div>
+          <div class="idea-card">
+            <div class="idea-level hard">⭐⭐⭐ 어려운 것</div>
+            <ul class="idea-list">
+              <li>최고 점수 기록</li>
+              <li>레벨 시스템</li>
+              <li>클릭 효과 애니메이션</li>
+              <li>카운트다운 시작 화면</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: 프롬프트 -->
+    <div class="ai-step">
+      <div class="ai-step-head">
+        <div class="ai-step-num">2</div>
+        <div class="ai-step-title">LLM에게 프롬프트 작성하기 — 이게 제일 중요해요</div>
+      </div>
+      <div class="ai-step-body">
+
+        <p style="margin-bottom:14px;">좋은 프롬프트의 조건 <strong>3가지</strong>:</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:20px;">
+          <div style="background:var(--surface2); border-radius:8px; padding:12px; text-align:center; font-size:13px;">
+            <div style="font-size:22px; margin-bottom:6px;">①</div>
+            <strong>내가 뭘 만들고 있는지</strong><br>
+            <span style="color:var(--text3); font-size:12px;">게임 종류, 어떻게 동작하는지</span>
+          </div>
+          <div style="background:var(--surface2); border-radius:8px; padding:12px; text-align:center; font-size:13px;">
+            <div style="font-size:22px; margin-bottom:6px;">②</div>
+            <strong>현재 코드 붙여넣기</strong><br>
+            <span style="color:var(--text3); font-size:12px;">AI가 코드를 봐야 정확히 알려줄 수 있어요</span>
+          </div>
+          <div style="background:var(--surface2); border-radius:8px; padding:12px; text-align:center; font-size:13px;">
+            <div style="font-size:22px; margin-bottom:6px;">③</div>
+            <strong>원하는 기능 구체적으로</strong><br>
+            <span style="color:var(--text3); font-size:12px;">"색 바뀌게" X → "클릭할 때 랜덤 색으로" O</span>
+          </div>
+        </div>
+
+        <hr class="div">
+
+        <div class="prompt-label" style="color:var(--red); margin-bottom:6px;">❌ 나쁜 프롬프트</div>
+        <div class="prompt-bad">색 바뀌게 해줘</div>
+        <p style="font-size:12.5px; color:var(--text3); margin-bottom:16px;">→ AI가 어떤 코드인지, 어디에 넣어야 하는지 몰라요.</p>
+
+        <div class="prompt-label" style="color:var(--green); margin-bottom:6px;">✅ 좋은 프롬프트</div>
+        <div class="prompt-box">나는 HTML/JS로 클릭 타겟 게임을 만들고 있어.
+빨간 원이 랜덤한 위치에 나타나고, 클릭하면 점수가 올라가는 게임이야.
+
+아래는 내 <span class="ph">script.js</span> 코드야:
+
+<span class="ph">[코드 전체 붙여넣기]</span>
+
+여기에 <span class="ph">"원을 클릭할 때마다 원의 색이 랜덤하게 바뀌는 기능"</span>을 추가하고 싶어.
+어느 줄에 어떤 코드를 추가하면 되는지 알려줘.</div>
+
+        <div class="tip" style="margin-top:12px;"><strong>팁:</strong> 기능을 하나씩 추가해요. 여러 개 한꺼번에 요청하면 어디가 틀렸는지 찾기 어려워요.</div>
+      </div>
+    </div>
+
+    <!-- STEP 3: 코드 추가 -->
+    <div class="ai-step">
+      <div class="ai-step-head">
+        <div class="ai-step-num">3</div>
+        <div class="ai-step-title">코드 추가하고 테스트하기</div>
+      </div>
+      <div class="ai-step-body">
+        <p style="margin-bottom:12px;">AI가 이런 식으로 답해줄 거예요:</p>
+        <div class="prompt-box">원.addEventListener('click', function() {
+  <span class="ph">// ↓ 여기 아래에 이 코드를 추가하세요</span>
+  let 랜덤색 = 'hsl(' + Math.random() * 360 + ', 70%, 50%)';
+  원.style.background = 랜덤색;
+  <span class="ph">// ↑ 여기까지</span>
+
+  if (!게임중) return;
+  점수++;
+  ...</div>
+
+        <p style="margin-bottom:12px; margin-top:14px;">해야 할 것:</p>
+        <div class="flow-activity">
+          <div class="flow-act-item">
+            <div class="flow-act-num">1</div>
+            <div>AI가 알려준 코드 복사하기</div>
+          </div>
+          <div class="flow-act-item">
+            <div class="flow-act-num">2</div>
+            <div>"여기에 추가하세요" 위치를 내 파일에서 찾기</div>
+          </div>
+          <div class="flow-act-item">
+            <div class="flow-act-num">3</div>
+            <div>붙여넣기</div>
+          </div>
+          <div class="flow-act-item">
+            <div class="flow-act-num">4</div>
+            <div>저장(Ctrl+S / Cmd+S) → 새로고침(F5 / Cmd+R) → 테스트!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: 오류 -->
+    <div class="ai-step">
+      <div class="ai-step-head">
+        <div class="ai-step-num">4</div>
+        <div class="ai-step-title">오류 났을 때 — 당황하지 말아요</div>
+      </div>
+      <div class="ai-step-body">
+        <p style="margin-bottom:12px;">오류가 나도 괜찮아요. <strong>오류 메시지를 그대로 AI에게 붙여넣으면 돼요.</strong></p>
+
+        <p style="margin-bottom:6px; font-size:13px; font-weight:700;">오류 메시지 찾는 법:</p>
+        <div class="flow-activity" style="margin-bottom:14px;">
+          <div class="flow-act-item">
+            <div class="flow-act-num" style="background:var(--red);">!</div>
+            <div>브라우저에서 <strong>F12</strong> (맥북: Cmd+Option+I) → <strong>Console 탭</strong> → 빨간 글씨 찾기</div>
+          </div>
+        </div>
+
+        <div class="error-box">Uncaught ReferenceError: 랜덤색 is not defined
+    at 원만들기 (script.js:15)</div>
+
+        <p style="margin-bottom:8px; margin-top:14px; font-size:13px; font-weight:700;">오류 났을 때 프롬프트:</p>
+        <div class="prompt-box">코드를 추가했는데 오류가 났어.
+
+내 현재 코드:
+<span class="ph">[현재 script.js 전체 붙여넣기]</span>
+
+오류 메시지:
+<span class="ph">Uncaught ReferenceError: 랜덤색 is not defined</span>
+
+어떻게 고치면 돼?</div>
+
+        <div class="tip" style="margin-top:12px;"><strong>중요:</strong> 오류 메시지를 정확하게 복사해서 붙여넣어야 해요. "오류 났어요"만 쓰면 AI가 원인을 찾지 못해요.</div>
+      </div>
+    </div>
+
+    <!-- 수업 흐름 -->
+    <div class="ai-step">
+      <div class="ai-step-head">
+        <div class="ai-step-num">✦</div>
+        <div class="ai-step-title">수업 진행 순서 (약 30분)</div>
+      </div>
+      <div class="ai-step-body">
+        <div class="flow-activity">
+          <div class="flow-act-item">
+            <div class="flow-act-num">1</div>
+            <div>추가하고 싶은 기능 아이디어 생각하기</div>
+            <div class="flow-act-time">3분</div>
+          </div>
+          <div class="flow-act-item">
+            <div class="flow-act-num">2</div>
+            <div>프롬프트 직접 작성하기 — 조건 3가지 지켜서</div>
+            <div class="flow-act-time">5분</div>
+          </div>
+          <div class="flow-act-item">
+            <div class="flow-act-num">3</div>
+            <div>AI에 넣고 코드 받아서 추가하기</div>
+            <div class="flow-act-time">5분</div>
+          </div>
+          <div class="flow-act-item">
+            <div class="flow-act-num">4</div>
+            <div>테스트 — 오류 나면 오류 메시지 AI에 붙여넣기 반복</div>
+            <div class="flow-act-time">10분</div>
+          </div>
+          <div class="flow-act-item">
+            <div class="flow-act-num">5</div>
+            <div>완성! 옆 친구 컴퓨터에서 내 게임 테스트해보기</div>
+            <div class="flow-act-time">5분</div>
+          </div>
+        </div>
+
+        <div class="box green" style="margin-top:16px;">
+          <div class="box-label green">이 활동의 핵심</div>
+          <p style="font-size:14px; font-weight:700; color:var(--text); margin-bottom:6px;">
+            "내가 원하는 것을 → 컴퓨터가 이해하는 언어로 → 정확하게 전달하기"
+          </p>
+          <p style="font-size:13px; color:var(--text2);">
+            게임 기능 추가가 목적이 아니에요. <strong>좋은 프롬프트를 쓰는 능력</strong>이 AI 시대의 핵심 스킬이에요.
+            코드를 외우는 것보다, 원하는 걸 정확히 설명하는 게 더 중요해요.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- 탭2 끝 -->
+
+</div>
+
+<script>
+// OS 탭 (윈도우/맥북)
+function switchTab(os) {
+  document.querySelectorAll('.os-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.os-panel').forEach(p => p.classList.remove('show'));
+  document.querySelector('.os-tab.' + os).classList.add('active');
+  document.getElementById('panel-' + os).classList.add('show');
+}
+
+// 메인 탭 (게임만들기 / AI기능추가)
+function switchMain(tab) {
+  document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.main-panel').forEach(p => p.classList.remove('show'));
+  document.querySelectorAll('.main-tab')[tab === 'game' ? 0 : 1].classList.add('active');
+  document.getElementById('main-' + tab).classList.add('show');
+}
+</script>
+</body>
+</html>
