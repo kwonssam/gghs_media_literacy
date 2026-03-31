@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NASA 우주 탐험</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #060d1a;
+    color: white;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+
+  /* 탭 */
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .site-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: #7dd3fc;
+    margin-bottom: 10px;
+  }
+
+  header h1 { font-size: 30px; font-weight: 700; margin-bottom: 24px; }
+
+  .tabs {
+    display: inline-flex;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 4px;
+    gap: 4px;
+  }
+
+  .tab-btn {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: rgba(255,255,255,0.5);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .tab-btn.active {
+    background: #0ea5e9;
+    color: white;
+  }
+
+  /* 패널 */
+  .panel { display: none; max-width: 900px; margin: 0 auto; }
+  .panel.active { display: block; }
+
+  /* 공통 컨트롤 */
+  .controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  input[type="date"], select {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.07);
+    color: white;
+    font-size: 14px;
+    font-family: 'Space Mono', monospace;
+    outline: none;
+    cursor: pointer;
+  }
+
+  select option { background: #0f1b2d; }
+
+  input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+
+  .btn {
+    padding: 10px 22px;
+    background: #0ea5e9;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .btn:hover { background: #0284c7; }
+  .btn:active { transform: scale(0.97); }
+
+  .loading {
+    text-align: center;
+    padding: 60px;
+    color: rgba(255,255,255,0.3);
+    font-size: 14px;
+    display: none;
+  }
+
+  .error-msg {
+    text-align: center;
+    padding: 40px;
+    color: #f87171;
+    font-size: 14px;
+    display: none;
+  }
+
+  /* ===== 오늘의 우주사진 ===== */
+  .apod-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  .apod-card img {
+    width: 100%;
+    max-height: 520px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .apod-card iframe {
+    width: 100%;
+    height: 480px;
+    border: none;
+  }
+
+  .apod-body { padding: 32px; }
+
+  .apod-meta {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .apod-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: #7dd3fc;
+    letter-spacing: 1px;
+  }
+
+  .apod-copyright { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+  .apod-title { font-size: 22px; font-weight: 700; margin-bottom: 16px; line-height: 1.3; }
+
+  .apod-explanation {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.9;
+  }
+
+  .hd-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: rgba(14,165,233,0.15);
+    border: 1px solid rgba(14,165,233,0.3);
+    border-radius: 8px;
+    color: #7dd3fc;
+    text-decoration: none;
+    font-size: 13px;
+    font-family: 'Space Mono', monospace;
+    transition: background 0.2s;
+  }
+
+  .hd-link:hover { background: rgba(14,165,233,0.25); }
+
+  /* ===== 소행성 ===== */
+  .neo-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .neo-stat {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .neo-stat-value {
+    font-family: 'Space Mono', monospace;
+    font-size: 36px;
+    font-weight: 700;
+    color: #7dd3fc;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .neo-stat-value.danger { color: #f87171; }
+
+  .neo-stat-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .neo-list { display: flex; flex-direction: column; gap: 12px; }
+
+  .neo-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    transition: border-color 0.2s;
+  }
+
+  .neo-item.hazardous {
+    border-color: rgba(248,113,113,0.3);
+    background: rgba(248,113,113,0.05);
+  }
+
+  .neo-name {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+
+  .neo-detail {
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+  }
+
+  .neo-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Space Mono', monospace;
+    flex-shrink: 0;
+  }
+
+  .neo-badge.safe {
+    background: rgba(34,197,94,0.15);
+    color: #4ade80;
+    border: 1px solid rgba(34,197,94,0.25);
+  }
+
+  .neo-badge.danger {
+    background: rgba(248,113,113,0.15);
+    color: #f87171;
+    border: 1px solid rgba(248,113,113,0.25);
+  }
+
+  .neo-speed {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: #fb923c;
+    text-align: right;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="site-label">NASA OPEN API</div>
+  <h1>🚀 NASA 우주 탐험</h1>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('mars')">🌌 오늘의 우주사진</button>
+    <button class="tab-btn" onclick="switchTab('neo')">☄️ 소행성 근접 정보</button>
+  </div>
+</header>
+
+<!-- APOD 패널 -->
+<div class="panel active" id="panel-mars">
+  <div class="controls">
+    <input type="date" id="apod-date" />
+    <button class="btn" onclick="loadAPOD()">불러오기</button>
+  </div>
+  <div class="loading" id="mars-loading">🌌 우주에서 사진을 가져오는 중...</div>
+  <div class="error-msg" id="mars-error">사진을 불러오지 못했어요. 날짜를 확인해보세요.</div>
+  <div class="apod-card" id="apod-card" style="display:none;">
+    <div id="apod-media"></div>
+    <div class="apod-body">
+      <div class="apod-meta">
+        <span class="apod-date" id="apod-date-display"></span>
+        <span class="apod-copyright" id="apod-copyright"></span>
+      </div>
+      <div class="apod-title" id="apod-title"></div>
+      <div class="apod-explanation" id="apod-explanation"></div>
+      <a class="hd-link" id="apod-hd-link" href="#" target="_blank">🔭 HD 원본 보기</a>
+    </div>
+  </div>
+</div>
+
+<!-- 소행성 패널 -->
+<div class="panel" id="panel-neo">
+  <div class="controls">
+    <input type="date" id="neo-date" />
+    <button class="btn" onclick="loadNEO()">소행성 조회</button>
+  </div>
+  <div class="loading" id="neo-loading">☄️ 소행성 데이터를 가져오는 중...</div>
+  <div class="error-msg" id="neo-error">데이터를 불러오지 못했어요.</div>
+  <div id="neo-content" style="display:none;">
+    <div class="neo-summary">
+      <div class="neo-stat">
+        <div class="neo-stat-value" id="neo-total">-</div>
+        <div class="neo-stat-label">오늘 근접 소행성 수</div>
+      </div>
+      <div class="neo-stat">
+        <div class="neo-stat-value danger" id="neo-hazardous">-</div>
+        <div class="neo-stat-label">위험 소행성</div>
+      </div>
+      <div class="neo-stat">
+        <div class="neo-stat-value" id="neo-closest">-</div>
+        <div class="neo-stat-label">가장 가까운 거리 (km)</div>
+      </div>
+      <div class="neo-stat">
+        <div class="neo-stat-value" id="neo-fastest">-</div>
+        <div class="neo-stat-label">최고 속도 (km/h)</div>
+      </div>
+    </div>
+    <div class="neo-list" id="neo-list"></div>
+  </div>
+</div>
+
+<script>
+  // ↓ API 키를 여기에 입력하세요
+  const API_KEY = "SdKcw9audscgwBzEBkQlTkAPwoEI9SY2Iv6gzbwa";
+
+  const today = new Date().toISOString().slice(0, 10);
+  document.getElementById("apod-date").value = today;
+  document.getElementById("apod-date").max = today;
+  document.getElementById("apod-date").min = "1995-06-16";
+  document.getElementById("neo-date").value = today;
+  document.getElementById("neo-date").max = today;
+
+  // 탭 전환
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('panel-' + tab).classList.add('active');
+  }
+
+  // ===== 오늘의 우주사진 =====
+  async function loadAPOD() {
+    const date = document.getElementById("apod-date").value;
+    const url = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&date=${date}`;
+
+    document.getElementById("mars-loading").style.display = "block";
+    document.getElementById("apod-card").style.display = "none";
+    document.getElementById("mars-error").style.display = "none";
+
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (data.code === 404 || data.msg) throw new Error();
+
+      document.getElementById("apod-date-display").textContent = data.date;
+      document.getElementById("apod-copyright").textContent =
+        data.copyright ? "© " + data.copyright.replace(/\n/g, " ") : "Public Domain";
+      document.getElementById("apod-title").textContent = data.title;
+      document.getElementById("apod-explanation").textContent = data.explanation;
+      document.getElementById("apod-hd-link").href = data.hdurl || data.url;
+
+      const media = document.getElementById("apod-media");
+      if (data.media_type === "image") {
+        media.innerHTML = `<img src="${data.url}" alt="${data.title}" />`;
+      } else {
+        media.innerHTML = `<iframe src="${data.url}" allowfullscreen></iframe>`;
+      }
+
+      document.getElementById("mars-loading").style.display = "none";
+      document.getElementById("apod-card").style.display = "block";
+
+    } catch (e) {
+      document.getElementById("mars-loading").style.display = "none";
+      document.getElementById("mars-error").style.display = "block";
+    }
+  }
+
+  // ===== 소행성 근접 정보 =====
+  async function loadNEO() {
+    const date = document.getElementById("neo-date").value;
+    const url = `https://api.nasa.gov/neo/rest/v1/feed?start_date=${date}&end_date=${date}&api_key=${API_KEY}`;
+
+    document.getElementById("neo-loading").style.display = "block";
+    document.getElementById("neo-content").style.display = "none";
+    document.getElementById("neo-error").style.display = "none";
+
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      const asteroids = data.near_earth_objects[date] || [];
+
+      document.getElementById("neo-loading").style.display = "none";
+
+      if (asteroids.length === 0) {
+        document.getElementById("neo-error").style.display = "block";
+        return;
+      }
+
+      // 통계
+      const hazardous = asteroids.filter(a => a.is_potentially_hazardous_asteroid);
+      const distances = asteroids.map(a =>
+        parseFloat(a.close_approach_data[0].miss_distance.kilometers));
+      const speeds = asteroids.map(a =>
+        parseFloat(a.close_approach_data[0].relative_velocity.kilometers_per_hour));
+
+      document.getElementById("neo-total").textContent = asteroids.length;
+      document.getElementById("neo-hazardous").textContent = hazardous.length;
+      document.getElementById("neo-closest").textContent =
+        Math.min(...distances).toLocaleString('ko-KR', {maximumFractionDigits: 0});
+      document.getElementById("neo-fastest").textContent =
+        Math.max(...speeds).toLocaleString('ko-KR', {maximumFractionDigits: 0});
+
+      // 목록 (가까운 순 정렬)
+      asteroids.sort((a, b) =>
+        parseFloat(a.close_approach_data[0].miss_distance.kilometers) -
+        parseFloat(b.close_approach_data[0].miss_distance.kilometers));
+
+      const list = document.getElementById("neo-list");
+      list.innerHTML = "";
+
+      asteroids.forEach(a => {
+        const approach = a.close_approach_data[0];
+        const dist = parseFloat(approach.miss_distance.kilometers).toLocaleString('ko-KR', {maximumFractionDigits: 0});
+        const speed = parseFloat(approach.relative_velocity.kilometers_per_hour).toLocaleString('ko-KR', {maximumFractionDigits: 0});
+        const sizeMin = parseFloat(a.estimated_diameter.meters.estimated_diameter_min).toFixed(0);
+        const sizeMax = parseFloat(a.estimated_diameter.meters.estimated_diameter_max).toFixed(0);
+        const isHazardous = a.is_potentially_hazardous_asteroid;
+
+        const item = document.createElement("div");
+        item.className = `neo-item ${isHazardous ? 'hazardous' : ''}`;
+        item.innerHTML = `
+          <div>
+            <div class="neo-name">${a.name.replace(/[()]/g, '')}</div>
+            <div class="neo-detail">
+              지구와의 거리: ${dist} km<br>
+              추정 크기: ${sizeMin}m ~ ${sizeMax}m
+            </div>
+          </div>
+          <div class="neo-speed">
+            ${speed}<br>
+            <span style="font-size:10px; color:rgba(255,255,255,0.3)">km/h</span>
+          </div>
+          <div class="neo-badge ${isHazardous ? 'danger' : 'safe'}">
+            ${isHazardous ? '⚠ 위험' : '✓ 안전'}
+          </div>
+        `;
+        list.appendChild(item);
+      });
+
+      document.getElementById("neo-content").style.display = "block";
+
+    } catch (e) {
+      document.getElementById("neo-loading").style.display = "none";
+      document.getElementById("neo-error").style.display = "block";
+    }
+  }
+
+  // 처음 로드
+  loadAPOD();
+</script>
+</body>
+</html>
