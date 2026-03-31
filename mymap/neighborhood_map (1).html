@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우리 동네 지도</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="neighborhood_map.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">📍 우리 동네 지도</div>
+  <div class="tabs">
+    <button class="tab-btn active" id="tab-food" onclick="switchTab('food')">🍽 맛집 지도</button>
+    <button class="tab-btn" id="tab-safe" onclick="switchTab('safe')">🛡 안전 지도</button>
+  </div>
+</header>
+
+<div class="container">
+  <div class="sidebar">
+    <div class="category-bar" id="category-bar"></div>
+    <div class="sidebar-header" id="sidebar-header">카테고리를 선택하세요</div>
+    <div class="result-list" id="result-list">
+      <div class="empty-state">위에서 카테고리를 선택하면<br>주변 장소가 표시돼요</div>
+    </div>
+    <div class="stats-bar" id="stats-bar" style="display:none;">
+      <div class="stats-title" id="stats-title"></div>
+      <div id="stats-content"></div>
+    </div>
+  </div>
+
+  <div id="map">
+    <div class="loading-overlay" id="loading">🔍 검색 중...</div>
+    <button class="location-btn" id="location-btn">📍 내 위치 기준</button>
+  </div>
+</div>
+
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8e63724a5ae060891596d0d2cc915fc3&libraries=services"></script>
+<script>
+  // ===== 탭 데이터 =====
+  var tabs = {
+    food: {
+      categories: [
+        { label: '🍚 한식',   keyword: '한식',   color: '#ef4444', bg: '#fee2e2' },
+        { label: '🍜 중식',   keyword: '중국집',  color: '#f97316', bg: '#ffedd5' },
+        { label: '🍣 일식',   keyword: '일식',   color: '#8b5cf6', bg: '#ede9fe' },
+        { label: '🍕 양식',   keyword: '양식',   color: '#3b82f6', bg: '#dbeafe' },
+        { label: '☕ 카페',   keyword: '카페',   color: '#92400e', bg: '#fef3c7' },
+        { label: '🍗 치킨',   keyword: '치킨',   color: '#f59e0b', bg: '#fef9c3' },
+        { label: '🍔 패스트푸드', keyword: '패스트푸드', color: '#10b981', bg: '#d1fae5' },
+        { label: '🍻 술집',   keyword: '술집',   color: '#6366f1', bg: '#e0e7ff' },
+      ]
+    },
+    safe: {
+      categories: [
+        { label: '🏥 병원',    keyword: '병원',   color: '#ef4444', bg: '#fee2e2' },
+        { label: '💊 약국',    keyword: '약국',   color: '#10b981', bg: '#d1fae5' },
+        { label: '🚓 경찰서',  keyword: '경찰서', color: '#3b82f6', bg: '#dbeafe' },
+        { label: '🚒 소방서',  keyword: '소방서', color: '#f97316', bg: '#ffedd5' },
+        { label: '🏪 편의점',  keyword: '편의점', color: '#8b5cf6', bg: '#ede9fe' },
+        { label: '🏦 은행',    keyword: '은행',   color: '#f59e0b', bg: '#fef9c3' },
+        { label: '🚌 버스정류장', keyword: '버스정류장', color: '#6366f1', bg: '#e0e7ff' },
+        { label: '🏫 학교',    keyword: '학교',   color: '#0ea5e9', bg: '#e0f2fe' },
+      ]
+    }
+  };
+
+  var currentTab = 'food';
+  var currentCategory = null;
+  var markers = [];
+  var infowindow;
+  var map;
+  var ps;
+  var currentCenter;
+  var allResults = {};
+
+  // 지도 초기화
+  map = new kakao.maps.Map(document.getElementById('map'), {
+    center: new kakao.maps.LatLng(37.6584, 126.8320), // 고양시 기본
+    level: 5
+  });
+  ps = new kakao.maps.services.Places();
+  infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+  currentCenter = map.getCenter();
+
+  // 카테고리 버튼 렌더링
+  function renderCategories() {
+    var bar = document.getElementById('category-bar');
+    bar.innerHTML = '';
+    var cats = tabs[currentTab].categories;
+    cats.forEach(function(cat) {
+      var btn = document.createElement('button');
+      btn.className = 'cat-btn';
+      btn.textContent = cat.label;
+      btn.onclick = function() { selectCategory(cat); };
+      bar.appendChild(btn);
+    });
+    currentCategory = null;
+    clearMarkers();
+    document.getElementById('result-list').innerHTML = '<div class="empty-state">카테고리를 선택하면<br>주변 장소가 표시돼요</div>';
+    document.getElementById('sidebar-header').textContent = '카테고리를 선택하세요';
+    document.getElementById('stats-bar').style.display = 'none';
+    allResults = {};
+  }
+
+  // 탭 전환
+  function switchTab(tab) {
+    currentTab = tab;
+    document.getElementById('tab-food').classList.toggle('active', tab === 'food');
+    document.getElementById('tab-safe').classList.toggle('active', tab === 'safe');
+    renderCategories();
+  }
+
+  // 카테고리 선택
+  function selectCategory(cat) {
+    currentCategory = cat;
+    document.querySelectorAll('.cat-btn').forEach(function(b) { b.classList.remove('active'); });
+    event.target.classList.add('active');
+    searchByKeyword(cat);
+  }
+
+  // 키워드 검색
+  function searchByKeyword(cat) {
+    document.getElementById('loading').style.display = 'block';
+    clearMarkers();
+    document.getElementById('result-list').innerHTML = '';
+
+    ps.keywordSearch(cat.keyword, function(data, status) {
+      document.getElementById('loading').style.display = 'none';
+
+      if (status !== kakao.maps.services.Status.OK) {
+        document.getElementById('result-list').innerHTML = '<div class="empty-state">검색 결과가 없어요</div>';
+        document.getElementById('sidebar-header').textContent = '결과 없음';
+        return;
+      }
+
+      allResults[cat.keyword] = data.length;
+      displayPlaces(data, cat);
+      updateStats();
+
+    }, { location: currentCenter, radius: 2000, size: 15 });
+  }
+
+  // 장소 표시
+  function displayPlaces(places, cat) {
+    var bounds = new kakao.maps.LatLngBounds();
+    var list = document.getElementById('result-list');
+    list.innerHTML = '';
+    document.getElementById('sidebar-header').textContent = cat.label + ' ' + places.length + '개';
+
+    places.forEach(function(place, i) {
+      var position = new kakao.maps.LatLng(place.y, place.x);
+
+      // 컬러 마커
+      var markerContent = '<div style="width:28px;height:28px;border-radius:50%;background:' + cat.color + ';border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:12px;color:white;font-weight:700;">' + (i+1) + '</div>';
+      var marker = new kakao.maps.CustomOverlay({
+        position: position,
+        content: markerContent,
+        yAnchor: 0.5
+      });
+      marker.setMap(map);
+      markers.push(marker);
+      bounds.extend(position);
+
+      // 클릭 이벤트 (CustomOverlay는 DOM 클릭으로)
+      (function(p, idx) {
+        var el = document.createElement('div');
+        el.innerHTML = markerContent;
+        el.style.cursor = 'pointer';
+        el.onclick = function() {
+          infowindow.setContent('<div style="padding:10px 14px;font-size:13px;max-width:220px;"><strong>' + p.place_name + '</strong><br><span style="color:#888;font-size:11px;">' + (p.road_address_name || p.address_name) + '</span></div>');
+          infowindow.open(map, new kakao.maps.Marker({ position: new kakao.maps.LatLng(p.y, p.x) }));
+          setActive(idx);
+        };
+      })(place, i);
+
+      // 리스트 아이템
+      var item = document.createElement('div');
+      item.className = 'result-item';
+      item.id = 'item-' + i;
+      item.innerHTML = '<div class="result-name">' + (i+1) + '. ' + place.place_name + '</div>' +
+        '<div class="result-address">' + (place.road_address_name || place.address_name) + '</div>' +
+        '<span class="result-category" style="background:' + cat.bg + ';color:' + cat.color + ';">' + cat.label + '</span>';
+
+      (function(p, idx, pos) {
+        item.onclick = function() {
+          map.setCenter(pos);
+          map.setLevel(3);
+          infowindow.setContent('<div style="padding:10px 14px;font-size:13px;max-width:220px;"><strong>' + p.place_name + '</strong><br><span style="color:#888;font-size:11px;">' + (p.road_address_name || p.address_name) + '</span></div>');
+          var tempMarker = new kakao.maps.Marker({ position: pos });
+          infowindow.open(map, tempMarker);
+          setActive(idx);
+        };
+      })(place, i, position);
+
+      list.appendChild(item);
+    });
+
+    map.setBounds(bounds);
+  }
+
+  // 통계 업데이트
+  function updateStats() {
+    var keys = Object.keys(allResults);
+    if (keys.length === 0) return;
+
+    var cats = tabs[currentTab].categories;
+    var statsBar = document.getElementById('stats-bar');
+    var statsContent = document.getElementById('stats-content');
+    var statsTitle = document.getElementById('stats-title');
+
+    statsBar.style.display = 'block';
+    statsTitle.textContent = '반경 2km 현황';
+
+    var max = Math.max.apply(null, Object.values(allResults));
+    var html = '';
+    keys.forEach(function(key) {
+      var cat = cats.find(function(c) { return c.keyword === key; });
+      if (!cat) return;
+      var count = allResults[key];
+      var pct = max > 0 ? (count / max * 100) : 0;
+      html += '<div class="stat-row">' +
+        '<div class="stat-label">' + cat.label.split(' ')[0] + ' ' + cat.label.split(' ')[1] + '</div>' +
+        '<div class="stat-track"><div class="stat-fill" style="width:' + pct + '%;background:' + cat.color + ';"></div></div>' +
+        '<div class="stat-count">' + count + '</div>' +
+        '</div>';
+    });
+    statsContent.innerHTML = html;
+  }
+
+  function clearMarkers() {
+    markers.forEach(function(m) { m.setMap(null); });
+    markers = [];
+    infowindow.close();
+  }
+
+  function setActive(index) {
+    document.querySelectorAll('.result-item').forEach(function(el) { el.classList.remove('active'); });
+    var el = document.getElementById('item-' + index);
+    if (el) { el.classList.add('active'); el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+  }
+
+  // 내 위치 기준
+  document.getElementById('location-btn').onclick = function() {
+    if (!navigator.geolocation) return alert('위치 정보를 지원하지 않는 브라우저예요.');
+    navigator.geolocation.getCurrentPosition(function(pos) {
+      var latlng = new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+      map.setCenter(latlng);
+      map.setLevel(5);
+      currentCenter = latlng;
+      new kakao.maps.Marker({ map: map, position: latlng });
+      if (currentCategory) searchByKeyword(currentCategory);
+    }, function() { alert('위치 정보를 가져오지 못했어요.'); });
+  };
+
+  // 초기 렌더링
+  renderCategories();
+</script>
+
+</body>
+</html>
