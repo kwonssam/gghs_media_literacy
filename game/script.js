@@ -1,76 +1,99 @@
-// 변수 선언
-let 점수 = 0;
-let 남은시간 = 10;
-let 게임중 = false;
-let 타이머ID;
+// ===== 미니 타겟 게임 - game.js =====
 
-// 원 만들기 함수
-function 원만들기() {
-  // 기존 원 제거
-  let 기존원 = document.querySelector('.target');
-  if (기존원) 기존원.remove();
+const ball       = document.getElementById('ball');
+const scoreEl    = document.getElementById('score');
+const timerEl    = document.getElementById('timer');
+const overlay    = document.getElementById('overlay');
+const overlayMsg = document.getElementById('overlay-msg');
+const btnStart   = document.getElementById('btn-start');
+const arenaInner = document.querySelector('.arena-inner');
 
-  // 새 원 만들기
-  let 원 = document.createElement('div');
-  원.classList.add('target');
+let score        = 0;
+let timeLeft     = 10;
+let gameInterval = null;
+let ballSize     = 56; // 현재 공 크기 (랜덤으로 바뀜)
 
-  // 크기 랜덤 (30px ~ 80px)
-  let 크기 = Math.random() * (80 - 30) + 30;
-  원.style.width  = 크기 + 'px';
-  원.style.height = 크기 + 'px';
+// 공 크기 범위 설정 (최소 28px ~ 최대 80px)
+const BALL_MIN = 28;
+const BALL_MAX = 80;
 
-  // 위치 랜덤
-  let x = Math.random() * (600 - 크기);
-  let y = Math.random() * (400 - 크기);
-  원.style.left = x + 'px';
-  원.style.top  = y + 'px';
-
-  // 클릭하면 점수 +1, 딜레이 후 새 원
-  원.addEventListener('click', function() {
-    if (!게임중) return;
-    점수++;
-    document.getElementById('score').innerText = 점수;
-
-    // 랜덤 딜레이 (200ms ~ 800ms)
-    let 딜레이 = Math.random() * (800 - 200) + 200;
-    setTimeout(원만들기, 딜레이);
-  });
-
-  document.getElementById('game-area').appendChild(원);
+// ===== 랜덤 공 크기 생성 =====
+function randomBallSize() {
+  return Math.floor(Math.random() * (BALL_MAX - BALL_MIN + 1)) + BALL_MIN;
 }
 
-// 게임 시작
+// ===== 공 이동 + 크기 랜덤 적용 =====
+function moveBall() {
+  // 매번 새로운 랜덤 크기 적용
+  ballSize = randomBallSize();
+  ball.style.width  = ballSize + 'px';
+  ball.style.height = ballSize + 'px';
+
+  // arenaInner 기준으로 위치 계산
+  const w    = arenaInner.clientWidth;
+  const h    = arenaInner.clientHeight;
+  const maxX = w - ballSize - 4;
+  const maxY = h - ballSize - 4;
+  const x    = Math.floor(Math.random() * maxX) + 4;
+  const y    = Math.floor(Math.random() * maxY) + 4;
+
+  ball.style.left = x + 'px';
+  ball.style.top  = y + 'px';
+
+  // 팝 애니메이션 재실행
+  ball.classList.remove('pop');
+  void ball.offsetWidth;
+  ball.classList.add('pop');
+}
+
+// ===== 게임 시작 =====
 function startGame() {
-  점수 = 0;
-  남은시간 = 10;
-  게임중 = true;
+  score    = 0;
+  timeLeft = 10;
+  scoreEl.textContent = score;
+  timerEl.textContent = timeLeft;
+  timerEl.classList.remove('danger');
+  overlay.style.display = 'none';
+  ball.style.display    = 'block';
+  moveBall();
 
-  document.getElementById('score').innerText = 0;
-  document.getElementById('timer').innerText = 10;
-  document.getElementById('result').innerText = '';
-  document.getElementById('start-btn').disabled = true;
-  document.getElementById('start-btn').innerText = '게임 중...';
-
-  원만들기();
-
-  // 1초마다 타이머
-  타이머ID = setInterval(function() {
-    남은시간--;
-    document.getElementById('timer').innerText = 남은시간;
-    if (남은시간 <= 0) 게임오버();
+  gameInterval = setInterval(() => {
+    timeLeft--;
+    timerEl.textContent = timeLeft;
+    if (timeLeft <= 3) timerEl.classList.add('danger');
+    if (timeLeft <= 0) endGame();
   }, 1000);
 }
 
-// 게임 오버
-function 게임오버() {
-  게임중 = false;
-  clearInterval(타이머ID);
+// ===== 게임 종료 =====
+function endGame() {
+  clearInterval(gameInterval);
+  ball.style.display    = 'none';
+  overlayMsg.textContent = `게임 종료! 최종 점수: ${score}점 🎉`;
+  btnStart.textContent  = '다시 시작';
+  overlay.style.display = 'flex';
+}
 
-  let 원 = document.querySelector('.target');
-  if (원) 원.remove();
+// ===== 공 클릭 이벤트 =====
+ball.addEventListener('click', (e) => {
+  e.stopPropagation();
+  score++;
+  scoreEl.textContent = score;
+  spawnParticle(e.clientX, e.clientY);
+  moveBall();
+});
 
-  document.getElementById('result').innerText =
-    '게임 오버! 최종 점수: ' + 점수 + '점 🎉';
-  document.getElementById('start-btn').disabled = false;
-  document.getElementById('start-btn').innerText = '다시 시작';
+// ===== 시작 버튼 =====
+btnStart.addEventListener('click', startGame);
+
+// ===== 파티클 효과 (+1 표시) =====
+function spawnParticle(x, y) {
+  const rect = arenaInner.getBoundingClientRect();
+  const p    = document.createElement('div');
+  p.className   = 'particle';
+  p.textContent = '+1';
+  p.style.left  = (x - rect.left) + 'px';
+  p.style.top   = (y - rect.top)  + 'px';
+  arenaInner.appendChild(p);
+  setTimeout(() => p.remove(), 700);
 }
