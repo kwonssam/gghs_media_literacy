@@ -6,7 +6,7 @@
 <title>카카오맵 서비스</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <!-- ↓ 여기에 발급받은 JavaScript 키를 넣으세요 -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8e63724a5ae060891596d0d2cc915fc3&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8e63724a5ae060891596d0d2cc915fc3&libraries=services&autoload=false"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -181,7 +181,7 @@
   <div class="logo">📍 MAP</div>
   <div class="search-box">
     <input type="text" id="keyword" placeholder="장소, 주소 검색 (예: 강남역 카페)" />
-    <button onclick="searchPlaces()">검색</button>
+    <button id="search-btn">검색</button>
   </div>
 </header>
 
@@ -195,11 +195,12 @@
     </div>
   </div>
   <div id="map">
-    <button class="location-btn" onclick="moveToMyLocation()">📍 내 위치</button>
+    <button class="location-btn" id="location-btn">📍 내 위치</button>
   </div>
 </div>
 
 <script>
+kakao.maps.load(function() {
   // 지도 초기화 (서울 중심)
   const map = new kakao.maps.Map(document.getElementById('map'), {
     center: new kakao.maps.LatLng(37.5665, 126.9780),
@@ -217,11 +218,6 @@
     if (!keyword) return;
     ps.keywordSearch(keyword, placesSearchCB);
   }
-
-  // 엔터키 검색
-  document.getElementById('keyword').addEventListener('keypress', e => {
-    if (e.key === 'Enter') searchPlaces();
-  });
 
   // 검색 결과 콜백
   function placesSearchCB(data, status) {
@@ -315,6 +311,14 @@
       new kakao.maps.Marker({ map, position: latlng });
     }, () => alert('위치 정보를 가져오지 못했어요.'));
   }
+
+  // 버튼에 이벤트 연결
+  document.getElementById('search-btn').addEventListener('click', searchPlaces);
+  document.getElementById('keyword').addEventListener('keypress', e => {
+    if (e.key === 'Enter') searchPlaces();
+  });
+  document.getElementById('location-btn').addEventListener('click', moveToMyLocation);
+}); // kakao.maps.load 끝
 </script>
 
 </body>
