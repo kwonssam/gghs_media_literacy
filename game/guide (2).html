@@ -40,6 +40,9 @@
     --mac-bg: #f5f5f5;
     --mac-border: #ccc;
     --code-bg: #1e1e2e;
+    --purple: #7c3aed;
+    --purple-bg: #f5f3ff;
+    --purple-border: #c4b5fd;
   }
 
   body { background: var(--bg); font-family: 'Noto Sans KR', sans-serif; color: var(--text); line-height: 1.7; }
@@ -81,18 +84,20 @@
     background: var(--surface); border: 1.5px solid var(--border);
     border-radius: 12px; padding: 20px 22px; margin-bottom: 14px; font-size: 13.5px;
   }
-  .box.green { background: var(--green-bg); border-color: var(--green-border); }
-  .box.red   { background: var(--red-bg);   border-color: var(--red-border); }
-  .box.win   { background: var(--win-bg);   border-color: var(--win-border); }
-  .box.mac   { background: var(--mac-bg);   border-color: var(--mac-border); }
+  .box.green  { background: var(--green-bg);  border-color: var(--green-border); }
+  .box.red    { background: var(--red-bg);    border-color: var(--red-border); }
+  .box.win    { background: var(--win-bg);    border-color: var(--win-border); }
+  .box.mac    { background: var(--mac-bg);    border-color: var(--mac-border); }
+  .box.purple { background: var(--purple-bg); border-color: var(--purple-border); }
   .box-label {
     font-size: 10px; font-weight: 700; letter-spacing: .1em;
     text-transform: uppercase; margin-bottom: 10px; color: var(--text3);
   }
-  .box-label.win { color: var(--win); }
-  .box-label.mac { color: var(--mac); }
-  .box-label.green { color: var(--green); }
-  .box-label.red { color: var(--red); }
+  .box-label.win    { color: var(--win); }
+  .box-label.mac    { color: var(--mac); }
+  .box-label.green  { color: var(--green); }
+  .box-label.red    { color: var(--red); }
+  .box-label.purple { color: var(--purple); }
 
   /* OS 탭 */
   .os-tabs { display: flex; gap: 0; margin-bottom: 0; }
@@ -174,14 +179,16 @@
   .connection-title { font-size: 13px; font-weight: 700; color: var(--text2); margin-bottom: 16px; text-align: center; }
   .connection-flow { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
   .conn-file { border-radius: 10px; padding: 12px 16px; text-align: center; min-width: 100px; }
-  .conn-file.html { background: var(--html-bg); border: 2px solid var(--html); }
-  .conn-file.css  { background: var(--css-bg);  border: 2px solid var(--css); }
-  .conn-file.js   { background: var(--js-bg);   border: 2px solid var(--js); }
+  .conn-file.html    { background: var(--html-bg);  border: 2px solid var(--html); }
+  .conn-file.css     { background: var(--css-bg);   border: 2px solid var(--css); }
+  .conn-file.js      { background: var(--js-bg);    border: 2px solid var(--js); }
+  .conn-file.json    { background: var(--purple-bg); border: 2px solid var(--purple); }
   .conn-file.browser { background: var(--green-bg); border: 2px solid var(--green); }
   .conn-filename { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 700; margin-bottom: 3px; }
-  .conn-filename.html { color: var(--html); }
-  .conn-filename.css  { color: var(--css); }
-  .conn-filename.js   { color: var(--js); }
+  .conn-filename.html    { color: var(--html); }
+  .conn-filename.css     { color: var(--css); }
+  .conn-filename.js      { color: var(--js); }
+  .conn-filename.json    { color: var(--purple); }
   .conn-filename.browser { color: var(--green); }
   .conn-role { font-size: 11px; color: var(--text3); }
   .conn-arrow { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; color: var(--text3); }
@@ -232,6 +239,12 @@
     padding: 10px 14px; font-size: 13px; color: var(--text2); margin-bottom: 10px;
   }
   .warn strong { color: var(--red); }
+  .tip-purple {
+    background: var(--purple-bg); border: 1px solid var(--purple-border);
+    border-left: 3px solid var(--purple); border-radius: 0 8px 8px 0;
+    padding: 10px 14px; font-size: 13px; color: var(--text2); margin-bottom: 10px;
+  }
+  .tip-purple strong { color: var(--purple); }
 
   /* 체크리스트 */
   .checklist { list-style: none; margin: 10px 0; }
@@ -312,7 +325,7 @@
     font-size: 13px; color: #e8eaf2; line-height: 1.85;
     margin: 12px 0; white-space: pre-wrap;
   }
-  .prompt-box .ph { color: #82c7ff; } /* placeholder */
+  .prompt-box .ph { color: #82c7ff; }
   .prompt-bad  { background: var(--red-bg); border: 1.5px solid var(--red-border); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; font-size: 13px; color: var(--red); }
   .prompt-good { background: var(--green-bg); border: 1.5px solid var(--green-border); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; font-size: 13px; color: var(--green); }
   .prompt-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 5px; }
@@ -354,6 +367,52 @@
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
   .flow-act-time { font-size: 11px; color: var(--text3); margin-left: auto; flex-shrink: 0; }
+
+  /* ── 프롬프트 공식 카드 ── */
+  .formula-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0;
+  }
+  .formula-card {
+    border-radius: 12px; overflow: hidden; border: 2px solid var(--purple-border);
+  }
+  .formula-card-head {
+    padding: 10px 16px;
+    background: var(--purple);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .formula-card-num {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: rgba(255,255,255,0.25); color: white;
+    font-size: 13px; font-weight: 900;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .formula-card-title { color: white; font-size: 13px; font-weight: 700; }
+  .formula-card-body {
+    padding: 12px 16px; background: var(--purple-bg);
+    font-size: 12.5px; color: var(--text2); line-height: 1.7;
+  }
+  .formula-card-body strong { color: var(--purple); }
+
+  /* ── 연결 상세 설명 ── */
+  .connect-detail {
+    border-radius: 12px; overflow: hidden;
+    border: 2px solid var(--border); margin-bottom: 16px;
+  }
+  .connect-detail-head {
+    padding: 12px 18px; display: flex; align-items: center; gap: 12px;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .connect-detail-head.html { background: var(--html-bg); border-color: var(--html-border); }
+  .connect-detail-head.js   { background: var(--js-bg);   border-color: var(--js-border); }
+  .connect-detail-head.json { background: var(--purple-bg); border-color: var(--purple-border); }
+  .connect-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+  }
+  .connect-badge.html { background: var(--html); color: white; }
+  .connect-badge.js   { background: var(--js);   color: #1a1200; }
+  .connect-badge.json { background: var(--purple); color: white; }
+  .connect-detail-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  .connect-detail-body { padding: 16px 18px; font-size: 13px; color: var(--text2); line-height: 1.8; }
 </style>
 </head>
 <body>
@@ -449,13 +508,13 @@
       </div>
     </div>
 
-    <!-- 연결 흐름 -->
+    <!-- ★ 연결 흐름 — 강화된 버전 -->
     <div class="connection-viz">
-      <div class="connection-title">세 파일이 어떻게 연결되나요?</div>
+      <div class="connection-title">세 파일이 어떻게 연결되나요? — HTML이 모든 연결의 중심!</div>
       <div class="connection-flow">
         <div class="conn-file html">
           <div class="conn-filename html">index.html</div>
-          <div class="conn-role">뼈대</div>
+          <div class="conn-role">뼈대 · 연결 허브</div>
         </div>
         <div class="conn-arrow">
           <span>→</span>
@@ -477,7 +536,17 @@
         </div>
         <div class="conn-file js">
           <div class="conn-filename js">script.js</div>
-          <div class="conn-role">동작</div>
+          <div class="conn-role">동작 · 뇌</div>
+        </div>
+        <div class="conn-arrow">
+          <span>→</span>
+          <div style="text-align:center; font-size:10px;">
+            fetch()로<br>데이터 요청
+          </div>
+        </div>
+        <div class="conn-file json">
+          <div class="conn-filename json">data.json</div>
+          <div class="conn-role">외부 데이터</div>
         </div>
         <div class="conn-arrow">
           <span>→</span>
@@ -489,7 +558,140 @@
         </div>
       </div>
     </div>
-  </div>
+
+    <!-- ★ 연결 방법 상세 설명 (신규 추가) -->
+    <div class="sec-title" style="font-size:16px; margin-top:28px;">HTML에서 CSS · JS · JSON을 연결하는 법</div>
+
+    <!-- CSS 연결 -->
+    <div class="connect-detail">
+      <div class="connect-detail-head html">
+        <div class="connect-badge html">CSS 연결</div>
+        <div class="connect-detail-title">👗 &lt;link&gt; 태그로 옷 입히기 — &lt;head&gt; 안에!</div>
+      </div>
+      <div class="connect-detail-body">
+        <p style="margin-bottom:12px;">
+          HTML 뼈대에 CSS 옷을 입히려면 <code style="font-family:monospace; background:var(--surface2); padding:2px 6px; border-radius:4px;">&lt;link&gt;</code> 태그를 사용해요.
+          이 코드는 반드시 <strong>&lt;head&gt; 태그 안</strong>에 넣어야 화면이 열릴 때 바로 꾸며줘요.
+        </p>
+        <div class="code-wrap" style="margin-bottom:10px;">
+          <div class="code-filename">index.html</div>
+          <pre><span class="tag">&lt;head&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;title&gt;</span>클릭 타겟 게임<span class="tag">&lt;/title&gt;</span>
+
+  <span class="cm">&lt;!-- 👗 CSS 연결: rel="stylesheet"는 "이건 꾸미기 파일이야" 라는 뜻 --&gt;</span>
+  <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"style.css"</span><span class="tag">&gt;</span>
+
+<span class="tag">&lt;/head&gt;</span></pre>
+        </div>
+        <div class="tip" style="margin-bottom:0;">
+          <strong>href="style.css"</strong>는 파일 경로예요. style.css 파일이 index.html과 <strong>같은 폴더</strong>에 있어야 해요.
+          다른 폴더에 있으면 <code style="font-family:monospace">href="css/style.css"</code>처럼 경로를 적어줘야 해요.
+        </div>
+      </div>
+    </div>
+
+    <!-- JS 연결 -->
+    <div class="connect-detail">
+      <div class="connect-detail-head js">
+        <div class="connect-badge js">JS 연결</div>
+        <div class="connect-detail-title">🧠 &lt;script&gt; 태그로 뇌 장착하기 — &lt;body&gt; 맨 끝에!</div>
+      </div>
+      <div class="connect-detail-body">
+        <p style="margin-bottom:12px;">
+          JS를 연결할 때는 <code style="font-family:monospace; background:var(--surface2); padding:2px 6px; border-radius:4px;">&lt;script&gt;</code> 태그를 사용해요.
+          이 코드는 반드시 <strong>&lt;/body&gt; 바로 위, body 맨 끝</strong>에 넣어야 해요.
+        </p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+          <div>
+            <div class="prompt-label" style="color:var(--red); margin-bottom:6px;">❌ 잘못된 위치</div>
+            <div class="code-wrap" style="margin-bottom:0;">
+              <pre><span class="tag">&lt;head&gt;</span>
+  <span class="cm">&lt;!-- ❌ 여기에 넣으면 오류! --&gt;</span>
+  <span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="val">"script.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">id</span>=<span class="val">"game-area"</span><span class="tag">&gt;&lt;/div&gt;</span>
+<span class="tag">&lt;/body&gt;</span></pre>
+            </div>
+          </div>
+          <div>
+            <div class="prompt-label" style="color:var(--green); margin-bottom:6px;">✅ 올바른 위치</div>
+            <div class="code-wrap" style="margin-bottom:0;">
+              <pre><span class="tag">&lt;head&gt;</span>
+  <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"style.css"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">id</span>=<span class="val">"game-area"</span><span class="tag">&gt;&lt;/div&gt;</span>
+
+  <span class="cm">&lt;!-- ✅ body 맨 끝에! --&gt;</span>
+  <span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="val">"script.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+<span class="tag">&lt;/body&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+        <div class="warn" style="margin-bottom:0;">
+          <strong>왜 body 맨 끝에 넣어야 하나요?</strong><br>
+          브라우저는 HTML을 위에서 아래로 읽어요. JS가 위에 있으면 아직 game-area 같은 요소가 만들어지기 전에 JS가 실행되어서
+          "game-area를 찾을 수 없어요!" 오류가 납니다. HTML이 다 만들어진 다음에 JS가 실행돼야 해요.
+        </div>
+      </div>
+    </div>
+
+    <!-- JSON / fetch() 연결 -->
+    <div class="connect-detail">
+      <div class="connect-detail-head json">
+        <div class="connect-badge json">JSON 연결</div>
+        <div class="connect-detail-title">📦 fetch()로 외부 데이터 가져오기 — JS 파일 안에서!</div>
+      </div>
+      <div class="connect-detail-body">
+        <p style="margin-bottom:12px;">
+          HTML이 JS와 연결되고 나면, JS 파일 안에서 <code style="font-family:monospace; background:var(--surface2); padding:2px 6px; border-radius:4px;">fetch()</code>라는 명령어로
+          외부 서버(또는 같은 폴더의 JSON 파일)에서 데이터를 가져올 수 있어요.
+          가져온 데이터를 HTML의 빈 곳에 쏙 밀어 넣으면 화면이 완성되는 원리예요.
+        </p>
+
+        <!-- 흐름 시각화 -->
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
+          <div style="background:var(--js-bg); border:1.5px solid var(--js-border); border-radius:8px; padding:8px 14px; font-size:12px; font-weight:700; color:#8a6f00;">
+            🧠 script.js<br><span style="font-size:10px; color:var(--text3);">fetch() 실행</span>
+          </div>
+          <div style="font-size:18px; color:var(--text3);">→</div>
+          <div style="background:var(--purple-bg); border:1.5px solid var(--purple-border); border-radius:8px; padding:8px 14px; font-size:12px; font-weight:700; color:var(--purple);">
+            📦 data.json<br><span style="font-size:10px; color:var(--text3);">데이터 응답</span>
+          </div>
+          <div style="font-size:18px; color:var(--text3);">→</div>
+          <div style="background:var(--html-bg); border:1.5px solid var(--html-border); border-radius:8px; padding:8px 14px; font-size:12px; font-weight:700; color:var(--html);">
+            🦴 빈 &lt;div&gt;<br><span style="font-size:10px; color:var(--text3);">데이터 채워넣기</span>
+          </div>
+          <div style="font-size:18px; color:var(--text3);">→</div>
+          <div style="background:var(--green-bg); border:1.5px solid var(--green-border); border-radius:8px; padding:8px 14px; font-size:12px; font-weight:700; color:var(--green);">
+            🌐 브라우저<br><span style="font-size:10px; color:var(--text3);">화면 완성!</span>
+          </div>
+        </div>
+
+        <div class="code-wrap" style="margin-bottom:10px;">
+          <div class="code-filename">script.js</div>
+          <pre><span class="cm">// fetch() = "이 주소에서 데이터를 가져와줘!" 하는 마법 주문</span>
+<span class="fn">fetch</span>(<span class="str">'data.json'</span>)
+  .<span class="fn">then</span>(<span class="kw">function</span>(응답) {
+    <span class="kw">return</span> 응답.<span class="fn">json</span>();   <span class="cm">// 받은 데이터를 JS가 읽을 수 있게 변환</span>
+  })
+  .<span class="fn">then</span>(<span class="kw">function</span>(데이터) {
+    <span class="cm">// HTML의 빈 리스트에 데이터 쏙 밀어넣기</span>
+    <span class="kw">let</span> 리스트창 = document.<span class="fn">getElementById</span>(<span class="str">'list-area'</span>);
+    리스트창.innerText = 데이터.이름;
+  });</pre>
+        </div>
+        <div class="tip-purple" style="margin-bottom:0;">
+          <strong>이 게임에서는 fetch()를 안 써도 돼요!</strong>
+          fetch()는 점수 기록을 서버에 저장하거나, 레벨 데이터를 외부 파일에서 불러올 때 쓰게 돼요.
+          지금은 "JS가 이런 것도 할 수 있구나~" 정도로만 알아두세요.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- PART 0 끝 -->
 
 
   <!-- ══════ PART 1: 파일 만들기 ══════ -->
@@ -521,7 +723,6 @@
     <div class="os-panel win show" id="panel-win">
       <div class="box-label win">윈도우 메모장으로 파일 만들기</div>
       <div class="steps">
-
         <div class="step-item">
           <div class="step-n win">1</div>
           <div class="step-content">
@@ -529,7 +730,6 @@
             <p>바탕화면 빈 곳에서 우클릭 → 새로 만들기 → 폴더 → 이름: <code style="font-family:monospace; color:var(--win)">game</code></p>
           </div>
         </div>
-
         <div class="step-item">
           <div class="step-n win">2</div>
           <div class="step-content">
@@ -537,7 +737,6 @@
             <p>시작 버튼 → "메모장" 검색 → 열기</p>
           </div>
         </div>
-
         <div class="step-item">
           <div class="step-n win">3</div>
           <div class="step-content">
@@ -551,7 +750,6 @@
             <div class="step-warn">⚠️ 파일 형식을 "텍스트 문서"로 놔두면 index.html.txt 로 저장돼요!</div>
           </div>
         </div>
-
         <div class="step-item">
           <div class="step-n win">4</div>
           <div class="step-content">
@@ -562,7 +760,6 @@
 (파일 형식: 모든 파일, 인코딩: UTF-8 동일)</div>
           </div>
         </div>
-
         <div class="step-item">
           <div class="step-n win">5</div>
           <div class="step-content">
@@ -571,7 +768,6 @@
             <div class="step-tip">✅ 파일 아이콘이 브라우저 모양(index.html), 메모장 모양(style.css, script.js)으로 보이면 성공!</div>
           </div>
         </div>
-
         <div class="step-item">
           <div class="step-n win">6</div>
           <div class="step-content">
@@ -580,7 +776,6 @@
             <div class="step-tip">💡 index.html을 더블클릭하면 브라우저로 열려요. 코딩할 때는 꼭 우클릭 → 메모장으로 열어요!</div>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -588,7 +783,6 @@
     <div class="os-panel mac" id="panel-mac">
       <div class="box-label mac">맥북 TextEdit(텍스트 편집기)으로 파일 만들기</div>
       <div class="steps">
-
         <div class="step-item">
           <div class="step-n mac">1</div>
           <div class="step-content">
@@ -596,7 +790,6 @@
             <p>바탕화면 빈 곳에서 우클릭 → 새로운 폴더 → 이름: <code style="font-family:monospace; color:#555">game</code></p>
           </div>
         </div>
-
         <div class="step-item">
           <div class="step-n mac">2</div>
           <div class="step-content">
@@ -604,7 +797,6 @@
             <p>Launchpad → TextEdit 또는 Spotlight(Cmd+Space) → "텍스트 편집기" 검색</p>
           </div>
         </div>
-
         <div class="step-item">
           <div class="step-n mac">3</div>
           <div class="step-content">
@@ -615,7 +807,6 @@
             <div class="step-tip">💡 화면 위쪽에 서식 도구모음(굵게, 기울임 버튼들)이 사라지면 성공이에요.</div>
           </div>
         </div>
-
         <div class="step-item">
           <div class="step-n mac">4</div>
           <div class="step-content">
@@ -625,10 +816,8 @@
 파일명: index.html  ← .html 꼭 붙이기!
 → 저장</div>
             <p style="margin-top:8px; font-size:13px; color:var(--text2);">"Use .html" 창이 뜨면 → <strong>"Use .html" 클릭</strong></p>
-            <div class="step-tip">💡 "Don't Append" 또는 "Use .html" 중 <strong>Use .html</strong>을 클릭해요.</div>
           </div>
         </div>
-
         <div class="step-item">
           <div class="step-n mac">5</div>
           <div class="step-content">
@@ -639,7 +828,6 @@
 (Make Plain Text 단계 매번 해야 해요!)</div>
           </div>
         </div>
-
         <div class="step-item">
           <div class="step-n mac">6</div>
           <div class="step-content">
@@ -649,7 +837,6 @@
             <div class="step-tip">💡 완성된 게임 확인할 때만 더블클릭(Safari로 열기), 코딩할 때는 우클릭 → TextEdit!</div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -669,7 +856,7 @@
   <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span>
   <span class="tag">&lt;title&gt;</span>클릭 타겟 게임<span class="tag">&lt;/title&gt;</span>
 
-  <span class="cm">&lt;!-- CSS 파일 연결 --&gt;</span>
+  <span class="cm">&lt;!-- 👗 CSS 파일 연결: head 안에 넣어야 해요 --&gt;</span>
   <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"style.css"</span><span class="tag">&gt;</span>
 
 <span class="tag">&lt;/head&gt;</span>
@@ -692,7 +879,7 @@
   <span class="cm">&lt;!-- 시작 버튼 --&gt;</span>
   <span class="tag">&lt;button</span> <span class="attr">id</span>=<span class="val">"start-btn"</span> <span class="attr">onclick</span>=<span class="val">"startGame()"</span><span class="tag">&gt;</span>게임 시작<span class="tag">&lt;/button&gt;</span>
 
-  <span class="cm">&lt;!-- JS 파일 연결 — body 맨 끝에! --&gt;</span>
+  <span class="cm">&lt;!-- 🧠 JS 파일 연결 — body 맨 끝에! HTML이 다 만들어진 다음에 실행돼야 해요 --&gt;</span>
   <span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="val">"script.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
 
 <span class="tag">&lt;/body&gt;</span>
@@ -795,7 +982,6 @@
       </ul>
     </div>
 
-    <!-- 이미지 추가 섹션 -->
     <hr class="div">
     <p class="desc"><strong>🖼️ 배경이나 원을 사진으로 바꾸고 싶다면?</strong></p>
 
@@ -806,7 +992,6 @@
     </div>
 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:12px;">
-
       <div>
         <div class="box-label" style="margin-bottom:8px;">배경을 사진으로 바꾸기</div>
         <div class="code-wrap" style="margin-bottom:6px;">
@@ -818,9 +1003,7 @@
   <span class="prop">background-position</span>: <span class="pval">center</span>;
 }</pre>
         </div>
-        <p style="font-size:12px; color:var(--text3);">bg.png 자리에 내 파일명을 넣어요</p>
       </div>
-
       <div>
         <div class="box-label" style="margin-bottom:8px;">원 대신 이미지 넣기</div>
         <div class="code-wrap" style="margin-bottom:6px;">
@@ -833,14 +1016,11 @@
   <span class="cm">   이미지도 원으로 잘려요 */</span>
 }</pre>
         </div>
-        <p style="font-size:12px; color:var(--text3);">ball.png 자리에 내 파일명을 넣어요</p>
       </div>
-
     </div>
 
     <div class="tip">
       <strong>이미지가 안 보여요!</strong> → 파일이 game 폴더 <strong>안에</strong> 있는지 확인해요.
-      폴더 밖에 있거나 파일명 오타가 있으면 안 나와요.
     </div>
   </div>
 
@@ -851,36 +1031,23 @@
 
     <p class="desc">JS는 <strong>뇌</strong>예요. <strong>script.js</strong> 파일을 열고 단계별로 입력해요.</p>
 
-    <!-- 변수명 설명 박스 -->
     <div class="box" style="background:var(--js-bg); border-color:var(--js-border); margin-bottom:20px;">
       <div class="box-label" style="color:var(--js);">📌 변수명은 왜 영어로 쓰나요?</div>
-      <p style="margin-bottom:10px;">
-        JavaScript는 사실 <strong>한글 변수명도 기술적으로 됩니다.</strong>
-        <code style="font-family:monospace; font-size:12px; background:var(--surface2); padding:2px 6px; border-radius:4px;">let 점수 = 0;</code> 이렇게 써도 실제로 작동해요.
-      </p>
-      <p style="margin-bottom:10px;">근데 실제 개발자들은 <strong>영어로</strong> 써요. 이유가 있어요:</p>
+      <p style="margin-bottom:10px;">JavaScript는 사실 <strong>한글 변수명도 기술적으로 됩니다.</strong></p>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
-        <div style="background:var(--surface); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--text2);">
-          🌍 전세계 개발자가 다 영어로 써요
-        </div>
-        <div style="background:var(--surface); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--text2);">
-          🤖 AI한테 물어볼 때 영어 변수명이 훨씬 잘 통해요
-        </div>
-        <div style="background:var(--surface); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--text2);">
-          📚 나중에 더 배울 때 혼란이 없어요
-        </div>
-        <div style="background:var(--surface); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--text2);">
-          🔧 일부 환경에서 한글이 깨지는 경우가 있어요
-        </div>
+        <div style="background:var(--surface); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--text2);">🌍 전세계 개발자가 다 영어로 써요</div>
+        <div style="background:var(--surface); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--text2);">🤖 AI한테 물어볼 때 영어 변수명이 훨씬 잘 통해요</div>
+        <div style="background:var(--surface); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--text2);">📚 나중에 더 배울 때 혼란이 없어요</div>
+        <div style="background:var(--surface); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--text2);">🔧 일부 환경에서 한글이 깨지는 경우가 있어요</div>
       </div>
       <p style="font-size:13px; color:var(--text2);">
-        그래서 이 수업에서도 <strong>영어 변수명 + 옆에 주석으로 설명</strong>을 다는 방식으로 써요.<br>
-        <code style="font-family:monospace; font-size:12px; background:var(--surface2); padding:2px 6px; border-radius:4px;">let score = 0; &nbsp;&nbsp;// 점수</code> &nbsp;← 이렇게요!
+        그래서 <strong>영어 변수명 + 옆에 주석으로 설명</strong>을 다는 방식으로 써요.<br>
+        <code style="font-family:monospace; font-size:12px; background:var(--surface2); padding:2px 6px; border-radius:4px;">let score = 0; &nbsp;&nbsp;// 점수</code>
       </p>
     </div>
 
     <hr class="div">
-    <p class="desc"><strong>3-1. 변수 선언</strong> — 데이터를 담는 상자</p>
+    <p class="desc"><strong>3-1. 변수 선언</strong></p>
     <div class="code-wrap">
       <div class="code-filename">script.js</div>
       <pre><span class="cm">// 변수 = 데이터를 담는 상자</span>
@@ -891,16 +1058,13 @@
     </div>
 
     <hr class="div">
-    <p class="desc"><strong>3-2. 원 만들기 함수</strong> — 랜덤 크기 + 랜덤 위치</p>
+    <p class="desc"><strong>3-2. 원 만들기 함수</strong></p>
     <div class="code-wrap">
       <div class="code-filename">script.js 이어서</div>
       <pre><span class="kw">function</span> <span class="fn">원만들기</span>() {
-
-  <span class="cm">// 기존 원 제거</span>
   <span class="kw">let</span> 기존원 = document.<span class="fn">querySelector</span>(<span class="str">'.target'</span>);
   <span class="kw">if</span> (기존원) 기존원.<span class="fn">remove</span>();
 
-  <span class="cm">// 새 원 만들기</span>
   <span class="kw">let</span> 원 = document.<span class="fn">createElement</span>(<span class="str">'div'</span>);
   원.classList.<span class="fn">add</span>(<span class="str">'target'</span>);
 
@@ -915,13 +1079,10 @@
   원.style.left = x + <span class="str">'px'</span>;
   원.style.top  = y + <span class="str">'px'</span>;
 
-  <span class="cm">// 클릭하면 점수 +1, 딜레이 후 새 원</span>
   원.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
     <span class="kw">if</span> (!게임중) <span class="kw">return</span>;
     점수++;
     document.<span class="fn">getElementById</span>(<span class="str">'score'</span>).innerText = 점수;
-
-    <span class="cm">// 랜덤 딜레이 (200ms ~ 800ms)</span>
     <span class="kw">let</span> 딜레이 = Math.<span class="fn">random</span>() * (<span class="num">800</span> - <span class="num">200</span>) + <span class="num">200</span>;
     <span class="fn">setTimeout</span>(원만들기, 딜레이);
   });
@@ -931,7 +1092,6 @@
     </div>
 
     <div class="tip"><strong>Math.random()이 뭔가요?</strong> 0~1 사이 소수를 뽑아요. × 50 + 30 하면 30~80 사이 숫자가 돼요.</div>
-    <div class="tip"><strong>setTimeout vs setInterval?</strong> setTimeout은 한 번만, setInterval은 계속 반복해요. 원은 클릭할 때마다 한 번씩 나오니까 setTimeout이에요.</div>
 
     <hr class="div">
     <p class="desc"><strong>3-3. 게임 시작 + 타이머</strong></p>
@@ -949,7 +1109,6 @@
 
   <span class="fn">원만들기</span>();
 
-  <span class="cm">// 1초(1000ms)마다 타이머 줄이기</span>
   타이머ID = <span class="fn">setInterval</span>(<span class="kw">function</span>() {
     남은시간--;
     document.<span class="fn">getElementById</span>(<span class="str">'timer'</span>).innerText = 남은시간;
@@ -1013,6 +1172,95 @@
       코드를 다 외울 필요 없어요 — <strong>원하는 것을 정확하게 설명하는 능력</strong>이 핵심이에요.
     </p>
 
+    <!-- ★★★ 신규: 프롬프트 3단계 공식 ★★★ -->
+    <div class="ai-step" style="border-color:var(--purple-border);">
+      <div class="ai-step-head" style="background:var(--purple-bg); border-color:var(--purple-border);">
+        <div class="ai-step-num" style="background:var(--purple);">★</div>
+        <div class="ai-step-title" style="color:var(--purple);">좋은 프롬프트 작성법 — "3단계 공식"</div>
+      </div>
+      <div class="ai-step-body">
+
+        <p style="margin-bottom:16px;">
+          AI에게 질문할 때 모호하게 쓰면 엉뚱한 답이 나와요.
+          <strong>페르소나 + 맥락 + 구체적 지시 + 출력 형식</strong>, 이 공식대로 쓰면
+          AI가 내가 원하는 것을 정확히 알아들어요.
+          특히 코딩할 때는 아래 조건을 <strong>템플릿처럼</strong> 쓰도록 연습해요.
+        </p>
+
+        <!-- 공식 카드 4개 -->
+        <div class="formula-grid">
+          <div class="formula-card">
+            <div class="formula-card-head">
+              <div class="formula-card-num">①</div>
+              <div class="formula-card-title">페르소나 — "나는 누구야?"</div>
+            </div>
+            <div class="formula-card-body">
+              AI에게 내 상황을 알려줘요.<br>
+              <strong>"나는 고등학생인데 HTML을 처음 배우고 있어"</strong><br>
+              이렇게 쓰면 AI가 어렵지 않게 설명해줘요.
+            </div>
+          </div>
+          <div class="formula-card">
+            <div class="formula-card-head">
+              <div class="formula-card-num">②</div>
+              <div class="formula-card-title">맥락 — "나는 뭘 만들고 있어?"</div>
+            </div>
+            <div class="formula-card-body">
+              현재 상황을 설명하고 <strong>코드 전체를 붙여넣어요.</strong><br>
+              AI가 내 코드를 봐야 정확한 위치를 짚어줄 수 있어요.
+              코드 없이 물어보면 AI가 다른 방식으로 답해요.
+            </div>
+          </div>
+          <div class="formula-card">
+            <div class="formula-card-head">
+              <div class="formula-card-num">③</div>
+              <div class="formula-card-title">구체적 지시 — "이걸 해줘"</div>
+            </div>
+            <div class="formula-card-body">
+              <strong>"색 바뀌게 해줘" ❌</strong><br>
+              <strong>"원을 클릭할 때마다 색이 랜덤하게 바뀌는 기능을 추가해줘" ✅</strong><br>
+              무엇을, 언제, 어떻게 — 세 가지를 모두 써요.
+            </div>
+          </div>
+          <div class="formula-card">
+            <div class="formula-card-head">
+              <div class="formula-card-num">④</div>
+              <div class="formula-card-title">출력 형식 — "이렇게 알려줘"</div>
+            </div>
+            <div class="formula-card-body">
+              결과물이 어떤 형태였으면 좋겠는지 말해요.<br>
+              <strong>"어느 줄에 어떤 코드를 추가하면 되는지 알려줘"</strong><br>
+              <strong>"전체 코드 말고 추가할 부분만 보여줘"</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- 나쁜/좋은 프롬프트 비교 -->
+        <hr class="div">
+        <p style="font-size:14px; font-weight:700; margin-bottom:10px;">나쁜 프롬프트 vs 좋은 프롬프트 비교</p>
+
+        <div class="prompt-label" style="color:var(--red); margin-bottom:6px;">❌ 나쁜 프롬프트 — 맥락 없음, 모호한 요구</div>
+        <div class="prompt-bad" style="margin-bottom:16px;">색 바뀌게 해줘</div>
+
+        <div class="prompt-label" style="color:var(--green); margin-bottom:6px;">✅ 좋은 프롬프트 — 공식 4가지 모두 포함</div>
+        <div class="prompt-box">① 나는 고등학생인데 HTML/JS로 클릭 타겟 게임을 처음 만들고 있어.
+
+② 아래는 내 현재 script.js 코드야:
+
+<span class="ph">[코드 전체 붙여넣기]</span>
+
+③ 여기에 "원을 클릭할 때마다 원의 색이 랜덤하게 바뀌는 기능"을 추가하고 싶어.
+
+④ 어느 줄에 어떤 코드를 추가하면 되는지만 알려줘. 전체 코드 말고 추가할 부분만.</div>
+
+        <div class="tip-purple" style="margin-top:4px;">
+          <strong>핵심:</strong> 기능을 <strong>하나씩</strong> 추가해요. 여러 개 한꺼번에 요청하면 어디가 틀렸는지 찾기 어려워요.
+        </div>
+
+      </div>
+    </div>
+
+
     <!-- ── 0단계: 게임 처음 만들기 ── -->
     <div class="ai-step" style="border-color:var(--html-border);">
       <div class="ai-step-head" style="background:var(--html-bg);">
@@ -1028,50 +1276,23 @@
         </p>
 
         <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px; font-size:13px; color:var(--text2);">
-          <div style="background:var(--surface2); border-radius:8px; padding:10px 14px; flex:1; text-align:center;">
-            📝 LLM에게 프롬프트 작성
-          </div>
+          <div style="background:var(--surface2); border-radius:8px; padding:10px 14px; flex:1; text-align:center;">📝 LLM에게 프롬프트 작성</div>
           <div style="font-size:18px; color:var(--text3);">→</div>
-          <div style="background:var(--surface2); border-radius:8px; padding:10px 14px; flex:1; text-align:center;">
-            💬 각 파일 코드 받기
-          </div>
+          <div style="background:var(--surface2); border-radius:8px; padding:10px 14px; flex:1; text-align:center;">💬 각 파일 코드 받기</div>
           <div style="font-size:18px; color:var(--text3);">→</div>
-          <div style="background:var(--surface2); border-radius:8px; padding:10px 14px; flex:1; text-align:center;">
-            📄 파일 만들어서 붙여넣기
-          </div>
+          <div style="background:var(--surface2); border-radius:8px; padding:10px 14px; flex:1; text-align:center;">📄 파일 만들어서 붙여넣기</div>
           <div style="font-size:18px; color:var(--text3);">→</div>
-          <div style="background:var(--green-bg); border:1.5px solid var(--green-border); border-radius:8px; padding:10px 14px; flex:1; text-align:center; color:var(--green); font-weight:700;">
-            🎮 게임 완성!
-          </div>
+          <div style="background:var(--green-bg); border:1.5px solid var(--green-border); border-radius:8px; padding:10px 14px; flex:1; text-align:center; color:var(--green); font-weight:700;">🎮 게임 완성!</div>
         </div>
 
         <hr class="div">
 
-        <div class="prompt-label" style="color:var(--html); margin-bottom:8px;">📋 우리가 만들 게임 기능 정리</div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px;">
-          <div style="background:var(--surface2); border-radius:8px; padding:12px 14px; font-size:13px; color:var(--text2); line-height:1.8;">
-            <strong style="color:var(--text); display:block; margin-bottom:4px;">🎯 기본 동작</strong>
-            빨간 원이 게임판 안에 랜덤 위치에 나타남<br>
-            원을 클릭하면 점수 +1<br>
-            10초 타이머<br>
-            시간 끝나면 게임 오버 + 점수 표시<br>
-            다시 시작 버튼
-          </div>
-          <div style="background:var(--surface2); border-radius:8px; padding:12px 14px; font-size:13px; color:var(--text2); line-height:1.8;">
-            <strong style="color:var(--text); display:block; margin-bottom:4px;">✨ 추가 기능</strong>
-            원 크기가 매번 랜덤 (30~80px)<br>
-            클릭 후 다음 원 나오는 딜레이 랜덤<br>
-            파일 3개로 분리<br>
-            변수명 영어, 주석 한국어<br>
-            게임판 600×400px
-          </div>
-        </div>
+        <div class="prompt-label" style="color:var(--green); margin-bottom:8px;">✅ 처음 만들 때 프롬프트 예시 (3단계 공식 적용)</div>
+        <div class="prompt-box">① 나는 고등학생인데 HTML/CSS/JS를 처음 배우고 있어.
 
-        <div class="prompt-label" style="color:var(--green); margin-bottom:8px;">✅ 처음 만들 때 프롬프트 예시</div>
-        <div class="prompt-box">나는 고등학생인데 HTML/CSS/JS를 처음 배우고 있어.
-클릭 타겟 게임을 만들고 싶어.
+② 클릭 타겟 게임을 새로 만들고 싶어. (기존 코드 없음 — 처음 만드는 거야)
 
-<span class="ph">[ 게임 기능 ]</span>
+[ 게임 기능 ]
 - 게임판(600x400px) 안에 원이 랜덤 위치에 나타남
 - 원 크기는 매번 랜덤 (30px~80px)
 - 원 클릭하면 점수 +1, 잠깐 딜레이 후 새 원 나타남
@@ -1079,19 +1300,15 @@
 - 10초 타이머, 0초 되면 게임 오버
 - 최종 점수 표시, 다시 시작 버튼
 
-<span class="ph">[ 조건 ]</span>
-- 파일 3개로 분리: index.html, style.css, script.js
-- index.html에서 style.css와 script.js 연결
-- 변수명은 영어로, 주석은 한국어로
-- 어두운 배경 (예: #1a1a2e)
+③ 위 기능을 모두 구현해줘.
 
-각 파일 코드를 따로따로 보여줘.</div>
+④ 파일 3개로 분리해서 각각 보여줘: index.html, style.css, script.js
+  변수명은 영어로, 주석은 한국어로.</div>
 
         <div class="tip" style="margin-top:12px;">
           <strong>코드 받은 다음:</strong> index.html, style.css, script.js 파일을 game 폴더에 만들고 각각 붙여넣으면 돼요.
           세 파일이 반드시 <strong>같은 폴더 안에</strong> 있어야 연결이 돼요.
         </div>
-
         <div class="warn" style="margin-top:10px;">
           <strong>주의:</strong> LLM마다 코드가 조금씩 달라요. 안 되는 부분이 있으면 오류 메시지를 그대로 붙여넣어서 다시 물어봐요.
         </div>
@@ -1143,11 +1360,11 @@
     <div class="ai-step">
       <div class="ai-step-head">
         <div class="ai-step-num">2</div>
-        <div class="ai-step-title">LLM에게 프롬프트 작성하기 — 이게 제일 중요해요</div>
+        <div class="ai-step-title">LLM에게 프롬프트 작성하기 — 공식 3가지 핵심 조건</div>
       </div>
       <div class="ai-step-body">
 
-        <p style="margin-bottom:14px;">좋은 프롬프트의 조건 <strong>3가지</strong>:</p>
+        <p style="margin-bottom:14px;">위의 3단계 공식 중 코딩 질문에서 특히 중요한 <strong>3가지 조건</strong>:</p>
         <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:20px;">
           <div style="background:var(--surface2); border-radius:8px; padding:12px; text-align:center; font-size:13px;">
             <div style="font-size:22px; margin-bottom:6px;">①</div>
@@ -1161,8 +1378,8 @@
           </div>
           <div style="background:var(--surface2); border-radius:8px; padding:12px; text-align:center; font-size:13px;">
             <div style="font-size:22px; margin-bottom:6px;">③</div>
-            <strong>원하는 기능 구체적으로</strong><br>
-            <span style="color:var(--text3); font-size:12px;">"색 바뀌게" X → "클릭할 때 랜덤 색으로" O</span>
+            <strong>원하는 기능을 구체적으로</strong><br>
+            <span style="color:var(--text3); font-size:12px;">"색 바뀌게" ❌ → "클릭할 때 랜덤 색으로" ✅</span>
           </div>
         </div>
 
@@ -1172,7 +1389,7 @@
         <div class="prompt-bad">색 바뀌게 해줘</div>
         <p style="font-size:12.5px; color:var(--text3); margin-bottom:16px;">→ AI가 어떤 코드인지, 어디에 넣어야 하는지 몰라요.</p>
 
-        <div class="prompt-label" style="color:var(--green); margin-bottom:6px;">✅ 좋은 프롬프트</div>
+        <div class="prompt-label" style="color:var(--green); margin-bottom:6px;">✅ 좋은 프롬프트 (3단계 공식 적용)</div>
         <div class="prompt-box">나는 HTML/JS로 클릭 타겟 게임을 만들고 있어.
 빨간 원이 랜덤한 위치에 나타나고, 클릭하면 점수가 올라가는 게임이야.
 
@@ -1247,16 +1464,18 @@
         <div class="error-box">Uncaught ReferenceError: 랜덤색 is not defined
     at 원만들기 (script.js:15)</div>
 
-        <p style="margin-bottom:8px; margin-top:14px; font-size:13px; font-weight:700;">오류 났을 때 프롬프트:</p>
-        <div class="prompt-box">코드를 추가했는데 오류가 났어.
+        <p style="margin-bottom:8px; margin-top:14px; font-size:13px; font-weight:700;">오류 났을 때 프롬프트 (3단계 공식 적용):</p>
+        <div class="prompt-box">① 나는 고등학생이고 HTML/JS로 클릭 타겟 게임을 만들고 있어.
 
-내 현재 코드:
+② 내 현재 코드:
 <span class="ph">[현재 script.js 전체 붙여넣기]</span>
 
 오류 메시지:
 <span class="ph">Uncaught ReferenceError: 랜덤색 is not defined</span>
 
-어떻게 고치면 돼?</div>
+③ 이 오류가 왜 나는지, 어떻게 고치면 되는지 알려줘.
+
+④ 전체 코드 말고 수정할 줄만 보여줘.</div>
 
         <div class="tip" style="margin-top:12px;"><strong>중요:</strong> 오류 메시지를 정확하게 복사해서 붙여넣어야 해요. "오류 났어요"만 쓰면 AI가 원인을 찾지 못해요.</div>
       </div>
@@ -1277,7 +1496,7 @@
           </div>
           <div class="flow-act-item">
             <div class="flow-act-num">2</div>
-            <div>프롬프트 직접 작성하기 — 조건 3가지 지켜서</div>
+            <div>3단계 공식으로 프롬프트 직접 작성하기</div>
             <div class="flow-act-time">5분</div>
           </div>
           <div class="flow-act-item">
@@ -1315,7 +1534,6 @@
 </div>
 
 <script>
-// OS 탭 (윈도우/맥북)
 function switchTab(os) {
   document.querySelectorAll('.os-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.os-panel').forEach(p => p.classList.remove('show'));
@@ -1323,7 +1541,6 @@ function switchTab(os) {
   document.getElementById('panel-' + os).classList.add('show');
 }
 
-// 메인 탭 (게임만들기 / AI기능추가)
 function switchMain(tab) {
   document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.main-panel').forEach(p => p.classList.remove('show'));
