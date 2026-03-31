@@ -1,83 +1,260 @@
-/* 전체 페이지 */
+/* ===== CSS 변수 ===== */
+:root {
+  --ivory: #f5f0e8;
+  --ivory-dark: #ede6d6;
+  --ivory-shadow: #d6cdb8;
+  --blue: #2563eb;
+  --blue-light: #3b82f6;
+  --blue-glow: #60a5fa;
+  --blue-dark: #1d4ed8;
+  --blue-pale: #dbeafe;
+  --accent: #f59e0b;
+  --danger: #ef4444;
+  --text-dark: #1e293b;
+  --text-mid: #475569;
+  --radius: 20px;
+}
+
+/* ===== 리셋 & 기본 ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  background: #1a1a2e;
+  font-family: 'Nanum Gothic', sans-serif;
+  background-color: var(--ivory);
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(37, 99, 235, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.07) 0%, transparent 50%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dark);
+}
+
+/* ===== 컨테이너 ===== */
+.container {
+  width: 100%;
+  max-width: 520px;
+  padding: 20px 16px 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
-  margin: 0;
-  font-family: sans-serif;
-  color: white;
+  gap: 20px;
 }
 
-h1 {
-  font-size: 30px;
-  margin-bottom: 10px;
-  letter-spacing: 2px;
+/* ===== 헤더 ===== */
+header {
+  text-align: center;
 }
 
-/* 점수판 */
-#scoreboard {
+.title {
+  font-family: 'Jua', sans-serif;
+  font-size: 2rem;
+  color: var(--blue-dark);
+  letter-spacing: -0.5px;
+  text-shadow: 2px 3px 0 rgba(37, 99, 235, 0.12);
+}
+
+.subtitle {
+  margin-top: 4px;
+  font-size: 0.9rem;
+  color: var(--text-mid);
+  font-weight: 700;
+}
+
+/* ===== HUD ===== */
+.hud {
   display: flex;
-  gap: 40px;
-  margin-bottom: 20px;
-  font-size: 22px;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
 }
 
-/* 게임판 */
-#game-area {
-  width: 600px;
-  height: 400px;
-  background: #16213e;
-  border: 3px solid #e94560;
-  border-radius: 12px;
-  position: relative;   /* 원 위치의 기준점! */
-  overflow: hidden;
-  cursor: crosshair;
+.hud-box {
+  background: white;
+  border: 2px solid var(--ivory-shadow);
+  border-radius: 14px;
+  padding: 10px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  min-width: 110px;
 }
 
-/* 원 (타겟) */
-.target {
-  border-radius: 50%;
-  background: #e94560;
-  position: absolute;
-  cursor: pointer;
-  transition: transform 0.1s;
-  box-shadow: 0 0 16px rgba(233, 69, 96, 0.5);
-}
-
-.target:hover {
-  transform: scale(1.1);
-}
-
-/* 버튼 */
-#start-btn {
-  margin-top: 20px;
-  padding: 12px 40px;
-  font-size: 18px;
-  background: #e94560;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+.hud-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--text-mid);
+  text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-#start-btn:hover {
-  background: #c73652;
+.hud-value {
+  font-family: 'Jua', sans-serif;
+  font-size: 2rem;
+  color: var(--blue);
+  line-height: 1;
+  transition: color 0.3s;
 }
 
-#start-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.hud-value.danger {
+  color: var(--danger);
+  animation: pulse-danger 0.5s infinite alternate;
 }
 
-/* 결과 메시지 */
-#result {
-  font-size: 24px;
+@keyframes pulse-danger {
+  from { transform: scale(1); }
+  to { transform: scale(1.15); }
+}
+
+/* ===== 아레나 ===== */
+.arena {
+  width: 100%;
+}
+
+.arena-inner {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  background: white;
+  border-radius: var(--radius);
+  border: 2.5px solid var(--ivory-shadow);
+  box-shadow:
+    0 4px 24px rgba(37, 99, 235, 0.08),
+    inset 0 2px 8px rgba(0,0,0,0.03);
+  overflow: hidden;
+}
+
+/* ===== 오버레이 ===== */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(245, 240, 232, 0.92);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: calc(var(--radius) - 2px);
+}
+
+.overlay-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.overlay-icon {
+  font-size: 3.2rem;
+  animation: float 2.5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.overlay-msg {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.15rem;
+  color: var(--text-dark);
+  line-height: 1.5;
+}
+
+.btn-start {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.1rem;
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 40px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+.btn-start:hover {
+  background: var(--blue-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
+}
+
+.btn-start:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+/* ===== 공 ===== */
+.ball {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--blue-glow), var(--blue) 55%, var(--blue-dark));
+  box-shadow:
+    0 6px 20px rgba(37, 99, 235, 0.5),
+    0 0 0 4px rgba(59, 130, 246, 0.15),
+    inset 0 -4px 8px rgba(0,0,0,0.15),
+    inset 2px 2px 6px rgba(255,255,255,0.3);
+  cursor: pointer;
+  z-index: 5;
+  user-select: none;
+}
+
+.ball:hover {
+  box-shadow:
+    0 8px 28px rgba(37, 99, 235, 0.65),
+    0 0 0 8px rgba(59, 130, 246, 0.2),
+    inset 0 -4px 8px rgba(0,0,0,0.15),
+    inset 2px 2px 6px rgba(255,255,255,0.3);
+  transform: scale(1.08);
+}
+
+.ball:active {
+  transform: scale(0.92);
+}
+
+.ball.pop {
+  animation: pop-in 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0.3); opacity: 0.4; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ===== 파티클 ===== */
+.particle {
+  position: absolute;
+  font-family: 'Jua', sans-serif;
+  font-size: 1.1rem;
+  color: var(--blue);
   font-weight: bold;
-  color: #e94560;
-  margin-top: 12px;
-  height: 36px;
+  pointer-events: none;
+  z-index: 20;
+  animation: float-up 0.7s ease-out forwards;
+  transform: translateX(-50%);
+  text-shadow: 0 1px 3px rgba(255,255,255,0.8);
+}
+
+@keyframes float-up {
+  0%   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1.2); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-40px) scale(0.8); }
+}
+
+/* ===== 푸터 ===== */
+.footer-text {
+  font-size: 0.82rem;
+  color: var(--text-mid);
+  font-weight: 700;
+  text-align: center;
 }
