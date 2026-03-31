@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>미니 타겟 게임</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1 class="title">🎯 미니 타겟 게임</h1>
+      <p class="subtitle">공을 클릭해서 점수를 올려보세요!</p>
+    </header>
+
+    <div class="hud">
+      <div class="hud-box">
+        <span class="hud-label">점수</span>
+        <span class="hud-value" id="score">0</span>
+      </div>
+      <div class="hud-box timer-box">
+        <span class="hud-label">남은 시간</span>
+        <span class="hud-value" id="timer">10</span>
+      </div>
+    </div>
+
+    <div class="arena" id="arena">
+      <div class="arena-inner">
+        <!-- 게임 시작 전 오버레이 -->
+        <div class="overlay" id="overlay">
+          <div class="overlay-content">
+            <div class="overlay-icon">🎯</div>
+            <p class="overlay-msg" id="overlay-msg">공을 클릭해서 점수를 올리세요!</p>
+            <button class="btn-start" id="btn-start">게임 시작</button>
+          </div>
+        </div>
+
+        <!-- 공 -->
+        <div class="ball" id="ball" style="display:none;"></div>
+      </div>
+    </div>
+
+    <footer>
+      <p class="footer-text">10초 안에 최대한 많이 클릭하세요 ✨</p>
+    </footer>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
