@@ -205,7 +205,7 @@
 </div>
 
 <!-- 카카오맵 API — 아래 YOUR_APP_KEY 자리에 JavaScript 키 입력 -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8e63724a5ae060891596d0d2cc915fc3&libraries=clusterer,heatmap"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8e63724a5ae060891596d0d2cc915fc3&libraries=clusterer"></script>
 
 <script>
 // ================================================================
@@ -396,42 +396,50 @@ function renderStats(data) {
 // ================================================================
 // 뷰 전환
 // ================================================================
+let circleOverlays = [];
+
 function switchView(view) {
   currentView = view;
   document.getElementById('tab-marker').classList.toggle('active', view === 'marker');
   document.getElementById('tab-heat').classList.toggle('active', view === 'heat');
 
   if (view === 'heat') {
+    // 마커 숨기기
     markers.forEach(m => m.setMap(null));
     if (infoWindow) infoWindow.setMap(null);
 
-    // 히트맵 생성
-    const heatData = DATA.map(d => ({
-      latLng: new kakao.maps.LatLng(d['위도'], d['경도']),
-      weight: d['삶의 만족도']
-    }));
-    try {
-      if (!heatmap) {
-        heatmap = new kakao.maps.Heatmap({
-          radius: 35,
-          opacity: 0.7,
-          gradient: {
-            0.0: '#3b82f6',
-            0.3: '#22c55e',
-            0.6: '#eab308',
-            0.8: '#f97316',
-            1.0: '#ef4444'
-          }
-        });
-      }
-      heatmap.setData({ max: 1, data: heatData });
-      heatmap.setMap(map);
-    } catch(e) {
-      alert('히트맵 라이브러리를 불러오는 중 오류가 발생했어요.\nAPI 키와 libraries=heatmap 설정을 확인해주세요.');
-      switchView('marker');
-    }
+    // 기존 원 제거
+    circleOverlays.forEach(c => c.setMap(null));
+    circleOverlays = [];
+
+    // 점수에 따라 색깔 원으로 표시
+    DATA.forEach(d => {
+      const score = d['삶의 만족도'];
+      // 점수 → RGBA 색상
+      let r, g, b;
+      if (score >= 0.8)      { r=6;   g=182; b=212; }  // 청록
+      else if (score >= 0.6) { r=34;  g=197; b=94;  }  // 초록
+      else if (score >= 0.4) { r=234; g=179; b=8;   }  // 노랑
+      else if (score >= 0.2) { r=249; g=115; b=22;  }  // 주황
+      else                   { r=239; g=68;  b=68;  }  // 빨강
+
+      const circle = new kakao.maps.Circle({
+        center: new kakao.maps.LatLng(d['위도'], d['경도']),
+        radius: 8000 + score * 12000,   // 점수 높을수록 큰 원
+        strokeWeight: 1,
+        strokeColor: `rgb(${r},${g},${b})`,
+        strokeOpacity: 0.6,
+        fillColor: `rgb(${r},${g},${b})`,
+        fillOpacity: 0.35
+      });
+      circle.setMap(map);
+      circleOverlays.push(circle);
+    });
+
   } else {
-    if (heatmap) heatmap.setMap(null);
+    // 원 제거, 마커 다시 표시
+    circleOverlays.forEach(c => c.setMap(null));
+    circleOverlays = [];
     markers.forEach(m => m.setMap(map));
   }
 }
