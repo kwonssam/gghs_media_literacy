@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>카카오맵 API 실습 가이드</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff; --surface: #f8fbff; --surface2: #e0f2fe; --border: #bae6fd;
+    --text: #0c1a2e; --text2: #374151; --text3: #6b7280;
+    --html: #e44d26; --html-bg: #fef3f0; --html-border: #f5c4b8;
+    --js: #c8a000;   --js-bg: #fefbe8;   --js-border: #e8d870;
+    --green: #0d6e4f; --green-bg: #ecfdf5; --green-border: #6ee7b7;
+    --red: #c03040;   --red-bg: #fdf0f2;   --red-border: #f0b8c0;
+    --purple: #6d28d9; --purple-bg: #f5f3ff; --purple-border: #c4b5fd;
+    --kakao: #38bdf8; --kakao-dark: #0369a1; --kakao-bg: #e0f2fe; --kakao-border: #7dd3fc;
+    --blue: #0ea5e9; --blue-bg: #f0f9ff; --blue-border: #7dd3fc;
+    --code-bg: #0f172a;
+  }
+
+  body { background: var(--bg); font-family: 'Noto Sans KR', sans-serif; color: var(--text); line-height: 1.8; font-size: 15px; font-weight: 500; }
+  .page { max-width: 900px; margin: 0 auto; padding: 52px 44px 100px; }
+
+  /* 헤더 */
+  .header { text-align: center; padding-bottom: 36px; margin-bottom: 48px; border-bottom: 2.5px solid var(--text); }
+  .header-label { display: inline-block; background: var(--text); color: var(--bg); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 5px 16px; border-radius: 20px; margin-bottom: 14px; }
+  .header h1 { font-size: 30px; font-weight: 900; margin-bottom: 8px; }
+  .header h1 em { color: var(--kakao-dark); font-style: normal; }
+  .header p { font-size: 14px; color: var(--text2); }
+  .goal-chips { display: flex; justify-content: center; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+  .chip { font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 20px; }
+  .chip.kakao  { background: var(--kakao-bg);  color: var(--kakao-dark);  border: 1.5px solid var(--kakao-border); }
+  .chip.js     { background: var(--js-bg);     color: var(--js);          border: 1.5px solid var(--js-border); }
+  .chip.purple { background: var(--purple-bg); color: var(--purple);      border: 1.5px solid var(--purple-border); }
+  .chip.blue   { background: var(--blue-bg);   color: var(--blue);        border: 1.5px solid var(--blue-border); }
+
+  /* 섹션 */
+  .sec-title { font-size: 20px; font-weight: 900; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .sec-title::after { content: ''; flex: 1; height: 1.5px; background: var(--border); }
+  .part { margin-bottom: 52px; }
+  p.desc { font-size: 13.5px; color: var(--text2); line-height: 1.8; margin-bottom: 14px; }
+  strong { color: var(--text); }
+
+  /* 단계 카드 */
+  .step-card { border-radius: 14px; overflow: hidden; border: 2px solid var(--border); margin-bottom: 16px; }
+  .step-card-head { padding: 16px 22px; display: flex; align-items: center; gap: 14px; border-bottom: 2px solid var(--border); }
+  .step-card-head.kakao  { background: var(--kakao-bg);  border-color: var(--kakao-border); }
+  .step-card-head.js     { background: var(--js-bg);     border-color: var(--js-border); }
+  .step-card-head.green  { background: var(--green-bg);  border-color: var(--green-border); }
+  .step-card-head.purple { background: var(--purple-bg); border-color: var(--purple-border); }
+  .step-card-head.blue   { background: var(--blue-bg);   border-color: var(--blue-border); }
+  .step-card-head.red    { background: var(--red-bg);    border-color: var(--red-border); }
+  .step-num { width: 36px; height: 36px; border-radius: 50%; font-size: 16px; font-weight: 900; color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-num.kakao  { background: var(--kakao-dark); }
+  .step-num.js     { background: var(--js); color: #1a1200; }
+  .step-num.green  { background: var(--green); }
+  .step-num.purple { background: var(--purple); }
+  .step-num.blue   { background: var(--blue); }
+  .step-num.red    { background: var(--red); }
+  .step-card-title { font-size: 16px; font-weight: 900; }
+  .step-card-title.kakao  { color: var(--kakao-dark); }
+  .step-card-title.js     { color: #7a5f00; }
+  .step-card-title.green  { color: var(--green); }
+  .step-card-title.purple { color: var(--purple); }
+  .step-card-title.blue   { color: var(--blue); }
+  .step-card-title.red    { color: var(--red); }
+  .step-card-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .step-card-body { padding: 20px 22px; background: var(--surface); font-size: 13.5px; color: var(--text2); line-height: 1.8; }
+
+  /* 실행 목록 */
+  .do-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+  .do-list li { display: flex; align-items: flex-start; gap: 10px; background: var(--surface2); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .do-list li .icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+  /* 코드 블록 */
+  .code-wrap { background: var(--code-bg); border-radius: 10px; padding: 18px 22px; margin: 12px 0; overflow-x: auto; }
+  .code-wrap pre { font-family: 'DM Mono', monospace; font-size: 13px; color: #e8eaf2; line-height: 1.85; white-space: pre-wrap; }
+
+  /* 프롬프트 박스 */
+  .prompt-box { background: var(--code-bg); border-radius: 10px; padding: 18px 20px; font-family: 'DM Mono', monospace; font-size: 13px; color: #e8eaf2; line-height: 1.85; margin: 12px 0; white-space: pre-wrap; }
+
+  /* 팁/경고 */
+  .tip        { background: var(--blue-bg);   border: 1px solid var(--blue-border);   border-left: 3px solid var(--blue);   border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+  .tip strong { color: var(--blue); }
+  .warn        { background: var(--red-bg);   border: 1px solid var(--red-border);    border-left: 3px solid var(--red);    border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+  .warn strong { color: var(--red); }
+  .tip-green        { background: var(--green-bg);  border: 1px solid var(--green-border);  border-left: 3px solid var(--green);  border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+  .tip-green strong { color: var(--green); }
+  .tip-purple        { background: var(--purple-bg); border: 1px solid var(--purple-border); border-left: 3px solid var(--purple); border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+  .tip-purple strong { color: var(--purple); }
+  .tip-kakao        { background: var(--kakao-bg); border: 1px solid var(--kakao-border); border-left: 3px solid var(--kakao-dark); border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+  .tip-kakao strong { color: var(--kakao-dark); }
+
+  /* 파일 트리 */
+  .file-tree { background: var(--code-bg); border-radius: 10px; padding: 20px 24px; font-family: 'DM Mono', monospace; font-size: 13px; color: #e8eaf2; line-height: 2; margin-bottom: 14px; }
+  .ft-folder{color:#ffd700;} .ft-html{color:#f28b82;} .ft-csv{color:#a8d8a8;} .ft-cm{color:#6c7a8c;}
+
+  /* 키 구분 표 */
+  .key-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; border-radius: 10px; overflow: hidden; border: 1.5px solid var(--border); }
+  .key-table th { background: var(--surface2); padding: 10px 14px; font-weight: 700; text-align: left; border-bottom: 1.5px solid var(--border); }
+  .key-table td { padding: 10px 14px; border-bottom: 1px dashed var(--border); color: var(--text2); font-size: 12.5px; }
+  .key-table tr:last-child td { border-bottom: none; }
+  .key-table td:first-child { font-weight: 700; color: var(--kakao-dark); font-family: 'DM Mono', monospace; }
+
+  /* 기능 선택 */
+  .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .feature-box { border-radius: 12px; overflow: hidden; border: 1.5px solid var(--border); }
+  .feature-box-head { padding: 10px 16px; font-size: 12px; font-weight: 700; }
+  .feature-box-head.basic { background: var(--kakao-bg); color: var(--kakao-dark); border-bottom: 1.5px solid var(--kakao-border); }
+  .feature-box-head.extra { background: var(--js-bg); color: #7a5f00; border-bottom: 1.5px solid var(--js-border); }
+  .feature-box-body { padding: 12px 16px; background: var(--surface); }
+  .feature-list { list-style: none; }
+  .feature-list li { font-size: 13px; color: var(--text2); padding: 5px 0; border-bottom: 1px dashed var(--border); display: flex; align-items: flex-start; gap: 8px; }
+  .feature-list li:last-child { border-bottom: none; }
+  .feature-list li::before { content: '☐'; font-size: 15px; color: var(--text3); flex-shrink: 0; }
+
+  /* 완성 체크 */
+  .final { background: var(--surface); border: 2.5px solid var(--text); border-radius: 14px; padding: 28px 32px; margin-top: 48px; }
+  .final-title { font-size: 18px; font-weight: 900; margin-bottom: 16px; }
+  .final ul { list-style: none; }
+  .final ul li { font-size: 14px; color: var(--text); padding: 8px 0; display: flex; gap: 10px; border-bottom: 1px solid var(--border); }
+  .final ul li:last-child { border-bottom: none; }
+  .final ul li::before { content: '☐'; font-size: 18px; color: var(--text3); }
+
+  .mono { font-family: 'DM Mono', monospace; font-size: 12px; background: var(--surface2); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--text); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- 헤더 -->
+  <div class="header">
+    <div class="header-label">4차시 실습 가이드</div>
+    <h1>🗺️ <em>카카오맵 API</em>로 행복지도 만들기</h1>
+    <p>행복지도 데이터를 지도 위에 시각화하고 나만의 버전으로 업그레이드하기</p>
+    <div class="goal-chips">
+      <span class="chip kakao">카카오맵 API</span>
+      <span class="chip blue">지오코딩</span>
+      <span class="chip js">fetch() — CSV 불러오기</span>
+      <span class="chip purple">프롬프트 작성 연습</span>
+    </div>
+  </div>
+
+  <!-- 오늘의 목표 -->
+  <div class="part">
+    <div class="sec-title">오늘의 목표</div>
+    <p class="desc">
+      전국 228개 구군의 삶의만족도 데이터를 카카오맵 위에 시각화.
+      마커 색깔로 행복 수준을 표현하고, 클릭하면 점수와 순위가 팝업으로 표시되는 페이지 제작.
+    </p>
+    <div class="tip-kakao">
+      <strong>예시 페이지 확인:</strong> 오늘 만들 결과물을 먼저 확인.
+      <div style="margin-top:8px;">
+        <code class="mono">선생님이 공유한 예시 페이지 링크 접속</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- 실습 순서 -->
+  <div class="part">
+    <div class="sec-title">실습 순서</div>
+
+    <!-- STEP 1: API 키 확인 -->
+    <div class="step-card">
+      <div class="step-card-head kakao">
+        <div class="step-num kakao">1</div>
+        <div>
+          <div class="step-card-title kakao">API 키 확인</div>
+          <div class="step-card-sub">카카오 개발자 사이트에서 두 가지 키 확인</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <p style="margin-bottom:12px;">
+          오늘은 카카오 API 키가 <strong>두 가지</strong> 필요함. 카카오 개발자 사이트 → 내 애플리케이션 → 앱 키에서 확인.
+        </p>
+        <table class="key-table">
+          <thead>
+            <tr><th>키 종류</th><th>용도</th><th>사용 단계</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>REST API 키</td>
+              <td>주소 → 좌표 변환 (지오코딩)</td>
+              <td>STEP 2 — 구글 코랩</td>
+            </tr>
+            <tr>
+              <td>JavaScript 키</td>
+              <td>카카오맵 지도 표시</td>
+              <td>STEP 4 — HTML 파일</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="tip" style="margin-bottom:0;">
+          <strong>두 키 모두 메모장에 복사 보관.</strong> 헷갈리지 않게 이름 적어두기.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: 지오코딩 -->
+    <div class="step-card">
+      <div class="step-card-head blue">
+        <div class="step-num blue">2</div>
+        <div>
+          <div class="step-card-title blue">지오코딩 — 주소를 좌표로 변환</div>
+          <div class="step-card-sub">구글 코랩에서 코드 실행 → 좌표 포함된 CSV 저장</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <p style="margin-bottom:12px;">
+          지도에 핀을 찍으려면 각 구군의 <strong>위도·경도(좌표)</strong>가 필요함.
+          행복지도 데이터에는 구군 이름만 있으므로, 카카오 API로 주소를 좌표로 변환하는 작업 필요.
+          이 과정을 <strong>지오코딩</strong>이라고 함.
+        </p>
+        <ul class="do-list" style="margin-bottom:16px;">
+          <li><span class="icon">①</span><div>구글 코랩 접속 <code class="mono">colab.research.google.com</code></div></li>
+          <li><span class="icon">②</span><div>선생님이 준 지오코딩 코드 붙여넣기</div></li>
+          <li><span class="icon">③</span><div>코드 안에서 <code class="mono">KAKAO_API_KEY</code> 자리에 <strong>REST API 키</strong> 입력</div></li>
+          <li><span class="icon">④</span><div>왼쪽 파일 아이콘 → <code class="mono">대한민국행복지도_삶의만족도.xlsx</code> 업로드</div></li>
+          <li><span class="icon">⑤</span><div>실행 (약 2~3분 소요)</div></li>
+          <li><span class="icon">⑥</span><div>완료 후 <code class="mono">행복지도_좌표포함.csv</code> 다운로드</div></li>
+        </ul>
+        <div class="tip-kakao" style="margin-bottom:0;">
+          <strong>CSV 파일 구조:</strong> No, 시도, 구군, 삶의만족도, 전체주소, 위도, 경도
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: 프롬프트 작성 -->
+    <div class="step-card">
+      <div class="step-card-head purple">
+        <div class="step-num purple">3</div>
+        <div>
+          <div class="step-card-title purple">프롬프트 작성</div>
+          <div class="step-card-sub">4단계 공식으로 예시 페이지와 동일한 기능 요청</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <p style="margin-bottom:14px;">아래 예시를 참고해 직접 프롬프트 작성. <strong>③번에 원하는 기능을 모두 포함</strong>할 것.</p>
+        <div class="prompt-box"><span style="color:#f28b82;">① 페르소나</span>
+나는 고등학생이고 HTML/CSS/JS를 배우고 있어.
+
+<span style="color:#82c7ff;">② 맥락</span>
+카카오맵 API와 행복지도 CSV 데이터로 웹페이지를 새로 만들고 싶어.
+CSV 파일 구조: No, 시도, 구군, 삶의만족도, 전체주소, 위도, 경도
+CSV 파일명: 행복지도_좌표포함.csv
+
+<span style="color:#ffd700;">③ 구체적 지시</span>
+- fetch()로 CSV 파일을 불러와서 지도에 표시해줘
+- 각 구군 위치에 색깔 마커 표시
+  (삶의만족도 0.8 이상: 파란색, 0.6~0.8: 초록, 0.4~0.6: 노랑, 0.2~0.4: 주황, 0.2 미만: 빨강)
+- 마커 클릭하면 구군명, 점수, 전국 순위 팝업 표시
+- 오른쪽에 구군 목록 패널 (점수 높은 순 정렬)
+JavaScript 키: [내 JavaScript 키 입력]
+
+<span style="color:#c3e88d;">④ 출력 형식</span>
+index.html 파일 하나로 만들어줘.
+변수명은 영어로, 주석은 한국어로.</div>
+
+        <div class="warn" style="margin-top:4px; margin-bottom:0;">
+          <strong>JavaScript 키 자리에 반드시 내 키를 입력할 것.</strong> REST API 키가 아닌 JavaScript 키임.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: 파일 제작 -->
+    <div class="step-card">
+      <div class="step-card-head green">
+        <div class="step-num green">4</div>
+        <div>
+          <div class="step-card-title green">파일 제작 및 실행</div>
+          <div class="step-card-sub">index.html과 CSV 파일을 같은 폴더에 저장</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <ul class="do-list" style="margin-bottom:16px;">
+          <li><span class="icon">①</span><div>바탕화면에 <code class="mono">happymap</code> 폴더 생성</div></li>
+          <li><span class="icon">②</span><div>AI가 준 코드를 <code class="mono">index.html</code>로 저장해서 폴더 안에 넣기</div></li>
+          <li><span class="icon">③</span><div>아까 다운받은 <code class="mono">행복지도_좌표포함.csv</code>도 같은 폴더에 넣기</div></li>
+          <li><span class="icon">④</span><div><code class="mono">index.html</code> 더블클릭 → 브라우저에서 실행</div></li>
+        </ul>
+
+        <div class="file-tree"><span class="ft-folder">📁 happymap/</span>
+├── <span class="ft-html">index.html</span>   <span class="ft-cm">← AI가 준 코드 붙여넣기</span>
+└── <span class="ft-csv">행복지도_좌표포함.csv</span>   <span class="ft-cm">← 코랩에서 다운받은 파일</span></div>
+
+        <div class="warn" style="margin-bottom:8px;">
+          <strong>CSV 파일이 반드시 같은 폴더 안에 있어야 함.</strong> fetch()로 파일을 불러오기 때문에 위치가 다르면 데이터가 표시되지 않음.
+        </div>
+        <div class="tip-green" style="margin-bottom:0;">
+          <strong>오류 발생 시:</strong> F12 → Console 탭 → 빨간 오류 메시지 복사 → AI에게 붙여넣고 수정 요청.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: 업그레이드 -->
+    <div class="step-card">
+      <div class="step-card-head js">
+        <div class="step-num js">5</div>
+        <div>
+          <div class="step-card-title js">나만의 버전으로 업그레이드</div>
+          <div class="step-card-sub">기능 목록에서 선택 후 프롬프트로 추가 요청</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <p style="margin-bottom:14px;">기본 페이지 완성 후 아래 기능 중 원하는 것 선택해서 추가. <strong>반드시 현재 코드를 함께 붙여넣을 것.</strong></p>
+        <div class="feature-grid">
+          <div class="feature-box">
+            <div class="feature-box-head basic">🗺️ 지도 기능 — 기본</div>
+            <div class="feature-box-body">
+              <ul class="feature-list">
+                <li>시도별 필터 드롭다운</li>
+                <li>구군 이름 검색창</li>
+                <li>색깔 범례 표시</li>
+                <li>최고/최저 구군 자동 강조</li>
+              </ul>
+            </div>
+          </div>
+          <div class="feature-box">
+            <div class="feature-box-head extra">🗺️ 지도 기능 — 도전</div>
+            <div class="feature-box-body">
+              <ul class="feature-list">
+                <li>점수별 색깔 원 오버레이</li>
+                <li>마커 클릭 시 해당 구군 확대</li>
+                <li>시도별 평균 점수 표시</li>
+                <li>전국 순위 TOP 10 목록</li>
+              </ul>
+            </div>
+          </div>
+          <div class="feature-box">
+            <div class="feature-box-head basic">📊 패널 기능 — 기본</div>
+            <div class="feature-box-body">
+              <ul class="feature-list">
+                <li>전체 평균 점수 표시</li>
+                <li>구군 수 표시</li>
+                <li>목록 클릭 시 지도 이동</li>
+                <li>점수 높은/낮은 순 정렬 전환</li>
+              </ul>
+            </div>
+          </div>
+          <div class="feature-box">
+            <div class="feature-box-head extra">📊 패널 기능 — 도전</div>
+            <div class="feature-box-body">
+              <ul class="feature-list">
+                <li>시도별 평균 막대 차트</li>
+                <li>점수 분포 히스토그램</li>
+                <li>다크모드 / 라이트모드 전환</li>
+                <li>내 동네 검색해서 바로 이동</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="prompt-box"><span style="color:#f28b82;">① 페르소나</span>
+나는 HTML/JS로 카카오맵 행복지도 페이지를 만들고 있는 고등학생이야.
+
+<span style="color:#82c7ff;">② 맥락 + 현재 코드</span>
+아래는 내가 만든 index.html 전체야:
+[index.html 전체 붙여넣기]
+
+<span style="color:#ffd700;">③ 구체적 지시</span>
+"시도별 필터 드롭다운"을 오른쪽 패널 상단에 추가하고 싶어.
+선택하면 해당 시도 구군만 목록에 표시되게 해줘.
+
+<span style="color:#c3e88d;">④ 출력 형식</span>
+전체 코드 말고, 추가하거나 바꿔야 하는 부분만 알려줘.
+어느 위치에 넣으면 되는지도 알려줘.</div>
+      </div>
+    </div>
+
+  </div><!-- 실습 순서 끝 -->
+
+  <!-- GitHub Pages 배포 -->
+  <div class="part">
+    <div class="sec-title">GitHub Pages에 올리기</div>
+    <p class="desc">완성한 페이지를 인터넷에 공개하려면 CSV 파일도 함께 올려야 함.</p>
+    <ul class="do-list">
+      <li><span class="icon">①</span><div>GitHub 저장소에 <code class="mono">index.html</code>과 <code class="mono">행복지도_좌표포함.csv</code> 둘 다 업로드</div></li>
+      <li><span class="icon">②</span><div>Settings → Pages → Branch: main / Folder: / (root) 설정</div></li>
+      <li><span class="icon">③</span><div>1~2분 후 배포 주소 확인</div></li>
+    </ul>
+    <div class="warn" style="margin-bottom:0;">
+      <strong>CSV 파일을 빠뜨리면 지도에 데이터가 표시되지 않음.</strong> index.html과 CSV 파일이 같은 위치에 있어야 함.
+    </div>
+  </div>
+
+  <!-- 완성 체크 -->
+  <div class="final">
+    <div class="final-title">✅ 완성 체크리스트</div>
+    <ul>
+      <li>REST API 키 / JavaScript 키 두 가지 모두 확인 및 보관</li>
+      <li>구글 코랩에서 지오코딩 코드 실행 → CSV 파일 다운로드</li>
+      <li>4단계 프롬프트에 기능과 JavaScript 키 포함해서 작성</li>
+      <li>index.html과 CSV 파일이 같은 폴더 안에 있는지 확인</li>
+      <li>브라우저에서 지도 + 마커 정상 표시 확인</li>
+      <li>마커 클릭 시 팝업 (구군명, 점수, 순위) 표시 확인</li>
+      <li>추가 기능 1개 이상 프롬프트로 요청해서 구현</li>
+      <li>GitHub Pages에 index.html + CSV 함께 업로드</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
