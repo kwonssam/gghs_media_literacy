@@ -237,6 +237,7 @@ function scoreToLabel(score) {
 let map, markers = [], infoWindow = null, heatmap = null;
 let currentView = 'marker';
 let activeIdx = -1;
+let circleOverlays = [];
 
 kakao.maps.load(function() {
   document.getElementById('loading').style.display = 'none';
@@ -396,8 +397,6 @@ function renderStats(data) {
 // ================================================================
 // 뷰 전환
 // ================================================================
-let circleOverlays = [];
-
 function switchView(view) {
   currentView = view;
   document.getElementById('tab-marker').classList.toggle('active', view === 'marker');
