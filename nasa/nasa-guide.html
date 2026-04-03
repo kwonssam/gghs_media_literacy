@@ -10,8 +10,8 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #f7f4ee; --surface: #ffffff; --surface2: #f0ece2; --border: #ddd8c8;
-    --text: #252018; --text2: #665c4a; --text3: #9c9080;
+    --bg: #ffffff; --surface: #f8fbff; --surface2: #e0f2fe; --border: #bae6fd;
+    --text: #0c1a2e; --text2: #374151; --text3: #6b7280;
     --html: #e44d26; --html-bg: #fef3f0; --html-border: #f5c4b8;
     --css: #264de4;  --css-bg: #f0f3fe;  --css-border: #b8c8f5;
     --js: #c8a000;   --js-bg: #fefbe8;   --js-border: #e8d870;
@@ -145,6 +145,147 @@
       <span class="chip js">fetch() — 데이터 가져오기</span>
       <span class="chip purple">프롬프트 작성 연습</span>
     </div>
+  </div>
+
+
+  <!-- API 개념 -->
+  <div class="part">
+    <div class="sec-title">API 기본 개념</div>
+
+    <!-- API란 -->
+    <div class="step-card">
+      <div class="step-card-head nasa">
+        <div class="step-num nasa">💡</div>
+        <div>
+          <div class="step-card-title nasa">API란?</div>
+          <div class="step-card-sub">서로 다른 프로그램이 데이터를 주고받는 공식 통로</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px;">
+          <div class="box" style="margin:0; font-size:15px;">
+            <div class="box-label" style="font-size:12px; margin-bottom:8px;">지금까지</div>
+            <strong>HTML + CSS + JS</strong><br>
+            <span style="color:var(--text2);">내 파일끼리만 통신.<br>데이터를 직접 입력해야 함.</span>
+          </div>
+          <div class="box green" style="margin:0; font-size:15px;">
+            <div class="box-label green" style="font-size:12px; margin-bottom:8px;">오늘부터</div>
+            <strong>JS → API → 외부 서버</strong><br>
+            <span style="color:var(--text2);">실시간 데이터를<br>내 화면으로 가져옴.</span>
+          </div>
+        </div>
+        <div class="tip-nasa" style="margin-bottom:0; font-size:15px; line-height:1.9;">
+          <strong>🛵 배달앱 비유</strong><br>
+          나(손님) = <strong>내 JS 코드</strong> &nbsp;·&nbsp;
+          배달앱 = <strong>API</strong> &nbsp;·&nbsp;
+          음식점 서버 = <strong>NASA·카카오</strong> &nbsp;·&nbsp;
+          포장된 음식 = <strong>JSON 데이터</strong><br>
+          <span style="color:var(--text2);">주방 레시피를 몰라도 앱으로 주문하면 음식이 오듯, <strong>API 규칙대로 요청만 하면 데이터가 배달 옴.</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- JSON -->
+    <div class="step-card">
+      <div class="step-card-head js">
+        <div class="step-num js">📦</div>
+        <div>
+          <div class="step-card-title js">JSON이란?</div>
+          <div class="step-card-sub">API가 데이터를 배달할 때 사용하는 표준 포장 형식</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <p style="font-size:15px; margin-bottom:14px;"><strong>key : value</strong> 쌍으로 구성. 사람도 읽기 쉽고 JS에서 바로 사용 가능.</p>
+        <div class="warn" style="margin-bottom:14px;">
+          <strong>JS랑 JSON, 헷갈리지 말 것!</strong> 이름이 비슷하지만 완전히 다른 것.<br>
+          <strong>JS(JavaScript)</strong>는 프로그래밍 언어, <strong>JSON</strong>은 데이터를 담는 포장 형식.
+        </div>
+        <table style="width:100%; border-collapse:collapse; font-size:14px; margin-bottom:14px; border-radius:8px; overflow:hidden; border:1.5px solid var(--border);">
+          <thead>
+            <tr style="background:var(--surface2);">
+              <th style="padding:10px 14px; text-align:left; font-weight:700; border-bottom:1.5px solid var(--border);"></th>
+              <th style="padding:10px 14px; text-align:left; font-weight:700; border-bottom:1.5px solid var(--border); color:var(--js);">JS (JavaScript)</th>
+              <th style="padding:10px 14px; text-align:left; font-weight:700; border-bottom:1.5px solid var(--border); color:var(--nasa);">JSON</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:9px 14px; font-weight:700; color:var(--text2);">정체</td>
+              <td style="padding:9px 14px; color:var(--text2);">프로그래밍 언어</td>
+              <td style="padding:9px 14px; color:var(--text2);">데이터 포장 형식</td>
+            </tr>
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:9px 14px; font-weight:700; color:var(--text2);">역할</td>
+              <td style="padding:9px 14px; color:var(--text2);">동작 만들기 (fetch, 클릭 등)</td>
+              <td style="padding:9px 14px; color:var(--text2);">데이터를 담는 그릇</td>
+            </tr>
+            <tr>
+              <td style="padding:9px 14px; font-weight:700; color:var(--text2);">비유</td>
+              <td style="padding:9px 14px; color:var(--text2);">🧑‍🍳 요리사</td>
+              <td style="padding:9px 14px; color:var(--text2);">📦 포장 용기</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <div>
+            <p style="font-size:13px; font-weight:700; color:var(--text3); margin-bottom:6px;">NASA API 응답 예시</p>
+            <div class="code-wrap" style="margin:0;">
+              <pre><span class="str">"title"</span>: <span class="str">"Galaxy Centaurus A"</span>,
+<span class="str">"date"</span>:  <span class="str">"2026-03-30"</span>,
+<span class="str">"url"</span>:   <span class="str">"https://apod.nasa.gov/..."</span>,
+<span class="str">"explanation"</span>: <span class="str">"What's happened..."</span></pre>
+            </div>
+          </div>
+          <div>
+            <p style="font-size:13px; font-weight:700; color:var(--text3); margin-bottom:6px;">key로 원하는 값 꺼내기</p>
+            <div class="code-wrap" style="margin:0;">
+              <pre>data.title
+<span class="cm">→ "Galaxy Centaurus A"</span>
+
+data.date
+<span class="cm">→ "2026-03-30"</span>
+
+data.url
+<span class="cm">→ "https://apod.nasa.gov/..."</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- API 키 -->
+    <div class="step-card">
+      <div class="step-card-head green">
+        <div class="step-num green">🔑</div>
+        <div>
+          <div class="step-card-title green">API 키가 필요한 이유</div>
+          <div class="step-card-sub">정식으로 허락받은 사용자임을 증명하는 코드 — 신분증 + 자유이용권</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
+          <div class="box red" style="margin:0; font-size:15px; line-height:2;">
+            <div class="box-label red" style="font-size:12px; margin-bottom:8px;">🚫 키가 없으면</div>
+            누가 요청하는지 <strong>알 수 없음</strong><br>
+            악용·과부하 <strong>방지 불가</strong><br>
+            서버가 요청 <strong>거절</strong>
+          </div>
+          <div class="box green" style="margin:0; font-size:15px; line-height:2;">
+            <div class="box-label green" style="font-size:12px; margin-bottom:8px;">✅ 키가 있으면</div>
+            사용자 <strong>식별 및 사용량 추적</strong><br>
+            일정량 <strong>무료 제공</strong> 가능<br>
+            초과 시 차단 또는 <strong>유료 전환</strong>
+          </div>
+        </div>
+        <div class="code-wrap" style="margin-bottom:0;">
+          <pre><span class="kw">const</span> API_KEY = <span class="str">"여기에_내_키_입력"</span>;
+<span class="kw">const</span> url = <span class="str">`https://api.nasa.gov/planetary/apod?api_key=<span class="fn">${API_KEY}</span>`</span>;
+<span class="kw">const</span> data = <span class="kw">await</span> fetch(url).then(res => res.json());
+<span class="cm">// data.title, data.url 등으로 원하는 값 꺼내서 화면에 표시</span></pre>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- 오늘의 목표 -->
