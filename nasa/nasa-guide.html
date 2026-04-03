@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NASA API 실습 가이드</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f7f4ee; --surface: #ffffff; --surface2: #f0ece2; --border: #ddd8c8;
+    --text: #252018; --text2: #665c4a; --text3: #9c9080;
+    --html: #e44d26; --html-bg: #fef3f0; --html-border: #f5c4b8;
+    --css: #264de4;  --css-bg: #f0f3fe;  --css-border: #b8c8f5;
+    --js: #c8a000;   --js-bg: #fefbe8;   --js-border: #e8d870;
+    --green: #2d7050; --green-bg: #eaf6f0; --green-border: #9dd4be;
+    --red: #c03040;   --red-bg: #fdf0f2;   --red-border: #f0b8c0;
+    --purple: #7c3aed; --purple-bg: #f5f3ff; --purple-border: #c4b5fd;
+    --nasa: #0b3d91; --nasa-bg: #f0f4ff; --nasa-border: #b0c4f5;
+    --code-bg: #1e1e2e;
+  }
+
+  body { background: var(--bg); font-family: 'Noto Sans KR', sans-serif; color: var(--text); line-height: 1.7; }
+  .page { max-width: 900px; margin: 0 auto; padding: 52px 44px 100px; }
+
+  /* 헤더 */
+  .header { text-align: center; padding-bottom: 36px; margin-bottom: 48px; border-bottom: 2.5px solid var(--text); }
+  .header-label { display: inline-block; background: var(--text); color: var(--bg); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 5px 16px; border-radius: 20px; margin-bottom: 14px; }
+  .header h1 { font-size: 30px; font-weight: 900; margin-bottom: 8px; }
+  .header h1 em { color: var(--nasa); font-style: normal; }
+  .header p { font-size: 14px; color: var(--text2); }
+  .goal-chips { display: flex; justify-content: center; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+  .chip { font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 20px; }
+  .chip.js     { background: var(--js-bg);     color: var(--js);     border: 1.5px solid var(--js-border); }
+  .chip.nasa   { background: var(--nasa-bg);   color: var(--nasa);   border: 1.5px solid var(--nasa-border); }
+  .chip.purple { background: var(--purple-bg); color: var(--purple); border: 1.5px solid var(--purple-border); }
+
+  /* 섹션 */
+  .sec-title { font-size: 20px; font-weight: 900; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .sec-title::after { content: ''; flex: 1; height: 1.5px; background: var(--border); }
+  .part { margin-bottom: 52px; }
+  p.desc { font-size: 13.5px; color: var(--text2); line-height: 1.8; margin-bottom: 14px; }
+  hr.div { border: none; border-top: 1px dashed var(--border); margin: 20px 0; }
+  strong { color: var(--text); }
+
+  /* 단계 카드 */
+  .step-card { border-radius: 14px; overflow: hidden; border: 2px solid var(--border); margin-bottom: 16px; }
+  .step-card-head { padding: 16px 22px; display: flex; align-items: center; gap: 14px; border-bottom: 2px solid var(--border); }
+  .step-card-head.nasa   { background: var(--nasa-bg);   border-color: var(--nasa-border); }
+  .step-card-head.js     { background: var(--js-bg);     border-color: var(--js-border); }
+  .step-card-head.green  { background: var(--green-bg);  border-color: var(--green-border); }
+  .step-card-head.purple { background: var(--purple-bg); border-color: var(--purple-border); }
+  .step-card-head.red    { background: var(--red-bg);    border-color: var(--red-border); }
+  .step-num { width: 36px; height: 36px; border-radius: 50%; font-size: 16px; font-weight: 900; color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-num.nasa   { background: var(--nasa); }
+  .step-num.js     { background: var(--js); color: #1a1200; }
+  .step-num.green  { background: var(--green); }
+  .step-num.purple { background: var(--purple); }
+  .step-num.red    { background: var(--red); }
+  .step-card-title { font-size: 16px; font-weight: 900; }
+  .step-card-title.nasa   { color: var(--nasa); }
+  .step-card-title.js     { color: #7a5f00; }
+  .step-card-title.green  { color: var(--green); }
+  .step-card-title.purple { color: var(--purple); }
+  .step-card-title.red    { color: var(--red); }
+  .step-card-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .step-card-body { padding: 20px 22px; background: var(--surface); font-size: 13.5px; color: var(--text2); line-height: 1.8; }
+
+  /* 실행 목록 */
+  .do-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+  .do-list li { display: flex; align-items: flex-start; gap: 10px; background: var(--surface2); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .do-list li .icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+  /* 코드 블록 */
+  .code-wrap { background: var(--code-bg); border-radius: 10px; padding: 18px 22px; margin: 12px 0; overflow-x: auto; position: relative; }
+  .code-wrap pre { font-family: 'DM Mono', monospace; font-size: 13px; color: #e8eaf2; line-height: 1.85; white-space: pre-wrap; }
+  .code-filename { position: absolute; top: 10px; right: 14px; font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,.3); }
+  .tag{color:#f28b82;} .attr{color:#82c7ff;} .val{color:#a8d8a8;} .cm{color:#6c7a8c;font-style:italic;}
+  .kw{color:#c792ea;} .fn{color:#82aaff;} .str{color:#c3e88d;} .num{color:#f78c6c;}
+
+  /* 프롬프트 박스 */
+  .prompt-box { background: var(--code-bg); border-radius: 10px; padding: 18px 20px; font-family: 'DM Mono', monospace; font-size: 13px; color: #e8eaf2; line-height: 1.85; margin: 12px 0; white-space: pre-wrap; }
+
+  /* 팁/경고 */
+  .tip        { background: var(--css-bg);    border: 1px solid var(--css-border);    border-left: 3px solid var(--css);    border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+  .tip strong { color: var(--css); }
+  .warn        { background: var(--red-bg);   border: 1px solid var(--red-border);    border-left: 3px solid var(--red);    border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+  .warn strong { color: var(--red); }
+  .tip-green        { background: var(--green-bg);  border: 1px solid var(--green-border);  border-left: 3px solid var(--green);  border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+  .tip-green strong { color: var(--green); }
+  .tip-purple        { background: var(--purple-bg); border: 1px solid var(--purple-border); border-left: 3px solid var(--purple); border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+  .tip-purple strong { color: var(--purple); }
+  .tip-nasa        { background: var(--nasa-bg); border: 1px solid var(--nasa-border); border-left: 3px solid var(--nasa); border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+  .tip-nasa strong { color: var(--nasa); }
+
+  /* 파일 트리 */
+  .file-tree { background: var(--code-bg); border-radius: 10px; padding: 20px 24px; font-family: 'DM Mono', monospace; font-size: 13px; color: #e8eaf2; line-height: 2; margin-bottom: 14px; }
+  .ft-folder{color:#ffd700;} .ft-html{color:#f28b82;} .ft-css{color:#82c7ff;} .ft-js{color:#ffd700;} .ft-cm{color:#6c7a8c;}
+
+  /* 에러 박스 */
+  .error-box { background: #1e1e2e; border-radius: 8px; padding: 12px 16px; font-family: 'DM Mono', monospace; font-size: 12px; color: #f28b82; margin: 10px 0; line-height: 1.7; }
+
+  /* 기능 선택 */
+  .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .feature-box { border-radius: 12px; overflow: hidden; border: 1.5px solid var(--border); }
+  .feature-box-head { padding: 10px 16px; font-size: 12px; font-weight: 700; }
+  .feature-box-head.basic { background: var(--nasa-bg); color: var(--nasa); border-bottom: 1.5px solid var(--nasa-border); }
+  .feature-box-head.extra { background: var(--js-bg); color: #7a5f00; border-bottom: 1.5px solid var(--js-border); }
+  .feature-box-body { padding: 12px 16px; background: var(--surface); }
+  .feature-list { list-style: none; }
+  .feature-list li { font-size: 13px; color: var(--text2); padding: 5px 0; border-bottom: 1px dashed var(--border); display: flex; align-items: flex-start; gap: 8px; }
+  .feature-list li:last-child { border-bottom: none; }
+  .feature-list li::before { content: '☐'; font-size: 15px; color: var(--text3); flex-shrink: 0; }
+
+  /* 부록 테이블 */
+  .api-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 14px; border-radius: 10px; overflow: hidden; border: 1.5px solid var(--border); }
+  .api-table th { background: var(--surface2); padding: 10px 14px; font-weight: 700; text-align: left; border-bottom: 1.5px solid var(--border); }
+  .api-table td { padding: 10px 14px; border-bottom: 1px dashed var(--border); color: var(--text2); vertical-align: top; font-size: 12.5px; }
+  .api-table tr:last-child td { border-bottom: none; }
+  .api-table td:first-child { font-weight: 700; color: var(--nasa); font-family: 'DM Mono', monospace; width: 160px; }
+
+  /* 완성 체크 */
+  .final { background: var(--surface); border: 2.5px solid var(--text); border-radius: 14px; padding: 28px 32px; margin-top: 48px; }
+  .final-title { font-size: 18px; font-weight: 900; margin-bottom: 16px; }
+  .final ul { list-style: none; }
+  .final ul li { font-size: 14px; color: var(--text); padding: 8px 0; display: flex; gap: 10px; border-bottom: 1px solid var(--border); }
+  .final ul li:last-child { border-bottom: none; }
+  .final ul li::before { content: '☐'; font-size: 18px; color: var(--text3); }
+
+  .mono { font-family: 'DM Mono', monospace; font-size: 12px; background: var(--surface2); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--text); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- 헤더 -->
+  <div class="header">
+    <div class="header-label">3차시 실습 가이드</div>
+    <h1>🚀 <em>NASA API</em>로 웹페이지 만들기</h1>
+    <p>외부 API에서 데이터를 가져와 나만의 웹페이지로 표현하기</p>
+    <div class="goal-chips">
+      <span class="chip nasa">NASA Open API</span>
+      <span class="chip js">fetch() — 데이터 가져오기</span>
+      <span class="chip purple">프롬프트 작성 연습</span>
+    </div>
+  </div>
+
+  <!-- 오늘의 목표 -->
+  <div class="part">
+    <div class="sec-title">오늘의 목표</div>
+    <p class="desc">
+      NASA가 공개한 두 가지 데이터(오늘의 우주사진 + 소행성 근접 정보)를 가져와
+      <strong>탭 구조의 웹페이지</strong>로 만들기.
+      아래 예시 페이지와 동일한 구조이지만, 기능은 자신이 직접 선택해서 구성함.
+    </p>
+    <div class="tip-nasa">
+      <strong>예시 페이지 확인:</strong>
+      브라우저에서 아래 주소로 접속해 오늘 만들 결과물의 방향 파악.
+      <div style="margin-top:8px;">
+        <code class="mono">https://kwonssam.github.io/gghs_media_literacy/nasa/nasa_explorer%20(1).html</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 1: API 키 발급 -->
+  <div class="part">
+    <div class="sec-title">실습 순서</div>
+
+    <div class="step-card">
+      <div class="step-card-head nasa">
+        <div class="step-num nasa">1</div>
+        <div>
+          <div class="step-card-title nasa">API 키 발급</div>
+          <div class="step-card-sub">NASA 데이터 사용 신청 — 이메일로 키 수령</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <p style="margin-bottom:12px;">
+          API 키는 <strong>NASA 데이터에 접근하기 위한 회원증</strong>. 발급 후 이메일로 전송됨.
+        </p>
+        <ul class="do-list">
+          <li><span class="icon">①</span><div><code class="mono">api.nasa.gov</code> 접속 → 상단 <strong>Generate API Key</strong> 클릭</div></li>
+          <li><span class="icon">②</span><div>이름, 이메일 입력 후 제출</div></li>
+          <li><span class="icon">③</span><div>이메일로 수신된 API 키를 메모장에 복사 보관</div></li>
+        </ul>
+        <div class="tip" style="margin-top:12px; margin-bottom:0;">
+          <strong>키가 오기 전까지</strong> 다음 단계를 먼저 진행. 테스트용으로 <code class="mono">DEMO_KEY</code> 사용 가능 (요청 횟수 제한 있음).
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: 데이터 확인 -->
+    <div class="step-card">
+      <div class="step-card-head nasa">
+        <div class="step-num nasa">2</div>
+        <div>
+          <div class="step-card-title nasa">API 데이터 직접 확인</div>
+          <div class="step-card-sub">브라우저 주소창에 URL 입력 → 실제 데이터 구조 확인</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <p style="margin-bottom:12px;">
+          아래 두 주소를 브라우저 주소창에 입력해 NASA가 제공하는 데이터 구조 직접 확인.
+          화면에 나타난 데이터를 LLM에게 붙여넣어 분석 요청.
+        </p>
+
+        <p style="font-weight:700; margin-bottom:6px;">① APOD — 오늘의 우주사진</p>
+        <div class="code-wrap" style="margin-bottom:16px;">
+          <pre>https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY</pre>
+        </div>
+
+        <p style="font-weight:700; margin-bottom:6px;">② Asteroids NeoWs — 소행성 근접 정보</p>
+        <div class="code-wrap" style="margin-bottom:16px;">
+          <pre>https://api.nasa.gov/neo/rest/v1/feed?start_date=2015-09-07&end_date=2015-09-08&api_key=DEMO_KEY</pre>
+        </div>
+
+        <div class="tip-nasa" style="margin-bottom:12px;">
+          <strong>pretty print 적용 체크박스</strong>를 누르면 데이터가 보기 좋게 정렬됨. 전체 선택(Ctrl+A) 후 복사.
+        </div>
+
+        <p style="font-weight:700; margin-bottom:6px;">LLM에게 데이터 분석 요청 — 아래 템플릿 사용</p>
+        <div class="prompt-box">아래는 NASA APOD API와 Asteroids API 데이터야.
+이 두 데이터를 합쳐서 하나의 웹페이지로 만들고 싶어.
+웹페이지에 넣을 수 있는 기능을 쉬운 것부터 어려운 것 순서로 목록으로 알려줘.
+탭 두 개(우주사진 탭 / 소행성 탭)로 나눠서 만들 수 있는 기능도 포함해줘.
+
+[APOD 데이터 붙여넣기]
+[Asteroids 데이터 붙여넣기]</div>
+      </div>
+    </div>
+
+    <!-- STEP 3: 기능 선택 -->
+    <div class="step-card">
+      <div class="step-card-head js">
+        <div class="step-num js">3</div>
+        <div>
+          <div class="step-card-title js">기능 선택</div>
+          <div class="step-card-sub">LLM이 제안한 목록에서 원하는 기능 선택 후 메모</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <p style="margin-bottom:14px;">LLM이 제안한 기능 목록을 참고해 내 페이지에 넣을 기능 선택. 아래는 참고용 예시.</p>
+        <div class="feature-grid">
+          <div class="feature-box">
+            <div class="feature-box-head basic">🌌 우주사진 탭 — 기본</div>
+            <div class="feature-box-body">
+              <ul class="feature-list">
+                <li>오늘의 우주사진 표시</li>
+                <li>사진 제목 / 날짜 표시</li>
+                <li>사진 설명(explanation) 표시</li>
+                <li>HD 원본 사진 링크 버튼</li>
+              </ul>
+            </div>
+          </div>
+          <div class="feature-box">
+            <div class="feature-box-head extra">🌌 우주사진 탭 — 추가</div>
+            <div class="feature-box-body">
+              <ul class="feature-list">
+                <li>날짜 선택해서 그날 사진 보기</li>
+                <li>랜덤 날짜 사진 보기</li>
+                <li>최근 7일치 사진 갤러리</li>
+                <li>다크모드 / 라이트모드 전환</li>
+              </ul>
+            </div>
+          </div>
+          <div class="feature-box">
+            <div class="feature-box-head basic">☄️ 소행성 탭 — 기본</div>
+            <div class="feature-box-body">
+              <ul class="feature-list">
+                <li>오늘 근접 소행성 수 표시</li>
+                <li>소행성 이름 / 크기 / 거리 표시</li>
+                <li>위험 소행성 빨간색 강조</li>
+                <li>최고 속도 표시</li>
+              </ul>
+            </div>
+          </div>
+          <div class="feature-box">
+            <div class="feature-box-head extra">☄️ 소행성 탭 — 추가</div>
+            <div class="feature-box-body">
+              <ul class="feature-list">
+                <li>날짜 범위 직접 선택</li>
+                <li>위험 소행성만 필터링</li>
+                <li>크기 순 / 거리 순 정렬</li>
+                <li>소행성 개수 차트로 시각화</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="tip-purple" style="margin-bottom:0;">
+          <strong>기본 기능은 모두 포함</strong>하고, 추가 기능은 원하는 것만 선택. 선택한 기능을 메모장에 따로 적어둘 것.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: 프롬프트 작성 -->
+    <div class="step-card">
+      <div class="step-card-head purple">
+        <div class="step-num purple">4</div>
+        <div>
+          <div class="step-card-title purple">프롬프트 작성</div>
+          <div class="step-card-sub">4단계 공식으로 선택한 기능을 프롬프트에 반영</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <p style="margin-bottom:14px;">
+          선택한 기능을 <strong>③ 구체적 지시</strong>에 모두 포함해 작성. 아래는 작성 예시.
+        </p>
+        <div class="prompt-box"><span style="color:#f28b82;">① 페르소나</span>
+나는 고등학생이고 HTML/CSS/JS를 처음 배우고 있어.
+
+<span style="color:#82c7ff;">② 맥락</span>
+NASA APOD API와 Asteroids NeoWs API 데이터로 웹페이지를 새로 만들고 싶어.
+
+<span style="color:#ffd700;">③ 구체적 지시</span>
+- 탭 두 개짜리 페이지로 구성
+  탭 1 (우주사진):
+    · 오늘의 우주사진, 제목, 날짜, 설명 표시
+    · 날짜 선택 시 해당 날짜 사진으로 전환
+    · HD 원본 보기 버튼
+  탭 2 (소행성):
+    · 오늘 지구 근접 소행성 목록, 이름, 크기, 거리, 속도 표시
+    · 위험 소행성(is_potentially_hazardous_asteroid: true)은 빨간색 강조
+  APOD API URL: https://api.nasa.gov/planetary/apod?api_key=API키&date=날짜
+  Asteroids URL: https://api.nasa.gov/neo/rest/v1/feed?start_date=날짜&api_key=API키
+  API 키: [발급받은 키 입력]
+
+<span style="color:#c3e88d;">④ 출력 형식</span>
+index.html, style.css, script.js 파일 3개로 나눠서 각각 보여줘.
+변수명은 영어로, 주석은 한국어로.</div>
+
+        <div class="warn" style="margin-top:4px; margin-bottom:0;">
+          <strong>③번에 반드시 선택한 기능을 모두 포함</strong>할 것. 빠진 기능은 AI가 만들지 않음.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: 파일 제작 -->
+    <div class="step-card">
+      <div class="step-card-head green">
+        <div class="step-num green">5</div>
+        <div>
+          <div class="step-card-title green">파일 제작 및 연결</div>
+          <div class="step-card-sub">AI가 준 코드를 파일로 만들어 브라우저에서 실행</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <ul class="do-list" style="margin-bottom:16px;">
+          <li><span class="icon">①</span><div>바탕화면에 <code class="mono">nasa</code> 폴더 생성</div></li>
+          <li><span class="icon">②</span><div>AI가 준 코드를 파일 3개로 만들어 붙여넣기</div></li>
+          <li><span class="icon">③</span><div>index.html 안의 <code class="mono">href</code>, <code class="mono">src</code> 파일명이 실제 파일명과 동일한지 확인</div></li>
+          <li><span class="icon">④</span><div>index.html 더블클릭 → 브라우저에서 실행 확인</div></li>
+        </ul>
+
+        <div class="file-tree"><span class="ft-folder">📁 nasa/</span>
+├── <span class="ft-html">index.html</span>   <span class="ft-cm">← AI가 준 HTML 코드 붙여넣기</span>
+├── <span class="ft-css">style.css</span>    <span class="ft-cm">← AI가 준 CSS 코드 붙여넣기</span>
+└── <span class="ft-js">script.js</span>    <span class="ft-cm">← AI가 준 JS 코드 붙여넣기</span></div>
+
+        <div class="warn" style="margin-bottom:8px;">
+          <strong>파일명 불일치 주의.</strong> AI가 <code class="mono">app.js</code>로 줬는데 <code class="mono">script.js</code>로 저장하면 연결 안 됨.
+          AI가 준 파일명 그대로 사용하거나, index.html 안의 src를 실제 파일명으로 수정.
+        </div>
+        <div class="tip-green" style="margin-bottom:0;">
+          <strong>오류 발생 시:</strong> F12 → Console 탭 → 빨간 오류 메시지 복사 → AI에게 붙여넣고 수정 요청.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6: 추가 기능 -->
+    <div class="step-card">
+      <div class="step-card-head js">
+        <div class="step-num js">6</div>
+        <div>
+          <div class="step-card-title js">추가 기능 도전</div>
+          <div class="step-card-sub">현재 코드 붙여넣고 추가 기능 프롬프트로 요청</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <p style="margin-bottom:12px;">기본 페이지 완성 후 추가 기능 구현. <strong>반드시 현재 코드를 함께 붙여넣을 것.</strong></p>
+        <div class="prompt-box"><span style="color:#f28b82;">① 페르소나</span>
+나는 HTML/JS로 NASA 웹페이지를 만들고 있는 고등학생이야.
+
+<span style="color:#82c7ff;">② 맥락 + 현재 코드</span>
+아래는 내가 만든 페이지의 script.js야:
+[script.js 전체 붙여넣기]
+
+<span style="color:#ffd700;">③ 구체적 지시</span>
+"소행성 목록을 크기 순으로 정렬하는 버튼"을 추가하고 싶어.
+
+<span style="color:#c3e88d;">④ 출력 형식</span>
+전체 코드 말고, 추가하거나 바꿔야 하는 부분만 알려줘.
+어느 줄 다음에 넣으면 되는지도 알려줘.</div>
+      </div>
+    </div>
+
+  </div><!-- 실습 순서 끝 -->
+
+
+  <!-- 부록 -->
+  <div class="part">
+    <div class="sec-title">부록 — 다른 NASA API 탐색하기</div>
+    <p class="desc">APOD와 Asteroids 외에도 다양한 NASA API 활용 가능. 아래 절차로 직접 탐색.</p>
+
+    <ul class="do-list" style="margin-bottom:20px;">
+      <li><span class="icon">①</span><div><code class="mono">api.nasa.gov</code>에서 원하는 API 항목의 <strong>+</strong> 클릭 → 문서 및 Example Query 확인</div></li>
+      <li><span class="icon">②</span><div>Example Query 주소를 브라우저에 입력해 실제 데이터 확인</div></li>
+      <li><span class="icon">③</span><div>문서 내용과 데이터를 LLM에 붙여넣고 "이걸로 뭘 만들 수 있어?" 질문</div></li>
+      <li><span class="icon">④</span><div>제안된 기능 목록에서 선택 후 4단계 프롬프트 작성</div></li>
+    </ul>
+
+    <table class="api-table">
+      <thead>
+        <tr>
+          <th>API</th>
+          <th>제공 데이터</th>
+          <th>만들 수 있는 것 예시</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mars Rover Photos</td>
+          <td>화성 탐사선 사진, 촬영 날짜, 카메라 종류</td>
+          <td>화성 사진 갤러리, 카메라별 필터 뷰어</td>
+        </tr>
+        <tr>
+          <td>EPIC</td>
+          <td>지구 전체 위성사진, 촬영 날짜/시간</td>
+          <td>지구 실시간 모습 뷰어, 날짜별 지구 사진</td>
+        </tr>
+        <tr>
+          <td>NASA Image Library</td>
+          <td>우주 관련 사진/영상, 키워드 검색 가능</td>
+          <td>우주 사진 검색엔진, 키워드 갤러리</td>
+        </tr>
+        <tr>
+          <td>DONKI</td>
+          <td>태양 폭발, 우주 날씨 이벤트 데이터</td>
+          <td>우주 날씨 알림 페이지, 태양 활동 타임라인</td>
+        </tr>
+        <tr>
+          <td>Exoplanet</td>
+          <td>외계행성 이름, 크기, 거리, 발견 연도</td>
+          <td>외계행성 탐색기, 발견 연도별 타임라인</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- 완성 체크 -->
+  <div class="final">
+    <div class="final-title">✅ 완성 체크리스트</div>
+    <ul>
+      <li>API 키 발급 완료 및 메모장 보관</li>
+      <li>APOD / Asteroids 데이터를 브라우저에서 직접 확인</li>
+      <li>LLM 분석 템플릿으로 기능 목록 도출</li>
+      <li>4단계 프롬프트에 선택 기능 모두 포함해 작성</li>
+      <li>index.html의 href, src 파일명이 실제 파일명과 동일</li>
+      <li>브라우저에서 탭 전환 및 데이터 표시 정상 작동 확인</li>
+      <li>추가 기능 1개 이상 프롬프트로 요청해 구현</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
