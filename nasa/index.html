@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA 우주 정보 대시보드</title>
+    <style>
+        :root {
+            --nasa-blue: #0b3d91;
+            --danger-red: #ff4d4d;
+            --bg-dark: #0b0d17;
+            --card-bg: #1a1c2c;
+        }
+        body { font-family: 'Pretendard', sans-serif; background-color: var(--bg-dark); color: white; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        
+        /* 탭 스타일 */
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #333; }
+        .tab-btn { background: none; border: none; color: #888; padding: 10px 20px; cursor: pointer; font-size: 1.1rem; }
+        .tab-btn.active { color: white; border-bottom: 3px solid var(--nasa-blue); font-weight: bold; }
+        .tab-content { display: none; animation: fadeIn 0.5s; }
+        .tab-content.active { display: block; }
+
+        /* 공통 스타일 */
+        input[type="date"] { padding: 8px; border-radius: 5px; border: none; margin-bottom: 20px; }
+        .card { background: var(--card-bg); border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+
+        /* 탭 1: APOD */
+        .apod-img { width: 100%; border-radius: 10px; margin: 15px 0; max-height: 600px; object-fit: cover; }
+        .hd-btn { background: var(--nasa-blue); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; }
+
+        /* 탭 2: 소행성 */
+        .asteroid-item { border-left: 5px solid #444; }
+        .hazardous { border-left: 5px solid var(--danger-red); background: rgba(255, 77, 77, 0.1); }
+        .danger-tag { color: var(--danger-red); font-weight: bold; margin-left: 10px; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 10px; font-size: 0.9rem; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🚀 NASA 우주 탐사기</h1>
+    
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab('apod-tab')">우주 사진 (APOD)</button>
+        <button class="tab-btn" onclick="openTab('neo-tab')">소행성 (NEOs)</button>
+    </div>
+
+    <div id="apod-tab" class="tab-content active">
+        <input type="date" id="apod-date" onchange="fetchAPOD()">
+        <div id="apod-result" class="card">
+            <p>데이터를 불러오는 중...</p>
+        </div>
+    </div>
+
+    <div id="neo-tab" class="tab-content">
+        <h3 id="neo-title">지구 근접 소행성 목록</h3>
+        <div id="neo-list">
+            <p>데이터를 불러오는 중...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_KEY = 'DEMO_KEY'; // 여기에 발급받은 키를 입력하세요.
+    
+    // 페이지 로드 시 오늘 날짜로 초기화
+    window.onload = () => {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('apod-date').value = today;
+        fetchAPOD();
+        fetchNEO(today);
+    };
+
+    // 탭 전환 함수
+    function openTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    // [탭 1] 우주 사진 데이터 가져오기
+    async function fetchAPOD() {
+        const date = document.getElementById('apod-date').value;
+        const res = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&date=${date}`);
+        const data = await res.json();
+        
+        const container = document.getElementById('apod-result');
+        if (data.media_type === 'image') {
+            container.innerHTML = `
+                <h2>${data.title}</h2>
+                <p style="color: #aaa;">${data.date}</p>
+                <img src="${data.url}" class="apod-img" alt="NASA APOD">
+                <p>${data.explanation}</p>
+                <a href="${data.hdurl}" target="_blank" class="hd-btn">HD 원본 보기</a>
+            `;
+        } else {
+            container.innerHTML = `<p>해당 날짜는 사진이 아닌 영상 데이터입니다. <a href="${data.url}" target="_blank">여기서 확인하세요.</a></p>`;
+        }
+    }
+
+    // [탭 2] 소행성 데이터 가져오기
+    async function fetchNEO(date) {
+        const res = await fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${date}&end_date=${date}&api_key=${API_KEY}`);
+        const data = await res.json();
+        
+        const listContainer = document.getElementById('neo-list');
+        const asteroids = data.near_earth_objects[date];
+        
+        listContainer.innerHTML = '';
+        document.getElementById('neo-title').innerText = `${date} 지구 근접 소행성 (${asteroids.length}개)`;
+
+        asteroids.forEach(neo => {
+            const isHazard = neo.is_potentially_hazardous_asteroid;
+            const card = document.createElement('div');
+            card.className = `card asteroid-item ${isHazard ? 'hazardous' : ''}`;
+            
+            card.innerHTML = `
+                <h3>
+                    ☄️ ${neo.name}
+                    ${isHazard ? '<span class="danger-tag">⚠ 위협 소행성</span>' : ''}
+                </h3>
+                <div class="info-grid">
+                    <div><strong>직경:</strong> ${neo.estimated_diameter.meters.estimated_diameter_max.toFixed(2)}m</div>
+                    <div><strong>속도:</strong> ${Math.round(neo.close_approach_data[0].relative_velocity.kilometers_per_hour)} km/h</div>
+                    <div><strong>지구와의 거리:</strong> ${parseFloat(neo.close_approach_data[0].miss_distance.kilometers).toLocaleString()} km</div>
+                </div>
+            `;
+            listContainer.appendChild(card);
+        });
+    }
+</script>
+
+</body>
+</html>
