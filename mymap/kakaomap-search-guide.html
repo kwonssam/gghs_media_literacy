@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>카카오맵 장소 검색 서비스 실습 가이드</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff; --surface: #f8fbff; --surface2: #e0f2fe; --border: #bae6fd;
+    --text: #0c1a2e; --text2: #374151; --text3: #6b7280;
+    --js: #c8a000;   --js-bg: #fefbe8;   --js-border: #e8d870;
+    --green: #2d7050; --green-bg: #eaf6f0; --green-border: #9dd4be;
+    --red: #c03040;   --red-bg: #fdf0f2;   --red-border: #f0b8c0;
+    --purple: #7c3aed; --purple-bg: #f5f3ff; --purple-border: #c4b5fd;
+    --kakao: #0369a1; --kakao-bg: #e0f2fe; --kakao-border: #7dd3fc;
+    --code-bg: #1e1e2e;
+  }
+
+  body { background: var(--bg); font-family: 'Noto Sans KR', sans-serif; color: var(--text); line-height: 1.7; font-size: 15px; font-weight: 500; }
+  .page { max-width: 900px; margin: 0 auto; padding: 52px 44px 100px; }
+
+  .header { text-align: center; padding-bottom: 36px; margin-bottom: 48px; border-bottom: 2.5px solid var(--text); }
+  .header-label { display: inline-block; background: var(--text); color: var(--bg); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 5px 16px; border-radius: 20px; margin-bottom: 14px; }
+  .header h1 { font-size: 30px; font-weight: 900; margin-bottom: 8px; }
+  .header h1 em { color: var(--kakao); font-style: normal; }
+  .header p { font-size: 14px; color: var(--text2); }
+  .goal-chips { display: flex; justify-content: center; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+  .chip { font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 20px; }
+  .chip.kakao  { background: var(--kakao-bg); color: var(--kakao); border: 1.5px solid var(--kakao-border); }
+  .chip.js     { background: var(--js-bg);    color: var(--js);    border: 1.5px solid var(--js-border); }
+  .chip.purple { background: var(--purple-bg); color: var(--purple); border: 1.5px solid var(--purple-border); }
+
+  .sec-title { font-size: 20px; font-weight: 900; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .sec-title::after { content: ''; flex: 1; height: 1.5px; background: var(--border); }
+  .part { margin-bottom: 52px; }
+  p.desc { font-size: 15px; color: var(--text2); line-height: 1.8; margin-bottom: 14px; }
+  strong { color: var(--text); }
+
+  .step-card { border-radius: 14px; overflow: hidden; border: 2px solid var(--border); margin-bottom: 16px; }
+  .step-card-head { padding: 16px 22px; display: flex; align-items: center; gap: 14px; border-bottom: 2px solid var(--border); }
+  .step-card-head.kakao  { background: var(--kakao-bg);  border-color: var(--kakao-border); }
+  .step-card-head.js     { background: var(--js-bg);     border-color: var(--js-border); }
+  .step-card-head.green  { background: var(--green-bg);  border-color: var(--green-border); }
+  .step-card-head.purple { background: var(--purple-bg); border-color: var(--purple-border); }
+  .step-card-head.red    { background: var(--red-bg);    border-color: var(--red-border); }
+  .step-num { width: 36px; height: 36px; border-radius: 50%; font-size: 16px; font-weight: 900; color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-num.kakao  { background: var(--kakao); }
+  .step-num.js     { background: var(--js); color: #1a1200; }
+  .step-num.green  { background: var(--green); }
+  .step-num.purple { background: var(--purple); }
+  .step-num.red    { background: var(--red); }
+  .step-card-title { font-size: 16px; font-weight: 900; }
+  .step-card-title.kakao  { color: var(--kakao); }
+  .step-card-title.js     { color: #7a5f00; }
+  .step-card-title.green  { color: var(--green); }
+  .step-card-title.purple { color: var(--purple); }
+  .step-card-title.red    { color: var(--red); }
+  .step-card-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .step-card-body { padding: 20px 22px; background: var(--surface); font-size: 15px; color: var(--text2); line-height: 1.8; }
+
+  .do-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+  .do-list li { display: flex; align-items: flex-start; gap: 10px; background: var(--surface2); border-radius: 8px; padding: 10px 14px; font-size: 14px; color: var(--text2); line-height: 1.6; }
+  .do-list li .icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+  .code-wrap { background: var(--code-bg); border-radius: 10px; padding: 18px 22px; margin: 12px 0; overflow-x: auto; }
+  .code-wrap pre { font-family: 'DM Mono', monospace; font-size: 13px; color: #e8eaf2; line-height: 1.85; white-space: pre-wrap; }
+  .tag{color:#f28b82;} .attr{color:#82c7ff;} .val{color:#a8d8a8;} .cm{color:#6c7a8c;font-style:italic;}
+  .kw{color:#c792ea;} .fn{color:#82aaff;} .str{color:#c3e88d;} .num{color:#f78c6c;}
+
+  .prompt-box { background: var(--code-bg); border-radius: 10px; padding: 18px 20px; font-family: 'DM Mono', monospace; font-size: 13px; color: #e8eaf2; line-height: 1.85; margin: 12px 0; white-space: pre-wrap; }
+
+  .tip        { background: var(--kakao-bg); border: 1px solid var(--kakao-border); border-left: 3px solid var(--kakao); border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 14px; color: var(--text2); margin-bottom: 10px; }
+  .tip strong { color: var(--kakao); }
+  .warn        { background: var(--red-bg);  border: 1px solid var(--red-border);   border-left: 3px solid var(--red);   border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 14px; color: var(--text2); margin-bottom: 10px; }
+  .warn strong { color: var(--red); }
+  .tip-green        { background: var(--green-bg); border: 1px solid var(--green-border); border-left: 3px solid var(--green); border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 14px; color: var(--text2); margin-bottom: 10px; }
+  .tip-green strong { color: var(--green); }
+
+  .box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 16px 20px; margin-bottom: 12px; }
+  .box.green { background: var(--green-bg); border-color: var(--green-border); }
+  .box.red   { background: var(--red-bg);   border-color: var(--red-border); }
+  .box-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; color: var(--text3); }
+  .box-label.green { color: var(--green); }
+  .box-label.red   { color: var(--red); }
+
+  /* 단계 배지 */
+  .star-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--kakao-bg); border: 1.5px solid var(--kakao-border); color: var(--kakao); font-size: 13px; font-weight: 700; padding: 4px 14px; border-radius: 20px; margin-bottom: 12px; }
+
+  /* 완성 기준 */
+  .check-list { list-style: none; margin: 10px 0; }
+  .check-list li { font-size: 14px; color: var(--text2); padding: 5px 0; display: flex; gap: 8px; border-bottom: 1px dashed var(--border); line-height: 1.6; }
+  .check-list li:last-child { border-bottom: none; }
+  .check-list li::before { content: '☐'; font-size: 16px; color: var(--text3); flex-shrink: 0; }
+
+  /* 비교표 */
+  .cmp-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 12px 0; border-radius: 10px; overflow: hidden; border: 1.5px solid var(--border); }
+  .cmp-table th { background: var(--surface2); padding: 10px 14px; font-weight: 700; text-align: left; border-bottom: 1.5px solid var(--border); }
+  .cmp-table td { padding: 10px 14px; border-bottom: 1px dashed var(--border); color: var(--text2); }
+  .cmp-table tr:last-child td { border-bottom: none; }
+  .cmp-table td:first-child { font-weight: 700; color: var(--text); width: 100px; }
+
+  /* 완성 체크 */
+  .final { background: var(--surface); border: 2.5px solid var(--text); border-radius: 14px; padding: 28px 32px; margin-top: 48px; }
+  .final-title { font-size: 18px; font-weight: 900; margin-bottom: 16px; }
+  .final ul { list-style: none; }
+  .final ul li { font-size: 14px; color: var(--text); padding: 8px 0; display: flex; gap: 10px; border-bottom: 1px solid var(--border); }
+  .final ul li:last-child { border-bottom: none; }
+  .final ul li::before { content: '☐'; font-size: 18px; color: var(--text3); }
+
+  .mono { font-family: 'DM Mono', monospace; font-size: 12px; background: var(--surface2); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--text); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- 헤더 -->
+  <div class="header">
+    <div class="header-label">5차시 실습 가이드</div>
+    <h1>🗺️ <em>카카오맵 API</em>로 장소 검색 서비스 만들기</h1>
+    <p>키워드를 입력하면 지도 위에 주변 장소를 찾아주는 서비스 직접 제작</p>
+    <div class="goal-chips">
+      <span class="chip kakao">카카오맵 API</span>
+      <span class="chip js">SDK — 지도 UI 통째로 설치</span>
+      <span class="chip purple">프롬프트 작성 연습</span>
+    </div>
+  </div>
+
+  <!-- API 개념 요약 -->
+  <div class="part">
+    <div class="sec-title">API 핵심 개념 요약</div>
+    <p class="desc">NASA 실습에서 배운 내용 중 카카오맵 실습에 꼭 필요한 개념만 빠르게 정리.</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:16px;">
+      <div class="box" style="margin:0;">
+        <div class="box-label">API란?</div>
+        <p style="font-size:14px; line-height:1.8;"><strong>외부 서버의 데이터를 가져오는 통로.</strong><br>규칙대로 요청하면 데이터가 배달 옴.<br><span style="color:var(--text3); font-size:13px;">🛵 배달앱처럼 주방 몰라도 주문 가능</span></p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div class="box-label">JSON이란?</div>
+        <p style="font-size:14px; line-height:1.8;"><strong>API가 데이터를 보낼 때 쓰는 포장 형식.</strong><br>key : value 쌍으로 구성.<br><span style="color:var(--text3); font-size:13px;">📦 data.name, data.x, data.y 로 꺼냄</span></p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div class="box-label">API 키란?</div>
+        <p style="font-size:14px; line-height:1.8;"><strong>정식 사용자임을 증명하는 코드.</strong><br>키 없으면 서버가 요청 거절.<br><span style="color:var(--text3); font-size:13px;">🔑 개발자 사이트에서 무료 발급</span></p>
+      </div>
+    </div>
+
+    <div class="warn" style="margin-bottom:0;">
+      <strong>NASA API vs 카카오맵 API — 방식이 다름!</strong><br>
+      NASA는 <strong>fetch()로 URL 호출 → JSON 수신</strong> 방식.<br>
+      카카오맵은 <strong>SDK 스크립트 설치 → 지도 UI + 데이터 통째로</strong> 제공하는 방식.<br>
+      지도 확대·축소·마커 같은 복잡한 UI는 JSON 텍스트만으론 구현 불가 → 카카오가 미리 만든 도구 상자(SDK)를 통째로 설치해서 사용.
+    </div>
+  </div>
+
+  <!-- API 키 발급 -->
+  <div class="part">
+    <div class="sec-title">실습 준비 — 카카오 API 키 발급</div>
+
+    <div class="step-card">
+      <div class="step-card-head kakao">
+        <div class="step-num kakao">🔑</div>
+        <div>
+          <div class="step-card-title kakao">카카오 개발자 사이트에서 JavaScript 키 발급</div>
+          <div class="step-card-sub">developers.kakao.com — 도메인 등록까지 완료해야 작동함</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <ul class="do-list">
+          <li><span class="icon">①</span><div><code class="mono">developers.kakao.com</code> 접속 → 로그인 → <strong>애플리케이션 추가하기</strong></div></li>
+          <li><span class="icon">②</span><div>앱 설정 → 앱 키 탭 → <strong>JavaScript 키</strong> 복사 (REST API 키 아님!)</div></li>
+          <li><span class="icon">③</span><div>앱 설정 → 플랫폼 → Web → <strong>사이트 도메인</strong>에 <code class="mono">https://내아이디.github.io</code> 입력</div></li>
+          <li><span class="icon">④</span><div>제품 설정 → 카카오맵 → <strong>지도 사용 설정 활성화 (ON)</strong></div></li>
+          <li><span class="icon">⑤</span><div>JavaScript 키를 메모장에 복사 보관</div></li>
+        </ul>
+        <div class="warn" style="margin-top:12px; margin-bottom:0;">
+          <strong>도메인 등록 안 하면 지도가 안 뜸.</strong> GitHub Pages 주소를 반드시 등록할 것.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 실습 순서 -->
+  <div class="part">
+    <div class="sec-title">실습 순서 — 2단계로 완성</div>
+    <p class="desc">한 번에 다 만들지 않음. 아래 순서대로 하나씩 추가하며 완성.</p>
+
+    <!-- STEP 1 -->
+    <div class="step-card">
+      <div class="step-card-head kakao">
+        <div class="step-num kakao">1</div>
+        <div>
+          <div class="step-card-title kakao">뼈대 + 지도 띄우기</div>
+          <div class="step-card-sub">2분할 레이아웃 + 카카오 지도 화면에 표시</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <p style="margin-bottom:14px;">왼쪽 검색창·결과 리스트, 오른쪽 지도 — <strong>2분할 화면 구조</strong> 만들기.<br>카카오 지도가 학교 위치를 중심으로 뜨면 1단계 완성.</p>
+
+        <p style="font-weight:700; margin-bottom:8px; color:var(--text3); font-size:13px;">✅ 완성 기준</p>
+        <ul class="check-list" style="margin-bottom:16px;">
+          <li>2분할 레이아웃 (왼쪽 패널 + 오른쪽 지도)</li>
+          <li>카카오 지도 화면에 표시됨</li>
+          <li>지도 중심이 학교 위치로 설정됨</li>
+        </ul>
+
+        <p style="font-weight:700; margin-bottom:6px; color:var(--text3); font-size:13px;">핵심 코드</p>
+        <div class="code-wrap" style="margin-bottom:0;">
+          <pre><span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="val">"//dapi.kakao.com/v2/maps/sdk.js?appkey=내_JS_키&libraries=services"</span><span class="tag">&gt;&lt;/script&gt;</span>
+
+<span class="kw">var</span> map = <span class="kw">new</span> kakao.maps.<span class="fn">Map</span>(el, {
+  center: <span class="kw">new</span> kakao.maps.<span class="fn">LatLng</span>(<span class="num">37.66</span>, <span class="num">126.83</span>),  <span class="cm">// 학교 위도/경도</span>
+  level: <span class="num">5</span>
+});</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-card">
+      <div class="step-card-head js">
+        <div class="step-num js">2</div>
+        <div>
+          <div class="step-card-title js">검색 + 마커 + 리스트 + 팝업</div>
+          <div class="step-card-sub">키워드 입력 → 마커 표시 + 결과 리스트 + 클릭 팝업까지 한 번에</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <p style="margin-bottom:14px;">검색창에 키워드 입력 → 카카오 서버에 요청 → JSON 데이터 수신 → <strong>마커·리스트·팝업을 한 번에 표시.</strong></p>
+
+        <div class="tip" style="margin-bottom:14px;">
+          <strong>전체 동작 흐름</strong><br>
+          검색 버튼 클릭 → JS가 카카오 서버에 <strong>"이 키워드로 주변 장소 알려줘"</strong> 요청 →
+          카카오 서버가 JSON으로 장소 목록 배달 →
+          JS가 데이터 받아서 <strong>① 지도에 마커 ② 왼쪽 리스트 ③ 클릭 팝업</strong> 동시에 표시.
+        </div>
+
+        <p style="font-weight:700; margin-bottom:8px; color:var(--text3); font-size:13px;">📦 카카오가 보내주는 JSON 데이터 구조</p>
+        <div class="code-wrap" style="margin-bottom:14px;">
+          <pre><span class="cm">// data[0] — 첫 번째 검색 결과 예시</span>
+{
+  <span class="str">"place_name"</span>: <span class="str">"스타벅스 경기고양삼송점"</span>,     <span class="cm">// 장소 이름</span>
+  <span class="str">"road_address_name"</span>: <span class="str">"경기 고양시 덕양구..."</span>,  <span class="cm">// 도로명 주소</span>
+  <span class="str">"x"</span>: <span class="str">"126.8345"</span>,                          <span class="cm">// 경도 (지도 위치)</span>
+  <span class="str">"y"</span>: <span class="str">"37.6612"</span>,                          <span class="cm">// 위도 (지도 위치)</span>
+  <span class="str">"phone"</span>: <span class="str">"031-000-0000"</span>,                  <span class="cm">// 전화번호</span>
+  <span class="str">"place_url"</span>: <span class="str">"http://place.map.kakao.com/..."</span>  <span class="cm">// 카카오맵 링크</span>
+}</pre>
+        </div>
+
+        <p style="font-weight:700; margin-bottom:6px; color:var(--text3); font-size:13px;">핵심 코드 — 검색 + 마커 + 리스트 + 팝업</p>
+        <div class="code-wrap" style="margin-bottom:14px;">
+          <pre><span class="kw">var</span> ps = <span class="kw">new</span> kakao.maps.services.<span class="fn">Places</span>();
+<span class="kw">var</span> infowindow = <span class="kw">new</span> kakao.maps.<span class="fn">InfoWindow</span>({ zIndex: <span class="num">1</span> });
+
+ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</span>(data, status) {
+  <span class="kw">if</span> (status === kakao.maps.services.Status.<span class="fn">OK</span>) {
+
+    data.<span class="fn">forEach</span>(<span class="kw">function</span>(place) {
+      <span class="cm">// ① 마커 찍기</span>
+      <span class="kw">var</span> pos = <span class="kw">new</span> kakao.maps.<span class="fn">LatLng</span>(place.y, place.x);
+      <span class="kw">var</span> marker = <span class="kw">new</span> kakao.maps.<span class="fn">Marker</span>({ map: map, position: pos });
+
+      <span class="cm">// ② 리스트에 이름 추가</span>
+      <span class="kw">var</span> item = document.<span class="fn">createElement</span>(<span class="str">'div'</span>);
+      item.textContent = place.place_name;
+      document.<span class="fn">getElementById</span>(<span class="str">'result-list'</span>).<span class="fn">appendChild</span>(item);
+
+      <span class="cm">// ③ 마커 클릭 시 팝업</span>
+      kakao.maps.event.<span class="fn">addListener</span>(marker, <span class="str">'click'</span>, <span class="kw">function</span>() {
+        infowindow.<span class="fn">setContent</span>(<span class="str">'&lt;div style="padding:8px"&gt;&lt;b&gt;'</span> + place.place_name + <span class="str">'&lt;/b&gt;&lt;br&gt;'</span> + place.road_address_name + <span class="str">'&lt;/div&gt;'</span>);
+        infowindow.<span class="fn">open</span>(map, marker);
+      });
+    });
+  }
+});</pre>
+        </div>
+
+        <p style="font-weight:700; margin-bottom:8px; color:var(--text3); font-size:13px;">✅ 완성 기준</p>
+        <ul class="check-list" style="margin-bottom:14px;">
+          <li>키워드 검색 시 지도에 마커 표시됨</li>
+          <li>왼쪽 리스트에 장소 이름 나열됨</li>
+          <li>마커 클릭 시 장소 이름·주소 팝업 표시</li>
+        </ul>
+
+        <div class="tip-green" style="margin-bottom:0;">
+          <strong>오류 발생 시:</strong> F12 → Console 탭 → 빨간 오류 메시지 복사 → AI에게 현재 코드와 함께 붙여넣고 수정 요청.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 탭 분리로 완성하기 -->
+  <div class="part">
+    <div class="sec-title">🏆 도전 — 탭 분리로 나만의 지도 완성</div>
+    <p class="desc">2단계까지 완성됐으면 <strong>카테고리 코드</strong>를 활용해서 탭을 나눠봐요. 키워드 검색보다 카테고리 코드로 검색하면 결과가 더 정확해요.</p>
+
+    <div class="step-card">
+      <div class="step-card-head purple">
+        <div class="step-num purple">🔍</div>
+        <div>
+          <div class="step-card-title purple">카테고리 코드 직접 찾기</div>
+          <div class="step-card-sub">LLM에게 물어보거나 카카오 개발자 문서에서 직접 탐색</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <p style="margin-bottom:14px;">카카오맵 API는 카테고리 코드로 장소를 검색할 수 있어요. <strong>내가 만들고 싶은 지도에 맞는 코드를 직접 찾아봐요.</strong></p>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px;">
+          <div class="box" style="margin:0;">
+            <div class="box-label">방법 1 — LLM에게 물어보기</div>
+            <p style="font-size:14px; line-height:1.8; margin-bottom:8px;">LLM 창 열고 아래처럼 질문해봐요.</p>
+            <div class="code-wrap" style="margin:0; padding:12px 16px;">
+              <pre style="font-size:12px;">카카오맵 카테고리로 장소 검색 API에서
+사용할 수 있는 카테고리 코드 목록을
+전부 알려줘.</pre>
+            </div>
+          </div>
+          <div class="box" style="margin:0;">
+            <div class="box-label">방법 2 — 카카오 개발자 문서</div>
+            <p style="font-size:14px; line-height:1.8; margin-bottom:8px;"><code class="mono">developers.kakao.com</code> → 문서 → 지도/로컬 → 로컬 → <strong>카테고리로 장소 검색</strong></p>
+            <p style="font-size:13px; color:var(--text3);">로그인 후 접속해야 상세 문서 확인 가능.</p>
+          </div>
+        </div>
+
+        <p style="font-weight:700; margin-bottom:8px; color:var(--text3); font-size:13px;">카테고리 코드 예시 (더 많은 코드는 직접 찾아볼 것!)</p>
+        <table style="width:100%; border-collapse:collapse; font-size:14px; margin-bottom:16px; border-radius:8px; overflow:hidden; border:1.5px solid var(--border);">
+          <thead>
+            <tr style="background:var(--surface2);">
+              <th style="padding:10px 14px; text-align:left; border-bottom:1.5px solid var(--border);">코드</th>
+              <th style="padding:10px 14px; text-align:left; border-bottom:1.5px solid var(--border);">카테고리</th>
+              <th style="padding:10px 14px; text-align:left; border-bottom:1.5px solid var(--border);">활용 예시</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:9px 14px; font-family:'DM Mono',monospace; font-weight:700; color:var(--kakao);">FD6</td>
+              <td style="padding:9px 14px; color:var(--text2);">음식점</td>
+              <td style="padding:9px 14px; color:var(--text3);">🍽 맛집 지도</td>
+            </tr>
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:9px 14px; font-family:'DM Mono',monospace; font-weight:700; color:var(--kakao);">HP8</td>
+              <td style="padding:9px 14px; color:var(--text2);">병원</td>
+              <td style="padding:9px 14px; color:var(--text3);">🏥 안전 인프라 지도</td>
+            </tr>
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:9px 14px; font-family:'DM Mono',monospace; font-weight:700; color:var(--kakao);">PM9</td>
+              <td style="padding:9px 14px; color:var(--text2);">약국</td>
+              <td style="padding:9px 14px; color:var(--text3);">💊 의료 접근성 지도</td>
+            </tr>
+            <tr>
+              <td style="padding:9px 14px; font-family:'DM Mono',monospace; font-weight:700; color:var(--kakao);">SC4</td>
+              <td style="padding:9px 14px; color:var(--text2);">학교</td>
+              <td style="padding:9px 14px; color:var(--text3);">🏫 교육 인프라 지도</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-card-head green">
+        <div class="step-num green">✨</div>
+        <div>
+          <div class="step-card-title green">탭 분리 프롬프트 작성</div>
+          <div class="step-card-sub">찾은 카테고리 코드를 프롬프트에 넣어서 탭 분리 요청</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <p style="margin-bottom:12px;">카테고리 코드를 찾았으면 아래 프롬프트 템플릿에 넣어서 AI에게 요청해봐요.<br><strong>반드시 현재 코드를 같이 붙여넣을 것.</strong></p>
+        <div class="prompt-box"><span style="color:#f28b82;">① 페르소나</span>
+나는 카카오맵 장소 검색 서비스를 만들고 있는 고등학생이야.
+
+<span style="color:#82c7ff;">② 맥락 + 현재 코드</span>
+아래는 내 현재 index.html 전체야:
+[index.html 전체 붙여넣기]
+
+<span style="color:#ffd700;">③ 구체적 지시</span>
+탭을 두 개로 나눠서 각각 다른 카테고리를 검색하게 만들어줘.
+  탭 1 (맛집): 카테고리 코드 FD6 (음식점)으로 지도 중심 기준 검색
+  탭 2 (병원): 카테고리 코드 HP8 (병원)으로 지도 중심 기준 검색
+탭 전환 시 기존 마커는 지우고 새 결과만 표시해줘.
+
+<span style="color:#c3e88d;">④ 출력 형식</span>
+수정·추가된 부분만 알려줘.
+어느 위치에 넣으면 되는지도 설명해줘.</div>
+        <div class="tip-green" style="margin-top:12px; margin-bottom:0;">
+          <strong>탭 이름이나 카테고리 코드는 자유롭게 바꿔도 됨.</strong> 맛집·병원 대신 카페·학교·편의점 등 원하는 조합으로 만들어봐요.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 프롬프트 -->
+  <div class="part">
+    <div class="sec-title">단계별 프롬프트 예시</div>
+    <p class="desc"><strong>① 내가 뭘 만드는지 ② 현재 코드 상태 ③ 원하는 기능</strong> — 3가지 조건 필수.</p>
+
+    <p style="font-weight:700; font-size:14px; margin-bottom:8px; color:var(--text3);">STEP 1 — 뼈대 및 기본 지도 프롬프트</p>
+    <div class="prompt-box" style="margin-bottom:16px;"><span style="color:#f28b82;">① 페르소나</span>
+나는 고등학생이고 HTML/CSS/JS를 배우고 있어.
+
+<span style="color:#82c7ff;">② 맥락</span>
+카카오맵 API로 장소 검색 서비스를 새로 만들고 싶어.
+
+<span style="color:#ffd700;">③ 구체적 지시</span>
+- 왼쪽: 검색창 + 결과 리스트 / 오른쪽: 지도 — 2분할 화면
+- 화면이 켜지면 우리 학교 위치(위도 37.66, 경도 126.83)를 중심으로 지도 표시
+- JavaScript 키: [내 키 입력]
+
+<span style="color:#c3e88d;">④ 출력 형식</span>
+index.html, style.css, script.js 3개 파일로 나눠서 보여줘.
+변수명은 영어로, 주석은 한국어로.</div>
+
+    <p style="font-weight:700; font-size:14px; margin-bottom:8px; color:var(--text3);">STEP 2~3 — 기능 추가 프롬프트</p>
+    <div class="prompt-box" style="margin-bottom:16px;"><span style="color:#f28b82;">① 페르소나</span>
+나는 카카오맵 장소 검색 서비스를 만들고 있는 고등학생이야.
+
+<span style="color:#82c7ff;">② 맥락 + 현재 코드</span>
+아래는 내 현재 script.js야:
+[script.js 전체 붙여넣기]
+
+<span style="color:#ffd700;">③ 구체적 지시</span>
+검색창에 키워드 입력 후 버튼 클릭 →
+카카오 장소 검색 API 요청 → 지도에 마커 + 왼쪽 리스트에 이름 표시
+
+<span style="color:#c3e88d;">④ 출력 형식</span>
+수정·추가된 script.js 부분만 알려줘.
+어느 위치에 넣으면 되는지도 설명해줘.</div>
+
+    <div class="warn" style="margin-bottom:0;">
+      <strong>오류 발생 시 디버깅 프롬프트:</strong><br>
+      "내 현재 코드: [붙여넣기] / 오류 메시지: [F12 Console 빨간 메시지 복사] / 원인과 수정 방법을 단계별로 알려줘."
+    </div>
+  </div>
+
+  <!-- 완성 체크 -->
+  <div class="final">
+    <div class="final-title">✅ 완성 체크리스트</div>
+    <ul>
+      <li>카카오 개발자 사이트에서 JavaScript 키 발급 완료</li>
+      <li>GitHub Pages 도메인 등록 완료</li>
+      <li>카카오맵 사용 설정 활성화 (ON) 확인</li>
+      <li>2분할 레이아웃 + 지도 정상 표시 확인</li>
+      <li>키워드 검색 시 F12 콘솔에 JSON 데이터 출력 확인</li>
+      <li>지도 위 마커 + 왼쪽 리스트 정상 표시 확인</li>
+      <li>마커 클릭 시 장소 정보 팝업 표시 확인</li>
+      <li>GitHub Pages에 업로드 후 실제 주소에서 작동 확인</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
