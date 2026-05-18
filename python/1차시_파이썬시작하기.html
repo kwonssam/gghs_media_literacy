@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1차시 — 파이썬 데이터 시각화 시작하기</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@600;700&family=DM+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f8f9fc;
+    --surface: #ffffff;
+    --surface2: #f0f4ff;
+    --border: #e2e8f0;
+    --border2: #cbd5e1;
+    --text: #1a202c;
+    --text2: #4a5568;
+    --text3: #94a3b8;
+    --primary: #3b82f6;
+    --primary-bg: #eff6ff;
+    --primary-border: #bfdbfe;
+    --green: #059669;
+    --green-bg: #ecfdf5;
+    --green-border: #a7f3d0;
+    --orange: #d97706;
+    --orange-bg: #fffbeb;
+    --orange-border: #fde68a;
+    --red: #dc2626;
+    --red-bg: #fef2f2;
+    --red-border: #fecaca;
+    --purple: #7c3aed;
+    --purple-bg: #f5f3ff;
+    --purple-border: #ddd6fe;
+    --code-bg: #1e293b;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--text);
+    line-height: 1.75;
+    font-size: 15px;
+  }
+
+  /* ── 레이아웃 ── */
+  .wrapper { display: flex; min-height: 100vh; }
+
+  /* ── 사이드바 ── */
+  .sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 24px 0;
+  }
+  .sidebar-logo {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .sidebar-logo .book-title {
+    font-size: 13px; font-weight: 700;
+    color: var(--primary);
+    letter-spacing: .04em; margin-bottom: 4px;
+  }
+  .sidebar-logo .book-sub {
+    font-size: 12px; color: var(--text3);
+  }
+  .nav-section { margin-bottom: 8px; }
+  .nav-section-title {
+    font-size: 11px; font-weight: 700;
+    color: var(--text3); text-transform: uppercase;
+    letter-spacing: .08em; padding: 6px 20px;
+  }
+  .nav-item {
+    display: block;
+    padding: 7px 20px 7px 28px;
+    font-size: 13px; color: var(--text2);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: all .15s;
+  }
+  .nav-item:hover { color: var(--primary); background: var(--primary-bg); }
+  .nav-item.active {
+    color: var(--primary); font-weight: 700;
+    border-left-color: var(--primary);
+    background: var(--primary-bg);
+  }
+  .nav-item.current-chapter {
+    padding-left: 20px;
+    font-size: 13px; font-weight: 700;
+    color: var(--text);
+  }
+
+  /* ── 본문 ── */
+  .main { flex: 1; min-width: 0; }
+  .content { max-width: 860px; margin: 0 auto; padding: 52px 48px 100px; }
+
+  /* ── 챕터 헤더 ── */
+  .chapter-header {
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 2px solid var(--border);
+  }
+  .chapter-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--primary-bg);
+    color: var(--primary);
+    font-size: 11px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 20px;
+    border: 1px solid var(--primary-border);
+    margin-bottom: 12px;
+  }
+  .chapter-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 32px; font-weight: 700;
+    color: var(--text); line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .chapter-desc {
+    font-size: 16px; color: var(--text2); line-height: 1.75;
+  }
+
+  /* ── 섹션 ── */
+  .section { margin-bottom: 52px; }
+  .section-title {
+    font-size: 22px; font-weight: 900;
+    color: var(--text); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  /* ── 학습 목표 박스 ── */
+  .goal-box {
+    background: var(--primary-bg);
+    border: 1.5px solid var(--primary-border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+  }
+  .goal-box-title {
+    font-size: 13px; font-weight: 700;
+    color: var(--primary); margin-bottom: 12px;
+    text-transform: uppercase; letter-spacing: .08em;
+  }
+  .goal-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .goal-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 14px; color: var(--text2);
+  }
+  .goal-list li::before {
+    content: '☐';
+    font-size: 16px; color: var(--primary); flex-shrink: 0;
+  }
+
+  /* ── 개념 카드 ── */
+  .concept-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .concept-card-head {
+    padding: 14px 20px;
+    background: var(--surface2);
+    border-bottom: 1.5px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .concept-label {
+    font-size: 11px; font-weight: 700;
+    color: var(--primary); text-transform: uppercase;
+    letter-spacing: .08em;
+    background: var(--primary-bg);
+    border: 1px solid var(--primary-border);
+    padding: 2px 10px; border-radius: 20px;
+  }
+  .concept-card-title {
+    font-size: 15px; font-weight: 700; color: var(--text);
+  }
+  .concept-card-body {
+    padding: 20px 24px;
+    font-size: 14px; color: var(--text2); line-height: 1.8;
+  }
+
+  /* ── 비교 박스 (오렌지3 vs 파이썬) ── */
+  .compare-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 14px; margin: 16px 0;
+  }
+  .compare-card {
+    border-radius: 10px; padding: 16px 18px;
+    border: 1.5px solid;
+  }
+  .compare-card.orange3 {
+    background: var(--orange-bg); border-color: var(--orange-border);
+  }
+  .compare-card.python {
+    background: var(--primary-bg); border-color: var(--primary-border);
+  }
+  .compare-card-title {
+    font-size: 13px; font-weight: 700; margin-bottom: 10px;
+  }
+  .compare-card.orange3 .compare-card-title { color: var(--orange); }
+  .compare-card.python .compare-card-title { color: var(--primary); }
+  .compare-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .compare-list li { font-size: 13px; color: var(--text2); display: flex; gap: 6px; }
+  .compare-list li::before { content: '•'; color: var(--text3); flex-shrink: 0; }
+
+  /* ── 따라하기 스텝 ── */
+  .step-list { display: flex; flex-direction: column; gap: 20px; }
+  .step-item {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .step-head {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 20px;
+    background: var(--surface2);
+    border-bottom: 1.5px solid var(--border);
+  }
+  .step-num {
+    width: 32px; height: 32px;
+    background: var(--primary);
+    color: white; border-radius: 50%;
+    font-size: 14px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .step-body {
+    padding: 20px 24px;
+    font-size: 14px; color: var(--text2); line-height: 1.8;
+  }
+
+  /* ── 코드 블록 ── */
+  .code-block {
+    background: var(--code-bg);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin: 14px 0;
+    overflow-x: auto;
+    position: relative;
+  }
+  .code-block pre {
+    font-family: 'DM Mono', monospace;
+    font-size: 13.5px; color: #e2e8f0;
+    line-height: 1.85; white-space: pre;
+  }
+  .code-label {
+    position: absolute; top: 10px; right: 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; color: #475569;
+    text-transform: uppercase; letter-spacing: .06em;
+  }
+  /* 코드 색상 */
+  .kw  { color: #c792ea; }
+  .fn  { color: #82aaff; }
+  .str { color: #c3e88d; }
+  .num { color: #f78c6c; }
+  .cm  { color: #546e7a; font-style: italic; }
+  .out { color: #a3e635; }
+
+  /* ── 실행 결과 ── */
+  .output-box {
+    background: #0f172a;
+    border: 1px solid #1e3a5f;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 8px 0 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px; color: #a3e635;
+    line-height: 1.7;
+  }
+  .output-label {
+    font-size: 10px; color: #475569;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: .06em; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  /* ── 팁/경고/주의 박스 ── */
+  .tip {
+    background: var(--green-bg);
+    border: 1px solid var(--green-border);
+    border-left: 3px solid var(--green);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    font-size: 13.5px; color: var(--text2);
+    margin: 12px 0;
+  }
+  .tip strong { color: var(--green); }
+  .warn {
+    background: var(--red-bg);
+    border: 1px solid var(--red-border);
+    border-left: 3px solid var(--red);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    font-size: 13.5px; color: var(--text2);
+    margin: 12px 0;
+  }
+  .warn strong { color: var(--red); }
+  .note {
+    background: var(--orange-bg);
+    border: 1px solid var(--orange-border);
+    border-left: 3px solid var(--orange);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    font-size: 13.5px; color: var(--text2);
+    margin: 12px 0;
+  }
+  .note strong { color: var(--orange); }
+
+  /* ── 전체 코드 ── */
+  .full-code {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .full-code-head {
+    padding: 12px 20px;
+    background: var(--code-bg);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .full-code-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+  }
+
+  /* ── 점검하기 ── */
+  .check-section {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+  .check-title {
+    font-size: 15px; font-weight: 700; color: var(--text);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .check-list2 { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .check-list2 li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 14px; color: var(--text2); line-height: 1.6;
+  }
+  .check-list2 li input[type="checkbox"] {
+    width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px;
+    accent-color: var(--primary);
+  }
+
+  /* ── 미션 ── */
+  .mission-box {
+    background: linear-gradient(135deg, var(--purple-bg), var(--primary-bg));
+    border: 2px solid var(--purple-border);
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+  }
+  .mission-title {
+    font-size: 16px; font-weight: 900; color: var(--purple);
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .mission-desc {
+    font-size: 14px; color: var(--text2); line-height: 1.8;
+    margin-bottom: 14px;
+  }
+  .mission-task {
+    background: white;
+    border-radius: 8px; padding: 14px 16px;
+    font-size: 14px; color: var(--text2); line-height: 1.8;
+    border: 1px solid var(--purple-border);
+  }
+
+  /* ── 다음 장 미리보기 ── */
+  .next-chapter {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .next-icon { font-size: 28px; flex-shrink: 0; }
+  .next-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+  .next-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .next-desc { font-size: 13px; color: var(--text2); margin-top: 3px; }
+
+  /* ── 인라인 코드 ── */
+  code {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    background: var(--surface2);
+    padding: 2px 7px; border-radius: 4px;
+    border: 1px solid var(--border);
+    color: var(--primary);
+  }
+
+  p { margin-bottom: 12px; }
+  strong { color: var(--text); }
+
+  hr.div { border: none; border-top: 1px dashed var(--border); margin: 24px 0; }
+
+  /* ── 표 ── */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+  th { background: var(--surface2); padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--border); font-weight: 700; }
+  td { padding: 10px 14px; border-bottom: 1px dashed var(--border); color: var(--text2); }
+  tr:last-child td { border-bottom: none; }
+  .nav-item.soon { color: var(--text3); cursor: pointer; }
+  .nav-item.soon:hover { color: var(--text2); background: var(--surface2); border-left-color: transparent; }
+
+  /* 토스트 */
+  #soon-toast {
+    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--text); color: #fff;
+    padding: 10px 20px; border-radius: 999px;
+    font-size: 13px; font-weight: 500;
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s, transform .25s;
+    z-index: 9999; white-space: nowrap;
+  }
+  #soon-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- 사이드바 -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <div class="book-title">📊 파이썬 데이터 시각화</div>
+      <div class="book-sub">고등학교 정보 · 8차시</div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-title">1부 — 시작하기</div>
+      <a href="1차시_파이썬시작하기.html" class="nav-item active">1차시 · 파이썬 시작하기</a>
+      <a href="2차시_데이터시각화.html" class="nav-item">2차시 · 데이터 시각화</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">2부 — 심화 시각화</div>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">3차시 · 워드클라우드</a>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">4차시 · 지도 시각화</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">3부 — 수행평가</div>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">5차시 · 계획서 작성</a>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">6~7차시 · 프로젝트 실습</a>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">8차시 · 보고서 + 발표</a>
+    </div>
+
+    <div style="margin-top:20px; padding:0 20px;">
+      <div style="background:var(--primary-bg); border:1px solid var(--primary-border); border-radius:8px; padding:12px; font-size:12px; color:var(--text2);">
+        <div style="font-weight:700; color:var(--primary); margin-bottom:4px;">📌 이 챕터</div>
+        <a href="#goal" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">🎯 이 장에서 배우는 것</a>
+        <a href="#why" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">💡 왜 파이썬인가?</a>
+        <a href="#colab" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">📚 구글 코랩</a>
+        <a href="#print" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">🖨️ print() 함수</a>
+        <a href="#variable" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">📦 변수</a>
+        <a href="#list" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">📋 리스트</a>
+        <a href="#check" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">✅ 점검하기</a>
+        <a href="#mission" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">🚀 미션</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 본문 -->
+  <main class="main">
+    <div class="content">
+
+      <!-- 챕터 헤더 -->
+      <div class="chapter-header">
+        <div class="chapter-badge">1차시</div>
+        <h1 class="chapter-title">🐍 파이썬으로 데이터<br>시각화 시작하기</h1>
+        <p class="chapter-desc">
+          오렌지3에서 배운 데이터 분석을 이제 파이썬 코드로 직접 만들어봅니다.<br>
+          코랩 환경에서 첫 코드를 실행하고, 변수와 리스트 개념을 익힙니다.
+        </p>
+      </div>
+
+      <!-- 학습 목표 -->
+      <div id="goal" class="section">
+        <h2 class="section-title">🎯 이 장에서 배우는 것</h2>
+        <div class="goal-box">
+          <div class="goal-box-title">학습 목표</div>
+          <ul class="goal-list">
+            <li>오렌지3와 파이썬의 차이를 설명할 수 있다</li>
+            <li>구글 코랩에서 코드 셀을 실행할 수 있다</li>
+            <li><code>print()</code> 함수로 원하는 내용을 출력할 수 있다</li>
+            <li>변수를 만들고 값을 저장할 수 있다</li>
+            <li>리스트를 만들고 원소를 꺼낼 수 있다</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 왜 파이썬인가 -->
+      <div id="why" class="section">
+        <h2 class="section-title">💡 왜 파이썬인가?</h2>
+
+        <p>지금까지 오렌지3로 데이터를 분석하고 그래프를 그려봤습니다.<br>오렌지3는 클릭만으로 쉽게 쓸 수 있지만, <strong>할 수 없는 것들</strong>이 있었습니다.</p>
+
+        <div class="compare-grid">
+          <div class="compare-card orange3">
+            <div class="compare-card-title">🍊 오렌지3로 할 수 있는 것</div>
+            <ul class="compare-list">
+              <li>막대, 선, 점, 원 그래프</li>
+              <li>머신러닝 모델 훈련</li>
+              <li>Scatter Plot, Rank</li>
+              <li>클릭으로 빠르게 실행</li>
+            </ul>
+          </div>
+          <div class="compare-card python">
+            <div class="compare-card-title">🐍 파이썬으로만 할 수 있는 것</div>
+            <ul class="compare-list">
+              <li>☁️ 워드클라우드 (텍스트 시각화)</li>
+              <li>🗺️ 실제 지도 위에 데이터 표시</li>
+              <li>🖱️ 마우스로 움직이는 그래프</li>
+              <li>🔄 반복 작업 자동화</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="tip">
+          <strong>핵심:</strong> 오렌지3는 "빠르게 탐색"할 때, 파이썬은 "직접 만들고 자동화"할 때 강력합니다. 둘 다 쓸 줄 알면 훨씬 강해집니다.
+        </div>
+      </div>
+
+      <!-- 구글 코랩 -->
+      <div id="colab" class="section">
+        <h2 class="section-title">📚 핵심 개념 — 구글 코랩</h2>
+
+        <div class="concept-card">
+          <div class="concept-card-head">
+            <span class="concept-label">개념</span>
+            <span class="concept-card-title">구글 코랩(Google Colab)이란?</span>
+          </div>
+          <div class="concept-card-body">
+            <p>구글이 무료로 제공하는 <strong>파이썬 실습 환경</strong>입니다. 설치 없이 인터넷 브라우저에서 바로 파이썬 코드를 실행할 수 있습니다.</p>
+
+            <table>
+              <thead>
+                <tr><th>특징</th><th>설명</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>🌐 브라우저 기반</td><td>설치 없이 인터넷만 있으면 바로 사용 가능</td></tr>
+                <tr><td>☁️ 구글 드라이브 연동</td><td>작업 내용이 자동으로 저장됨</td></tr>
+                <tr><td>📦 패키지 미리 설치</td><td>pandas, matplotlib 등 주요 패키지 기본 탑재</td></tr>
+                <tr><td>🆓 무료</td><td>구글 계정만 있으면 무료로 사용 가능</td></tr>
+              </tbody>
+            </table>
+
+            <div class="tip">
+              <strong>접속 방법:</strong> 구글 검색에서 "구글 코랩" 검색 → <code>colab.research.google.com</code> 접속 → 구글 계정 로그인
+            </div>
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-head">
+            <span class="concept-label">개념</span>
+            <span class="concept-card-title">셀(Cell)이란?</span>
+          </div>
+          <div class="concept-card-body">
+            <p>코랩은 <strong>셀</strong> 단위로 코드를 작성하고 실행합니다.</p>
+            <table>
+              <thead>
+                <tr><th>셀 종류</th><th>용도</th><th>실행</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>코드 셀</strong></td><td>파이썬 코드 작성 및 실행</td><td>▶ 버튼 클릭 또는 <code>Shift+Enter</code></td></tr>
+                <tr><td><strong>텍스트 셀</strong></td><td>설명, 제목 등 문서 작성</td><td>더블클릭으로 편집</td></tr>
+              </tbody>
+            </table>
+            <div class="warn">
+              <strong>중요:</strong> 코랩은 런타임이 연결 끊기면 작업이 초기화됩니다. 중요한 파일은 구글 드라이브에 저장해두세요.
+            </div>
+          </div>
+        </div>
+
+        <!-- 따라하기 - 코랩 -->
+        <h3 style="font-size:17px; font-weight:700; margin:28px 0 16px; color:var(--text);">🔨 따라하기</h3>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">1</div>
+              <div class="step-title">구글 코랩 접속하고 새 노트북 만들기</div>
+            </div>
+            <div class="step-body">
+              <p><code>colab.research.google.com</code> 접속 → 로그인 → <strong>새 노트북</strong> 클릭</p>
+              <p>상단에 제목이 <code>Untitled0.ipynb</code>로 생성됩니다. 클릭해서 <strong>"1차시_파이썬기초"</strong>로 이름을 바꿔봐요.</p>
+              <div class="tip">
+                <strong>팁:</strong> 노트북 파일의 확장자는 <code>.ipynb</code>입니다. <strong>Jupyter Notebook</strong> 형식으로, 코랩에서 사용하는 표준 형식이에요.
+              </div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">2</div>
+              <div class="step-title">첫 번째 코드 셀 실행하기</div>
+            </div>
+            <div class="step-body">
+              <p>코드 셀에 아래 코드를 입력하고 <code>Shift+Enter</code>를 눌러보세요.</p>
+              <div class="code-block">
+                <pre><span class="fn">print</span>(<span class="str">'안녕하세요, 파이썬!'</span>)</pre>
+              </div>
+              <div class="output-label">실행 결과</div>
+              <div class="output-box">안녕하세요, 파이썬!</div>
+              <div class="tip">
+                <strong>Shift+Enter:</strong> 현재 셀 실행 후 다음 셀로 이동<br>
+                <strong>Ctrl+Enter:</strong> 현재 셀만 실행 (이동 없음)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- print() 함수 -->
+      <div id="print" class="section">
+        <h2 class="section-title">🖨️ 핵심 개념 — print() 함수</h2>
+
+        <div class="concept-card">
+          <div class="concept-card-head">
+            <span class="concept-label">개념</span>
+            <span class="concept-card-title">print() — 화면에 출력하기</span>
+          </div>
+          <div class="concept-card-body">
+            <p><code>print()</code>는 괄호 안의 내용을 화면에 출력하는 함수입니다.</p>
+            <div class="tip">
+              <strong>핵심 규칙:</strong> 따옴표가 있으면 그대로 출력, 따옴표가 없으면 변수 값 출력
+            </div>
+            <div class="code-block">
+              <pre><span class="fn">print</span>(<span class="str">'출력할 내용'</span>)   <span class="cm"># 따옴표 있음 → 그대로 출력</span>
+<span class="fn">print</span>(<span class="num">100</span>)            <span class="cm"># 숫자는 따옴표 없이</span>
+<span class="fn">print</span>(<span class="num">3.14</span>)           <span class="cm"># 소수점도 가능</span></pre>
+            </div>
+            <div class="output-label">실행 결과</div>
+            <div class="output-box">출력할 내용
+100
+3.14</div>
+          </div>
+        </div>
+
+        <h3 style="font-size:17px; font-weight:700; margin:28px 0 16px; color:var(--text);">🔨 따라하기</h3>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">1</div>
+              <div class="step-title">여러 값 한 번에 출력하기</div>
+            </div>
+            <div class="step-body">
+              <p>쉼표(,)로 여러 값을 한 줄에 출력할 수 있습니다. 자동으로 사이에 공백이 추가됩니다.</p>
+              <div class="code-block">
+                <pre><span class="fn">print</span>(<span class="str">'이름:'</span>, <span class="str">'홍길동'</span>)
+<span class="fn">print</span>(<span class="str">'나이:'</span>, <span class="num">17</span>)
+<span class="fn">print</span>(<span class="str">'좋아하는 가수:'</span>, <span class="str">'BTS'</span>)</pre>
+              </div>
+              <div class="output-label">실행 결과</div>
+              <div class="output-box">이름: 홍길동
+나이: 17
+좋아하는 가수: BTS</div>
+            </div>
+          </div>
+
+
+        <!-- 주의할 점 -->
+        <h3 style="font-size:17px; font-weight:700; margin:28px 0 12px; color:var(--text);">⚠️ 주의할 점</h3>
+        <div class="warn">
+          <strong>따옴표를 빠뜨리면 오류!</strong><br>
+          문자열은 반드시 따옴표로 감싸야 합니다. <code>print(안녕)</code>이라고 쓰면 <code>NameError</code>가 납니다.
+        </div>
+        <div class="warn">
+          <strong>대소문자 구분!</strong><br>
+          <code>Print()</code>, <code>PRINT()</code>는 오류가 납니다. 반드시 <code>print()</code>로 소문자로 써야 합니다.
+        </div>
+      </div>
+
+      <!-- 변수 -->
+      <div id="variable" class="section">
+        <h2 class="section-title">📦 핵심 개념 — 변수</h2>
+
+        <div class="concept-card">
+          <div class="concept-card-head">
+            <span class="concept-label">개념 1</span>
+            <span class="concept-card-title">변수(Variable) — 데이터를 담는 상자</span>
+          </div>
+          <div class="concept-card-body">
+            <p>변수는 데이터를 저장해두는 <strong>이름이 붙은 상자</strong>입니다.<br><code>=</code> 기호로 값을 저장합니다. (수학의 등호와 다릅니다!)</p>
+            <div class="code-block">
+              <pre><span class="cm"># 변수 만들기 (변수명 = 값)</span>
+name = <span class="str">'홍길동'</span>      <span class="cm"># 문자열 저장</span>
+age = <span class="num">17</span>            <span class="cm"># 정수 저장</span>
+height = <span class="num">172.5</span>     <span class="cm"># 소수 저장</span>
+is_student = <span class="kw">True</span>  <span class="cm"># 참/거짓 저장</span>
+
+<span class="fn">print</span>(<span class="str">'이름:'</span>, name)     <span class="cm"># 따옴표 없음 → 변수 값</span>
+<span class="fn">print</span>(<span class="str">'나이:'</span>, age)
+<span class="fn">print</span>(<span class="str">'키:'</span>, height)</pre>
+            </div>
+            <div class="output-label">실행 결과</div>
+            <div class="output-box">이름: 홍길동
+나이: 17
+키: 172.5</div>
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-head">
+            <span class="concept-label">개념 2</span>
+            <span class="concept-card-title">변수 이름 짓기 규칙</span>
+          </div>
+          <div class="concept-card-body">
+            <table>
+              <thead>
+                <tr><th>규칙</th><th>좋은 예</th><th>나쁜 예</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>영어 소문자 권장</td><td><code>name</code>, <code>age</code></td><td><code>Name</code>, <code>AGE</code></td></tr>
+                <tr><td>띄어쓰기 불가 → _ 사용</td><td><code>my_name</code></td><td><code>my name</code></td></tr>
+                <tr><td>숫자로 시작 불가</td><td><code>score1</code></td><td><code>1score</code></td></tr>
+                <tr><td>의미 있는 이름 사용</td><td><code>student_name</code></td><td><code>a</code>, <code>x1</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h3 style="font-size:17px; font-weight:700; margin:28px 0 16px; color:var(--text);">🔨 따라하기</h3>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">1</div>
+              <div class="step-title">변수로 계산하기</div>
+            </div>
+            <div class="step-body">
+              <p>변수에 저장된 값으로 계산을 할 수 있습니다.</p>
+              <div class="code-block">
+                <pre>korean = <span class="num">90</span>
+math = <span class="num">85</span>
+english = <span class="num">92</span>
+
+total = korean + math + english
+average = total / <span class="num">3</span>
+
+<span class="fn">print</span>(<span class="str">'총점:'</span>, total)
+<span class="fn">print</span>(<span class="str">'평균:'</span>, average)</pre>
+              </div>
+              <div class="output-label">실행 결과</div>
+              <div class="output-box">총점: 267
+평균: 89.0</div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">2</div>
+              <div class="step-title">변수 값 바꾸기</div>
+            </div>
+            <div class="step-body">
+              <p>같은 변수에 새로운 값을 넣으면 이전 값은 사라집니다.</p>
+              <div class="code-block">
+                <pre>score = <span class="num">70</span>
+<span class="fn">print</span>(<span class="str">'처음 점수:', score</span>)
+
+score = <span class="num">85</span>       <span class="cm"># 값 변경</span>
+<span class="fn">print</span>(<span class="str">'바뀐 점수:', score</span>)
+
+score = score + <span class="num">10</span>  <span class="cm"># 기존 값에 10 더하기</span>
+<span class="fn">print</span>(<span class="str">'최종 점수:', score</span>)</pre>
+              </div>
+              <div class="output-label">실행 결과</div>
+              <div class="output-box">처음 점수: 70
+바뀐 점수: 85
+최종 점수: 95</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:17px; font-weight:700; margin:28px 0 12px; color:var(--text);">⚠️ 주의할 점 — <code>=</code> vs <code>==</code></h3>
+
+        <!-- = vs == 비교 카드 -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+          <div style="background:var(--green-bg); border:1.5px solid var(--green-border); border-radius:10px; padding:16px;">
+            <div style="font-size:13px; font-weight:700; color:var(--green); margin-bottom:8px;">= &nbsp;대입 연산자</div>
+            <div style="font-size:13px; color:var(--text2); margin-bottom:10px;">오른쪽 값을 왼쪽 변수에 <strong>저장</strong>합니다.</div>
+            <div class="code-block" style="margin:0; font-size:13px;">
+              <pre>x = <span class="num">5</span>
+name = <span class="str">'홍길동'</span></pre>
+            </div>
+            <div style="font-size:12px; color:var(--green); margin-top:8px;">→ x라는 상자에 5를 넣는다</div>
+          </div>
+          <div style="background:var(--primary-bg); border:1.5px solid var(--primary-border); border-radius:10px; padding:16px;">
+            <div style="font-size:13px; font-weight:700; color:var(--primary); margin-bottom:8px;">== &nbsp;비교 연산자</div>
+            <div style="font-size:13px; color:var(--text2); margin-bottom:10px;">왼쪽과 오른쪽이 <strong>같은지 비교</strong>합니다. 결과는 True/False.</div>
+            <div class="code-block" style="margin:0; font-size:13px;">
+              <pre>x == <span class="num">5</span>    <span class="cm"># True</span>
+x == <span class="num">3</span>    <span class="cm"># False</span></pre>
+            </div>
+            <div style="font-size:12px; color:var(--primary); margin-top:8px;">→ x 상자 안이 5인지 물어본다</div>
+          </div>
+        </div>
+
+        <div class="code-block" style="margin-bottom:16px;">
+          <pre><span class="cm"># 예시로 비교해봐요</span>
+score = <span class="num">90</span>           <span class="cm"># = : score에 90을 저장</span>
+
+<span class="fn">print</span>(score == <span class="num">90</span>)   <span class="cm"># == : 90이 맞냐? → True</span>
+<span class="fn">print</span>(score == <span class="num">100</span>)  <span class="cm"># == : 100이 맞냐? → False</span></pre>
+        </div>
+        <div style="background:var(--red-bg); border:1px solid var(--red-border); border-radius:8px; padding:12px 16px; font-size:13px;">
+          <strong style="color:var(--red);">❌ 자주 하는 실수</strong><br>
+          <code>if score = 90:</code> &nbsp;← <span style="color:var(--red);">오류!</span> 조건을 비교할 때 <code>=</code>을 쓰면 안 돼요.<br>
+          <code>if score == 90:</code> &nbsp;← <span style="color:var(--green);">정상!</span> 비교할 때는 반드시 <code>==</code>을 써요.
+        </div>
+      </div>
+
+      <!-- 리스트 -->
+      <div id="list" class="section">
+        <h2 class="section-title">📋 핵심 개념 — 리스트</h2>
+
+        <div class="concept-card">
+          <div class="concept-card-head">
+            <span class="concept-label">개념</span>
+            <span class="concept-card-title">리스트(List) — 여러 값을 순서대로 저장</span>
+          </div>
+          <div class="concept-card-body">
+            <p>리스트는 <strong>여러 개의 값을 하나의 변수에</strong> 순서대로 저장하는 방법입니다.<br>
+            대괄호 <code>[ ]</code>로 만들고, 쉼표로 값을 구분합니다.</p>
+            <div class="code-block">
+              <pre><span class="cm"># 리스트 만들기</span>
+fruits = [<span class="str">'사과'</span>, <span class="str">'바나나'</span>, <span class="str">'딸기'</span>, <span class="str">'포도'</span>]
+scores = [<span class="num">90</span>, <span class="num">85</span>, <span class="num">92</span>, <span class="num">78</span>, <span class="num">88</span>]
+
+<span class="fn">print</span>(fruits)
+<span class="fn">print</span>(scores)</pre>
+            </div>
+            <div class="output-label">실행 결과</div>
+            <div class="output-box">['사과', '바나나', '딸기', '포도']
+[90, 85, 92, 78, 88]</div>
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-card-head">
+            <span class="concept-label">개념</span>
+            <span class="concept-card-title">인덱스(Index) — 원소 꺼내기</span>
+          </div>
+          <div class="concept-card-body">
+            <p>리스트의 각 원소는 <strong>인덱스(순서 번호)</strong>로 꺼낼 수 있습니다.<br>
+            파이썬에서 인덱스는 <strong>0부터</strong> 시작합니다!</p>
+            <div class="code-block">
+              <pre>fruits = [<span class="str">'사과'</span>, <span class="str">'바나나'</span>, <span class="str">'딸기'</span>, <span class="str">'포도'</span>]
+<span class="cm">#          [0]      [1]      [2]    [3]</span>
+
+<span class="fn">print</span>(fruits[<span class="num">0</span>])  <span class="cm"># 첫 번째 원소</span>
+<span class="fn">print</span>(fruits[<span class="num">2</span>])  <span class="cm"># 세 번째 원소</span>
+<span class="fn">print</span>(fruits[<span class="num">-1</span>]) <span class="cm"># 마지막 원소 (-1은 뒤에서 첫 번째)</span></pre>
+            </div>
+            <div class="output-label">실행 결과</div>
+            <div class="output-box">사과
+딸기
+포도</div>
+          </div>
+        </div>
+
+        <h3 style="font-size:17px; font-weight:700; margin:28px 0 16px; color:var(--text);">🔨 따라하기</h3>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">1</div>
+              <div class="step-title">리스트 길이와 합계 구하기</div>
+            </div>
+            <div class="step-body">
+              <div class="code-block">
+                <pre>scores = [<span class="num">90</span>, <span class="num">85</span>, <span class="num">92</span>, <span class="num">78</span>, <span class="num">88</span>]
+
+<span class="fn">print</span>(<span class="str">'개수:', len(scores)</span>)    <span class="cm"># len() = 길이</span>
+<span class="fn">print</span>(<span class="str">'합계:', sum(scores)</span>)    <span class="cm"># sum() = 합계</span>
+<span class="fn">print</span>(<span class="str">'최고점:', max(scores)</span>)  <span class="cm"># max() = 최댓값</span>
+<span class="fn">print</span>(<span class="str">'최저점:', min(scores)</span>)  <span class="cm"># min() = 최솟값</span>
+<span class="fn">print</span>(<span class="str">'평균:'</span>, sum(scores)/len(scores))</pre>
+              </div>
+              <div class="output-label">실행 결과</div>
+              <div class="output-box">개수: 5
+합계: 433
+최고점: 92
+최저점: 78
+평균: 86.6</div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">2</div>
+              <div class="step-title">리스트에 값 추가하기</div>
+            </div>
+            <div class="step-body">
+              <div class="code-block">
+                <pre>channels = [<span class="str">'파뿌리'</span>, <span class="str">'숏박스'</span>, <span class="str">'총몇명'</span>]
+<span class="fn">print</span>(<span class="str">'추가 전:', channels</span>)
+
+channels.append(<span class="str">'침착맨'</span>)   <span class="cm"># 맨 뒤에 추가</span>
+<span class="fn">print</span>(<span class="str">'추가 후:', channels</span>)
+<span class="fn">print</span>(<span class="str">'총 채널 수:', len(channels)</span>)</pre>
+              </div>
+              <div class="output-label">실행 결과</div>
+              <div class="output-box">추가 전: ['파뿌리', '숏박스', '총몇명']
+추가 후: ['파뿌리', '숏박스', '총몇명', '침착맨']
+총 채널 수: 4</div>
+              <div class="tip">
+                <strong>다음 시간 미리보기:</strong> 다음 차시에는 이런 리스트 데이터가 수만 개 들어있는 CSV 파일을 불러와서 그래프로 그려봅니다!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:17px; font-weight:700; margin:28px 0 12px; color:var(--text);">⚠️ 주의할 점</h3>
+        <div class="warn">
+          <strong>인덱스 범위를 벗어나면 오류!</strong><br>
+          <code>fruits = ["사과", "바나나"]</code>에서 <code>fruits[5]</code>를 하면 <code>IndexError</code>가 납니다.<br>
+          리스트 길이보다 큰 인덱스는 사용할 수 없습니다.
+        </div>
+
+        <!-- 전체 코드 -->
+        <h3 style="font-size:17px; font-weight:700; margin:28px 0 12px; color:var(--text);">📝 전체 코드</h3>
+        <div class="full-code">
+          <div class="full-code-head">
+            <div class="full-code-dot" style="background:#ff5f57;"></div>
+            <div class="full-code-dot" style="background:#febc2e;"></div>
+            <div class="full-code-dot" style="background:#28c840;"></div>
+            <span style="font-family:'DM Mono',monospace; font-size:11px; color:#64748b; margin-left:8px;">1차시_파이썬기초.ipynb</span>
+          </div>
+          <div class="code-block" style="border-radius:0; margin:0;">
+            <pre><span class="cm"># 1. print() 함수</span>
+<span class="fn">print</span>(<span class="str">'안녕하세요, 파이썬!'</span>)
+<span class="fn">print</span>(<span class="str">'이름:'</span>, <span class="str">'홍길동'</span>)
+
+<span class="cm"># 2. 변수</span>
+name = <span class="str">'홍길동'</span>
+age = <span class="num">17</span>
+<span class="fn">print</span>(<span class="str">'이름:'</span>, name)
+<span class="fn">print</span>(<span class="str">'나이:'</span>, age)
+
+<span class="cm"># 3. 변수로 계산</span>
+korean = <span class="num">90</span>
+math = <span class="num">85</span>
+english = <span class="num">92</span>
+average = (korean + math + english) / <span class="num">3</span>
+<span class="fn">print</span>(<span class="str">'평균:'</span>, average)
+
+<span class="cm"># 4. 리스트</span>
+channels = [<span class="str">'파뿌리'</span>, <span class="str">'숏박스'</span>, <span class="str">'총몇명'</span>, <span class="str">'침착맨'</span>]
+<span class="fn">print</span>(<span class="str">'첫 번째 채널:'</span>, channels[<span class="num">0</span>])
+<span class="fn">print</span>(<span class="str">'채널 수:'</span>, len(channels))</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- 점검하기 -->
+      <div id="check" class="section">
+        <h2 class="section-title">✅ 점검하기</h2>
+        <div class="check-section">
+          <div class="check-title">아래 항목을 모두 할 수 있으면 다음 차시로 넘어가세요!</div>
+          <ul class="check-list2">
+            <li><input type="checkbox"> 구글 코랩에서 새 노트북을 만들고 코드 셀을 실행할 수 있다</li>
+            <li><input type="checkbox"> <code>print()</code>로 문자열과 숫자를 출력할 수 있다</li>
+            <li><input type="checkbox"> <code>print('문자열:', 변수)</code> 형태로 변수 값을 출력할 수 있다</li>
+            <li><input type="checkbox"> 변수를 만들고 값을 저장하고 바꿀 수 있다</li>
+            <li><input type="checkbox"> 리스트를 만들고 인덱스로 원소를 꺼낼 수 있다</li>
+            <li><input type="checkbox"> <code>len()</code>, <code>sum()</code>, <code>max()</code>를 리스트에 사용할 수 있다</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 미션 -->
+      <div id="mission" class="section">
+        <h2 class="section-title">🚀 미션 — 아래 세 가지 중 하나를 골라서 해봐요</h2>
+
+        <div class="mission-box">
+          <div class="mission-title">🍽️ 미션 A — 이번 주 급식 메뉴 분석</div>
+          <div class="mission-desc">
+            이번 주 월~금 급식 메뉴를 리스트로 만들고 분석해봐요.
+          </div>
+          <div class="mission-task">
+            <strong>조건:</strong><br>
+            ① 월~금 급식 메인 메뉴 5개를 리스트로 만들기<br>
+            ② <code>print()</code>로 메뉴 목록 출력하기<br>
+            ③ <code>len()</code>으로 총 메뉴 수 출력하기<br>
+            ④ 인덱스로 내가 제일 기대하는 요일 메뉴만 출력하기
+          </div>
+          <div style="background:white; border-radius:8px; padding:14px 16px; margin-top:12px; border:1px solid var(--purple-border);">
+            <div style="font-size:12px; font-weight:700; color:var(--purple); margin-bottom:8px; text-transform:uppercase; letter-spacing:.06em;">✏️ 시작 코드 — 이어서 직접 완성해봐요</div>
+            <div class="code-block" style="margin:0; border-radius:6px;">
+              <pre><span class="cm"># ① 메뉴 리스트 만들기 — 실제 이번 주 급식표에서 채워봐요</span>
+menu = [<span class="str">'월요일메뉴'</span>, ...]</pre>
+            </div>
+            <div style="font-size:12px; color:var(--text3); margin-top:8px;">👉 ②③④ 조건을 직접 코드로 써봐요!</div>
+          </div>
+        </div>
+
+        <div class="mission-box">
+          <div class="mission-title">🏠 미션 B — 오늘 내 하루 시간 계산</div>
+          <div class="mission-desc">
+            변수를 사용해서 오늘 하루 시간을 계산해봐요.
+          </div>
+          <div class="mission-task">
+            <strong>조건:</strong><br>
+            ① 수업 시간(시간), 식사 시간(시간), 수면 시간(시간)을 변수로 만들기<br>
+            ② 총 자유 시간 계산하기 (24 - 수업 - 식사 - 수면)<br>
+            ③ <code>print()</code>로 각 시간과 자유 시간 출력하기<br>
+            ④ 자유 시간 중 공부 시간과 쉬는 시간을 나눠서 출력하기
+          </div>
+          <div style="background:white; border-radius:8px; padding:14px 16px; margin-top:12px; border:1px solid var(--purple-border);">
+            <div style="font-size:12px; font-weight:700; color:var(--purple); margin-bottom:8px; text-transform:uppercase; letter-spacing:.06em;">✏️ 빈칸을 채워서 완성해봐요</div>
+            <div class="code-block" style="margin:0; border-radius:6px;">
+              <pre><span class="cm"># ① 시간 변수 만들기 — 내 실제 하루 일과로 바꿔봐요</span>
+class_time = ___    <span class="cm"># 수업 시간 (시간)</span>
+meal_time  = ___    <span class="cm"># 식사 시간 (시간)</span>
+sleep_time = ___    <span class="cm"># 수면 시간 (시간)</span>
+
+<span class="cm"># ② 자유 시간 계산 — 빈칸에 알맞은 식을 써봐요</span>
+free_time = ___ - ___ - ___ - ___
+
+<span class="cm"># ③ 출력 — 빈칸에 변수명을 써봐요</span>
+<span class="fn">print</span>(<span class="str">'수업 시간:'</span>, ___, <span class="str">'시간'</span>)
+<span class="fn">print</span>(<span class="str">'자유 시간:'</span>, ___, <span class="str">'시간'</span>)
+
+<span class="cm"># ④ 자유 시간 나누기 — 비율은 내 마음대로!</span>
+study_time = free_time * ___
+rest_time  = free_time * ___
+<span class="fn">print</span>(<span class="str">'공부 시간:'</span>, ___, <span class="str">'시간'</span>)
+<span class="fn">print</span>(<span class="str">'쉬는 시간:'</span>, ___, <span class="str">'시간'</span>)</pre>
+            </div>
+            <div style="font-size:12px; color:var(--text3); margin-top:8px;">👉 ___ 자리를 모두 채워야 코드가 실행돼요!</div>
+          </div>
+        </div>
+
+        <div class="mission-box">
+          <div class="mission-title">📚 미션 C — 중간고사 성적 분석</div>
+          <div class="mission-desc">
+            과목별 성적 리스트를 만들고 분석해봐요.
+          </div>
+          <div class="mission-task">
+            <strong>조건:</strong><br>
+            ① 과목명 5개와 점수 5개를 각각 리스트로 만들기<br>
+            ② <code>print()</code>로 과목명과 점수 출력하기<br>
+            ③ <code>sum()</code>, <code>max()</code>, <code>min()</code>으로 총점, 최고점, 최저점 출력하기<br>
+            ④ 평균 점수 계산해서 출력하기
+          </div>
+          <div style="background:white; border-radius:8px; padding:14px 16px; margin-top:12px; border:1px solid var(--purple-border);">
+            <div style="font-size:12px; font-weight:700; color:var(--purple); margin-bottom:8px; text-transform:uppercase; letter-spacing:.06em;">✏️ 주석을 보고 코드를 직접 써봐요</div>
+            <div class="code-block" style="margin:0; border-radius:6px;">
+              <pre><span class="cm"># ① 과목명 5개 리스트 만들기</span>
+
+
+<span class="cm"># ② 점수 5개 리스트 만들기</span>
+
+
+<span class="cm"># ③ 과목명과 점수 출력하기</span>
+
+
+<span class="cm"># ④ 총점, 최고점, 최저점 출력하기</span>
+
+
+<span class="cm"># ⑤ 평균 점수 계산해서 출력하기</span>
+</pre>
+            </div>
+            <div style="font-size:12px; color:var(--text3); margin-top:8px;">👉 힌트가 필요하면 위의 📝 전체 코드 예시를 참고해봐요!</div>
+          </div>
+        </div>
+
+        <div class="tip">
+          <strong>힌트:</strong> 두 리스트에서 같은 인덱스끼리 같은 항목이에요.<br>
+          <code>subjects[0]</code>은 '국어', <code>scores[0]</code>은 국어 점수예요.
+        </div>
+      </div>
+
+      <!-- 다음 장 미리보기 -->
+      <div class="section">
+        <h2 class="section-title">🔗 다음 장 미리보기</h2>
+        <div class="next-chapter">
+          <div class="next-icon">📊</div>
+          <div>
+            <div class="next-label">다음 차시</div>
+            <div class="next-title">2차시 — 데이터 탐색 + 시각화</div>
+            <div class="next-desc">
+              유튜브 트렌딩 데이터(26만 행!)를 불러와서 pandas로 탐색하고,
+              막대·선·점·원 그래프로 시각화해봅니다.
+              "숫자 표가 그래프가 되는 순간"을 경험하세요!
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- .content -->
+  </main>
+</div><!-- .wrapper -->
+<div id="soon-toast">🔒 곧 공개됩니다!</div>
+
+<script>
+  let toastTimer;
+  function showSoon(e) {
+    e.preventDefault();
+    const toast = document.getElementById('soon-toast');
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+</script>
+</body>
+</html>

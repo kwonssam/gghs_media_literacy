@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2차시 — 데이터 시각화</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@600;700&family=DM+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f8f9fc;
+    --surface: #ffffff;
+    --surface2: #f0f4ff;
+    --border: #e2e8f0;
+    --border2: #cbd5e1;
+    --text: #1a202c;
+    --text2: #4a5568;
+    --text3: #94a3b8;
+    --primary: #3b82f6;
+    --primary-bg: #eff6ff;
+    --primary-border: #bfdbfe;
+    --green: #059669;
+    --green-bg: #ecfdf5;
+    --green-border: #a7f3d0;
+    --orange: #d97706;
+    --orange-bg: #fffbeb;
+    --orange-border: #fde68a;
+    --red: #dc2626;
+    --red-bg: #fef2f2;
+    --red-border: #fecaca;
+    --purple: #7c3aed;
+    --purple-bg: #f5f3ff;
+    --purple-border: #ddd6fe;
+    --code-bg: #1e293b;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); font-family: 'Noto Sans KR', sans-serif; color: var(--text); line-height: 1.75; font-size: 15px; }
+
+  .wrapper { display: flex; min-height: 100vh; }
+
+  /* ── 사이드바 ── */
+  .sidebar { width: 280px; flex-shrink: 0; background: var(--surface); border-right: 1px solid var(--border); position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 24px 0; }
+  .sidebar-logo { padding: 0 20px 20px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+  .sidebar-logo .book-title { font-size: 13px; font-weight: 700; color: var(--primary); letter-spacing: .04em; margin-bottom: 4px; }
+  .sidebar-logo .book-sub { font-size: 12px; color: var(--text3); }
+  .nav-section { margin-bottom: 8px; }
+  .nav-section-title { font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; padding: 6px 20px; }
+  .nav-item { display: block; padding: 7px 20px 7px 28px; font-size: 13px; color: var(--text2); text-decoration: none; border-left: 2px solid transparent; transition: all .15s; }
+  .nav-item:hover { color: var(--primary); background: var(--primary-bg); }
+  .nav-item.active { color: var(--primary); font-weight: 700; border-left-color: var(--primary); background: var(--primary-bg); }
+  .nav-item.current-chapter { padding-left: 20px; font-size: 13px; font-weight: 700; color: var(--text); }
+  .nav-item.done { color: var(--text3); }
+  .nav-item.done::after { content: ' ✓'; color: var(--green); font-size: 11px; }
+  .nav-item.soon { color: var(--text3); cursor: pointer; }
+  .nav-item.soon:hover { color: var(--text2); background: var(--surface2); border-left-color: transparent; }
+
+  /* ── 본문 ── */
+  .main { flex: 1; min-width: 0; }
+  .content { max-width: 860px; margin: 0 auto; padding: 52px 48px 100px; }
+
+  /* ── 챕터 헤더 ── */
+  .chapter-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 2px solid var(--border); }
+  .chapter-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--primary-bg); color: var(--primary); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--primary-border); margin-bottom: 12px; }
+  .chapter-title { font-family: 'Noto Serif KR', serif; font-size: 32px; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 12px; }
+  .chapter-desc { font-size: 16px; color: var(--text2); line-height: 1.75; }
+
+  /* ── 섹션 ── */
+  .section { margin-bottom: 52px; }
+  .section-title { font-size: 22px; font-weight: 900; color: var(--text); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+
+  /* ── 학습 목표 ── */
+  .goal-box { background: var(--primary-bg); border: 1.5px solid var(--primary-border); border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; }
+  .goal-box-title { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 12px; text-transform: uppercase; letter-spacing: .08em; }
+  .goal-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .goal-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text2); }
+  .goal-list li::before { content: '☐'; font-size: 16px; color: var(--primary); flex-shrink: 0; }
+
+  /* ── 그래프 선택 기준표 ── */
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+  .chart-card { border-radius: 12px; padding: 18px 20px; border: 2px solid; }
+  .chart-card.bar   { background: #eff6ff; border-color: #bfdbfe; }
+  .chart-card.line  { background: #ecfdf5; border-color: #a7f3d0; }
+  .chart-card.scatter { background: #fff7ed; border-color: #fed7aa; }
+  .chart-card.pie   { background: #fdf4ff; border-color: #e9d5ff; }
+  .chart-card-emoji { font-size: 26px; margin-bottom: 6px; }
+  .chart-card-name  { font-size: 14px; font-weight: 900; margin-bottom: 4px; }
+  .chart-card.bar .chart-card-name    { color: #1d4ed8; }
+  .chart-card.line .chart-card-name   { color: #065f46; }
+  .chart-card.scatter .chart-card-name { color: #c2410c; }
+  .chart-card.pie .chart-card-name    { color: #6b21a8; }
+  .chart-card-when  { font-size: 13px; color: var(--text2); margin-bottom: 8px; }
+  .chart-card-ex    { font-size: 12px; color: var(--text3); font-style: italic; }
+
+  /* ── 개념 카드 ── */
+  .concept-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+  .concept-card-head { padding: 14px 20px; background: var(--surface2); border-bottom: 1.5px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  .concept-label { font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: .08em; background: var(--primary-bg); border: 1px solid var(--primary-border); padding: 2px 10px; border-radius: 20px; }
+  .concept-card-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .concept-card-body { padding: 20px 24px; font-size: 14px; color: var(--text2); line-height: 1.8; }
+
+  /* ── 따라하기 스텝 ── */
+  .step-list { display: flex; flex-direction: column; gap: 20px; }
+  .step-item { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .step-head { display: flex; align-items: center; gap: 14px; padding: 14px 20px; background: var(--surface2); border-bottom: 1.5px solid var(--border); }
+  .step-num { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .step-body { padding: 20px 24px; font-size: 14px; color: var(--text2); line-height: 1.8; }
+
+  /* ── 코드 블록 ── */
+  .code-block { background: var(--code-bg); border-radius: 10px; padding: 20px 22px; margin: 14px 0; overflow-x: auto; position: relative; }
+  .code-block pre { font-family: 'DM Mono', monospace; font-size: 13.5px; color: #e2e8f0; line-height: 1.85; white-space: pre; }
+  .code-label { position: absolute; top: 10px; right: 14px; font-family: 'DM Mono', monospace; font-size: 10px; color: #475569; text-transform: uppercase; letter-spacing: .06em; }
+  .kw  { color: #c792ea; }
+  .fn  { color: #82aaff; }
+  .str { color: #c3e88d; }
+  .num { color: #f78c6c; }
+  .cm  { color: #546e7a; font-style: italic; }
+  .op  { color: #89ddff; }
+
+  /* ── 실행 결과 ── */
+  .output-box { background: #0f172a; border: 1px solid #1e3a5f; border-radius: 8px; padding: 14px 18px; margin: 8px 0 14px; font-family: 'DM Mono', monospace; font-size: 13px; color: #a3e635; line-height: 1.7; }
+  .output-label { font-size: 10px; color: #475569; font-family: 'DM Mono', monospace; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 6px; }
+
+  /* ── 팁/경고/노트 ── */
+  .tip  { background: var(--green-bg); border: 1px solid var(--green-border); border-left: 3px solid var(--green); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
+  .tip strong { color: var(--green); }
+  .warn { background: var(--red-bg); border: 1px solid var(--red-border); border-left: 3px solid var(--red); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
+  .warn strong { color: var(--red); }
+  .note { background: var(--orange-bg); border: 1px solid var(--orange-border); border-left: 3px solid var(--orange); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
+  .note strong { color: var(--orange); }
+
+  /* ── 전체 코드 ── */
+  .full-code { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+  .full-code-head { padding: 12px 20px; background: var(--code-bg); display: flex; align-items: center; gap: 10px; }
+  .full-code-dot { width: 12px; height: 12px; border-radius: 50%; }
+
+  /* ── 옵션 비교 표 ── */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+  th { background: var(--surface2); padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--border); font-weight: 700; }
+  td { padding: 10px 14px; border-bottom: 1px dashed var(--border); color: var(--text2); }
+  td code { font-family: 'DM Mono', monospace; font-size: 12.5px; background: var(--surface2); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--primary); }
+  tr:last-child td { border-bottom: none; }
+
+  /* ── 점검하기 ── */
+  .check-section { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; }
+  .check-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .check-list2 { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .check-list2 li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text2); line-height: 1.6; }
+  .check-list2 li input[type="checkbox"] { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; accent-color: var(--primary); }
+
+  /* ── 미션 ── */
+  .mission-box { background: linear-gradient(135deg, var(--purple-bg), var(--primary-bg)); border: 2px solid var(--purple-border); border-radius: 14px; padding: 24px 28px; margin-bottom: 20px; }
+  .mission-title { font-size: 16px; font-weight: 900; color: var(--purple); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .mission-desc { font-size: 14px; color: var(--text2); line-height: 1.8; margin-bottom: 14px; }
+  .mission-task { background: white; border-radius: 8px; padding: 14px 16px; font-size: 14px; color: var(--text2); line-height: 1.8; border: 1px solid var(--purple-border); }
+
+  /* ── 다음 장 ── */
+  .next-chapter { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; display: flex; align-items: center; gap: 16px; }
+  .next-icon { font-size: 28px; flex-shrink: 0; }
+  .next-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+  .next-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .next-desc { font-size: 13px; color: var(--text2); margin-top: 3px; }
+
+  code { font-family: 'DM Mono', monospace; font-size: 13px; background: var(--surface2); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border); color: var(--primary); }
+  p { margin-bottom: 12px; }
+  strong { color: var(--text); }
+  hr.div { border: none; border-top: 1px dashed var(--border); margin: 24px 0; }
+
+  /* 토스트 */
+  #soon-toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: #fff; padding: 10px 20px; border-radius: 999px; font-size: 13px; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 9999; white-space: nowrap; }
+  #soon-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- 사이드바 -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <div class="book-title">🐍 파이썬 데이터 시각화</div>
+      <div class="book-sub">고등학교 정보 · 8차시</div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-title">1부 — 시작하기</div>
+      <a href="1차시_파이썬시작하기.html" class="nav-item done">1차시 · 파이썬 시작하기</a>
+      <a href="2차시_데이터시각화.html" class="nav-item active current-chapter">2차시 · 데이터 시각화</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">2부 — 심화 시각화</div>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">3차시 · 워드클라우드</a>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">4차시 · 지도 시각화</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">3부 — 수행평가</div>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">5차시 · 계획서 작성</a>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">6~7차시 · 프로젝트 실습</a>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">8차시 · 보고서 + 발표</a>
+    </div>
+
+    <div style="margin-top: 20px; padding: 0 20px;">
+      <div style="background: var(--primary-bg); border: 1px solid var(--primary-border); border-radius: 8px; padding: 12px; font-size: 12px; color: var(--text2);">
+        <strong style="color: var(--primary);">📊 2차시 목차</strong>
+        <div style="margin-top: 8px; display: flex; flex-direction: column; gap: 4px;">
+          <a href="#chart-types" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">📌 그래프 종류 선택</a>
+          <a href="#bar" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">📊 막대그래프</a>
+          <a href="#line" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">📈 선그래프</a>
+          <a href="#scatter" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">🔵 점그래프</a>
+          <a href="#pie" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">🥧 원그래프</a>
+          <a href="#fullcode" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">📝 전체 코드</a>
+          <a href="#check" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">✅ 점검하기</a>
+          <a href="#mission" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">🚀 미션</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 본문 -->
+  <main class="main">
+    <div class="content">
+
+      <!-- 챕터 헤더 -->
+      <div class="chapter-header">
+        <div class="chapter-badge">2차시</div>
+        <h1 class="chapter-title">숫자를 그래프로 —<br>데이터 시각화</h1>
+        <p class="chapter-desc">
+          지난 시간에 <code>value_counts()</code>로 카테고리별 개수를 숫자로 봤어요.<br>
+          이번엔 그 숫자들을 <strong>그래프로 변환</strong>합니다.<br>
+          막대, 선, 점, 원 — 네 가지 그래프를 직접 그려보고 옵션도 바꿔봐요.
+        </p>
+      </div>
+
+      <!-- 학습 목표 -->
+      <div class="section">
+        <h2 class="section-title">🎯 이 장에서 배우는 것</h2>
+        <div class="goal-box">
+          <div class="goal-box-title">학습 목표</div>
+          <ul class="goal-list">
+            <li>데이터의 특성에 맞는 그래프 종류를 고를 수 있다</li>
+            <li><code>.plot(kind=...)</code>으로 막대·선·점·원 그래프를 그릴 수 있다</li>
+            <li><code>title</code>, <code>figsize</code>, <code>color</code> 등 옵션을 조정할 수 있다</li>
+            <li>유튜브 트렌딩 데이터로 "어떤 채널이 제일 많이 떴나?"를 시각화할 수 있다</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 그래프 종류 선택 -->
+      <div id="chart-types" class="section">
+        <h2 class="section-title">📌 핵심 개념 — 어떤 그래프를 써야 할까?</h2>
+
+        <p style="font-size:14px; color:var(--text2); margin-bottom:16px;">
+          그래프는 아무 거나 쓰는 게 아니에요. <strong>데이터의 특성</strong>에 따라 적합한 종류가 달라요.
+          아래 기준을 외워두면 수행평가에서도 바로 써먹을 수 있어요.
+        </p>
+
+        <div class="chart-grid">
+          <div class="chart-card bar">
+            <div class="chart-card-emoji">📊</div>
+            <div class="chart-card-name">막대그래프 (bar)</div>
+            <div class="chart-card-when">항목끼리 크기를 <strong>비교</strong>할 때</div>
+            <div class="chart-card-ex">예) 카테고리별 영상 수, 채널별 트렌딩 횟수</div>
+          </div>
+          <div class="chart-card line">
+            <div class="chart-card-emoji">📈</div>
+            <div class="chart-card-name">선그래프 (line)</div>
+            <div class="chart-card-when">시간의 흐름에 따른 <strong>변화</strong>를 볼 때</div>
+            <div class="chart-card-ex">예) 연도별 트렌딩 영상 수, 월별 추이</div>
+          </div>
+          <div class="chart-card scatter">
+            <div class="chart-card-emoji">🔵</div>
+            <div class="chart-card-name">점그래프 (scatter)</div>
+            <div class="chart-card-when">두 수치 사이의 <strong>관계</strong>를 볼 때</div>
+            <div class="chart-card-ex">예) 조회수 vs 좋아요 수</div>
+          </div>
+          <div class="chart-card pie">
+            <div class="chart-card-emoji">🥧</div>
+            <div class="chart-card-name">원그래프 (pie)</div>
+            <div class="chart-card-when">전체 중 각 항목의 <strong>비율</strong>을 볼 때</div>
+            <div class="chart-card-ex">예) 카테고리별 비율, 성별 비율</div>
+          </div>
+        </div>
+
+        <div class="tip">
+          <strong>💡 준비 코드 — 매 차시 공통</strong><br>
+          아래 두 줄은 항상 맨 위에서 실행해요. 한글 폰트와 pandas를 불러오는 코드예요.
+          <div class="code-block" style="margin-top:10px;">
+            <pre>!pip install koreanize-matplotlib -q
+<span class="kw">import</span> koreanize_matplotlib
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+df = pd.<span class="fn">read_csv</span>(<span class="str">'KR_유튜브_트렌딩.csv'</span>, encoding=<span class="str">'utf-8-sig'</span>)
+df.<span class="fn">head</span>()</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- 막대그래프 -->
+      <div id="bar" class="section">
+        <h2 class="section-title">📊 막대그래프 — 어떤 카테고리가 제일 많을까?</h2>
+
+        <div class="concept-card">
+          <div class="concept-card-head">
+            <span class="concept-label">개념</span>
+            <span class="concept-card-title">막대그래프 — <code>.plot(kind='bar')</code></span>
+          </div>
+          <div class="concept-card-body">
+            <p>1차시에서 <code>value_counts()</code>로 카테고리별 영상 수를 숫자 표로 봤어요.<br>
+            이번엔 그 결과를 <strong>그대로 `.plot()`에 넘기면</strong> 막대그래프가 돼요.</p>
+            <div class="code-block">
+              <div class="code-label">Python</div>
+              <pre>df[<span class="str">'카테고리'</span>].<span class="fn">value_counts</span>().<span class="fn">plot</span>(kind=<span class="str">'bar'</span>)</pre>
+            </div>
+            <div class="output-label">실행 결과 (이미지)</div>
+            <div class="output-box">엔터테인먼트, 음악, 게임, 뉴스&정치 … 순서로 막대가 그려짐</div>
+          </div>
+        </div>
+
+        <h3 style="font-size:17px; font-weight:700; margin:28px 0 16px; color:var(--text);">🔨 따라하기 — 옵션 하나씩 추가하기</h3>
+
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">1</div>
+              <div class="step-title">기본 막대그래프 그리기</div>
+            </div>
+            <div class="step-body">
+              <p>가장 간단한 코드예요. 카테고리별 트렌딩 영상 수를 막대로 그려요.</p>
+              <div class="code-block">
+                <pre>df[<span class="str">'카테고리'</span>].<span class="fn">value_counts</span>().<span class="fn">plot</span>(kind=<span class="str">'bar'</span>)</pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">2</div>
+              <div class="step-title">제목, 크기, 색깔 추가하기</div>
+            </div>
+            <div class="step-body">
+              <p>그래프가 너무 작거나 밋밋하면 아래 옵션을 추가해봐요.</p>
+              <div class="code-block">
+                <pre>df[<span class="str">'카테고리'</span>].<span class="fn">value_counts</span>().<span class="fn">plot</span>(
+    kind=<span class="str">'bar'</span>,
+    title=<span class="str">'카테고리별 트렌딩 영상 수'</span>,  <span class="cm"># 제목</span>
+    figsize=(<span class="num">12</span>, <span class="num">5</span>),               <span class="cm"># 그래프 크기 (가로, 세로)</span>
+    color=<span class="str">'steelblue'</span>,              <span class="cm"># 색깔</span>
+    rot=<span class="num">30</span>                           <span class="cm"># x축 글자 기울기 (도)</span>
+)</pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">3</div>
+              <div class="step-title">채널별 TOP 10 뽑아서 그리기</div>
+            </div>
+            <div class="step-body">
+              <p>모든 채널을 다 그리면 너무 많아요. <code>.head(10)</code>으로 상위 10개만 골라봐요.</p>
+              <div class="code-block">
+                <pre>df[<span class="str">'채널명'</span>].<span class="fn">value_counts</span>().<span class="fn">head</span>(<span class="num">10</span>).<span class="fn">plot</span>(
+    kind=<span class="str">'bar'</span>,
+    title=<span class="str">'트렌딩 횟수 TOP 10 채널'</span>,
+    figsize=(<span class="num">12</span>, <span class="num">5</span>),
+    color=<span class="str">'coral'</span>,
+    edgecolor=<span class="str">'black'</span>,               <span class="cm"># 막대 테두리</span>
+    width=<span class="num">0.6</span>,                        <span class="cm"># 막대 두께 (0~1)</span>
+    rot=<span class="num">30</span>
+)</pre>
+              </div>
+              <div class="tip" style="margin-top:12px;">
+                <strong>결과 읽기:</strong> 파뿌리? 숏박스? 어떤 채널이 1등인가요? 실제 데이터로 확인해봐요!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:17px; font-weight:700; margin:28px 0 12px; color:var(--text);">🎨 자주 쓰는 옵션 모음</h3>
+        <table>
+          <tr><th>옵션</th><th>역할</th><th>예시 값</th></tr>
+          <tr><td><code>title</code></td><td>그래프 제목</td><td><code>'제목입력'</code></td></tr>
+          <tr><td><code>figsize</code></td><td>그래프 크기 (가로, 세로)</td><td><code>(12, 5)</code></td></tr>
+          <tr><td><code>color</code></td><td>막대 색깔</td><td><code>'steelblue'</code>, <code>'coral'</code>, <code>'#3b82f6'</code></td></tr>
+          <tr><td><code>rot</code></td><td>x축 글자 기울기 (도)</td><td><code>0</code>, <code>30</code>, <code>45</code>, <code>90</code></td></tr>
+          <tr><td><code>width</code></td><td>막대 두께</td><td><code>0.4</code> ~ <code>0.9</code></td></tr>
+          <tr><td><code>edgecolor</code></td><td>막대 테두리 색</td><td><code>'black'</code>, <code>'white'</code></td></tr>
+        </table>
+      </div>
+
+      <!-- 선그래프 -->
+      <div id="line" class="section">
+        <h2 class="section-title">📈 선그래프 — 연도별 트렌딩이 어떻게 바뀌었을까?</h2>
+
+        <div class="concept-card">
+          <div class="concept-card-head">
+            <span class="concept-label">개념</span>
+            <span class="concept-card-title">선그래프 — <code>.plot(kind='line')</code></span>
+          </div>
+          <div class="concept-card-body">
+            <p>시간에 따른 변화를 보고 싶을 때 사용해요.<br>
+            <code>value_counts()</code> 뒤에 <code>.sort_index()</code>를 붙이면 연도 순서대로 정렬돼요.</p>
+            <div class="code-block">
+              <div class="code-label">Python</div>
+              <pre>df[<span class="str">'연도'</span>].<span class="fn">value_counts</span>().<span class="fn">sort_index</span>().<span class="fn">plot</span>(kind=<span class="str">'line'</span>)</pre>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:17px; font-weight:700; margin:28px 0 16px; color:var(--text);">🔨 따라하기</h3>
+
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">1</div>
+              <div class="step-title">연도별 트렌딩 영상 수 변화 보기</div>
+            </div>
+            <div class="step-body">
+              <div class="code-block">
+                <pre>df[<span class="str">'연도'</span>].<span class="fn">value_counts</span>().<span class="fn">sort_index</span>().<span class="fn">plot</span>(
+    kind=<span class="str">'line'</span>,
+    title=<span class="str">'연도별 트렌딩 영상 수'</span>,
+    figsize=(<span class="num">10</span>, <span class="num">5</span>),
+    color=<span class="str">'green'</span>,
+    linewidth=<span class="num">3</span>,    <span class="cm"># 선 두께</span>
+    marker=<span class="str">'o'</span>      <span class="cm"># 데이터 포인트 모양 (o, s, ^, *)</span>
+)</pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">2</div>
+              <div class="step-title">선 스타일 바꿔보기</div>
+            </div>
+            <div class="step-body">
+              <p><code>linestyle</code> 옵션으로 선 모양을 바꿀 수 있어요.</p>
+              <div class="code-block">
+                <pre>df[<span class="str">'연도'</span>].<span class="fn">value_counts</span>().<span class="fn">sort_index</span>().<span class="fn">plot</span>(
+    kind=<span class="str">'line'</span>,
+    title=<span class="str">'연도별 트렌딩 영상 수'</span>,
+    figsize=(<span class="num">10</span>, <span class="num">5</span>),
+    color=<span class="str">'tomato'</span>,
+    linewidth=<span class="num">2</span>,
+    linestyle=<span class="str">'--'</span>,   <span class="cm"># 선 모양: - | -- | : | -.</span>
+    marker=<span class="str">'s'</span>,       <span class="cm"># 네모 포인트</span>
+    markersize=<span class="num">10</span>     <span class="cm"># 포인트 크기</span>
+)</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:17px; font-weight:700; margin:28px 0 12px; color:var(--text);">🎨 선그래프 주요 옵션</h3>
+        <table>
+          <tr><th>옵션</th><th>역할</th><th>예시 값</th></tr>
+          <tr><td><code>linewidth</code></td><td>선 두께</td><td><code>1</code>, <code>2</code>, <code>3</code></td></tr>
+          <tr><td><code>linestyle</code></td><td>선 모양</td><td><code>'-'</code> <code>'--'</code> <code>':'</code> <code>'-.'</code></td></tr>
+          <tr><td><code>marker</code></td><td>데이터 포인트 모양</td><td><code>'o'</code> <code>'s'</code> <code>'^'</code> <code>'*'</code></td></tr>
+          <tr><td><code>markersize</code></td><td>포인트 크기</td><td><code>5</code>, <code>10</code></td></tr>
+        </table>
+      </div>
+
+      <!-- 점그래프 -->
+      <div id="scatter" class="section">
+        <h2 class="section-title">🔵 점그래프 — 조회수와 좋아요는 관계가 있을까?</h2>
+
+        <div class="concept-card">
+          <div class="concept-card-head">
+            <span class="concept-label">개념</span>
+            <span class="concept-card-title">점그래프 — <code>.plot(kind='scatter')</code></span>
+          </div>
+          <div class="concept-card-body">
+            <p>점그래프는 두 수치 컬럼을 <strong>x축과 y축</strong>에 각각 지정해야 해요.<br>
+            점이 오른쪽 위로 모이면 두 값이 비례관계, 흩어져 있으면 관련이 적다는 뜻이에요.</p>
+            <div class="code-block">
+              <div class="code-label">Python</div>
+              <pre>df.<span class="fn">plot</span>(kind=<span class="str">'scatter'</span>, x=<span class="str">'조회수'</span>, y=<span class="str">'좋아요'</span>)</pre>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:17px; font-weight:700; margin:28px 0 16px; color:var(--text);">🔨 따라하기</h3>
+
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">1</div>
+              <div class="step-title">조회수 vs 좋아요 점그래프</div>
+            </div>
+            <div class="step-body">
+              <div class="code-block">
+                <pre>df.<span class="fn">plot</span>(
+    kind=<span class="str">'scatter'</span>,
+    x=<span class="str">'조회수'</span>, y=<span class="str">'좋아요'</span>,
+    title=<span class="str">'조회수 vs 좋아요'</span>,
+    figsize=(<span class="num">10</span>, <span class="num">6</span>),
+    color=<span class="str">'purple'</span>,
+    alpha=<span class="num">0.3</span>,    <span class="cm"># 투명도 (0~1, 점이 겹칠 때 유용)</span>
+    s=<span class="num">10</span>          <span class="cm"># 점 크기</span>
+)</pre>
+              </div>
+              <div class="note" style="margin-top:12px;">
+                <strong>결과 읽기:</strong> 점들이 오른쪽 위로 몰려 있나요? 그렇다면 조회수가 많을수록 좋아요도 많은 경향이 있는 거예요.
+              </div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">2</div>
+              <div class="step-title">조회수 vs 댓글수 비교해보기</div>
+            </div>
+            <div class="step-body">
+              <p>y축을 <code>'댓글수'</code>로 바꾸면 조회수-댓글 관계도 볼 수 있어요.</p>
+              <div class="code-block">
+                <pre>df.<span class="fn">plot</span>(
+    kind=<span class="str">'scatter'</span>,
+    x=<span class="str">'조회수'</span>, y=<span class="str">'댓글수'</span>,   <span class="cm"># y축만 바꿈</span>
+    title=<span class="str">'조회수 vs 댓글수'</span>,
+    figsize=(<span class="num">10</span>, <span class="num">6</span>),
+    color=<span class="str">'teal'</span>,
+    alpha=<span class="num">0.3</span>,
+    s=<span class="num">10</span>
+)</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="warn">
+          <strong>⚠️ alpha 옵션이 중요한 이유</strong><br>
+          유튜브 데이터는 26만 행이에요. 점이 너무 많아 겹치면 분포를 알 수 없어요.<br>
+          <code>alpha=0.1</code>~<code>0.3</code> 정도로 투명하게 만들면 밀집된 곳이 진하게 보여서 훨씬 잘 읽혀요.
+        </div>
+      </div>
+
+      <!-- 원그래프 -->
+      <div id="pie" class="section">
+        <h2 class="section-title">🥧 원그래프 — 카테고리 비율은 어떻게 될까?</h2>
+
+        <div class="concept-card">
+          <div class="concept-card-head">
+            <span class="concept-label">개념</span>
+            <span class="concept-card-title">원그래프 — <code>.plot(kind='pie')</code></span>
+          </div>
+          <div class="concept-card-body">
+            <p>전체를 100%로 놓고 각 항목이 차지하는 <strong>비율</strong>을 보여줘요.<br>
+            항목이 너무 많으면 조각이 너무 작아져요. <code>.head(7)</code>로 상위 7개만 보여주는 게 깔끔해요.</p>
+            <div class="code-block">
+              <div class="code-label">Python</div>
+              <pre>df[<span class="str">'카테고리'</span>].<span class="fn">value_counts</span>().<span class="fn">head</span>(<span class="num">7</span>).<span class="fn">plot</span>(kind=<span class="str">'pie'</span>)</pre>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:17px; font-weight:700; margin:28px 0 16px; color:var(--text);">🔨 따라하기</h3>
+
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">1</div>
+              <div class="step-title">퍼센트 표시 + 시작 각도 설정</div>
+            </div>
+            <div class="step-body">
+              <div class="code-block">
+                <pre>df[<span class="str">'카테고리'</span>].<span class="fn">value_counts</span>().<span class="fn">head</span>(<span class="num">7</span>).<span class="fn">plot</span>(
+    kind=<span class="str">'pie'</span>,
+    title=<span class="str">'카테고리별 비율 TOP 7'</span>,
+    figsize=(<span class="num">8</span>, <span class="num">8</span>),
+    autopct=<span class="str">'%1.1f%%'</span>,   <span class="cm"># 퍼센트 표시 (소수점 1자리)</span>
+    startangle=<span class="num">90</span>       <span class="cm"># 12시 방향부터 시작</span>
+)</pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">2</div>
+              <div class="step-title">1등 조각 강조하기 (explode)</div>
+            </div>
+            <div class="step-body">
+              <p><code>explode</code> 옵션으로 특정 조각을 살짝 떼어낼 수 있어요. 1등 카테고리를 강조할 때 써봐요.</p>
+              <div class="code-block">
+                <pre>df[<span class="str">'카테고리'</span>].<span class="fn">value_counts</span>().<span class="fn">head</span>(<span class="num">7</span>).<span class="fn">plot</span>(
+    kind=<span class="str">'pie'</span>,
+    title=<span class="str">'카테고리별 비율 TOP 7'</span>,
+    figsize=(<span class="num">8</span>, <span class="num">8</span>),
+    autopct=<span class="str">'%1.1f%%'</span>,
+    startangle=<span class="num">90</span>,
+    explode=[<span class="num">0.1</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>]  <span class="cm"># 첫 번째 조각(1등)만 0.1 떼어냄</span>
+)</pre>
+              </div>
+              <div class="tip" style="margin-top:10px;">
+                <strong>주의:</strong> <code>explode</code> 리스트의 개수는 <code>.head(숫자)</code>와 꼭 같아야 해요.<br>
+                <code>.head(7)</code>이면 <code>explode</code>도 7개짜리 리스트여야 해요.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 주의할 점 -->
+      <div class="section">
+        <h2 class="section-title">⚠️ 주의할 점</h2>
+
+        <div class="warn" style="margin-bottom:12px;">
+          <strong>그래프가 안 나올 때</strong><br>
+          Jupyter/Colab에서는 보통 자동으로 그래프가 뜨지만, 가끔 안 나오는 경우가 있어요.<br>
+          코드 마지막 줄에 아래를 추가해봐요.
+          <div class="code-block" style="margin-top:8px;">
+            <pre><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+plt.<span class="fn">show</span>()</pre>
+          </div>
+        </div>
+
+        <div class="warn" style="margin-bottom:12px;">
+          <strong>x축 글자가 겹쳐서 안 보일 때</strong><br>
+          항목 이름이 길면 겹쳐 보여요. <code>rot=45</code> 또는 <code>rot=90</code>으로 기울여봐요.
+          <div class="code-block" style="margin-top:8px;">
+            <pre>...<span class="fn">plot</span>(kind=<span class="str">'bar'</span>, rot=<span class="num">45</span>)</pre>
+          </div>
+        </div>
+
+        <div class="warn">
+          <strong>한글이 깨져서 네모로 나올 때</strong><br>
+          맨 위에 <code>koreanize_matplotlib</code>를 import했는지 확인해봐요. 빠뜨렸으면 다시 실행해야 해요.
+          <div class="code-block" style="margin-top:8px;">
+            <pre>!pip install koreanize-matplotlib -q
+<span class="kw">import</span> koreanize_matplotlib   <span class="cm"># 이 줄이 꼭 필요해요!</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- 전체 코드 -->
+      <div id="fullcode" class="section">
+        <h2 class="section-title">📝 전체 코드 — 4가지 그래프 한눈에</h2>
+
+        <div class="full-code">
+          <div class="full-code-head">
+            <div class="full-code-dot" style="background:#ef4444;"></div>
+            <div class="full-code-dot" style="background:#f59e0b;"></div>
+            <div class="full-code-dot" style="background:#10b981;"></div>
+            <span style="font-family:'DM Mono',monospace; font-size:12px; color:#64748b; margin-left:8px;">2차시_시각화.ipynb</span>
+          </div>
+          <div class="code-block" style="border-radius:0; margin:0;">
+            <pre><span class="cm"># ── 준비 ──────────────────────────────────────</span>
+!pip install koreanize-matplotlib -q
+<span class="kw">import</span> koreanize_matplotlib
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+df = pd.<span class="fn">read_csv</span>(<span class="str">'KR_유튜브_트렌딩.csv'</span>, encoding=<span class="str">'utf-8-sig'</span>)
+
+<span class="cm"># ── 막대그래프 ──────────────────────────────────</span>
+df[<span class="str">'채널명'</span>].<span class="fn">value_counts</span>().<span class="fn">head</span>(<span class="num">10</span>).<span class="fn">plot</span>(
+    kind=<span class="str">'bar'</span>,
+    title=<span class="str">'트렌딩 횟수 TOP 10 채널'</span>,
+    figsize=(<span class="num">12</span>, <span class="num">5</span>),
+    color=<span class="str">'steelblue'</span>,
+    rot=<span class="num">30</span>
+)
+
+<span class="cm"># ── 선그래프 ────────────────────────────────────</span>
+df[<span class="str">'연도'</span>].<span class="fn">value_counts</span>().<span class="fn">sort_index</span>().<span class="fn">plot</span>(
+    kind=<span class="str">'line'</span>,
+    title=<span class="str">'연도별 트렌딩 영상 수'</span>,
+    figsize=(<span class="num">10</span>, <span class="num">5</span>),
+    color=<span class="str">'green'</span>,
+    linewidth=<span class="num">3</span>,
+    marker=<span class="str">'o'</span>
+)
+
+<span class="cm"># ── 점그래프 ────────────────────────────────────</span>
+df.<span class="fn">plot</span>(
+    kind=<span class="str">'scatter'</span>,
+    x=<span class="str">'조회수'</span>, y=<span class="str">'좋아요'</span>,
+    title=<span class="str">'조회수 vs 좋아요'</span>,
+    figsize=(<span class="num">10</span>, <span class="num">6</span>),
+    color=<span class="str">'purple'</span>,
+    alpha=<span class="num">0.3</span>,
+    s=<span class="num">10</span>
+)
+
+<span class="cm"># ── 원그래프 ────────────────────────────────────</span>
+df[<span class="str">'카테고리'</span>].<span class="fn">value_counts</span>().<span class="fn">head</span>(<span class="num">7</span>).<span class="fn">plot</span>(
+    kind=<span class="str">'pie'</span>,
+    title=<span class="str">'카테고리별 비율 TOP 7'</span>,
+    figsize=(<span class="num">8</span>, <span class="num">8</span>),
+    autopct=<span class="str">'%1.1f%%'</span>,
+    startangle=<span class="num">90</span>
+)</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- 점검하기 -->
+      <div id="check" class="section">
+        <h2 class="section-title">✅ 점검하기</h2>
+        <div class="check-section">
+          <div class="check-title">🎯 아래 항목을 모두 할 수 있으면 다음 차시로 넘어가세요!</div>
+          <ul class="check-list2">
+            <li><input type="checkbox"> <code>.plot(kind='bar')</code>로 막대그래프를 그릴 수 있다</li>
+            <li><input type="checkbox"> <code>title</code>, <code>figsize</code>, <code>color</code>, <code>rot</code> 옵션을 조정할 수 있다</li>
+            <li><input type="checkbox"> <code>.head(10)</code>으로 상위 10개만 골라서 그릴 수 있다</li>
+            <li><input type="checkbox"> <code>.sort_index()</code>가 왜 필요한지 설명할 수 있다</li>
+            <li><input type="checkbox"> 점그래프에서 <code>x</code>, <code>y</code> 옵션이 뭘 의미하는지 안다</li>
+            <li><input type="checkbox"> <code>alpha</code> 옵션이 왜 점그래프에서 중요한지 설명할 수 있다</li>
+            <li><input type="checkbox"> 원그래프에서 <code>autopct</code>가 어떤 역할인지 안다</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 미션 -->
+      <div id="mission" class="section">
+        <h2 class="section-title">🚀 미션 — 아래 세 가지 중 하나를 골라서 해봐요</h2>
+
+        <!-- 미션 A -->
+        <div class="mission-box">
+          <div class="mission-title">🍽️ 미션 A — 이번 주 급식 메뉴 시각화</div>
+          <div class="mission-desc">
+            1차시에서 만들었던 급식 메뉴 리스트를 이번엔 그래프로 그려봐요.
+          </div>
+          <div class="mission-task">
+            <strong>조건:</strong><br>
+            ① 급식 메뉴 리스트와 만족도 점수(1~5) 리스트를 각각 만들기<br>
+            ② 두 리스트로 DataFrame 만들기<br>
+            ③ 막대그래프로 메뉴별 만족도 시각화하기<br>
+            ④ 색깔·제목 옵션 추가하기
+          </div>
+          <div style="background:white; border-radius:8px; padding:14px 16px; margin-top:12px; border:1px solid var(--purple-border);">
+            <div style="font-size:12px; font-weight:700; color:var(--purple); margin-bottom:8px; text-transform:uppercase; letter-spacing:.06em;">✏️ 시작 코드 — 이어서 직접 완성해봐요</div>
+            <div class="code-block" style="margin:0; border-radius:6px;">
+              <pre><span class="cm"># ① 리스트 만들기 — 실제 이번 주 급식 메뉴로 채워봐요</span>
+menu  = [<span class="str">'월요일메뉴'</span>, ...]
+score = [<span class="num">3</span>, ...]   <span class="cm"># 내 만족도 점수 (1~5)</span></pre>
+            </div>
+            <div style="font-size:12px; color:var(--text3); margin-top:8px;">👉 ②③④ 조건을 직접 코드로 써봐요!</div>
+          </div>
+        </div>
+
+        <!-- 미션 B -->
+        <div class="mission-box">
+          <div class="mission-title">🏠 미션 B — 내 하루 시간 원그래프</div>
+          <div class="mission-desc">
+            1차시에서 계산했던 하루 시간 데이터를 원그래프로 시각화해봐요.
+          </div>
+          <div class="mission-task">
+            <strong>조건:</strong><br>
+            ① 활동명 리스트와 시간(시간) 리스트 만들기<br>
+            ② 두 리스트로 Series 만들기<br>
+            ③ 원그래프로 비율 시각화하기<br>
+            ④ 퍼센트 표시 옵션 추가하기
+          </div>
+          <div style="background:white; border-radius:8px; padding:14px 16px; margin-top:12px; border:1px solid var(--purple-border);">
+            <div style="font-size:12px; font-weight:700; color:var(--purple); margin-bottom:8px; text-transform:uppercase; letter-spacing:.06em;">✏️ 빈칸을 채워서 완성해봐요</div>
+            <div class="code-block" style="margin:0; border-radius:6px;">
+              <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+<span class="cm"># ① 내 하루 활동과 시간 — 실제 값으로 바꿔봐요</span>
+activities = [<span class="str">'수업'</span>, <span class="str">'식사'</span>, <span class="str">'수면'</span>, <span class="str">'공부'</span>, <span class="str">'휴식'</span>]
+hours      = [___, ___, ___, ___, ___]   <span class="cm"># 합이 24가 되도록!</span>
+
+<span class="cm"># ② Series 만들기</span>
+s = pd.<span class="fn">Series</span>(data=___, index=___)
+
+<span class="cm"># ③ 원그래프 그리기</span>
+s.<span class="fn">plot</span>(
+    kind=<span class="str">'___'</span>,
+    title=<span class="str">'내 하루 시간 비율'</span>,
+    figsize=(<span class="num">7</span>, <span class="num">7</span>),
+    autopct=<span class="str">'___'</span>     <span class="cm"># 퍼센트 표시 옵션</span>
+)</pre>
+            </div>
+            <div style="font-size:12px; color:var(--text3); margin-top:8px;">👉 ___ 자리를 모두 채워야 코드가 실행돼요!</div>
+          </div>
+        </div>
+
+        <!-- 미션 C -->
+        <div class="mission-box">
+          <div class="mission-title">📚 미션 C — 중간고사 성적 시각화</div>
+          <div class="mission-desc">
+            1차시에서 만든 성적 데이터를 막대그래프와 점그래프로 각각 그려봐요.
+          </div>
+          <div class="mission-task">
+            <strong>조건:</strong><br>
+            ① 과목명·점수 리스트로 DataFrame 만들기<br>
+            ② 막대그래프로 과목별 점수 비교하기 (옵션 3개 이상 추가)<br>
+            ③ 목표 점수 리스트를 하나 더 만들어서 점그래프로 실제점수 vs 목표점수 비교하기<br>
+            ④ 두 그래프에 각각 제목 달기
+          </div>
+          <div style="background:white; border-radius:8px; padding:14px 16px; margin-top:12px; border:1px solid var(--purple-border);">
+            <div style="font-size:12px; font-weight:700; color:var(--purple); margin-bottom:8px; text-transform:uppercase; letter-spacing:.06em;">✏️ 주석을 보고 코드를 직접 써봐요</div>
+            <div class="code-block" style="margin:0; border-radius:6px;">
+              <pre><span class="cm"># ① 과목명과 점수로 DataFrame 만들기</span>
+
+
+<span class="cm"># ② 막대그래프 — 옵션 3개 이상 추가하기</span>
+
+
+<span class="cm"># ③ 목표 점수 리스트 만들고 점그래프로 실제 vs 목표 비교하기</span>
+
+
+<span class="cm"># ④ 두 그래프에 제목 달기</span>
+</pre>
+            </div>
+            <div style="font-size:12px; color:var(--text3); margin-top:8px;">👉 힌트가 필요하면 위의 📝 전체 코드를 참고해봐요!</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 다음 장 미리보기 -->
+      <div class="section">
+        <h2 class="section-title">🔗 다음 장 미리보기</h2>
+        <div class="next-chapter">
+          <div class="next-icon">☁️</div>
+          <div>
+            <div class="next-label">다음 차시</div>
+            <div class="next-title">3차시 — 워드클라우드</div>
+            <div class="next-desc">
+              텍스트 데이터에서 자주 나오는 단어를 구름 모양으로 시각화해요.<br>
+              유튜브 트렌딩 제목에서 어떤 단어가 제일 많이 등장하는지 확인해봐요!
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- .content -->
+  </main>
+</div><!-- .wrapper -->
+
+<div id="soon-toast">🔒 곧 공개됩니다!</div>
+
+<script>
+  let toastTimer;
+  function showSoon(e) {
+    e.preventDefault();
+    const toast = document.getElementById('soon-toast');
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+</script>
+</body>
+</html>
