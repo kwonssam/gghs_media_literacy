@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3차시 — 워드클라우드</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@600;700&family=DM+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f8f9fc;
+    --surface: #ffffff;
+    --surface2: #f0f4ff;
+    --border: #e2e8f0;
+    --border2: #cbd5e1;
+    --text: #1a202c;
+    --text2: #4a5568;
+    --text3: #94a3b8;
+    --primary: #3b82f6;
+    --primary-bg: #eff6ff;
+    --primary-border: #bfdbfe;
+    --green: #059669;
+    --green-bg: #ecfdf5;
+    --green-border: #a7f3d0;
+    --orange: #d97706;
+    --orange-bg: #fffbeb;
+    --orange-border: #fde68a;
+    --red: #dc2626;
+    --red-bg: #fef2f2;
+    --red-border: #fecaca;
+    --purple: #7c3aed;
+    --purple-bg: #f5f3ff;
+    --purple-border: #ddd6fe;
+    --teal: #0d9488;
+    --teal-bg: #f0fdfa;
+    --teal-border: #99f6e4;
+    --code-bg: #1e293b;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); font-family: 'Noto Sans KR', sans-serif; color: var(--text); line-height: 1.75; font-size: 15px; }
+
+  .wrapper { display: flex; min-height: 100vh; }
+
+  /* 사이드바 */
+  .sidebar { width: 280px; flex-shrink: 0; background: var(--surface); border-right: 1px solid var(--border); position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 24px 0; }
+  .sidebar-logo { padding: 0 20px 20px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+  .sidebar-logo .book-title { font-size: 13px; font-weight: 700; color: var(--primary); letter-spacing: .04em; margin-bottom: 4px; }
+  .sidebar-logo .book-sub { font-size: 12px; color: var(--text3); }
+  .nav-section { margin-bottom: 8px; }
+  .nav-section-title { font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; padding: 6px 20px; }
+  .nav-item { display: block; padding: 7px 20px 7px 28px; font-size: 13px; color: var(--text2); text-decoration: none; border-left: 2px solid transparent; transition: all .15s; }
+  .nav-item:hover { color: var(--primary); background: var(--primary-bg); }
+  .nav-item.active { color: var(--purple); font-weight: 700; border-left-color: var(--purple); background: var(--purple-bg); }
+  .nav-item.done { color: var(--text3); }
+  .nav-item.done::after { content: ' ✓'; color: var(--green); font-size: 11px; }
+  .nav-item.soon { color: var(--text3); cursor: pointer; }
+  .nav-item.soon:hover { color: var(--text2); background: var(--surface2); }
+
+  /* 본문 */
+  .main { flex: 1; min-width: 0; }
+  .content { max-width: 860px; margin: 0 auto; padding: 52px 48px 100px; }
+
+  /* 챕터 헤더 */
+  .chapter-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 2px solid var(--border); }
+  .chapter-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--purple-bg); color: var(--purple); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--purple-border); margin-bottom: 12px; }
+  .chapter-title { font-family: 'Noto Serif KR', serif; font-size: 32px; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 12px; }
+  .chapter-desc { font-size: 16px; color: var(--text2); line-height: 1.75; }
+
+  /* 섹션 */
+  .section { margin-bottom: 52px; }
+  .section-title { font-size: 22px; font-weight: 900; color: var(--text); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+
+  /* 차시 흐름 카드 */
+  .flow-row { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+  .flow-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 16px 20px; text-align: center; flex: 1; min-width: 140px; }
+  .flow-card.active { background: var(--purple-bg); border-color: var(--purple-border); }
+  .flow-card.done-card { background: var(--green-bg); border-color: var(--green-border); }
+  .flow-icon { font-size: 24px; margin-bottom: 6px; }
+  .flow-num { font-size: 10px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+  .flow-card.active .flow-num { color: var(--purple); }
+  .flow-card.done-card .flow-num { color: var(--green); }
+  .flow-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .flow-desc { font-size: 11px; color: var(--text3); line-height: 1.5; }
+  .flow-arrow { font-size: 18px; color: var(--text3); flex-shrink: 0; }
+
+  /* 학습 목표 */
+  .goal-box { background: var(--purple-bg); border: 1.5px solid var(--purple-border); border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; }
+  .goal-box-title { font-size: 13px; font-weight: 700; color: var(--purple); margin-bottom: 12px; text-transform: uppercase; letter-spacing: .08em; }
+  .goal-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .goal-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text2); }
+  .goal-list li::before { content: '☐'; font-size: 16px; color: var(--purple); flex-shrink: 0; }
+
+  /* 개념 카드 */
+  .concept-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+  .concept-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .concept-card-head { padding: 12px 18px; background: var(--surface2); border-bottom: 1.5px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .concept-label { font-size: 11px; font-weight: 700; color: var(--purple); text-transform: uppercase; letter-spacing: .08em; background: var(--purple-bg); border: 1px solid var(--purple-border); padding: 2px 10px; border-radius: 20px; }
+  .concept-card-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  .concept-card-body { padding: 16px 18px; font-size: 13.5px; color: var(--text2); line-height: 1.75; }
+
+  /* STEP */
+  .step-list { display: flex; flex-direction: column; gap: 20px; }
+  .step-item { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .step-head { display: flex; align-items: center; gap: 14px; padding: 14px 20px; background: var(--surface2); border-bottom: 1.5px solid var(--border); }
+  .step-num { width: 32px; height: 32px; background: var(--purple); color: white; border-radius: 50%; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .step-body { padding: 20px 24px; font-size: 14px; color: var(--text2); line-height: 1.8; }
+
+  /* 코드 블록 */
+  .code-block { background: var(--code-bg); border-radius: 10px; padding: 20px 22px; margin: 14px 0; overflow-x: auto; position: relative; }
+  .code-block pre { font-family: 'DM Mono', monospace; font-size: 13.5px; color: #e2e8f0; line-height: 1.85; white-space: pre; }
+  .code-label { position: absolute; top: 10px; right: 14px; font-family: 'DM Mono', monospace; font-size: 10px; color: #475569; text-transform: uppercase; letter-spacing: .06em; }
+  .kw  { color: #c792ea; }
+  .fn  { color: #82aaff; }
+  .str { color: #c3e88d; }
+  .num { color: #f78c6c; }
+  .cm  { color: #546e7a; font-style: italic; }
+
+  /* 팁/경고 */
+  .tip  { background: var(--green-bg); border: 1px solid var(--green-border); border-left: 3px solid var(--green); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
+  .tip strong { color: var(--green); }
+  .warn { background: var(--red-bg); border: 1px solid var(--red-border); border-left: 3px solid var(--red); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
+  .warn strong { color: var(--red); }
+  .note { background: var(--orange-bg); border: 1px solid var(--orange-border); border-left: 3px solid var(--orange); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
+  .note strong { color: var(--orange); }
+
+  /* 프롬프트 카드 */
+  .prompt-card { background: #0f172a; border: 2px solid #334155; border-radius: 14px; overflow: hidden; margin: 16px 0; }
+  .prompt-card-head { background: #1e293b; padding: 12px 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #334155; }
+  .prompt-icon { font-size: 16px; }
+  .prompt-title { font-size: 13px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .08em; }
+  .prompt-body { padding: 20px 22px; }
+  .prompt-body pre { font-family: 'DM Mono', monospace; font-size: 13px; color: #e2e8f0; line-height: 1.9; white-space: pre-wrap; }
+  .prompt-rule { font-size: 11px; font-weight: 700; color: #f59e0b; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+  .prompt-blank { display: inline-block; background: #1d4ed8; color: #bfdbfe; padding: 1px 10px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 13px; }
+  .prompt-fill { display: inline-block; background: #065f46; color: #6ee7b7; padding: 1px 10px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 13px; }
+
+  /* 빈칸 프롬프트 */
+  .blank-prompt { background: var(--surface); border: 2px dashed var(--purple-border); border-radius: 12px; padding: 20px 24px; margin: 14px 0; }
+  .blank-prompt-title { font-size: 12px; font-weight: 700; color: var(--purple); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+  .blank-prompt pre { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--text2); line-height: 1.9; white-space: pre-wrap; }
+  .blank { display: inline-block; background: var(--purple-bg); border: 1px solid var(--purple-border); color: var(--purple); padding: 0 8px; border-radius: 4px; min-width: 80px; }
+
+  /* 옵션 테이블 */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+  th { background: var(--surface2); padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--border); font-weight: 700; }
+  td { padding: 10px 14px; border-bottom: 1px dashed var(--border); color: var(--text2); }
+  td code { font-family: 'DM Mono', monospace; font-size: 12.5px; background: var(--surface2); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--primary); }
+  tr:last-child td { border-bottom: none; }
+
+  /* 점검하기 */
+  .check-section { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; }
+  .check-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .check-list2 { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .check-list2 li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text2); line-height: 1.6; }
+  .check-list2 li input[type="checkbox"] { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; accent-color: var(--purple); }
+
+  /* 미션 */
+  .mission-box { background: linear-gradient(135deg, var(--purple-bg), var(--primary-bg)); border: 2px solid var(--purple-border); border-radius: 14px; padding: 24px 28px; margin-bottom: 20px; }
+  .mission-title { font-size: 16px; font-weight: 900; color: var(--purple); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .mission-desc { font-size: 14px; color: var(--text2); line-height: 1.8; margin-bottom: 14px; }
+  .mission-task { background: white; border-radius: 8px; padding: 14px 16px; font-size: 14px; color: var(--text2); line-height: 1.8; border: 1px solid var(--purple-border); }
+
+  /* 다음 장 */
+  .next-chapter { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; display: flex; align-items: center; gap: 16px; }
+  .next-icon { font-size: 28px; flex-shrink: 0; }
+  .next-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+  .next-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .next-desc { font-size: 13px; color: var(--text2); margin-top: 3px; }
+
+  /* 전체 코드 */
+  .full-code { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+  .full-code-head { padding: 12px 20px; background: var(--code-bg); display: flex; align-items: center; gap: 10px; }
+  .full-code-dot { width: 12px; height: 12px; border-radius: 50%; }
+
+  /* 흐름 다이어그램 */
+  .flow-diagram { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; margin: 16px 0; }
+  .flow-diagram-title { font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px; }
+  .flow-diagram-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .flow-box { background: var(--purple-bg); border: 1.5px solid var(--purple-border); border-radius: 8px; padding: 8px 14px; font-size: 12px; font-weight: 700; color: var(--purple); font-family: 'DM Mono', monospace; white-space: nowrap; }
+  .flow-box.done { background: var(--green-bg); border-color: var(--green-border); color: var(--green); }
+  .flow-box.current { background: var(--primary-bg); border-color: var(--primary-border); color: var(--primary); }
+  .flow-box.output { background: var(--teal-bg); border-color: var(--teal-border); color: var(--teal); }
+  .flow-diagram-arrow { color: var(--text3); font-size: 14px; flex-shrink: 0; }
+
+  /* 실행 결과 */
+  .output-label { font-size: 11px; color: #475569; font-family: 'DM Mono', monospace; letter-spacing: .06em; text-transform: uppercase; margin: 8px 0 4px; }
+  .output-box { background: #0f172a; border: 1px solid #1e3a5f; border-radius: 8px; padding: 14px 18px; font-family: 'DM Mono', monospace; font-size: 13px; color: #a3e635; line-height: 1.7; margin-bottom: 14px; }
+
+  code { font-family: 'DM Mono', monospace; font-size: 13px; background: var(--surface2); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border); color: var(--primary); }
+  p { margin-bottom: 12px; }
+  strong { color: var(--text); }
+
+  /* 토스트 */
+  #soon-toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: #fff; padding: 10px 20px; border-radius: 999px; font-size: 13px; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 9999; white-space: nowrap; }
+  #soon-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- 사이드바 -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <div class="book-title">🐍 파이썬 데이터 시각화</div>
+      <div class="book-sub">고등학교 정보 · 8차시</div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-title">1부 — 시작하기</div>
+      <a href="1차시_파이썬시작하기.html" class="nav-item done">1차시 · 파이썬 시작하기</a>
+      <a href="2차시_데이터시각화.html" class="nav-item done">2차시 · 데이터 시각화</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">2부 — 심화 시각화</div>
+      <a href="3차시_워드클라우드.html" class="nav-item active">3차시 · 워드클라우드</a>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">4차시 · 지도 시각화</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">3부 — 수행평가</div>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">5차시 · 계획서 작성</a>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">6~7차시 · 프로젝트 실습</a>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">8차시 · 보고서 + 발표</a>
+    </div>
+
+    <div style="margin-top: 20px; padding: 0 20px;">
+      <div style="background: var(--purple-bg); border: 1px solid var(--purple-border); border-radius: 8px; padding: 12px; font-size: 12px; color: var(--text2);">
+        <strong style="color: var(--purple);">☁️ 3차시 목차</strong>
+        <div style="margin-top: 8px; display: flex; flex-direction: column; gap: 4px;">
+          <a href="#concept" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">📌 워드클라우드란?</a>
+          <a href="#step1" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">STEP 1 · 기본 실행</a>
+          <a href="#step2" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">STEP 2 · 옵션 바꾸기</a>
+          <a href="#step3" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">STEP 3 · 프롬프트 실습</a>
+          <a href="#challenge" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">🏆 도전</a>
+          <a href="#check" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">✅ 점검하기</a>
+          <a href="#mission" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">🚀 미션</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 본문 -->
+  <main class="main">
+    <div class="content">
+
+      <!-- 챕터 헤더 -->
+      <div class="chapter-header">
+        <div class="chapter-badge">3차시</div>
+        <h1 class="chapter-title">텍스트가 그림이 된다 —<br>워드클라우드</h1>
+        <p class="chapter-desc">
+          지금까지는 숫자 데이터를 그래프로 그렸어요.<br>
+          이번엔 <strong>텍스트 데이터</strong>를 시각화해봅니다.<br>
+          유튜브 트렌딩 영상 제목에서 어떤 단어가 가장 많이 등장하는지 구름 모양으로 확인해봐요.
+        </p>
+      </div>
+
+      <!-- 차시 흐름 -->
+      <div class="section">
+        <h2 class="section-title">📍 3차시 전체 흐름</h2>
+        <div class="flow-row">
+          <div class="flow-card done-card">
+            <div class="flow-icon">📊</div>
+            <div class="flow-num">1~2차시 완료</div>
+            <div class="flow-title">숫자 시각화</div>
+            <div class="flow-desc">막대·선·점·원 그래프</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-card active">
+            <div class="flow-icon">☁️</div>
+            <div class="flow-num">3차시 · 지금 여기</div>
+            <div class="flow-title">워드클라우드</div>
+            <div class="flow-desc">코드 이해 + 프롬프트 실습</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-card">
+            <div class="flow-icon">🗺️</div>
+            <div class="flow-num">4차시</div>
+            <div class="flow-title">지도 시각화</div>
+            <div class="flow-desc">folium으로 지도에 마커</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-card">
+            <div class="flow-icon">🏆</div>
+            <div class="flow-num">5~8차시</div>
+            <div class="flow-title">수행평가</div>
+            <div class="flow-desc">내 데이터로 직접 제작</div>
+          </div>
+        </div>
+
+        <div class="note">
+          <strong>📌 3차시는 두 파트로 나뉘어요</strong><br>
+          <strong>전반부 (25분)</strong> — 코드를 이해하면서 옵션 하나씩 바꾸기<br>
+          <strong>후반부 (25분)</strong> — 프롬프트로 내가 원하는 워드클라우드 만들기
+        </div>
+      </div>
+
+      <!-- 학습 목표 -->
+      <div class="section">
+        <h2 class="section-title">🎯 이 장에서 배우는 것</h2>
+        <div class="goal-box">
+          <div class="goal-box-title">학습 목표</div>
+          <ul class="goal-list">
+            <li>워드클라우드가 무엇인지, 언제 쓰는지 설명할 수 있다</li>
+            <li>기본 워드클라우드 코드를 실행하고 옵션을 바꿀 수 있다</li>
+            <li>텍스트 데이터에서 불필요한 단어(불용어)를 제거할 수 있다</li>
+            <li>프롬프트를 작성해서 내가 원하는 워드클라우드를 LLM으로 만들 수 있다</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 개념 -->
+      <div id="concept" class="section">
+        <h2 class="section-title">📌 핵심 개념</h2>
+
+        <div class="concept-grid">
+          <div class="concept-card">
+            <div class="concept-card-head">
+              <span class="concept-label">개념</span>
+              <span class="concept-card-title">워드클라우드란?</span>
+            </div>
+            <div class="concept-card-body">
+              텍스트에서 <strong>자주 등장하는 단어일수록 크게</strong> 표시하는 시각화예요.<br>
+              뉴스 기사, SNS 댓글, 영상 제목 등 텍스트 데이터라면 무엇이든 만들 수 있어요.
+            </div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-head">
+              <span class="concept-label">개념</span>
+              <span class="concept-card-title">언제 쓰나요?</span>
+            </div>
+            <div class="concept-card-body">
+              숫자로 표현하기 어려운 <strong>텍스트 데이터의 패턴</strong>을 볼 때 써요.<br>
+              "요즘 유튜브에서 어떤 주제가 핫할까?" 같은 질문에 답할 수 있어요.
+            </div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-head">
+              <span class="concept-label">개념</span>
+              <span class="concept-card-title">불용어(Stopword)란?</span>
+            </div>
+            <div class="concept-card-body">
+              "이", "가", "을", "은", "의" 처럼 <strong>의미 없이 자주 나오는 단어</strong>예요.<br>
+              제거하지 않으면 워드클라우드가 이런 단어들로 가득 차요.
+            </div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-head">
+              <span class="concept-label">개념</span>
+              <span class="concept-card-title">오늘 쓸 라이브러리</span>
+            </div>
+            <div class="concept-card-body">
+              <code>wordcloud</code> — 워드클라우드 그리기<br>
+              <code>matplotlib</code> — 그림 출력하기<br>
+              <code>pandas</code> — 데이터 불러오기 (1~2차시에서 썼던 것)
+            </div>
+          </div>
+        </div>
+
+        <div class="tip">
+          <strong>💡 엑셀로는 못 하는 것</strong><br>
+          막대·선·원 그래프는 엑셀로도 할 수 있어요. 하지만 워드클라우드는 파이썬으로만 가능해요.<br>
+          텍스트 데이터 시각화는 파이썬의 강점 중 하나예요.
+        </div>
+      </div>
+
+      <!-- 전반부: 코드 이해 -->
+      <div id="step1" class="section">
+        <h2 class="section-title">🔨 전반부 — 코드 이해하면서 실습</h2>
+
+        <!-- 섹션 전체 흐름 다이어그램 -->
+        <div class="flow-diagram">
+          <div class="flow-diagram-title">📌 전반부 전체 흐름</div>
+          <div class="flow-diagram-row">
+            <div class="flow-box">STEP 1<br><span style="font-weight:400;font-size:11px;">라이브러리 설치<br>데이터 불러오기</span></div>
+            <div class="flow-diagram-arrow">→</div>
+            <div class="flow-box">STEP 2<br><span style="font-weight:400;font-size:11px;">텍스트 합치기<br>기본 워드클라우드</span></div>
+            <div class="flow-diagram-arrow">→</div>
+            <div class="flow-box">STEP 3<br><span style="font-weight:400;font-size:11px;">옵션 바꾸기<br>꾸미기</span></div>
+            <div class="flow-diagram-arrow">→</div>
+            <div class="flow-box">STEP 4<br><span style="font-weight:400;font-size:11px;">불용어 제거<br>의미 살리기</span></div>
+            <div class="flow-diagram-arrow">→</div>
+            <div class="flow-box output">STEP 5<br><span style="font-weight:400;font-size:11px;">카테고리 필터링<br>내 관심 주제로</span></div>
+          </div>
+        </div>
+
+        <div class="step-list">
+
+          <!-- STEP 1 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">1</div>
+              <div class="step-title">라이브러리 설치 + 데이터 불러오기</div>
+            </div>
+            <div class="step-body">
+              <p>워드클라우드를 만들려면 필요한 도구들을 먼저 불러와야 해요.<br>
+              2차시에서 썼던 <code>pandas</code>에 <code>wordcloud</code>와 <code>matplotlib</code>을 추가로 가져옵니다.</p>
+
+              <div class="flow-diagram">
+                <div class="flow-diagram-title">STEP 1 코드 흐름</div>
+                <div class="flow-diagram-row">
+                  <div class="flow-box done">!pip install<br><span style="font-weight:400;font-size:11px;">wordcloud 설치</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box">import<br><span style="font-weight:400;font-size:11px;">도구 불러오기</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box">glob + read_csv<br><span style="font-weight:400;font-size:11px;">CSV 불러오기</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box output">df['제목'].head()<br><span style="font-weight:400;font-size:11px;">제목 컬럼 확인</span></div>
+                </div>
+              </div>
+
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre><span class="cm"># wordcloud 라이브러리를 설치해요 — 처음 한 번만 실행하면 돼요</span>
+!pip install wordcloud -q
+
+<span class="cm"># 필요한 도구들을 불러와요
+# pandas(데이터) · WordCloud(워드클라우드) · plt(그림 출력) · glob(파일 찾기)</span>
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">from</span> wordcloud <span class="kw">import</span> WordCloud
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> glob
+
+<span class="cm"># 구글 드라이브에서 CSV 파일을 자동으로 찾아 불러와요 — 2차시와 동일한 방법이에요</span>
+files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/KR_유튜브_트렌딩.csv'</span>, recursive=<span class="kw">True</span>)
+df = pd.<span class="fn">read_csv</span>(files[<span class="num">0</span>], encoding=<span class="str">'utf-8-sig'</span>)
+
+<span class="cm"># 제목 컬럼이 어떻게 생겼는지 앞 5개만 확인해봐요</span>
+df[<span class="str">'제목'</span>].<span class="fn">head</span>(<span class="num">5</span>)</pre>
+              </div>
+              <div class="output-label">실행 결과 예시</div>
+              <div class="output-box">0    [MV] BTS (방탄소년단) 'Butter'
+1    먹방 브이로그 | 오늘 점심 뭐먹지?
+2    리그오브레전드 랭크 게임 실황
+3    오늘의 뉴스 - 날씨 특보
+4    하루 10분 영어 공부 루틴</div>
+              <div class="tip">
+                <strong>💡</strong> 영어·한글·특수문자가 섞인 제목이 수십만 개 있어요.<br>
+                이걸 전부 합쳐서 어떤 단어가 많이 나오는지 분석하는 게 다음 STEP이에요.
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 2 -->
+          <div id="step2" class="step-item">
+            <div class="step-head">
+              <div class="step-num">2</div>
+              <div class="step-title">텍스트 합치기 + 기본 워드클라우드</div>
+            </div>
+            <div class="step-body">
+              <p>제목 컬럼의 수십만 개 텍스트를 하나로 합친 뒤, 단어 빈도를 분석해서 구름 모양으로 그려봐요.</p>
+
+              <div class="flow-diagram">
+                <div class="flow-diagram-title">STEP 2 코드 흐름</div>
+                <div class="flow-diagram-row">
+                  <div class="flow-box done">df['제목']<br><span style="font-weight:400;font-size:11px;">제목 컬럼 전체</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box">dropna() + join()<br><span style="font-weight:400;font-size:11px;">빈 값 제거 후 합치기</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box">WordCloud()<br>.generate(text)<br><span style="font-weight:400;font-size:11px;">빈도 분석 + 이미지 생성</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box output">plt.imshow()<br>plt.show()<br><span style="font-weight:400;font-size:11px;">화면에 출력</span></div>
+                </div>
+              </div>
+
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre><span class="cm"># 제목 컬럼의 빈 값(NaN)을 제거하고, 모든 제목을 공백으로 이어 붙여요
+# ['BTS 신곡', '먹방 브이로그'] → 'BTS 신곡 먹방 브이로그'  처럼 하나의 긴 텍스트가 돼요</span>
+text = <span class="str">' '</span>.<span class="fn">join</span>(df[<span class="str">'제목'</span>].<span class="fn">dropna</span>())
+
+<span class="cm"># WordCloud 객체를 만들어요 — 가로 800px, 세로 400px, 흰 배경
+# .generate(text)로 단어 빈도를 분석해서 워드클라우드 이미지를 생성해요</span>
+wc = <span class="fn">WordCloud</span>(
+    width=<span class="num">800</span>,
+    height=<span class="num">400</span>,
+    background_color=<span class="str">'white'</span>
+).<span class="fn">generate</span>(text)
+
+<span class="cm"># 그림 캔버스 크기를 설정해요 — figsize=(가로, 세로) 단위는 인치</span>
+plt.<span class="fn">figure</span>(figsize=(<span class="num">14</span>, <span class="num">7</span>))
+<span class="cm"># 워드클라우드 이미지를 캔버스에 올려요 — bilinear는 이미지를 부드럽게 보이게 해요</span>
+plt.<span class="fn">imshow</span>(wc, interpolation=<span class="str">'bilinear'</span>)
+<span class="cm"># x축·y축 눈금을 숨겨요 — 워드클라우드는 그래프가 아닌 그림이라 눈금이 필요 없어요</span>
+plt.<span class="fn">axis</span>(<span class="str">'off'</span>)
+<span class="cm"># 제목을 달고 화면에 표시해요 — plt.show()가 없으면 아무것도 안 나와요!</span>
+plt.<span class="fn">title</span>(<span class="str">'유튜브 트렌딩 제목 워드클라우드'</span>)
+plt.<span class="fn">show</span>()</pre>
+              </div>
+              <div class="output-label">실행 결과</div>
+              <div class="output-box">흰 배경에 단어들이 크기별로 흩어진 구름 모양 그림이 나타나요.
+자주 등장한 단어(예: BTS, 먹방, 브이로그)가 크게,
+드물게 나온 단어가 작게 보여요.</div>
+            </div>
+          </div>
+
+          <!-- STEP 3: 옵션 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">3</div>
+              <div class="step-title">옵션 바꿔보기</div>
+            </div>
+            <div class="step-body">
+              <p>STEP 2의 기본 코드에서 <code>WordCloud()</code> 안의 값들을 바꿔봐요.<br>
+              각 옵션이 어떤 역할을 하는지 하나씩 바꿔가며 확인해봐요.</p>
+
+              <div class="flow-diagram">
+                <div class="flow-diagram-title">STEP 3 — WordCloud() 옵션들이 결과에 어떻게 영향을 주나요?</div>
+                <div class="flow-diagram-row">
+                  <div class="flow-box">background_color<br><span style="font-weight:400;font-size:11px;">배경 색깔</span></div>
+                  <div class="flow-diagram-arrow">+</div>
+                  <div class="flow-box">max_words<br><span style="font-weight:400;font-size:11px;">표시 단어 수</span></div>
+                  <div class="flow-diagram-arrow">+</div>
+                  <div class="flow-box">colormap<br><span style="font-weight:400;font-size:11px;">단어 색깔 테마</span></div>
+                  <div class="flow-diagram-arrow">+</div>
+                  <div class="flow-box">max_font_size<br><span style="font-weight:400;font-size:11px;">최대 글자 크기</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box output">.generate(text)<br><span style="font-weight:400;font-size:11px;">옵션 적용된 이미지</span></div>
+                </div>
+              </div>
+
+              <table>
+                <tr><th>옵션</th><th>역할</th><th>예시 값</th></tr>
+                <tr><td><code>background_color</code></td><td>배경 색깔</td><td><code>'white'</code>, <code>'black'</code>, <code>'navy'</code></td></tr>
+                <tr><td><code>max_words</code></td><td>최대 단어 수</td><td><code>50</code>, <code>100</code>, <code>200</code></td></tr>
+                <tr><td><code>max_font_size</code></td><td>가장 큰 글자 크기</td><td><code>80</code>, <code>120</code>, <code>200</code></td></tr>
+                <tr><td><code>colormap</code></td><td>단어 색깔 테마</td><td><code>'viridis'</code>, <code>'plasma'</code>, <code>'Set2'</code>, <code>'Reds'</code></td></tr>
+                <tr><td><code>width</code> / <code>height</code></td><td>이미지 크기 (픽셀)</td><td><code>800</code>, <code>1200</code></td></tr>
+              </table>
+
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre><span class="cm"># 아래 값들을 하나씩 바꿔가며 결과가 어떻게 달라지는지 확인해봐요!</span>
+wc = <span class="fn">WordCloud</span>(
+    width=<span class="num">1000</span>,                   <span class="cm"># 이미지 가로 크기 (픽셀)</span>
+    height=<span class="num">500</span>,                  <span class="cm"># 이미지 세로 크기 (픽셀)</span>
+    background_color=<span class="str">'black'</span>,    <span class="cm"># ← 바꿔보기: 'white', 'navy'</span>
+    max_words=<span class="num">100</span>,               <span class="cm"># ← 바꿔보기: 50, 150, 200</span>
+    max_font_size=<span class="num">120</span>,           <span class="cm"># ← 바꿔보기: 80, 200</span>
+    colormap=<span class="str">'plasma'</span>            <span class="cm"># ← 바꿔보기: 'viridis', 'Set2', 'Reds'</span>
+).<span class="fn">generate</span>(text)
+
+plt.<span class="fn">figure</span>(figsize=(<span class="num">14</span>, <span class="num">7</span>))
+plt.<span class="fn">imshow</span>(wc, interpolation=<span class="str">'bilinear'</span>)
+plt.<span class="fn">axis</span>(<span class="str">'off'</span>)
+plt.<span class="fn">show</span>()</pre>
+              </div>
+              <div class="note">
+                <strong>📝 직접 해봐요:</strong> <code>colormap</code>을 <code>'viridis'</code> → <code>'plasma'</code> → <code>'Set2'</code> 순서로 바꿔가며 색깔이 어떻게 달라지는지 확인해봐요!
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 4: 불용어 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">4</div>
+              <div class="step-title">불용어 제거하기 — 프롬프트로 찾아봐요</div>
+            </div>
+            <div class="step-body">
+              <p>STEP 2 결과를 보면 "이", "가", "을" 같은 단어가 크게 나올 거예요.<br>
+              이런 단어들을 <strong>불용어(stopwords)</strong>라고 해요.<br>
+              일일이 직접 찾는 대신 <strong>코드로 자주 나온 단어를 뽑고, LLM에게 불용어를 골라달라고</strong> 요청해봐요!</p>
+
+              <div class="flow-diagram">
+                <div class="flow-diagram-title">STEP 4 코드 흐름 — 불용어를 스마트하게 찾는 방법</div>
+                <div class="flow-diagram-row">
+                  <div class="flow-box done">text<br><span style="font-weight:400;font-size:11px;">합쳐진 텍스트</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box">split() + Counter()<br><span style="font-weight:400;font-size:11px;">단어별 빈도 계산</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box">most_common(30)<br><span style="font-weight:400;font-size:11px;">TOP 30 추출</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box">LLM에게 요청<br><span style="font-weight:400;font-size:11px;">불용어 골라줘!</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box output">stopwords 적용<br><span style="font-weight:400;font-size:11px;">워드클라우드 재생성</span></div>
+                </div>
+              </div>
+
+              <h4 style="font-size:14px; font-weight:700; color:var(--text); margin:16px 0 8px;">① 자주 나온 단어 TOP 30 뽑기</h4>
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre><span class="cm"># collections 라이브러리의 Counter로 단어 빈도를 셀 수 있어요</span>
+<span class="kw">from</span> collections <span class="kw">import</span> Counter
+
+<span class="cm"># 텍스트를 공백으로 나눠서 단어 리스트로 만들고, 빈도 계산</span>
+word_counts = <span class="fn">Counter</span>(text.<span class="fn">split</span>())
+
+<span class="cm"># 가장 많이 나온 단어 30개를 출력해요</span>
+top30 = word_counts.<span class="fn">most_common</span>(<span class="num">30</span>)
+<span class="fn">print</span>(top30)</pre>
+              </div>
+              <div class="output-label">실행 결과 예시</div>
+              <div class="output-box">[('이', 18420), ('가', 15302), ('BTS', 12841), ('먹방', 9823),
+ ('을', 8901), ('브이로그', 7654), ('MV', 6543), ('는', 6102), ...]</div>
+
+              <h4 style="font-size:14px; font-weight:700; color:var(--text); margin:16px 0 8px;">② LLM에게 불용어 골라달라고 요청하기</h4>
+              <p style="font-size:14px; color:var(--text2);">출력된 TOP 30 결과를 복사해서 LLM에 아래 프롬프트와 함께 붙여넣어봐요.</p>
+
+              <div class="prompt-card">
+                <div class="prompt-card-head">
+                  <span class="prompt-icon">📋</span>
+                  <span class="prompt-title">불용어 찾기 프롬프트</span>
+                </div>
+                <div class="prompt-body">
+                  <pre>아래는 유튜브 트렌딩 영상 제목에서 자주 나온 단어 TOP 30이야.
+워드클라우드에서 의미 없이 크게 나오는 불용어만 골라줘.
+조사(이, 가, 을, 는), 영어 약자(MV, EP, TV), 너무 일반적인 단어들 위주로.
+파이썬 집합(set) 형태로 바로 쓸 수 있게 출력해줘.
+
+[여기에 top30 출력 결과 붙여넣기]</pre>
+                </div>
+              </div>
+
+              <h4 style="font-size:14px; font-weight:700; color:var(--text); margin:16px 0 8px;">③ LLM이 준 불용어로 워드클라우드 만들기</h4>
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre><span class="cm"># LLM이 골라준 불용어 목록을 stopwords에 넣어요 — LLM이 준 결과로 교체해봐요!</span>
+stopwords = {<span class="str">'이'</span>, <span class="str">'가'</span>, <span class="str">'을'</span>, <span class="str">'는'</span>, <span class="str">'은'</span>, <span class="str">'의'</span>, <span class="str">'에'</span>, <span class="str">'로'</span>,
+             <span class="str">'하다'</span>, <span class="str">'있다'</span>, <span class="str">'EP'</span>, <span class="str">'MV'</span>, <span class="str">'TV'</span>, <span class="str">'ft'</span>}
+
+<span class="cm"># stopwords= 옵션으로 불용어 목록을 WordCloud에 전달해요 — 이 한 줄이 핵심!</span>
+wc = <span class="fn">WordCloud</span>(
+    width=<span class="num">1000</span>,
+    height=<span class="num">500</span>,
+    background_color=<span class="str">'white'</span>,
+    max_words=<span class="num">100</span>,
+    colormap=<span class="str">'viridis'</span>,
+    stopwords=stopwords
+).<span class="fn">generate</span>(text)
+
+plt.<span class="fn">figure</span>(figsize=(<span class="num">14</span>, <span class="num">7</span>))
+plt.<span class="fn">imshow</span>(wc, interpolation=<span class="str">'bilinear'</span>)
+plt.<span class="fn">axis</span>(<span class="str">'off'</span>)
+plt.<span class="fn">title</span>(<span class="str">'불용어 제거 후 워드클라우드'</span>)
+plt.<span class="fn">show</span>()</pre>
+              </div>
+              <div class="output-label">실행 결과</div>
+              <div class="output-box">STEP 2보다 "이", "가", "을" 같은 단어가 사라지고
+"BTS", "먹방", "유튜브", "챌린지" 같은 의미 있는 단어들이 더 크게 보여요.</div>
+              <div class="note" style="margin-top:8px;">
+                <strong>📝 직접 해봐요:</strong> 결과에서 아직 불필요해 보이는 단어가 있으면 추가해봐요.<br>
+                예: <code>stopwords.add('영상')</code>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 5: 카테고리 필터 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">5</div>
+              <div class="step-title">특정 카테고리만 골라서 만들기</div>
+            </div>
+            <div class="step-body">
+              <p>전체 제목 대신 <strong>내가 관심 있는 카테고리만</strong> 골라서 워드클라우드를 만들어봐요.<br>
+              "음악" 카테고리만 보면 어떤 단어들이 자주 나올까요?</p>
+
+              <div class="flow-diagram">
+                <div class="flow-diagram-title">STEP 5 코드 흐름 — STEP 2~4와 동일하고 필터링만 추가돼요</div>
+                <div class="flow-diagram-row">
+                  <div class="flow-box done">df 전체<br><span style="font-weight:400;font-size:11px;">26만 행</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box">df[df['카테고리']<br>== '음악']<br><span style="font-weight:400;font-size:11px;">카테고리 필터링</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box">join()<br><span style="font-weight:400;font-size:11px;">제목 합치기</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box">WordCloud()<br>.generate()<br><span style="font-weight:400;font-size:11px;">이미지 생성</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box output">plt.show()<br><span style="font-weight:400;font-size:11px;">출력</span></div>
+                </div>
+              </div>
+
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre><span class="cm"># 어떤 카테고리가 있는지 목록을 먼저 확인해요</span>
+<span class="fn">print</span>(df[<span class="str">'카테고리'</span>].<span class="fn">unique</span>())</pre>
+              </div>
+              <div class="output-label">실행 결과 예시</div>
+              <div class="output-box">['엔터테인먼트' '음악' '게임' '뉴스&정치' '스포츠' '교육' '과학기술' ...]</div>
+
+              <div class="code-block" style="margin-top:14px;">
+                <div class="code-label">Python</div>
+                <pre><span class="cm"># 원하는 카테고리를 변수에 담아요 — 여기만 바꾸면 다른 카테고리도 쉽게 볼 수 있어요</span>
+category = <span class="str">'음악'</span>   <span class="cm"># ← 여기를 바꿔봐요!</span>
+
+<span class="cm"># 카테고리 컬럼이 '음악'인 행만 골라내요 — df[조건] 형태로 필터링해요</span>
+filtered_df = df[df[<span class="str">'카테고리'</span>] == category]
+
+<span class="cm"># 필터링된 데이터의 제목들을 합쳐요</span>
+text_filtered = <span class="str">' '</span>.<span class="fn">join</span>(filtered_df[<span class="str">'제목'</span>].<span class="fn">dropna</span>())
+
+<span class="cm"># 워드클라우드를 만들고 출력해요
+# f'{category}'는 변수 값을 문자열 안에 바로 넣는 방법이에요 → '음악 카테고리 워드클라우드'</span>
+wc = <span class="fn">WordCloud</span>(
+    width=<span class="num">1000</span>, height=<span class="num">500</span>,
+    background_color=<span class="str">'white'</span>,
+    max_words=<span class="num">80</span>,
+    colormap=<span class="str">'Set2'</span>
+).<span class="fn">generate</span>(text_filtered)
+
+plt.<span class="fn">figure</span>(figsize=(<span class="num">14</span>, <span class="num">7</span>))
+plt.<span class="fn">imshow</span>(wc, interpolation=<span class="str">'bilinear'</span>)
+plt.<span class="fn">axis</span>(<span class="str">'off'</span>)
+plt.<span class="fn">title</span>(f<span class="str">'{category} 카테고리 워드클라우드'</span>)
+plt.<span class="fn">show</span>()</pre>
+              </div>
+              <div class="tip">
+                <strong>💡 카테고리를 바꾸면?</strong><br>
+                <code>category = '게임'</code>으로 바꾸면 게임 카테고리 제목만 분석해요.<br>
+                "롤", "마인크래프트", "실황" 같은 단어들이 크게 나올 거예요!
+              </div>
+            </div>
+          </div>
+
+        </div><!-- step-list end -->
+      </div>
+
+      <!-- 후반부: 프롬프트 실습 -->
+      <div id="step3" class="section">
+        <h2 class="section-title">🤖 후반부 — 프롬프트로 내 워드클라우드 만들기</h2>
+
+        <p style="font-size:14px; color:var(--text2); margin-bottom:20px;">
+          전반부에서 코드 구조를 이해했으니, 이제 <strong>LLM에게 원하는 걸 말로 요청</strong>해서 만들어봐요.<br>
+          프롬프트를 잘 쓰면 배경 모양, 색깔 테마, 폰트까지 원하는 대로 바꿀 수 있어요.
+        </p>
+
+        <div class="note" style="margin-bottom:20px;">
+          <strong>📋 프롬프트 공통 규칙</strong><br>
+          ① 내가 뭘 만드는지 → ② 현재 코드 붙여넣기 → ③ 원하는 기능 구체적으로<br>
+          이 순서를 지켜야 LLM이 정확한 코드를 줄 수 있어요.
+        </div>
+
+        <!-- 시범 프롬프트 -->
+        <h3 style="font-size:16px; font-weight:700; margin:24px 0 12px;">👀 시범 실습 — 선생님과 같이 입력해봐요</h3>
+        <p style="font-size:14px; color:var(--text2); margin-bottom:12px;">
+          선생님이 LLM에 프롬프트를 입력하는 과정을 보면서 따라 써봐요.<br>
+          왜 이렇게 쓰는지 생각하면서 읽어봐요.
+        </p>
+
+        <div class="prompt-card">
+          <div class="prompt-card-head">
+            <span class="prompt-icon">📋</span>
+            <span class="prompt-title">시범 프롬프트 — 배경 색깔 + 모양 바꾸기</span>
+          </div>
+          <div class="prompt-body">
+            <div class="prompt-rule">① 페르소나</div>
+            <pre>나는 고등학생이고 파이썬으로 워드클라우드를 만들고 있어.</pre>
+            <br>
+            <div class="prompt-rule">② 맥락 + 현재 코드</div>
+            <pre>아래는 내 현재 코드야:
+
+[현재 코드 전체 붙여넣기 — 이게 없으면 LLM이 엉뚱한 코드를 줘요!]</pre>
+            <br>
+            <div class="prompt-rule">③ 구체적 지시</div>
+            <pre>아래 조건으로 바꿔줘:
+- 배경색을 검은색으로 바꾸기
+- 단어 색깔 테마를 'plasma'로 바꾸기
+- 최대 단어 수를 150개로 늘리기</pre>
+            <br>
+            <div class="prompt-rule">④ 출력 형식</div>
+            <pre>구글 코랩에서 실행 가능한 코드로 보여줘.
+주석은 한국어로.</pre>
+          </div>
+        </div>
+
+        <!-- 직접 해보기 프롬프트 -->
+        <h3 style="font-size:16px; font-weight:700; margin:28px 0 12px;" id="challenge">✏️ 직접 해봐요 — 내 프롬프트 써보기</h3>
+        <p style="font-size:14px; color:var(--text2); margin-bottom:14px;">
+          시범 프롬프트를 참고해서 <strong>내가 원하는 변경사항</strong>으로 빈칸을 채워봐요.<br>
+          아래 예시 중 1개 이상을 골라서 직접 써보세요!
+        </p>
+
+        <div class="blank-prompt">
+          <div class="blank-prompt-title">📝 내 프롬프트 — 빈칸을 채워서 완성해요</div>
+          <pre>① 페르소나
+나는 고등학생이고 파이썬으로 워드클라우드를 만들고 있어.
+
+② 맥락 + 현재 코드
+아래는 내 현재 코드야:
+[코드 붙여넣기]
+
+③ 구체적 지시
+아래 조건으로 바꿔줘:
+- <span class="blank">__________________</span>
+- <span class="blank">__________________</span>
+- <span class="blank">__________________</span>
+
+④ 출력 형식
+구글 코랩에서 실행 가능한 코드로 보여줘.
+주석은 한국어로.</pre>
+        </div>
+
+        <p style="font-size:13px; color:var(--text3); margin: 10px 0 16px;">③번 조건 빈칸에 아래 예시 중 원하는 것을 넣어봐요:</p>
+
+        <table>
+          <tr><th>난이도</th><th>요청 예시</th></tr>
+          <tr><td>⭐</td><td>배경색을 <code>'navy'</code>로 바꾸기 / 최대 단어 수를 200개로 늘리기</td></tr>
+          <tr><td>⭐</td><td>색깔 테마를 <code>'Reds'</code>로 바꾸기 / 제목 글자 크기를 16으로 키우기</td></tr>
+          <tr><td>⭐⭐</td><td>특정 단어(예: <code>'EP'</code>, <code>'MV'</code>)를 불용어에 추가해서 제거하기</td></tr>
+          <tr><td>⭐⭐</td><td>엔터테인먼트 카테고리만 필터링해서 워드클라우드 만들기</td></tr>
+          <tr><td>⭐⭐⭐</td><td>워드클라우드를 하트 모양으로 만들기 (mask 옵션 사용)</td></tr>
+          <tr><td>⭐⭐⭐</td><td>카테고리 2개를 나란히 비교해서 보여주기 (subplot 사용)</td></tr>
+        </table>
+
+        <div class="warn" style="margin-top:16px;">
+          <strong>⚠️ 오류가 나면?</strong><br>
+          오류 메시지를 그대로 복사 → LLM에게 현재 코드와 함께 붙여넣고 수정 요청해요.<br>
+          "이 오류가 났는데 고쳐줘: [오류 메시지]" 라고 하면 돼요.
+        </div>
+      </div>
+
+      <!-- 도전 -->
+      <div class="section">
+        <h2 class="section-title">🏆 도전 — 나만의 워드클라우드 기획하기</h2>
+
+        <p style="font-size:14px; color:var(--text2); margin-bottom:16px;">
+          유튜브 데이터 말고 <strong>내가 원하는 텍스트</strong>로 워드클라우드를 만들어봐요.<br>
+          아래 순서대로 프롬프트를 직접 써서 LLM에게 요청해요.
+        </p>
+
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">1</div>
+              <div class="step-title">아이디어 고르기</div>
+            </div>
+            <div class="step-body">
+              <p>아래 중 하나를 골라봐요. 아니면 내 아이디어를 써도 돼요!</p>
+              <table>
+                <tr><th>아이디어</th><th>텍스트 출처</th></tr>
+                <tr><td>좋아하는 아티스트 앨범 제목</td><td>직접 입력</td></tr>
+                <tr><td>최근 뉴스 헤드라인</td><td>네이버 뉴스에서 복붙</td></tr>
+                <tr><td>좋아하는 유튜브 채널 영상 제목들</td><td>유튜브에서 복붙</td></tr>
+                <tr><td>내가 올해 읽은 책 제목 / 내용</td><td>직접 입력</td></tr>
+                <tr><td>유튜브 데이터의 다른 카테고리</td><td>기존 데이터 사용</td></tr>
+              </table>
+
+              <div style="background: var(--surface2); border-radius:8px; padding:14px 16px; margin-top:12px; font-size:14px; color:var(--text2);">
+                <strong>내가 선택한 주제:</strong><br>
+                <div style="border-bottom: 1px dashed var(--border); margin: 10px 0; padding-bottom: 20px;"></div>
+                <strong>텍스트 출처:</strong><br>
+                <div style="border-bottom: 1px dashed var(--border); margin: 10px 0; padding-bottom: 20px;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">2</div>
+              <div class="step-title">프롬프트 직접 써서 LLM에게 요청하기</div>
+            </div>
+            <div class="step-body">
+              <p>아이디어를 정했으면 처음부터 끝까지 프롬프트를 직접 써봐요.</p>
+
+              <div class="prompt-card">
+                <div class="prompt-card-head">
+                  <span class="prompt-icon">📋</span>
+                  <span class="prompt-title">도전 프롬프트 — 기획 내용으로 직접 채워요</span>
+                </div>
+                <div class="prompt-body">
+                  <div class="prompt-rule">① 페르소나</div>
+                  <pre>나는 고등학생이고 파이썬으로 <span class="prompt-blank">__________</span> 워드클라우드를 만들고 싶어.</pre>
+                  <br>
+                  <div class="prompt-rule">② 맥락</div>
+                  <pre>텍스트 데이터는 <span class="prompt-blank">__________</span> 야.
+구글 코랩 환경에서 실행할 거야.</pre>
+                  <br>
+                  <div class="prompt-rule">③ 구체적 지시</div>
+                  <pre>아래 조건으로 만들어줘:
+- 텍스트: <span class="prompt-blank">__________</span> (직접 입력하거나 변수로 받기)
+- 배경색: <span class="prompt-blank">__________</span>
+- 색깔 테마: <span class="prompt-blank">__________</span>
+- 최대 단어 수: <span class="prompt-blank">__________</span>
+- 제거할 불용어: <span class="prompt-blank">__________</span></pre>
+                  <br>
+                  <div class="prompt-rule">④ 출력 형식</div>
+                  <pre>구글 코랩에서 바로 실행 가능한 코드로 보여줘.
+주석은 한국어로.</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">3</div>
+              <div class="step-title">결과 보고 해석하기</div>
+            </div>
+            <div class="step-body">
+              <p>워드클라우드를 완성했으면 아래 질문에 답해봐요.</p>
+              <div style="background: var(--surface2); border-radius:8px; padding:16px 18px; font-size:14px; color:var(--text2); line-height:2;">
+                <strong>① 가장 크게 나온 단어 3개는?</strong><br>
+                <div style="border-bottom: 1px dashed var(--border); margin: 6px 0; padding-bottom: 14px;"></div>
+                <strong>② 그 단어들이 크게 나온 이유가 뭘까?</strong><br>
+                <div style="border-bottom: 1px dashed var(--border); margin: 6px 0; padding-bottom: 14px;"></div>
+                <strong>③ 예상과 다르게 나온 단어가 있었어? 왜 그럴까?</strong><br>
+                <div style="border-bottom: 1px dashed var(--border); margin: 6px 0; padding-bottom: 14px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 전체 코드 -->
+      <div class="section">
+        <h2 class="section-title">📝 전체 코드 — 한눈에 보기</h2>
+        <div class="full-code">
+          <div class="full-code-head">
+            <div class="full-code-dot" style="background:#ef4444;"></div>
+            <div class="full-code-dot" style="background:#f59e0b;"></div>
+            <div class="full-code-dot" style="background:#10b981;"></div>
+            <span style="font-family:'DM Mono',monospace; font-size:12px; color:#64748b; margin-left:8px;">3차시_워드클라우드.ipynb</span>
+          </div>
+          <div class="code-block" style="border-radius:0; margin:0;">
+            <pre><span class="cm"># ── 준비 ──────────────────────────────────────────</span>
+!pip install wordcloud -q
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">from</span> wordcloud <span class="kw">import</span> WordCloud
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> glob
+
+files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/KR_유튜브_트렌딩.csv'</span>, recursive=<span class="kw">True</span>)
+df = pd.<span class="fn">read_csv</span>(files[<span class="num">0</span>], encoding=<span class="str">'utf-8-sig'</span>)
+
+<span class="cm"># ── 텍스트 합치기 ─────────────────────────────────</span>
+text = <span class="str">' '</span>.<span class="fn">join</span>(df[<span class="str">'제목'</span>].<span class="fn">dropna</span>())
+
+<span class="cm"># ── 불용어 설정 ───────────────────────────────────</span>
+stopwords = {<span class="str">'이'</span>, <span class="str">'가'</span>, <span class="str">'을'</span>, <span class="str">'는'</span>, <span class="str">'은'</span>, <span class="str">'의'</span>, <span class="str">'에'</span>, <span class="str">'로'</span>,
+             <span class="str">'하다'</span>, <span class="str">'있다'</span>, <span class="str">'EP'</span>, <span class="str">'MV'</span>, <span class="str">'TV'</span>}
+
+<span class="cm"># ── 워드클라우드 만들기 ───────────────────────────</span>
+wc = <span class="fn">WordCloud</span>(
+    width=<span class="num">1000</span>,
+    height=<span class="num">500</span>,
+    background_color=<span class="str">'white'</span>,
+    max_words=<span class="num">100</span>,
+    colormap=<span class="str">'viridis'</span>,
+    stopwords=stopwords
+).<span class="fn">generate</span>(text)
+
+<span class="cm"># ── 출력 ─────────────────────────────────────────</span>
+plt.<span class="fn">figure</span>(figsize=(<span class="num">14</span>, <span class="num">7</span>))
+plt.<span class="fn">imshow</span>(wc, interpolation=<span class="str">'bilinear'</span>)
+plt.<span class="fn">axis</span>(<span class="str">'off'</span>)
+plt.<span class="fn">title</span>(<span class="str">'유튜브 트렌딩 제목 워드클라우드'</span>)
+plt.<span class="fn">show</span>()</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- 주의할 점 -->
+      <div class="section">
+        <h2 class="section-title">⚠️ 주의할 점</h2>
+        <div class="warn" style="margin-bottom:12px;">
+          <strong>한글이 네모(□)로 나올 때</strong><br>
+          wordcloud가 한글 폰트를 못 찾는 거예요. LLM에게 이렇게 물어봐요:<br>
+          <code>"구글 코랩에서 한글 폰트를 설치하고 wordcloud에 적용하는 코드 알려줘"</code>
+        </div>
+        <div class="warn" style="margin-bottom:12px;">
+          <strong>generate() 오류 — "no words" 메시지</strong><br>
+          텍스트가 비어 있거나 모든 단어가 불용어에 걸린 경우예요.<br>
+          <code>print(len(text))</code>로 텍스트 길이를 먼저 확인해봐요.
+        </div>
+        <div class="note">
+          <strong>워드클라우드는 한국어 형태소 분석이 없어요</strong><br>
+          "먹었어"와 "먹다"를 같은 단어로 인식하지 못해요. 더 정확하게 하려면 KoNLPy 같은 형태소 분석기가 필요한데,
+          이건 나중에 심화로 배울 수 있어요. 지금은 이 정도로도 충분해요!
+        </div>
+      </div>
+
+      <!-- 점검하기 -->
+      <div id="check" class="section">
+        <h2 class="section-title">✅ 점검하기</h2>
+        <div class="check-section">
+          <div class="check-title">🎯 아래 항목을 모두 할 수 있으면 다음 차시로 넘어가세요!</div>
+          <ul class="check-list2">
+            <li><input type="checkbox"> 워드클라우드가 무엇인지, 언제 쓰는지 설명할 수 있다</li>
+            <li><input type="checkbox"> <code>WordCloud()</code> 기본 코드를 실행할 수 있다</li>
+            <li><input type="checkbox"> <code>background_color</code>, <code>colormap</code>, <code>max_words</code> 옵션을 바꿀 수 있다</li>
+            <li><input type="checkbox"> 불용어(stopwords)가 무엇인지 알고 추가할 수 있다</li>
+            <li><input type="checkbox"> 특정 카테고리만 필터링해서 워드클라우드를 만들 수 있다</li>
+            <li><input type="checkbox"> ①페르소나 ②맥락+코드 ③지시 ④형식 순서로 프롬프트를 쓸 수 있다</li>
+            <li><input type="checkbox"> LLM이 준 코드에서 오류가 나면 오류 메시지와 함께 다시 요청할 수 있다</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 미션 -->
+      <div id="mission" class="section">
+        <h2 class="section-title">🚀 미션 — 아래 세 가지 중 하나를 골라서 해봐요</h2>
+
+        <!-- 미션 A -->
+        <div class="mission-box">
+          <div class="mission-title">☁️ 미션 A — 카테고리 비교 워드클라우드</div>
+          <div class="mission-desc">
+            유튜브 트렌딩 데이터에서 두 카테고리를 골라서 나란히 비교해봐요.
+          </div>
+          <div class="mission-task">
+            <strong>조건:</strong><br>
+            ① 비교할 카테고리 2개 고르기 (예: 음악 vs 게임)<br>
+            ② 각각 워드클라우드 만들기<br>
+            ③ 두 그림을 나란히 출력하기 (첫 줄 코드 아래 직접 완성해봐요)
+          </div>
+          <div style="background:white; border-radius:8px; padding:14px 16px; margin-top:12px; border:1px solid var(--purple-border);">
+            <div style="font-size:12px; font-weight:700; color:var(--purple); margin-bottom:8px; text-transform:uppercase; letter-spacing:.06em;">✏️ 시작 코드 — 이어서 직접 완성해봐요</div>
+            <div class="code-block" style="margin:0; border-radius:6px;">
+              <pre><span class="cm"># ① 카테고리 2개 선택 — 직접 바꿔봐요</span>
+cat1 = <span class="str">'음악'</span>
+cat2 = <span class="str">'게임'</span>
+
+<span class="cm"># ② 각 카테고리 텍스트 필터링</span>
+text1 = <span class="str">' '</span>.<span class="fn">join</span>(df[df[<span class="str">'카테고리'</span>] == cat1][<span class="str">'제목'</span>].<span class="fn">dropna</span>())</pre>
+            </div>
+            <div style="font-size:12px; color:var(--text3); margin-top:8px;">👉 text2 만들기, 워드클라우드 2개 만들기, 나란히 출력하기를 직접 써봐요!</div>
+          </div>
+        </div>
+
+        <!-- 미션 B -->
+        <div class="mission-box">
+          <div class="mission-title">🎵 미션 B — 내 텍스트로 워드클라우드</div>
+          <div class="mission-desc">
+            유튜브 데이터 말고 내가 직접 고른 텍스트로 워드클라우드를 만들어봐요.
+          </div>
+          <div class="mission-task">
+            <strong>조건:</strong><br>
+            ① 텍스트 출처 선택 (뉴스 헤드라인, 노래 가사, 책 소개 등)<br>
+            ② 빈칸 프롬프트를 채워서 LLM에게 코드 요청하기<br>
+            ③ 불용어를 직접 설정해서 의미 없는 단어 제거하기<br>
+            ④ 결과 캡처 후 "가장 크게 나온 단어와 그 이유" 한 줄 작성하기
+          </div>
+          <div style="background:white; border-radius:8px; padding:14px 16px; margin-top:12px; border:1px solid var(--purple-border);">
+            <div style="font-size:12px; font-weight:700; color:var(--purple); margin-bottom:8px; text-transform:uppercase; letter-spacing:.06em;">✏️ 빈칸 프롬프트를 채워서 LLM에게 요청해봐요</div>
+            <div class="code-block" style="margin:0; border-radius:6px; background:#0f172a;">
+              <pre style="color:#e2e8f0; font-size:13px;">나는 고등학생이고 파이썬으로 ___ 워드클라우드를 만들고 싶어.
+텍스트 데이터는 ___ 야.
+아래 조건으로 만들어줘:
+- 배경색: ___
+- 색깔 테마: ___
+- 제거할 불용어: ___
+구글 코랩에서 실행 가능한 코드로 보여줘.</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- 미션 C -->
+        <div class="mission-box">
+          <div class="mission-title">🏆 미션 C — 모양 있는 워드클라우드 (mask)</div>
+          <div class="mission-desc">
+            프롬프트만으로 하트, 별, 원 모양의 워드클라우드를 만들어봐요.
+          </div>
+          <div class="mission-task">
+            <strong>조건:</strong><br>
+            ① LLM에게 "numpy로 하트 모양 마스크 만들기" 방법 물어보기<br>
+            ② mask 옵션을 적용한 워드클라우드 코드 받기<br>
+            ③ 텍스트와 색깔 테마는 자유롭게 선택<br>
+            ④ 결과 이미지 캡처 후 제출
+          </div>
+          <div style="background:white; border-radius:8px; padding:14px 16px; margin-top:12px; border:1px solid var(--purple-border);">
+            <div style="font-size:12px; font-weight:700; color:var(--purple); margin-bottom:8px; text-transform:uppercase; letter-spacing:.06em;">✏️ 주석을 보고 프롬프트를 직접 써봐요</div>
+            <div class="code-block" style="margin:0; border-radius:6px;">
+              <pre><span class="cm"># ① numpy로 원하는 모양 마스크 만들기 → LLM에게 물어봐요</span>
+
+<span class="cm"># ② mask 옵션 적용해서 WordCloud 만들기</span>
+
+<span class="cm"># ③ 결과 출력하기</span></pre>
+            </div>
+            <div style="font-size:12px; color:var(--text3); margin-top:8px;">💡 힌트: "파이썬 wordcloud numpy 하트 모양 mask 코랩 코드"로 LLM에게 물어봐요!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 다음 차시 -->
+      <div class="section">
+        <h2 class="section-title">🔗 다음 차시 미리보기</h2>
+        <div class="next-chapter">
+          <div class="next-icon">🗺️</div>
+          <div>
+            <div class="next-label">다음 차시</div>
+            <div class="next-title">4차시 — 지도 시각화</div>
+            <div class="next-desc">
+              folium 라이브러리로 지도 위에 데이터를 마커로 표시해요.<br>
+              "우리 동네 어디에 무엇이 있는지" 지도로 직접 만들어봐요!
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- .content -->
+  </main>
+</div><!-- .wrapper -->
+
+<div id="soon-toast">🔒 곧 공개됩니다!</div>
+
+<script>
+  let toastTimer;
+  function showSoon(e) {
+    e.preventDefault();
+    const toast = document.getElementById('soon-toast');
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+</script>
+</body>
+</html>
