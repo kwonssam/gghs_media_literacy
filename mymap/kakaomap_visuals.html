@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>카카오맵 수업 자료</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; background: #f4f3ee; padding: 32px 20px; }
+  h1 { text-align: center; font-size: 18px; font-weight: 500; color: #2c2c2a; margin-bottom: 8px; }
+  .subtitle { text-align: center; font-size: 13px; color: #5f5e5a; margin-bottom: 32px; }
+  .section { background: #fff; border-radius: 16px; border: 0.5px solid #d3d1c7; padding: 32px; margin-bottom: 32px; }
+  .section-title { font-size: 16px; font-weight: 500; color: #2c2c2a; margin-bottom: 6px; }
+  .section-desc { font-size: 12px; color: #888780; margin-bottom: 24px; }
+  .download-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #fff; border: 0.5px solid #b4b2a9;
+    border-radius: 8px; padding: 7px 14px;
+    font-size: 13px; color: #3d3d3a; cursor: pointer;
+    font-family: inherit; margin-top: 20px;
+    transition: background 0.15s;
+  }
+  .download-btn:hover { background: #f4f3ee; }
+  .download-btn svg { width: 15px; height: 15px; }
+
+  /* ── 카드 공통 ── */
+  .card { border-radius: 10px; padding: 16px 20px; margin-bottom: 10px; }
+  .card-title { font-size: 14px; font-weight: 500; margin-bottom: 5px; }
+  .card-body { font-size: 12px; line-height: 1.65; }
+
+  /* 색상 팔레트 */
+  .purple  { background: #EEEDFE; border: 0.5px solid #534AB7; }
+  .purple  .card-title { color: #3C3489; }
+  .purple  .card-body  { color: #534AB7; }
+
+  .teal    { background: #E1F5EE; border: 0.5px solid #0F6E56; }
+  .teal    .card-title { color: #085041; }
+  .teal    .card-body  { color: #0F6E56; }
+
+  .amber   { background: #FAEEDA; border: 0.5px solid #854F0B; }
+  .amber   .card-title { color: #633806; }
+  .amber   .card-body  { color: #854F0B; }
+
+  .blue    { background: #E6F1FB; border: 0.5px solid #185FA5; }
+  .blue    .card-title { color: #0C447C; }
+  .blue    .card-body  { color: #185FA5; }
+
+  .coral   { background: #FAECE7; border: 0.5px solid #993C1D; }
+  .coral   .card-title { color: #712B13; }
+  .coral   .card-body  { color: #993C1D; }
+
+  .gray-outline { background: #fff; border: 1px dashed #b4b2a9; }
+  .gray-outline .card-title { color: #444441; }
+  .gray-outline .card-body  { color: #5f5e5a; }
+
+  .skipped { background: #F1EFE8; border: 1px dashed #b4b2a9; opacity: 0.5; }
+  .skipped .card-title { color: #888780; text-decoration: line-through; }
+  .skipped .card-body  { color: #888780; }
+
+  /* 화살표 */
+  .arrow-down { text-align: center; color: #b4b2a9; font-size: 20px; margin: 2px 0; line-height: 1; }
+  .arrow-label { font-size: 12px; color: #854F0B; font-weight: 500; margin-left: 8px; }
+
+  /* 필수 항목 테두리 박스 */
+  .required-box {
+    border: 1.5px solid #534AB7; border-radius: 10px;
+    padding: 14px 16px; margin: 8px 0 12px;
+    background: #faf9ff;
+  }
+  .required-label {
+    display: inline-block; background: #534AB7; color: #EEEDFE;
+    font-size: 11px; font-weight: 500; border-radius: 4px;
+    padding: 2px 10px; margin-bottom: 10px;
+  }
+  .req-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+  .req-item:last-child { margin-bottom: 0; }
+  .req-tag {
+    flex-shrink: 0; background: #FAECE7; border: 0.5px solid #993C1D;
+    color: #712B13; font-size: 11px; font-weight: 500;
+    border-radius: 5px; padding: 2px 8px; margin-top: 1px;
+  }
+  .req-text { font-size: 12px; color: #3C3489; line-height: 1.55; }
+
+  /* 공통 규칙 박스 */
+  .rule-box {
+    border: 1px dashed #b4b2a9; border-radius: 8px;
+    padding: 12px 16px; margin-top: 14px; background: #f9f9f7;
+  }
+  .rule-title { font-size: 12px; font-weight: 500; color: #444441; margin-bottom: 5px; }
+  .rule-body  { font-size: 12px; color: #5f5e5a; }
+  .step-num {
+    display: inline-block; width: 22px; height: 22px; border-radius: 50%;
+    text-align: center; line-height: 22px; font-size: 12px; font-weight: 500;
+    margin-right: 4px; flex-shrink: 0;
+  }
+  .sn-purple { background: #534AB7; color: #fff; }
+  .sn-teal   { background: #0F6E56; color: #fff; }
+  .sn-amber  { background: #854F0B; color: #fff; }
+  .sn-blue   { background: #185FA5; color: #fff; }
+</style>
+</head>
+<body>
+
+<h1>카카오맵 API 수업 자료</h1>
+<p class="subtitle">각 이미지 아래 버튼을 눌러 PNG로 저장하세요</p>
+
+<!-- ══════════════════════════════════════ -->
+<!--  이미지 1: 프롬프트 작성 4단계          -->
+<!-- ══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">프롬프트 작성 4단계</div>
+  <div class="section-desc">AI에게 코드를 요청할 때 이 순서를 지키면 정확한 코드를 받을 수 있어요</div>
+
+  <div id="diagram1">
+
+    <div class="card purple">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+        <span class="step-num sn-purple">①</span>
+        <span class="card-title" style="margin:0;">페르소나</span>
+      </div>
+      <div class="card-body">
+        나는 고등학생이고, 카카오맵 _______ 서비스를 만들고 있어.<br>
+        <span style="opacity:0.8;">→ <strong style="color:#3C3489;">페르소나 = 나를 소개하는 한 줄.</strong> AI에게 "나는 초보 고등학생"이라고 알려주면, AI가 어려운 용어 없이 쉽게 설명해줘요.</span>
+      </div>
+    </div>
+
+    <div class="arrow-down">↓</div>
+
+    <div class="card teal">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+        <span class="step-num sn-teal">②</span>
+        <span class="card-title" style="margin:0;">맥락 + 현재 코드</span>
+      </div>
+      <div class="card-body">
+        아래는 내 현재 index.html 전체야: [ 코드 전체 붙여넣기 ]<br>
+        → 지금 내 파일을 그대로 보여줘야 AI가 엉뚱한 코드를 주지 않아요!
+      </div>
+    </div>
+
+    <div class="arrow-down">↓</div>
+
+    <div class="card amber">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+        <span class="step-num sn-amber">③</span>
+        <span class="card-title" style="margin:0;">구체적 지시</span>
+      </div>
+      <div class="card-body">
+        아래 기능을 추가해줘:<br>
+        &nbsp;• 검색창에 _____ 입력 후 버튼 클릭<br>
+        &nbsp;• 지도에 _____로 표시, 왼쪽 리스트에 _____ 나열<br>
+        &nbsp;• _____ 클릭 시 _____ 팝업 표시
+      </div>
+    </div>
+
+    <div class="arrow-down">↓</div>
+
+    <div class="card blue">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+        <span class="step-num sn-blue">④</span>
+        <span class="card-title" style="margin:0;">출력 형식</span>
+      </div>
+      <div class="card-body">
+        전체 index.html을 다시 보여줘. 변수명은 영어로, 주석은 한국어로.
+      </div>
+    </div>
+
+    <div class="rule-box">
+      <div class="rule-title">공통 규칙</div>
+      <div class="rule-body">① 내가 뭘 만드는지  →  ② 지금 코드 붙여넣기  →  ③ 원하는 기능 구체적으로  →  ④ 형식 지정</div>
+    </div>
+
+  </div>
+
+  <button class="download-btn" onclick="downloadPNG('diagram1', '프롬프트_작성_4단계')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 20h14"/>
+    </svg>
+    PNG로 저장
+  </button>
+</div>
+
+
+<!-- ══════════════════════════════════════ -->
+<!--  이미지 2: 수업 흐름                   -->
+<!-- ══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">수업 진행 흐름</div>
+  <div class="section-desc">STEP 2는 생략하고, STEP 1 완성 후 바로 도전 과제로 진행합니다</div>
+
+  <div id="diagram2">
+
+    <div class="card purple">
+      <div class="card-title">STEP 1 — 뼈대 + 지도 띄우기</div>
+      <div class="card-body">2분할 레이아웃 + 카카오 지도 화면에 표시 (선생님과 함께)</div>
+    </div>
+
+    <!-- 필수 항목 강조 박스 -->
+    <div class="required-box">
+      <span class="required-label">프롬프트 필수 항목 3가지</span>
+
+      <div class="req-item">
+        <span class="req-tag">위치 권한</span>
+        <span class="req-text">페이지가 열리면 위치 권한을 허용받아 현재 위치를 중심으로 지도에 표시</span>
+      </div>
+      <div class="req-item">
+        <span class="req-tag">로딩 오류 방지</span>
+        <span class="req-text">지도가 제대로 로드된 후에 실행되도록 해줘 (로딩 오류 방지)</span>
+      </div>
+      <div class="req-item">
+        <span class="req-tag">JS 키 입력</span>
+        <span class="req-text">카카오 JavaScript 키: [내 키 직접 입력] — 빠지면 지도가 절대 안 뜨니 반드시 넣을 것!</span>
+      </div>
+    </div>
+
+    <div class="arrow-down">↓</div>
+
+    <div class="card skipped">
+      <div class="card-title">STEP 2 — 검색 + 마커 + 팝업 (생략)</div>
+      <div class="card-body">이번 수업에서는 건너뜁니다 → 도전 과제에서 직접 구현해요</div>
+    </div>
+
+    <div class="arrow-down" style="opacity:1;">↓ <span class="arrow-label">바로 도전!</span></div>
+
+    <div class="card teal">
+      <div class="card-title">도전 1 — 기능 탐색 + 내 지도 기획</div>
+      <div class="card-body">카탈로그에서 기능 고르기 → 주제·탭·기능 설계 → 기획서 작성</div>
+    </div>
+
+    <div class="arrow-down">↓</div>
+
+    <div class="card teal">
+      <div class="card-title">도전 2 — 직접 만들기 + GitHub 배포</div>
+      <div class="card-body">기획서 바탕으로 프롬프트 작성 → 구현 → GitHub Pages 배포 → 링크 제출</div>
+    </div>
+
+    <div class="rule-box">
+      <div class="rule-title">완성 체크리스트</div>
+      <div class="rule-body">JS 키 발급 &nbsp;✓&nbsp; 도메인 등록 &nbsp;✓&nbsp; 지도 표시 확인 &nbsp;✓&nbsp; 나만의 지도 완성 &nbsp;✓&nbsp; GitHub 배포 &nbsp;✓&nbsp; 링크 제출</div>
+    </div>
+
+  </div>
+
+  <button class="download-btn" onclick="downloadPNG('diagram2', '수업_진행_흐름')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 20h14"/>
+    </svg>
+    PNG로 저장
+  </button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+function downloadPNG(id, filename) {
+  const el = document.getElementById(id);
+  html2canvas(el, {
+    scale: 2,
+    backgroundColor: '#ffffff',
+    useCORS: true
+  }).then(canvas => {
+    const link = document.createElement('a');
+    link.download = filename + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+</script>
+</body>
+</html>
