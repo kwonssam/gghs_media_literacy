@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -442,26 +443,27 @@
   <nav class="sidebar">
     <div class="sidebar-logo">
       <div class="book-title">📊 파이썬 데이터 시각화</div>
-      <div class="book-sub">고등학교 정보 · 8차시</div>
+      <div class="book-sub">고등학교 정보 · 10차시</div>
     </div>
 
     <div class="nav-section">
       <div class="nav-section-title">1부 — 시작하기</div>
-      <a href="chapter01.html" class="nav-item active">1차시 · 파이썬 시작하기</a>
-      <a href="chapter02.html" class="nav-item">2차시 · 데이터 시각화</a>
+      <a href="chapter01.html" class="nav-item active">1차시 · 파이썬 기초</a>
+      <a href="chapter02.html" class="nav-item ">2차시 · 데이터 탐색</a>
     </div>
     <div class="nav-section">
-      <div class="nav-section-title">2부 — 심화 시각화</div>
-      <a href="chapter03.html" class="nav-item">3차시 · 워드클라우드</a>
-      <a href="#" class="nav-item soon" onclick="showSoon(event)">4차시 · 지도 시각화</a>
+      <div class="nav-section-title">2부 — 시각화</div>
+      <a href="chapter03.html" class="nav-item ">3차시 · 데이터 시각화</a>
+      <a href="chapter04.html" class="nav-item soon" onclick="showSoon(event)">4차시 · 워드클라우드 ①</a>
+      <a href="chapter05.html" class="nav-item soon" onclick="showSoon(event)">5차시 · 워드클라우드 ②</a>
+      <a href="chapter06.html" class="nav-item soon" onclick="showSoon(event)">6차시 · 지도 시각화</a>
     </div>
     <div class="nav-section">
       <div class="nav-section-title">3부 — 수행평가</div>
-      <a href="#" class="nav-item soon" onclick="showSoon(event)">5차시 · 계획서 작성</a>
-      <a href="#" class="nav-item soon" onclick="showSoon(event)">6~7차시 · 프로젝트 실습</a>
-      <a href="#" class="nav-item soon" onclick="showSoon(event)">8차시 · 보고서 + 발표</a>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">7차시 · 계획서 작성</a>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">8~9차시 · 프로젝트 실습</a>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">10차시 · 보고서 + 발표</a>
     </div>
-
     <div style="margin-top:20px; padding:0 20px;">
       <div style="background:var(--primary-bg); border:1px solid var(--primary-border); border-radius:8px; padding:12px; font-size:12px; color:var(--text2);">
         <div style="font-weight:700; color:var(--primary); margin-bottom:4px;">📌 이 챕터</div>
@@ -879,47 +881,24 @@ scores = [<span class="num">90</span>, <span class="num">85</span>, <span class=
           <div class="step-item">
             <div class="step-head">
               <div class="step-num">1</div>
-              <div class="step-title">리스트 길이와 합계 구하기</div>
+              <div class="step-title">리스트 길이 구하기</div>
             </div>
             <div class="step-body">
               <div class="code-block">
                 <pre>scores = [<span class="num">90</span>, <span class="num">85</span>, <span class="num">92</span>, <span class="num">78</span>, <span class="num">88</span>]
 
-<span class="fn">print</span>(<span class="str">'개수:', len(scores)</span>)    <span class="cm"># len() = 길이</span>
-<span class="fn">print</span>(<span class="str">'합계:', sum(scores)</span>)    <span class="cm"># sum() = 합계</span>
-<span class="fn">print</span>(<span class="str">'최고점:', max(scores)</span>)  <span class="cm"># max() = 최댓값</span>
-<span class="fn">print</span>(<span class="str">'최저점:', min(scores)</span>)  <span class="cm"># min() = 최솟값</span>
-<span class="fn">print</span>(<span class="str">'평균:'</span>, sum(scores)/len(scores))</pre>
+<span class="fn">print</span>(<span class="str">'개수:'</span>, len(scores))    <span class="cm"># len() = 길이</span>
+<span class="fn">print</span>(<span class="str">'최고점:'</span>, max(scores))  <span class="cm"># max() = 최댓값</span>
+<span class="fn">print</span>(<span class="str">'최저점:'</span>, min(scores))  <span class="cm"># min() = 최솟값</span></pre>
               </div>
               <div class="output-label">실행 결과</div>
               <div class="output-box">개수: 5
-합계: 433
 최고점: 92
-최저점: 78
-평균: 86.6</div>
-            </div>
-          </div>
-
-          <div class="step-item">
-            <div class="step-head">
-              <div class="step-num">2</div>
-              <div class="step-title">리스트에 값 추가하기</div>
-            </div>
-            <div class="step-body">
-              <div class="code-block">
-                <pre>channels = [<span class="str">'파뿌리'</span>, <span class="str">'숏박스'</span>, <span class="str">'총몇명'</span>]
-<span class="fn">print</span>(<span class="str">'추가 전:', channels</span>)
-
-channels.append(<span class="str">'침착맨'</span>)   <span class="cm"># 맨 뒤에 추가</span>
-<span class="fn">print</span>(<span class="str">'추가 후:', channels</span>)
-<span class="fn">print</span>(<span class="str">'총 채널 수:', len(channels)</span>)</pre>
-              </div>
-              <div class="output-label">실행 결과</div>
-              <div class="output-box">추가 전: ['파뿌리', '숏박스', '총몇명']
-추가 후: ['파뿌리', '숏박스', '총몇명', '침착맨']
-총 채널 수: 4</div>
+최저점: 78</div>
               <div class="tip">
-                <strong>다음 시간 미리보기:</strong> 다음 차시에는 이런 리스트 데이터가 수만 개 들어있는 CSV 파일을 불러와서 그래프로 그려봅니다!
+                <strong>💡 나중에 지도에서도 쓰여요!</strong><br>
+                지도에 마커를 찍을 때도 <code>[위도, 경도]</code> 형태의 리스트를 써요.<br>
+                예) <code>location=[37.5, 127.0]</code> — 서울 중심 좌표
               </div>
             </div>
           </div>
@@ -978,7 +957,7 @@ channels = [<span class="str">'파뿌리'</span>, <span class="str">'숏박스'<
             <li><input type="checkbox"> <code>print('문자열:', 변수)</code> 형태로 변수 값을 출력할 수 있다</li>
             <li><input type="checkbox"> 변수를 만들고 값을 저장하고 바꿀 수 있다</li>
             <li><input type="checkbox"> 리스트를 만들고 인덱스로 원소를 꺼낼 수 있다</li>
-            <li><input type="checkbox"> <code>len()</code>, <code>sum()</code>, <code>max()</code>를 리스트에 사용할 수 있다</li>
+            <li><input type="checkbox"> <code>len()</code>, <code>max()</code>, <code>min()</code>을 리스트에 사용할 수 있다</li>
           </ul>
         </div>
       </div>
@@ -1093,11 +1072,10 @@ rest_time  = free_time * ___
           <div class="next-icon">📊</div>
           <div>
             <div class="next-label">다음 차시</div>
-            <div class="next-title">2차시 — 데이터 탐색 + 시각화</div>
+            <div class="next-title">2차시 — 리스트 + 데이터 탐색</div>
             <div class="next-desc">
-              유튜브 트렌딩 데이터(26만 행!)를 불러와서 pandas로 탐색하고,
-              막대·선·점·원 그래프로 시각화해봅니다.
-              "숫자 표가 그래프가 되는 순간"을 경험하세요!
+              리스트를 이어서 배우고, 유튜브 트렌딩 데이터(26만 행!)를 불러와서<br>
+              pandas로 데이터를 탐색해봅니다.
             </div>
           </div>
         </div>
