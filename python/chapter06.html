@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6차시 — 지도 시각화</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@600;700&family=DM+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f8f9fc; --surface: #ffffff; --surface2: #f0f4ff;
+    --border: #e2e8f0; --text: #1a202c; --text2: #4a5568; --text3: #94a3b8;
+    --primary: #3b82f6; --primary-bg: #eff6ff; --primary-border: #bfdbfe;
+    --green: #059669; --green-bg: #ecfdf5; --green-border: #a7f3d0;
+    --orange: #d97706; --orange-bg: #fffbeb; --orange-border: #fde68a;
+    --red: #dc2626; --red-bg: #fef2f2; --red-border: #fecaca;
+    --purple: #7c3aed; --purple-bg: #f5f3ff; --purple-border: #ddd6fe;
+    --teal: #0d9488; --teal-bg: #f0fdfa; --teal-border: #99f6e4;
+    --code-bg: #1e293b;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); font-family: 'Noto Sans KR', sans-serif; color: var(--text); line-height: 1.75; font-size: 15px; }
+  .wrapper { display: flex; min-height: 100vh; }
+
+  .sidebar { width: 280px; flex-shrink: 0; background: var(--surface); border-right: 1px solid var(--border); position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 24px 0; }
+  .sidebar-logo { padding: 0 20px 20px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+  .sidebar-logo .book-title { font-size: 13px; font-weight: 700; color: var(--primary); letter-spacing: .04em; margin-bottom: 4px; }
+  .sidebar-logo .book-sub { font-size: 12px; color: var(--text3); }
+  .nav-section { margin-bottom: 8px; }
+  .nav-section-title { font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; padding: 6px 20px; }
+  .nav-item { display: block; padding: 7px 20px 7px 28px; font-size: 13px; color: var(--text2); text-decoration: none; border-left: 2px solid transparent; transition: all .15s; }
+  .nav-item:hover { color: var(--primary); background: var(--primary-bg); }
+  .nav-item.active { color: var(--teal); font-weight: 700; border-left-color: var(--teal); background: var(--teal-bg); }
+  .nav-item.done { color: var(--text3); }
+  .nav-item.done::after { content: ' ✓'; color: var(--green); font-size: 11px; }
+  .nav-item.soon { color: var(--text3); cursor: pointer; }
+  .nav-item.soon:hover { color: var(--text2); background: var(--surface2); }
+
+  .main { flex: 1; min-width: 0; }
+  .content { max-width: 860px; margin: 0 auto; padding: 52px 48px 100px; }
+
+  .chapter-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 2px solid var(--border); }
+  .chapter-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--teal-bg); color: var(--teal); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--teal-border); margin-bottom: 12px; }
+  .chapter-title { font-family: 'Noto Serif KR', serif; font-size: 32px; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 12px; }
+  .chapter-desc { font-size: 16px; color: var(--text2); line-height: 1.75; }
+
+  .section { margin-bottom: 52px; }
+  .section-title { font-size: 22px; font-weight: 900; color: var(--text); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+
+  .goal-box { background: var(--teal-bg); border: 1.5px solid var(--teal-border); border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; }
+  .goal-box-title { font-size: 13px; font-weight: 700; color: var(--teal); margin-bottom: 12px; text-transform: uppercase; letter-spacing: .08em; }
+  .goal-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .goal-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text2); }
+  .goal-list li::before { content: '☐'; font-size: 16px; color: var(--teal); flex-shrink: 0; }
+
+  /* 파트 비교 카드 */
+  .part-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .part-card { border-radius: 12px; padding: 20px 24px; border: 2px solid; }
+  .part-card.part1 { background: var(--primary-bg); border-color: var(--primary-border); }
+  .part-card.part2 { background: var(--teal-bg); border-color: var(--teal-border); }
+  .part-card-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+  .part-card.part1 .part-card-label { color: var(--primary); }
+  .part-card.part2 .part-card-label { color: var(--teal); }
+  .part-card-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .part-card-flow { font-size: 13px; color: var(--text2); line-height: 2; }
+  .part-card-flow .arrow { color: var(--text3); margin: 0 4px; }
+
+  .step-list { display: flex; flex-direction: column; gap: 20px; }
+  .step-item { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .step-head { display: flex; align-items: center; gap: 14px; padding: 14px 20px; background: var(--surface2); border-bottom: 1.5px solid var(--border); }
+  .step-num { width: 32px; height: 32px; background: var(--teal); color: white; border-radius: 50%; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .step-body { padding: 20px 24px; font-size: 14px; color: var(--text2); line-height: 1.8; }
+
+  .code-block { background: var(--code-bg); border-radius: 10px; padding: 20px 22px; margin: 14px 0; overflow-x: auto; position: relative; }
+  .code-block pre { font-family: 'DM Mono', monospace; font-size: 13.5px; color: #e2e8f0; line-height: 1.85; white-space: pre; }
+
+  /* 복사 버튼 */
+  .copy-btn { position: absolute; top: 10px; right: 60px; background: #334155; color: #94a3b8; border: none; border-radius: 6px; padding: 3px 10px; font-size: 11px; font-family: 'DM Mono', monospace; cursor: pointer; transition: all .15s; letter-spacing: .04em; }
+  .copy-btn:hover { background: #475569; color: #e2e8f0; }
+  .copy-btn.copied { background: #059669; color: #fff; }
+
+  .code-label { position: absolute; top: 10px; right: 14px; font-family: 'DM Mono', monospace; font-size: 10px; color: #475569; text-transform: uppercase; letter-spacing: .06em; }
+  .kw  { color: #c792ea; }
+  .fn  { color: #82aaff; }
+  .str { color: #c3e88d; }
+  .num { color: #f78c6c; }
+  .cm  { color: #546e7a; font-style: italic; }
+
+  .output-label { font-size: 11px; color: #475569; font-family: 'DM Mono', monospace; letter-spacing: .06em; text-transform: uppercase; margin: 8px 0 4px; }
+  .output-box { background: #0f172a; border: 1px solid #1e3a5f; border-radius: 8px; padding: 14px 18px; font-family: 'DM Mono', monospace; font-size: 13px; color: #a3e635; line-height: 1.7; margin-bottom: 14px; }
+
+  .tip  { background: var(--green-bg); border: 1px solid var(--green-border); border-left: 3px solid var(--green); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
+  .tip strong { color: var(--green); }
+  .warn { background: var(--red-bg); border: 1px solid var(--red-border); border-left: 3px solid var(--red); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
+  .warn strong { color: var(--red); }
+  .note { background: var(--orange-bg); border: 1px solid var(--orange-border); border-left: 3px solid var(--orange); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
+  .note strong { color: var(--orange); }
+
+  .prompt-card { background: #0f172a; border: 2px solid #334155; border-radius: 14px; overflow: hidden; margin: 16px 0; }
+  .prompt-card-head { background: #1e293b; padding: 12px 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #334155; }
+  .prompt-icon { font-size: 16px; }
+  .prompt-title { font-size: 13px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .08em; }
+  .prompt-body { padding: 20px 22px; }
+  .prompt-body pre { font-family: 'DM Mono', monospace; font-size: 13px; color: #e2e8f0; line-height: 1.9; white-space: pre-wrap; }
+  .prompt-rule { font-size: 11px; font-weight: 700; color: #f59e0b; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+  th { background: var(--surface2); padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--border); font-weight: 700; }
+  td { padding: 10px 14px; border-bottom: 1px dashed var(--border); color: var(--text2); }
+  td code { font-family: 'DM Mono', monospace; font-size: 12.5px; background: var(--surface2); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--primary); }
+  tr:last-child td { border-bottom: none; }
+
+  .check-section { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; }
+  .check-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
+  .check-list2 { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .check-list2 li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text2); line-height: 1.6; }
+  .check-list2 li input[type="checkbox"] { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; accent-color: var(--teal); }
+
+  .next-chapter { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; display: flex; align-items: center; gap: 16px; }
+  .next-icon { font-size: 28px; flex-shrink: 0; }
+  .next-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+  .next-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .next-desc { font-size: 13px; color: var(--text2); margin-top: 3px; }
+
+  code { font-family: 'DM Mono', monospace; font-size: 13px; background: var(--surface2); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border); color: var(--primary); }
+  p { margin-bottom: 12px; }
+  strong { color: var(--text); }
+
+  #soon-toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: #fff; padding: 10px 20px; border-radius: 999px; font-size: 13px; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 9999; white-space: nowrap; }
+  #soon-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <div class="book-title">🐍 파이썬 데이터 시각화</div>
+      <div class="book-sub">고등학교 정보 · 10차시</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">1부 — 시작하기</div>
+      <a href="chapter01.html" class="nav-item done">1차시 · 파이썬 기초</a>
+      <a href="chapter02.html" class="nav-item done">2차시 · 데이터 탐색</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">2부 — 시각화</div>
+      <a href="chapter03.html" class="nav-item done">3차시 · 데이터 시각화</a>
+      <a href="chapter04.html" class="nav-item done">4차시 · 워드클라우드 ①</a>
+      <a href="chapter05.html" class="nav-item done">5차시 · 워드클라우드 ②</a>
+      <a href="chapter06.html" class="nav-item active">6차시 · 지도 시각화</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">3부 — 수행평가</div>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">7차시 · 계획서 작성</a>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">8~9차시 · 프로젝트 실습</a>
+      <a href="#" class="nav-item soon" onclick="showSoon(event)">10차시 · 보고서 + 발표</a>
+    </div>
+    <div style="margin-top:20px; padding:0 20px;">
+      <div style="background:var(--teal-bg); border:1px solid var(--teal-border); border-radius:8px; padding:12px; font-size:12px; color:var(--text2);">
+        <strong style="color:var(--teal);">🗺️ 6차시 목차</strong>
+        <div style="margin-top:8px; display:flex; flex-direction:column; gap:4px;">
+          <a href="#concept" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">📌 핵심 개념</a>
+          <a href="#compare" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">📊 파트1 vs 파트2</a>
+          <a href="#part1" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">🗺️ Part 1 · 독립운동 사적지</a>
+          <a href="#part2" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">🐾 Part 2 · 동물병원 지오코딩</a>
+          <a href="#prompt" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">🤖 프롬프트 실습</a>
+          <a href="#check" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">✅ 점검하기</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content">
+
+      <div class="chapter-header">
+        <div class="chapter-badge">6차시</div>
+        <h1 class="chapter-title">데이터를 지도 위에 —<br>지도 시각화</h1>
+        <p class="chapter-desc">
+          숫자·그래프·워드클라우드로 볼 수 없는 것이 있어요. 바로 <strong>위치</strong>예요.<br>
+          이번엔 데이터를 지도 위에 직접 찍어봅니다.<br>
+          독립운동이 세계 어느 곳에서 일어났는지, 우리 동네 동물병원은 어디에 있는지 확인해봐요.
+        </p>
+      </div>
+
+      <!-- 학습 목표 -->
+      <div class="section">
+        <h2 class="section-title">🎯 이 장에서 배우는 것</h2>
+        <div class="goal-box">
+          <div class="goal-box-title">학습 목표</div>
+          <ul class="goal-list">
+            <li><code>folium.Map()</code>으로 기본 지도를 띄울 수 있다</li>
+            <li>마커를 찍고 <code>popup</code>·<code>tooltip</code>으로 정보를 달 수 있다</li>
+            <li><code>for문</code>으로 CSV 데이터의 모든 위치에 마커를 찍을 수 있다</li>
+            <li><code>MarkerCluster</code>로 마커를 군집화할 수 있다</li>
+            <li>지오코딩이 무엇인지 설명할 수 있다</li>
+            <li>카카오 REST API로 주소를 위도·경도로 변환할 수 있다</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 핵심 개념 -->
+      <div id="concept" class="section">
+        <h2 class="section-title">📌 핵심 개념</h2>
+
+        <table>
+          <tr><th>개념</th><th>설명</th></tr>
+          <tr><td><strong>folium</strong></td><td>파이썬으로 인터랙티브 지도를 만드는 라이브러리. 마우스로 확대·축소·이동 가능</td></tr>
+          <tr><td><strong>위도·경도</strong></td><td>지구 위의 모든 위치를 나타내는 숫자. 서울: 위도 37.5, 경도 127.0</td></tr>
+          <tr><td><strong>지오코딩</strong></td><td>주소 → 위도·경도로 변환하는 것. "경기도 고양시 덕양구 ..." → (37.6, 126.8)</td></tr>
+          <tr><td><strong>MarkerCluster</strong></td><td>가까운 마커들을 묶어서 숫자로 표시. 줌인하면 개별 마커로 풀림</td></tr>
+        </table>
+
+        <div class="tip">
+          <strong>💡 오늘 쓸 라이브러리</strong><br>
+          <code>folium</code> — 지도 만들기 / <code>folium.plugins</code> — 마커 군집화 / <code>pandas</code> — CSV 불러오기 / <code>requests</code> — 카카오 API 요청
+        </div>
+      </div>
+
+      <!-- 파트1 vs 파트2 비교 -->
+      <div id="compare" class="section">
+        <h2 class="section-title">📊 오늘 수업 흐름 — 파트1 vs 파트2</h2>
+
+        <p style="font-size:14px; color:var(--text2); margin-bottom:16px;">
+          오늘은 두 가지 상황을 다뤄요. 데이터에 위도·경도가 있는지 없는지에 따라 방법이 달라요.
+        </p>
+
+        <div class="part-compare">
+          <div class="part-card part1">
+            <div class="part-card-label">🗺️ Part 1</div>
+            <div class="part-card-title">위도·경도가 있는 데이터</div>
+            <div class="part-card-flow">
+              📂 독립운동 국외사적지 CSV<br>
+              <span class="arrow">↓</span><br>
+              🗺️ 지도에 바로 찍기
+            </div>
+          </div>
+          <div class="part-card part2">
+            <div class="part-card-label">🐾 Part 2</div>
+            <div class="part-card-title">주소만 있는 데이터</div>
+            <div class="part-card-flow">
+              📂 고양시 동물병원 CSV<br>
+              <span class="arrow">↓</span><br>
+              📍 지오코딩 (주소 → 위도·경도)<br>
+              <span class="arrow">↓</span><br>
+              🗺️ 지도에 찍기
+            </div>
+          </div>
+        </div>
+
+        <div class="note">
+          <strong>핵심:</strong> 지도에 찍는 코드는 파트1·파트2 모두 동일해요.<br>
+          파트2는 먼저 지오코딩으로 위도·경도를 만들어주는 과정이 추가될 뿐이에요.
+        </div>
+      </div>
+
+      <!-- Part 1 -->
+      <div id="part1" class="section">
+        <h2 class="section-title">🗺️ Part 1 — 독립운동 국외사적지</h2>
+
+        <p style="font-size:14px; color:var(--text2); margin-bottom:20px;">
+          독립기념관 국외사적지 데이터는 위도·경도가 이미 있어서 바로 지도에 찍을 수 있어요.<br>
+          639개 사적지를 세계 지도에 올려봐요.
+        </p>
+
+        <div class="step-list">
+
+          <!-- STEP 1 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">1</div>
+              <div class="step-title">기본 지도 띄우기</div>
+            </div>
+            <div class="step-body">
+              <p>folium을 설치하고 세계 지도를 화면에 띄워봐요.</p>
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre>!pip install folium -q
+<span class="kw">import</span> folium
+<span class="kw">from</span> IPython.display <span class="kw">import</span> display
+
+<span class="cm"># location=[위도, 경도] — 지도 중심 위치
+# zoom_start — 숫자가 클수록 더 가까이 (1~18)</span>
+m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>)
+<span class="fn">display</span>(m)</pre>
+              </div>
+              <div class="output-label">실행 결과</div>
+              <div class="output-box">마우스로 확대·축소·이동이 가능한 세계 지도가 나타나요!</div>
+              <div class="tip">
+                <strong>💡 zoom_start 값</strong><br>
+                2 = 세계 전체 / 6 = 한국 전체 / 10 = 도시 수준 / 15 = 동네 수준
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 2 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">2</div>
+              <div class="step-title">마커 하나 찍기</div>
+            </div>
+            <div class="step-body">
+              <p>지도 위에 핀(마커)을 찍고, 클릭하거나 마우스를 올리면 정보가 뜨게 해봐요.</p>
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>)
+
+<span class="cm"># 상하이 대한민국임시정부 청사 위치</span>
+folium.<span class="fn">Marker</span>(
+    location=[<span class="num">31.219272</span>, <span class="num">121.46998</span>],
+    popup=<span class="str">'대한민국임시정부 상하이 청사'</span>,   <span class="cm"># 클릭하면 뜨는 설명</span>
+    tooltip=<span class="str">'임시정부 청사'</span>                <span class="cm"># 마우스 올리면 뜨는 이름</span>
+).<span class="fn">add_to</span>(m)
+
+<span class="fn">display</span>(m)</pre>
+              </div>
+              <table style="margin-top:12px;">
+                <tr><th>옵션</th><th>언제 뜨나요</th></tr>
+                <tr><td><code>popup</code></td><td>마커 클릭 시</td></tr>
+                <tr><td><code>tooltip</code></td><td>마우스 올릴 때</td></tr>
+              </table>
+              <div class="note" style="margin-top:12px;">
+                <strong>📝 직접 해봐요:</strong> 위도·경도를 다른 곳으로 바꿔봐요.<br>
+                예) 하얼빈 안중근 의거 현장: <code>[45.7, 126.6]</code>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">3</div>
+              <div class="step-title">여러 마커 찍기 + 군집화</div>
+            </div>
+            <div class="step-body">
+              <p>639개 사적지를 <code>for문</code>으로 한번에 찍고, <code>MarkerCluster</code>로 깔끔하게 묶어봐요.</p>
+
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">import</span> glob
+<span class="kw">from</span> folium.plugins <span class="kw">import</span> MarkerCluster
+
+<span class="cm"># 데이터 불러오기</span>
+files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/독립기념관_국외사적지*.csv'</span>, recursive=<span class="kw">True</span>)
+df = pd.<span class="fn">read_csv</span>(files[<span class="num">0</span>], encoding=<span class="str">'cp949'</span>)
+
+<span class="cm"># 지도 + 클러스터 생성</span>
+m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>)
+cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(m)
+
+<span class="cm"># for문으로 모든 행에 마커 찍기
+# .add_to(cluster) — m 대신 cluster에 추가하면 군집화!</span>
+<span class="kw">for</span> idx, row <span class="kw">in</span> df.<span class="fn">iterrows</span>():
+    folium.<span class="fn">Marker</span>(
+        location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
+        popup=row[<span class="str">'사적지명(국문)'</span>],
+        tooltip=row[<span class="str">'사적지명(국문)'</span>]
+    ).<span class="fn">add_to</span>(cluster)
+
+<span class="fn">display</span>(m)</pre>
+              </div>
+              <div class="output-label">실행 결과</div>
+              <div class="output-box">숫자가 적힌 원으로 마커들이 묶여요.
+중국 쪽에 큰 원(373), 미국 쪽에 작은 원(101)이 보여요.
+줌인하면 원이 점점 풀리면서 개별 마커가 나타나요!</div>
+              <div class="tip">
+                <strong>💡</strong> 중국 쪽을 줌인해봐요. 상하이 임시정부, 윤봉길 의거 장소 등 구체적인 사적지들이 보여요!
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Part 2 -->
+      <div id="part2" class="section">
+        <h2 class="section-title">🐾 Part 2 — 고양시 동물병원 지오코딩</h2>
+
+        <p style="font-size:14px; color:var(--text2); margin-bottom:20px;">
+          동물병원 데이터에는 주소만 있고 위도·경도가 없어요.<br>
+          카카오 API로 주소를 위도·경도로 변환한 뒤 지도에 찍어봐요.
+        </p>
+
+        <div class="step-list">
+
+          <!-- STEP 4 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">4</div>
+              <div class="step-title">카카오 REST API 키 발급하기</div>
+            </div>
+            <div class="step-body">
+              <p>카카오맵 수업에서 사용한 키와 다른 키가 필요해요.</p>
+              <div class="warn">
+                <strong>⚠️ JavaScript 키 ❌ → REST API 키 ✅</strong><br>
+                카카오 디벨로퍼스에서 앱을 선택하면 키 종류가 여러 개 나와요.<br>
+                반드시 <strong>REST API 키</strong>를 복사해서 사용하세요.
+              </div>
+              <table style="margin-top:12px;">
+                <tr><th>키 종류</th><th>용도</th><th>오늘 사용</th></tr>
+                <tr><td>앱 키 (JavaScript)</td><td>웹 지도 서비스</td><td>❌</td></tr>
+                <tr><td><strong>REST API 키</strong></td><td>서버 API 요청</td><td>✅</td></tr>
+                <tr><td>Native 앱 키</td><td>모바일 앱</td><td>❌</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <!-- STEP 5 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">5</div>
+              <div class="step-title">지오코딩 코드 실행하기</div>
+            </div>
+            <div class="step-body">
+              <p>아래 코드에서 REST API 키만 입력하고 실행하면 돼요.<br>
+              약 2분 후 위도·경도가 추가된 CSV가 드라이브에 저장돼요.</p>
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre><span class="kw">import</span> requests
+
+KAKAO_API_KEY = <span class="str">'여기에_REST_API_키_입력'</span>   <span class="cm"># ← 키 입력!</span>
+
+<span class="kw">def</span> <span class="fn">kakao_geocoding</span>(address):
+    url = <span class="str">'https://dapi.kakao.com/v2/local/search/address.json'</span>
+    headers = {<span class="str">'Authorization'</span>: f<span class="str">'KakaoAK {KAKAO_API_KEY}'</span>}
+    result = requests.<span class="fn">get</span>(url, headers=headers, params={<span class="str">'query'</span>: address}).<span class="fn">json</span>()
+    <span class="kw">if</span> result[<span class="str">'documents'</span>]:
+        <span class="kw">return</span> <span class="fn">float</span>(result[<span class="str">'documents'</span>][<span class="num">0</span>][<span class="str">'y'</span>]), <span class="fn">float</span>(result[<span class="str">'documents'</span>][<span class="num">0</span>][<span class="str">'x'</span>])
+    <span class="kw">return</span> <span class="kw">None</span>, <span class="kw">None</span>
+
+<span class="cm"># 동물병원 데이터 불러오기</span>
+files2 = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/경기도_고양시_동물병원현황.csv'</span>, recursive=<span class="kw">True</span>)
+df2 = pd.<span class="fn">read_csv</span>(files2[<span class="num">0</span>], encoding=<span class="str">'cp949'</span>)
+df2[<span class="str">'동명'</span>] = df2[<span class="str">'사업장소재지(도로명)'</span>].str.<span class="fn">extract</span>(<span class="str">r'\(([^)]+)\)'</span>)
+
+<span class="cm"># 위도·경도 추가 (약 2분 소요)</span>
+df2[<span class="str">'위도'</span>] = df2[<span class="str">'사업장소재지(도로명)'</span>].<span class="fn">apply</span>(<span class="kw">lambda</span> x: <span class="fn">kakao_geocoding</span>(x)[<span class="num">0</span>])
+df2[<span class="str">'경도'</span>] = df2[<span class="str">'사업장소재지(도로명)'</span>].<span class="fn">apply</span>(<span class="kw">lambda</span> x: <span class="fn">kakao_geocoding</span>(x)[<span class="num">1</span>])
+
+<span class="fn">print</span>(f<span class="str">'변환 완료: {df2["위도"].notna().sum()}/{len(df2)}개'</span>)
+
+<span class="cm"># 드라이브에 저장 — 다음에 다시 지오코딩 안 해도 돼요!</span>
+df2.<span class="fn">to_csv</span>(<span class="str">'/content/drive/MyDrive/동물병원_위도경도.csv'</span>, index=<span class="kw">False</span>, encoding=<span class="str">'utf-8-sig'</span>)
+<span class="fn">print</span>(<span class="str">'저장 완료!'</span>)</pre>
+              </div>
+              <div class="tip">
+                <strong>💡 기다리는 동안</strong><br>
+                코드가 실행되는 2분 동안 Part 1에서 만든 독립운동 사적지 지도를 다시 살펴봐요.
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 6 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">6</div>
+              <div class="step-title">변환된 데이터로 지도 찍기</div>
+            </div>
+            <div class="step-body">
+              <p>Part 1과 코드 구조가 완전히 같아요. 데이터만 달라졌어요!</p>
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre><span class="cm"># 저장된 파일 불러오기</span>
+df2 = pd.<span class="fn">read_csv</span>(<span class="str">'/content/drive/MyDrive/동물병원_위도경도.csv'</span>, encoding=<span class="str">'utf-8-sig'</span>)
+df2 = df2.<span class="fn">dropna</span>(subset=[<span class="str">'위도'</span>, <span class="str">'경도'</span>])   <span class="cm"># 변환 안 된 행 제거</span>
+
+<span class="cm"># 고양시 중심으로 지도 생성</span>
+m2 = folium.<span class="fn">Map</span>(location=[<span class="num">37.656</span>, <span class="num">126.835</span>], zoom_start=<span class="num">13</span>)
+cluster2 = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(m2)
+
+<span class="kw">for</span> idx, row <span class="kw">in</span> df2.<span class="fn">iterrows</span>():
+    folium.<span class="fn">Marker</span>(
+        location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
+        popup=row[<span class="str">'업소명'</span>],
+        tooltip=row[<span class="str">'업소명'</span>]
+    ).<span class="fn">add_to</span>(cluster2)
+
+<span class="fn">display</span>(m2)</pre>
+              </div>
+              <div class="output-label">실행 결과</div>
+              <div class="output-box">고양시 지도에 동물병원 마커들이 찍혀요.
+우리 동네 주변 동물병원이 어디 있는지 한눈에 확인할 수 있어요!</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 프롬프트 실습 -->
+      <div id="prompt" class="section">
+        <h2 class="section-title">🤖 프롬프트로 지도 커스터마이징</h2>
+
+        <p style="font-size:14px; color:var(--text2); margin-bottom:16px;">
+          기본 지도를 완성했으면 이제 꾸며봐요.<br>
+          색깔 바꾸기, 팝업 내용 수정 등 원하는 변경사항을 LLM에게 요청해봐요.
+        </p>
+
+        <div class="prompt-card">
+          <div class="prompt-card-head">
+            <span class="prompt-icon">📋</span>
+            <span class="prompt-title">프롬프트 예시 — 마커 색깔 바꾸기</span>
+          </div>
+          <div class="prompt-body">
+            <div class="prompt-rule">① 페르소나</div>
+            <pre>나는 고등학생이고 파이썬 folium으로 지도를 만들고 있어.</pre>
+            <br>
+            <div class="prompt-rule">② 맥락 + 현재 코드</div>
+            <pre>아래는 내 현재 코드야:
+[현재 코드 전체 붙여넣기]</pre>
+            <br>
+            <div class="prompt-rule">③ 구체적 지시</div>
+            <pre>아래 조건으로 바꿔줘:
+- 마커 색깔을 빨간색으로 바꾸기
+- popup에 동명 정보도 함께 표시하기</pre>
+            <br>
+            <div class="prompt-rule">④ 출력 형식</div>
+            <pre>구글 코랩에서 실행 가능한 코드로 보여줘. 주석은 한국어로.</pre>
+          </div>
+        </div>
+
+        <h3 style="font-size:15px; font-weight:700; margin:24px 0 12px;">도전해볼 것들</h3>
+        <table>
+          <tr><th>난이도</th><th>요청 예시</th></tr>
+          <tr><td>⭐</td><td>지도 중심 위치와 줌 레벨 바꾸기</td></tr>
+          <tr><td>⭐</td><td>마커 색깔·아이콘 바꾸기</td></tr>
+          <tr><td>⭐⭐</td><td>popup에 주소, 전화번호 함께 표시하기</td></tr>
+          <tr><td>⭐⭐</td><td>특정 구(덕양구·일산동구·일산서구)별로 색깔 다르게</td></tr>
+          <tr><td>⭐⭐⭐</td><td>히트맵으로 동물병원 밀집도 표현하기</td></tr>
+        </table>
+
+        <div class="warn" style="margin-top:16px;">
+          <strong>⚠️ 오류가 나면?</strong><br>
+          오류 메시지를 그대로 복사해서 LLM에게 현재 코드와 함께 붙여넣고 수정 요청해요.
+        </div>
+      </div>
+
+      <!-- 지오코딩 직접 해보기 -->
+      <div class="section">
+        <h2 class="section-title">💡 지오코딩 더 알아보기</h2>
+
+        <p style="font-size:14px; color:var(--text2); margin-bottom:16px;">
+          위에서 선생님이 준 코드로 지오코딩을 실행했어요.<br>
+          직접 코드를 짜보고 싶으면 LLM에게 이렇게 요청해봐요.
+        </p>
+
+        <div class="prompt-card">
+          <div class="prompt-card-head">
+            <span class="prompt-icon">📋</span>
+            <span class="prompt-title">지오코딩 코드 요청 프롬프트</span>
+          </div>
+          <div class="prompt-body">
+            <div class="prompt-rule">① 페르소나</div>
+            <pre>나는 고등학생이고 파이썬으로 주소를 위도·경도로 변환하려고 해.</pre>
+            <br>
+            <div class="prompt-rule">② 맥락</div>
+            <pre>카카오 REST API 키가 있어.
+구글 코랩 환경에서 실행할 거야.
+데이터: 경기도_고양시_동물병원현황.csv
+주소 컬럼명: 사업장소재지(도로명)</pre>
+            <br>
+            <div class="prompt-rule">③ 구체적 지시</div>
+            <pre>아래 조건으로 만들어줘:
+- 카카오 지오코딩 API로 주소 → 위도·경도 변환
+- df에 '위도', '경도' 컬럼으로 추가
+- 완료 후 드라이브에 CSV로 저장</pre>
+            <br>
+            <div class="prompt-rule">④ 출력 형식</div>
+            <pre>구글 코랩에서 실행 가능한 코드로 보여줘. 주석은 한국어로.</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- 점검하기 -->
+      <div id="check" class="section">
+        <h2 class="section-title">✅ 점검하기</h2>
+        <div class="check-section">
+          <div class="check-title">🎯 아래 항목을 모두 할 수 있으면 다음 차시로 넘어가세요!</div>
+          <ul class="check-list2">
+            <li><input type="checkbox"> <code>folium.Map()</code>으로 기본 지도를 띄울 수 있다</li>
+            <li><input type="checkbox"> <code>folium.Marker()</code>로 마커를 찍고 <code>popup</code>·<code>tooltip</code>을 달 수 있다</li>
+            <li><input type="checkbox"> <code>for문</code>으로 CSV 데이터 전체에 마커를 찍을 수 있다</li>
+            <li><input type="checkbox"> <code>MarkerCluster</code>가 왜 필요한지 설명할 수 있다</li>
+            <li><input type="checkbox"> 지오코딩이 무엇인지 설명할 수 있다</li>
+            <li><input type="checkbox"> 카카오 REST API 키와 JavaScript 키의 차이를 안다</li>
+            <li><input type="checkbox"> 변환된 CSV를 드라이브에 저장할 수 있다</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 다음 차시 -->
+      <div class="section">
+        <h2 class="section-title">🔗 다음 차시 미리보기</h2>
+        <div class="next-chapter">
+          <div class="next-icon">📋</div>
+          <div>
+            <div class="next-label">다음 차시</div>
+            <div class="next-title">7차시 — 수행평가 계획서 작성</div>
+            <div class="next-desc">
+              1~6차시에서 배운 시각화 기술 중 하나를 골라서<br>
+              내가 탐구하고 싶은 주제와 데이터로 직접 프로젝트를 기획해봐요!
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<div id="soon-toast">🔒 곧 공개됩니다!</div>
+
+<script>
+  let toastTimer;
+  function showSoon(e) {
+    e.preventDefault();
+    const toast = document.getElementById('soon-toast');
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+
+  // 복사 버튼
+  document.querySelectorAll('.code-block').forEach(block => {
+    const pre = block.querySelector('pre');
+    if (!pre) return;
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.textContent = 'copy';
+    btn.onclick = () => {
+      navigator.clipboard.writeText(pre.innerText).then(() => {
+        btn.textContent = 'copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1500);
+      });
+    };
+    block.appendChild(btn);
+  });
+</script>
+
+</body>
+</html>
