@@ -231,7 +231,8 @@
         <strong style="color: var(--purple);">☁️ 3차시 목차</strong>
         <div style="margin-top: 8px; display: flex; flex-direction: column; gap: 4px;">
           <a href="#concept" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">📌 워드클라우드란?</a>
-          <a href="#step1" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">STEP 1 · 기본 실행</a>
+          <a href="#edu"   style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">🏫 Part 1 · 교육목표 + GGHS 마스크</a>
+          <a href="#step1" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">☁️ Part 2 · 유튜브 워드클라우드</a>
           <a href="#step2" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">STEP 2 · 옵션 바꾸기</a>
           <a href="#step3" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">STEP 3 · 프롬프트 실습</a>
           <a href="#challenge" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">🏆 도전</a>
@@ -367,8 +368,252 @@
       </div>
 
       <!-- 전반부: 코드 이해 -->
+      <!-- 교육목표 텍스트 섹션 -->
+      <div id="edu" class="section">
+        <h2 class="section-title">🏫 Part 1 — 교육목표 텍스트로 워드클라우드</h2>
+        <p style="font-size:14px; color:var(--text2); margin-bottom:20px;">
+          먼저 고양국제고 교육목표 텍스트로 워드클라우드를 만들어봐요.<br>
+          텍스트를 직접 입력해서 단어 빈도를 분석하고, GGHS 로고 모양으로 시각화해요.
+        </p>
+
+        <!-- Part 1 전체 흐름 -->
+        <div class="flow-diagram">
+          <div class="flow-diagram-title">📌 Part 1 전체 흐름</div>
+          <div class="flow-diagram-row">
+            <div class="flow-box">STEP 1<br><span style="font-weight:400;font-size:11px;">텍스트 입력<br>단어 빈도 확인</span></div>
+            <div class="flow-diagram-arrow">→</div>
+            <div class="flow-box">STEP 2<br><span style="font-weight:400;font-size:11px;">기본 워드클라우드<br>옵션 바꾸기</span></div>
+            <div class="flow-diagram-arrow">→</div>
+            <div class="flow-box">STEP 3<br><span style="font-weight:400;font-size:11px;">마스크 적용<br>GGHS 모양으로</span></div>
+            <div class="flow-diagram-arrow">→</div>
+            <div class="flow-box output">STEP 4<br><span style="font-weight:400;font-size:11px;">이미지 색깔<br>단어에 입히기</span></div>
+          </div>
+        </div>
+
+        <div class="step-list">
+
+          <!-- STEP 1 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">1</div>
+              <div class="step-title">텍스트 준비 + 단어 빈도 확인</div>
+            </div>
+            <div class="step-body">
+              <p style="margin-bottom:12px;">워드클라우드를 만들려면 먼저 텍스트가 필요해요. 아래 코드에서는 교육목표 텍스트를 직접 입력해요.</p>
+
+              <!-- 코드 흐름 -->
+              <div class="flow-diagram" style="margin:12px 0;">
+                <div class="flow-diagram-title">STEP 1 코드 흐름</div>
+                <div class="flow-diagram-row">
+                  <div class="flow-box">text = '''...'''<br><span style="font-weight:400;font-size:11px;">텍스트 변수에 입력</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box">text.split()<br><span style="font-weight:400;font-size:11px;">단어로 쪼개기</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box">Counter()<br><span style="font-weight:400;font-size:11px;">빈도 세기</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box output">most_common(10)<br><span style="font-weight:400;font-size:11px;">TOP 10 출력</span></div>
+                </div>
+              </div>
+
+              <div class="code-block">
+                <button class="copy-btn">copy</button>
+                <pre>!pip install wordcloud -q
+!pip install koreanize-matplotlib -q
+<span class="kw">import</span> koreanize_matplotlib
+
+<span class="kw">from</span> wordcloud <span class="kw">import</span> WordCloud, ImageColorGenerator
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">from</span> PIL <span class="kw">import</span> Image
+<span class="kw">from</span> collections <span class="kw">import</span> Counter
+
+text = <span class="str">'''
+더불어 함께 살아가는 세계시민 교육
+협업 다른 사람과 책임 공유 현실적인 결정 상호 의존하여 활동
+문제해결력 창의성 현실 적용 가능한 문제해결 다양한 방법으로 문제해결 혁신적인 해결방법
+자기조절 책임감 스스로 기획 적용 피드백 장기적으로 책임감 있는 노력
+지식구성 지식을 구성하고 적용 여러 학문분야 지식구성 경험 공유
+글로벌 의식 세계 문제 세계인과 함께 문제해결 외국어 구사
+커뮤니케이션 소통 학교문화 세계인과 소통하는 국제교육 진정성 있는 소통
+창의성과 인성을 갖추고 세계와 소통하는 글로벌 리더 육성
+배움의 열정과 나눔의 행복이 넘치는 학교
+'''</span>
+
+<span class="cm"># split() — 텍스트를 공백 기준으로 단어 리스트로 나눠요
+# '문제해결 창의성 소통' → ['문제해결', '창의성', '소통']</span>
+word_count = Counter(text.<span class="fn">split</span>())
+word_count.<span class="fn">most_common</span>(<span class="num">10</span>)</pre>
+              </div>
+
+              <div class="output-label">실행 결과 예시</div>
+              <div class="output-box">[('문제해결', 4), ('소통', 3), ('세계인과', 2), ('책임감', 2), ('지식구성', 2), ...]</div>
+
+              <div class="tip">
+                <strong>💡 split() vs Counter()</strong><br>
+                <code>split()</code> — 텍스트를 단어 리스트로 쪼개요. <code>'A B C'.split()</code> → <code>['A', 'B', 'C']</code><br>
+                <code>Counter()</code> — 리스트에서 각 항목이 몇 번 나왔는지 세요. <code>Counter(['A','A','B'])</code> → <code>{'A':2, 'B':1}</code>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 2 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">2</div>
+              <div class="step-title">기본 워드클라우드 + 옵션 바꾸기</div>
+            </div>
+            <div class="step-body">
+              <p style="margin-bottom:12px;"><code>generate_from_frequencies()</code>는 이미 계산된 빈도(Counter)를 넣어서 워드클라우드를 만드는 방법이에요.</p>
+
+              <div class="code-block">
+                <button class="copy-btn">copy</button>
+                <pre>font_path = <span class="str">'NanumGothic'</span>
+
+wordcloud = <span class="fn">WordCloud</span>(
+    font_path=font_path,
+    width=<span class="num">800</span>,
+    height=<span class="num">400</span>,
+    background_color=<span class="str">'white'</span>
+).<span class="fn">generate_from_frequencies</span>(word_count)
+<span class="cm"># generate_from_frequencies(빈도) — Counter 결과를 바로 넣어요
+# cf. generate(text) — 텍스트를 넣으면 알아서 빈도를 계산해요</span>
+
+plt.<span class="fn">figure</span>(figsize=(<span class="num">12</span>, <span class="num">6</span>))
+plt.<span class="fn">imshow</span>(wordcloud, interpolation=<span class="str">'bilinear'</span>)
+plt.<span class="fn">axis</span>(<span class="str">'off'</span>)
+plt.<span class="fn">show</span>()</pre>
+              </div>
+
+              <h4 style="font-size:14px; font-weight:700; margin:16px 0 8px;">WordCloud() 옵션들</h4>
+              <table>
+                <tr><th>옵션</th><th>역할</th><th>예시 값</th></tr>
+                <tr><td><code>background_color</code></td><td>배경 색깔</td><td><code>'white'</code>, <code>'black'</code>, <code>'navy'</code></td></tr>
+                <tr><td><code>max_words</code></td><td>표시할 최대 단어 수</td><td><code>50</code>, <code>100</code>, <code>200</code></td></tr>
+                <tr><td><code>max_font_size</code></td><td>가장 큰 글자 크기</td><td><code>80</code>, <code>120</code>, <code>200</code></td></tr>
+                <tr><td><code>colormap</code></td><td>단어 색깔 테마</td><td><code>'viridis'</code>, <code>'plasma'</code>, <code>'Set2'</code></td></tr>
+                <tr><td><code>width</code> / <code>height</code></td><td>이미지 크기 (픽셀)</td><td><code>800</code>, <code>1000</code>, <code>1200</code></td></tr>
+              </table>
+
+              <div class="note">
+                <strong>📝 직접 해봐요:</strong> <code>background_color</code>를 <code>'black'</code>으로 바꾸고 <code>colormap</code>을 <code>'plasma'</code>로 바꿔봐요. 어떻게 달라지나요?
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">3</div>
+              <div class="step-title">GGHS 로고 마스크 적용하기</div>
+            </div>
+            <div class="step-body">
+              <p style="margin-bottom:12px;">이미지 모양대로 워드클라우드를 만들 수 있어요. <code>mask</code> 옵션에 이미지 배열을 넣으면 그 모양으로만 단어가 채워져요.</p>
+
+              <!-- 코드 흐름 -->
+              <div class="flow-diagram" style="margin:12px 0;">
+                <div class="flow-diagram-title">STEP 3 코드 흐름</div>
+                <div class="flow-diagram-row">
+                  <div class="flow-box">gghs.png<br><span style="font-weight:400;font-size:11px;">PNG 파일 업로드</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box">np.array()<br><span style="font-weight:400;font-size:11px;">이미지 → 배열</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box">mask=mask<br><span style="font-weight:400;font-size:11px;">WordCloud에 적용</span></div>
+                  <div class="flow-diagram-arrow">→</div>
+                  <div class="flow-box output">plt.show()<br><span style="font-weight:400;font-size:11px;">로고 모양 출력</span></div>
+                </div>
+              </div>
+
+              <div class="warn">
+                <strong>⚠️ PNG 파일 필요</strong><br>
+                이미지 파일은 <strong>PNG</strong> 형식이어야 해요. gghs.png 파일을 먼저 업로드하세요.
+              </div>
+
+              <div class="code-block">
+                <button class="copy-btn">copy</button>
+                <pre><span class="cm"># GGHS 로고 이미지 업로드</span>
+<span class="kw">from</span> google.colab <span class="kw">import</span> files
+uploaded = files.<span class="fn">upload</span>()   <span class="cm"># gghs.png 파일 선택</span></pre>
+              </div>
+
+              <div class="code-block">
+                <button class="copy-btn">copy</button>
+                <pre><span class="cm"># Image.open() — PNG 파일을 열어요
+# np.array() — 이미지를 숫자 배열로 변환해요 (WordCloud가 이해하는 형태)</span>
+mask = np.<span class="fn">array</span>(Image.<span class="fn">open</span>(<span class="str">'gghs.png'</span>))
+
+wordcloud_mask = <span class="fn">WordCloud</span>(
+    font_path=font_path,
+    mask=mask,              <span class="cm"># ← 마스크 적용! 이 한 줄이 핵심이에요</span>
+    background_color=<span class="str">'white'</span>
+).<span class="fn">generate_from_frequencies</span>(word_count)
+
+plt.<span class="fn">figure</span>(figsize=(<span class="num">10</span>, <span class="num">10</span>))
+plt.<span class="fn">imshow</span>(wordcloud_mask, interpolation=<span class="str">'bilinear'</span>)
+plt.<span class="fn">axis</span>(<span class="str">'off'</span>)
+plt.<span class="fn">show</span>()</pre>
+              </div>
+
+              <div class="output-label">실행 결과</div>
+              <div class="output-box">GGHS 로고 모양 안에 교육목표 단어들이 가득 채워진 워드클라우드가 나타나요!
+로고 바깥 영역은 비어 있고, 안쪽에만 단어가 들어가요.</div>
+
+              <div class="tip">
+                <strong>💡 mask란?</strong><br>
+                이미지의 하얀 부분 = 단어가 들어가는 곳<br>
+                이미지의 어두운 부분 = 단어가 들어가지 않는 곳<br>
+                배경이 투명한 PNG 파일을 쓰면 가장 깔끔하게 나와요.
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 4 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">4</div>
+              <div class="step-title">이미지의 색깔을 단어 색깔로 활용하기</div>
+            </div>
+            <div class="step-body">
+              <p style="margin-bottom:12px;"><code>ImageColorGenerator</code>를 사용하면 마스크 이미지의 색깔이 각 단어의 색깔로 적용돼요.</p>
+
+              <div class="code-block">
+                <button class="copy-btn">copy</button>
+                <pre>wordcloud_color = <span class="fn">WordCloud</span>(
+    font_path=font_path,
+    mask=mask,
+    background_color=<span class="str">'white'</span>
+).<span class="fn">generate_from_frequencies</span>(word_count)
+
+<span class="cm"># ImageColorGenerator — 마스크 이미지에서 색깔 정보를 추출해요</span>
+image_colors = <span class="fn">ImageColorGenerator</span>(mask)
+
+plt.<span class="fn">figure</span>(figsize=(<span class="num">10</span>, <span class="num">10</span>))
+<span class="cm"># .recolor(color_func=image_colors) — 단어 색깔을 이미지 색깔로 교체해요</span>
+plt.<span class="fn">imshow</span>(wordcloud_color.<span class="fn">recolor</span>(color_func=image_colors),
+           interpolation=<span class="str">'bilinear'</span>)
+plt.<span class="fn">axis</span>(<span class="str">'off'</span>)
+plt.<span class="fn">show</span>()</pre>
+              </div>
+
+              <h4 style="font-size:14px; font-weight:700; margin:16px 0 8px;">STEP 3 vs STEP 4 비교</h4>
+              <table>
+                <tr><th>방법</th><th>단어 색깔</th><th>코드 핵심</th></tr>
+                <tr><td>STEP 3 (마스크만)</td><td>colormap 테마 색깔</td><td><code>mask=mask</code></td></tr>
+                <tr><td>STEP 4 (이미지 색 활용)</td><td>이미지 원래 색깔</td><td><code>.recolor(color_func=image_colors)</code></td></tr>
+              </table>
+
+              <div class="note">
+                <strong>📝 직접 해봐요:</strong> STEP 3과 STEP 4 결과를 비교해봐요.<br>
+                색깔이 어떻게 달라지나요? 어떤 게 더 예쁜가요?
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 유튜브 트렌딩 섹션 -->
       <div id="step1" class="section">
-        <h2 class="section-title">🔨 전반부 — 코드 이해하면서 실습</h2>
+        <h2 class="section-title">🔨 Part 2 — 유튜브 트렌딩 데이터로 워드클라우드</h2>
 
         <!-- 섹션 전체 흐름 다이어그램 -->
         <div class="flow-diagram">
