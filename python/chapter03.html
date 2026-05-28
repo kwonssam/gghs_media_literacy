@@ -286,22 +286,97 @@
 
         <div class="tip">
           <strong>💡 준비 코드 — 매 차시 공통</strong><br>
-          아래 두 줄은 항상 맨 위에서 실행해요. 한글 폰트와 pandas를 불러오는 코드예요.
-          <div class="code-block" style="margin-top:10px;">
-            <pre>!pip install koreanize-matplotlib -q
-<span class="kw">import</span> koreanize_matplotlib
-<span class="kw">import</span> pandas <span class="kw">as</span> pd
-<span class="kw">import</span> glob
+          아래 세 셀을 항상 맨 위에서 순서대로 실행해요.
 
-<span class="cm"># 유튜브 트렌딩 데이터</span>
-files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/KR_유튜브_트렌딩.csv'</span>, recursive=<span class="kw">True</span>)
+          <!-- 공통 셀 박스 -->
+          <div style="background:var(--indigo-bg,#eef2ff); border:1.5px solid var(--indigo-border,#c7d2fe); border-radius:12px; padding:20px 24px; margin-top:14px;">
+            <div style="font-size:13px; font-weight:700; color:#4f46e5; margin-bottom:16px;">📌 모든 차시에서 공통으로 실행하는 셀 3개</div>
+
+            <!-- 공통 셀 A -->
+            <div style="margin-bottom:16px;">
+              <div style="font-size:12px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px;">셀 A — 한글 폰트 설치</div>
+              <div class="code-block" style="margin:0;">
+                <button class="copy-btn">copy</button>
+                <pre>!pip install koreanize-matplotlib
+<span class="kw">import</span> koreanize_matplotlib</pre>
+              </div>
+              <div style="background:var(--surface2); border:1px solid var(--border); border-radius:0 0 8px 8px; padding:10px 14px; font-size:13px; color:var(--text2); line-height:1.7;">
+                <strong style="color:var(--text);">역할:</strong> 그래프에 한글이 깨지지 않게 폰트를 설치하고 적용해요.<br>
+                이 줄이 없으면 그래프 축이나 제목의 한글이 □□□으로 나타나요.
+              </div>
+            </div>
+
+            <!-- 공통 셀 B -->
+            <div style="margin-bottom:16px;">
+              <div style="font-size:12px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px;">셀 B — 구글 드라이브 연결</div>
+              <div class="code-block" style="margin:0;">
+                <button class="copy-btn">copy</button>
+                <pre><span class="kw">from</span> google.colab <span class="kw">import</span> drive
+drive.<span class="fn">mount</span>(<span class="str">'/content/drive'</span>)</pre>
+              </div>
+              <div style="background:var(--surface2); border:1px solid var(--border); border-radius:0 0 8px 8px; padding:10px 14px; font-size:13px; color:var(--text2); line-height:1.7;">
+                <strong style="color:var(--text);">역할:</strong> 내 구글 드라이브를 코랩에 연결해요.<br>
+                실행하면 허용 버튼을 눌러야 해요. 이 셀을 실행해야 드라이브에 있는 CSV 파일을 불러올 수 있어요.
+              </div>
+            </div>
+
+            <!-- 공통 셀 C -->
+            <div>
+              <div style="font-size:12px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px;">셀 C — 데이터 분석 라이브러리 불러오기</div>
+              <div class="code-block" style="margin:0;">
+                <button class="copy-btn">copy</button>
+                <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">import</span> glob</pre>
+              </div>
+              <div style="background:var(--surface2); border:1px solid var(--border); border-radius:0 0 8px 8px; padding:10px 14px; font-size:13px; color:var(--text2); line-height:1.7;">
+                <strong style="color:var(--text);">역할:</strong><br>
+                <code>pandas</code> — 표 형태의 데이터를 다루는 라이브러리예요. <code>pd</code>는 pandas의 별명(약칭)이에요.<br>
+                <code>glob</code> — 드라이브 전체에서 파일을 자동으로 찾아주는 도구예요. 파일 경로를 일일이 쓰지 않아도 돼요.
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- 셀 2: 유튜브 -->
+        <div style="margin-top:14px;">
+          <div style="font-size:12px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px;">셀 1 — 유튜브 트렌딩 데이터 불러오기</div>
+          <div class="code-block" style="margin:0;">
+            <button class="copy-btn">copy</button>
+            <pre>files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/KR_유튜브_트렌딩.csv'</span>, recursive=<span class="kw">True</span>)
 df = pd.<span class="fn">read_csv</span>(files[<span class="num">0</span>], encoding=<span class="str">'utf-8-sig'</span>)
+df.<span class="fn">head</span>()</pre>
+          </div>
+          <div style="background:var(--surface2); border:1px solid var(--border); border-radius:0 0 8px 8px; padding:12px 16px; font-size:13px; color:var(--text2); line-height:1.7;">
+            <strong style="color:var(--text);">왜 <code>df</code>라고 이름 붙였을까요?</strong><br>
+            <code>df</code>는 DataFrame의 약자예요. 표 형태의 데이터를 담는 변수 이름으로 가장 많이 쓰이는 관례예요.<br>
+            이 파일이 <strong>이번 차시의 메인 데이터</strong>이기 때문에 짧고 기본적인 이름인 <code>df</code>를 사용해요.
+          </div>
+        </div>
 
-<span class="cm"># 고양시 동물병원 데이터</span>
-files2 = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/경기도_고양시_동물병원현황.csv'</span>, recursive=<span class="kw">True</span>)
+        <!-- 셀 3: 동물병원 -->
+        <div style="margin-top:14px;">
+          <div style="font-size:12px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px;">셀 2 — 고양시 동물병원 데이터 불러오기</div>
+          <div class="code-block" style="margin:0;">
+            <button class="copy-btn">copy</button>
+            <pre>files2 = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/경기도_고양시_동물병원현황.csv'</span>, recursive=<span class="kw">True</span>)
 df2 = pd.<span class="fn">read_csv</span>(files2[<span class="num">0</span>], encoding=<span class="str">'cp949'</span>)
 df2[<span class="str">'동명'</span>] = df2[<span class="str">'사업장소재지(도로명)'</span>].str.extract(<span class="str">r'\(([^)]+)\)'</span>)
-df.<span class="fn">head</span>()</pre>
+df2.<span class="fn">head</span>()</pre>
+          </div>
+          <div style="background:var(--surface2); border:1px solid var(--border); border-radius:0 0 8px 8px; padding:12px 16px; font-size:13px; color:var(--text2); line-height:1.7;">
+            <strong style="color:var(--text);">왜 <code>df2</code>라고 이름 붙였을까요?</strong><br>
+            이미 <code>df</code>라는 이름이 유튜브 데이터에 쓰이고 있어요.<br>
+            같은 이름을 쓰면 앞의 데이터가 덮어써져서 사라지기 때문에, 두 번째 데이터는 <code>df2</code>로 구분해요.<br>
+            <br>
+            <strong style="color:var(--text);">인코딩이 다른 이유는?</strong><br>
+            유튜브 데이터는 <code>utf-8-sig</code>, 동물병원 데이터는 <code>cp949</code>예요.<br>
+            파일을 만든 프로그램이나 환경에 따라 저장 방식이 달라서, 데이터마다 맞는 인코딩을 써야 해요.<br>
+            틀리면 한글이 깨지거나 오류가 나요.<br>
+            <br>
+            <strong style="color:var(--text);"><code>str.extract(r'\(([^)]+)\)')</code>는 뭔가요?</strong><br>
+            주소 컬럼에서 괄호 안의 동 이름만 꺼내는 코드예요.<br>
+            예) <code>'경기도 고양시 덕양구 호국로 778-6 (성사동)'</code> → <code>'성사동'</code>
           </div>
         </div>
       </div>
