@@ -141,7 +141,7 @@
     <div class="sidebar-logo">
       <div class="book-title">🍀 파이썬 데이터 시각화 </div>
     <div style="padding:0 16px 20px; border-bottom:1px solid var(--border); margin-bottom:16px;">
-      <img src="Gemini_Generated_Image_v908ayv908ayv908.png" alt="정보 마스코트" style="width:100%; border-radius:12px; margin-bottom:12px; display:block;">
+      <img src="jungbo.png" alt="정보 마스코트" style="width:100%; border-radius:12px; margin-bottom:12px; display:block;">
       <div style="background:#f0f4ff; border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; font-size:11.5px; color:#4a5568; line-height:1.85;">
         <div style="font-weight:700; color:#1a202c; margin-bottom:8px; font-size:12px;">📌 수업 유의사항</div>
         <div style="display:flex; flex-direction:column; gap:5px;">
@@ -320,7 +320,7 @@ drive.<span class="fn">mount</span>(<span class="str">'/content/drive'</span>)</
 
         <p style="font-size:14px; color:var(--text2); margin-bottom:20px;">
           독립기념관 국외사적지 데이터는 위도·경도가 이미 있어서 바로 지도에 찍을 수 있어요.<br>
-          639개 사적지를 세계 지도에 올려봐요.
+          하지만 공공데이터 특성상 빈 값이나 기호 같은 '방해 요소'가 많습니다. 에러 없는 지도를 위해 단계별로 완벽하게 정제해 봐요.
         </p>
 
         <div class="step-list">
@@ -386,31 +386,117 @@ folium.<span class="fn">Marker</span>(
             </div>
           </div>
 
-          <!-- STEP 3 -->
+          <!-- STEP 3-1 -->
           <div class="step-item">
             <div class="step-head">
-              <div class="step-num">3</div>
-              <div class="step-title">여러 마커 찍기 + 군집화</div>
+              <div class="step-num">3-1</div>
+              <div class="step-title">데이터 파일 불러오기</div>
             </div>
             <div class="step-body">
-              <p>639개 사적지를 <code>for문</code>으로 한번에 찍고, <code>MarkerCluster</code>로 깔끔하게 묶어봐요.</p>
-
+              <p>구글 드라이브에 저장된 국외사적지 CSV 데이터를 판다스 데이터프레임으로 가져옵니다.</p>
               <div class="code-block">
                 <div class="code-label">Python</div>
                 <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
 <span class="kw">import</span> glob
-<span class="kw">from</span> folium.plugins <span class="kw">import</span> MarkerCluster
 
-<span class="cm"># 데이터 불러오기</span>
-files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/독립기념관_국외사적지*.csv'</span>, recursive=<span class="kw">True</span>)
+<span class="cm"># 구글 드라이브에서 파일 검색 후 파일 읽기</span>
+files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/독립기념관_국외사적지_사적지관리.csv'</span>, recursive=<span class="kw">True</span>)
 df = pd.<span class="fn">read_csv</span>(files[<span class="num">0</span>], encoding=<span class="str">'cp949'</span>)
 
-<span class="cm"># 지도 + 클러스터 생성</span>
+<span class="fn">print</span>(<span class="str">"데이터 로드 완료! 데이터 크기:"</span>, df.shape)</pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3-2 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">3-2</div>
+              <div class="step-title">데이터 정제 ① — '없음' 텍스트 지우기</div>
+            </div>
+            <div class="step-body">
+              <p>위도와 경도 컬럼에 적혀 있는 글자 <code>'없음'</code>을 파이썬이 인식할 수 있는 공식 빈 값(결측치, <code>pd.NA</code>)으로 변경합니다.</p>
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre><span class="cm"># '없음'이라는 문자열을 판다스의 결측치(NA)로 교체</span>
+df[<span class="str">'위도'</span>] = df[<span class="str">'위도'</span>].<span class="fn">replace</span>(<span class="str">'없음'</span>, pd.NA)
+df[<span class="str">'경도'</span>] = df[<span class="str">'경도'</span>].<span class="fn">replace</span>(<span class="str">'없음'</span>, pd.NA)</pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3-3 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">3-3</div>
+              <div class="step-title">데이터 정제 ② — 방해되는 특수문자(°, *) 지우기</div>
+            </div>
+            <div class="step-body">
+              <p>위경도 데이터 뒤에 붙어 있는 도 기호(<code>°</code>)나 데이터 마스킹용 별표(<code>*</code>)를 문자열 치환 기능을 사용하여 깨끗하게 지워줍니다.</p>
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre><span class="cm"># 문자열(str)로 바꾼 후, 도 기호(°)와 별표(*) 문자를 빈 칸으로 치환</span>
+df[<span class="str">'위도'</span>] = df[<span class="str">'위도'</span>].<span class="fn">astype</span>(<span class="fn">str</span>).str.<span class="fn">replace</span>(<span class="str">'°'</span>, <span class="str">''</span>, regex=<span class="kw">False</span>).str.<span class="fn">replace</span>(<span class="str">r'\*+'</span>, <span class="str">''</span>, regex=<span class="kw">True</span>)
+df[<span class="str">'경도'</span>] = df[<span class="str">'경도'</span>].<span class="fn">astype</span>(<span class="fn">str</span>).str.<span class="fn">replace</span>(<span class="str">'°'</span>, <span class="str">''</span>, regex=<span class="kw">False</span>).str.<span class="fn">replace</span>(<span class="str">r'\*+'</span>, <span class="str">''</span>, regex=<span class="kw">True</span>)</pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3-4 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">3-4</div>
+              <div class="step-title">데이터 정제 ③ — 진짜 숫자 타입으로 변환하기</div>
+            </div>
+            <div class="step-body">
+              <p>텍스트 상태인 위도와 경도를 컴퓨터가 연산하고 지도에 표시할 수 있도록 소수점 숫자(Float) 타입으로 변환합니다. 변환 불가능한 값이 있다면 강제로 결측치(NaN)로 만듭니다.</p>
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre><span class="cm"># to_numeric을 통해 문자를 진짜 숫자형으로 변환 (errors='coerce'는 에러 발생 시 NaN 처리)</span>
+df[<span class="str">'위도'</span>] = pd.<span class="fn">to_numeric</span>(df[<span class="str">'위도'</span>], errors=<span class="str">'coerce'</span>)
+df[<span class="str">'경도'</span>] = pd.<span class="fn">to_numeric</span>(df[<span class="str">'경도'</span>], errors=<span class="str">'coerce'</span>)</pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3-5 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">3-5</div>
+              <div class="step-title">데이터 정제 ④ — 위도·경도 없는 빈 행 최종 제거</div>
+            </div>
+            <div class="step-body">
+              <p>청소를 마친 후에도 위도나 경도 값이 비어있는(NaN) 행들은 지도에 마커를 찍을 수 없기 때문에 데이터셋에서 완전히 제외시킵니다.</p>
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre><span class="cm"># dropna를 사용하여 위도나 경도가 비어있는 행을 한 번에 제거</span>
+df.<span class="fn">dropna</span>(subset=[<span class="str">'위도'</span>, <span class="str">'경도'</span>], inplace=<span class="kw">True</span>)</pre>
+              </div>
+              <div class="note">
+                <strong>💡 왜 이렇게 꼼꼼하게 정제할까요?</strong><br>
+                지도를 그리는 <code>folium.Marker</code>는 위도와 경도 값으로 <strong>순수한 숫자(Float)</strong>가 채워져 있어야만 에러 없이 정상 작동하기 때문입니다.
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3-6 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">3-6</div>
+              <div class="step-title">전체 데이터 지도 출력 + 마커 군집화</div>
+            </div>
+            <div class="step-body">
+              <p>완벽하게 청소된 데이터를 바탕으로 <code>for문</code>을 돌며 모든 사적지에 마커를 찍습니다. 이때 <code>MarkerCluster</code>를 사용해 밀집된 지역을 예쁘게 묶어줍니다.</p>
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre><span class="kw">from</span> folium.plugins <span class="kw">import</span> MarkerCluster
+
+<span class="cm"># 지도와 클러스터 박스 생성</span>
 m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>)
 cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(m)
 
-<span class="cm"># for문으로 모든 행에 마커 찍기
-# .add_to(cluster) — m 대신 cluster에 추가하면 군집화!</span>
+<span class="cm"># for문으로 정제된 모든 행의 위치에 마커 찍기
+# .add_to(cluster) — m 대신 cluster에 추가하여 군집화 진행!</span>
 <span class="kw">for</span> idx, row <span class="kw">in</span> df.<span class="fn">iterrows</span>():
     folium.<span class="fn">Marker</span>(
         location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
@@ -421,9 +507,7 @@ cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>
 <span class="fn">display</span>(m)</pre>
               </div>
               <div class="output-label">실행 결과</div>
-              <div class="output-box">숫자가 적힌 원으로 마커들이 묶여요.
-중국 쪽에 큰 원(373), 미국 쪽에 작은 원(101)이 보여요.
-줌인하면 원이 점점 풀리면서 개별 마커가 나타나요!</div>
+              <div class="output-box">중국, 미국, 일본 등 전 세계에 퍼져 있는 독립운동 사적지들이 숫자가 적힌 원(클러스터)으로 묶여 안전하게 표시됩니다. 줌인하면 원이 풀리며 개별 마커들이 보입니다.</div>
               <div class="tip">
                 <strong>💡</strong> 중국 쪽을 줌인해봐요. 상하이 임시정부, 윤봉길 의거 장소 등 구체적인 사적지들이 보여요!
               </div>
@@ -431,9 +515,7 @@ cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>
           </div>
 
         </div>
-      </div>
-
-      <!-- Part 2 -->
+      </div><!-- Part 2 -->
       <div id="part2" class="section">
         <h2 class="section-title">🐾 Part 2 — 고양시 동물병원 지오코딩</h2>
 
@@ -466,47 +548,78 @@ cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>
             </div>
           </div>
 
-          <!-- STEP 5 -->
+          <!-- STEP 5-1 -->
           <div class="step-item">
             <div class="step-head">
-              <div class="step-num">5</div>
-              <div class="step-title">지오코딩 코드 실행하기</div>
+              <div class="step-num">5-1</div>
+              <div class="step-title">지오코딩 ① — API 연결 함수 정의하기</div>
             </div>
             <div class="step-body">
-              <p>아래 코드에서 REST API 키만 입력하고 실행하면 돼요.<br>
-              약 2분 후 위도·경도가 추가된 CSV가 드라이브에 저장돼요.</p>
+              <p>카카오 로컬 API에 도로명 주소를 전달하여 위도와 경도로 바꿔오는 핵심 함수를 작성합니다.</p>
               <div class="code-block">
                 <div class="code-label">Python</div>
                 <pre><span class="kw">import</span> requests
 
-KAKAO_API_KEY = <span class="str">'여기에_REST_API_키_입력'</span>   <span class="cm"># ← 키 입력!</span>
+KAKAO_API_KEY = <span class="str">'여기에_REST_API_키_입력'</span>   <span class="cm"># ← 복사한 REST API 키를 입력하세요!</span>
 
 <span class="kw">def</span> <span class="fn">kakao_geocoding</span>(address):
     url = <span class="str">'https://dapi.kakao.com/v2/local/search/address.json'</span>
     headers = {<span class="str">'Authorization'</span>: f<span class="str">'KakaoAK {KAKAO_API_KEY}'</span>}
+    
+    <span class="cm"># API 요청 보내기</span>
     result = requests.<span class="fn">get</span>(url, headers=headers, params={<span class="str">'query'</span>: address}).<span class="fn">json</span>()
+    
+    <span class="cm"># 결과 주소가 정상적으로 검색된 경우 위도(y), 경도(x) 추출</span>
     <span class="kw">if</span> result[<span class="str">'documents'</span>]:
         <span class="kw">return</span> <span class="fn">float</span>(result[<span class="str">'documents'</span>][<span class="num">0</span>][<span class="str">'y'</span>]), <span class="fn">float</span>(result[<span class="str">'documents'</span>][<span class="num">0</span>][<span class="str">'x'</span>])
-    <span class="kw">return</span> <span class="kw">None</span>, <span class="kw">None</span>
+    <span class="kw">return</span> <span class="kw">None</span>, <span class="kw">None</span></pre>
+              </div>
+            </div>
+          </div>
 
-<span class="cm"># 동물병원 데이터 불러오기</span>
+          <!-- STEP 5-2 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">5-2</div>
+              <div class="step-title">지오코딩 ② — 동물병원 데이터 불러오기</div>
+            </div>
+            <div class="step-body">
+              <p>주소 변환의 대상이 될 경기도 고양시 동물병원 현황 CSV 데이터를 판다스로 로드합니다.</p>
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre><span class="cm"># 동물병원 데이터 파일 찾기 및 불러오기</span>
 files2 = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/경기도_고양시_동물병원현황.csv'</span>, recursive=<span class="kw">True</span>)
 df2 = pd.<span class="fn">read_csv</span>(files2[<span class="num">0</span>], encoding=<span class="str">'cp949'</span>)
-df2[<span class="str">'동명'</span>] = df2[<span class="str">'사업장소재지(도로명)'</span>].str.<span class="fn">extract</span>(<span class="str">r'\(([^)]+)\)'</span>)
 
-<span class="cm"># 위도·경도 추가 (약 2분 소요)</span>
+<span class="cm"># 괄호 안의 동명 주소만 따로 추출하여 파악하기</span>
+df2[<span class="str">'동명'</span>] = df2[<span class="str">'사업장소재지(도로명)'</span>].str.<span class="fn">extract</span>(<span class="str">r'\(([^)]+)\)'</span>)</pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 5-3 -->
+          <div class="step-item">
+            <div class="step-head">
+              <div class="step-num">5-3</div>
+              <div class="step-title">지오코딩 ③ — 주소 변환 실행 및 새로운 CSV 파일로 저장하기</div>
+            </div>
+            <div class="step-body">
+              <p>정의해 둔 지오코딩 함수를 데이터프레임 전체 주소에 순차적으로 적용하고, 결과를 구글 드라이브에 안전하게 새 파일로 내보냅니다.</p>
+              <div class="code-block">
+                <div class="code-label">Python</div>
+                <pre><span class="cm"># .apply 함수를 이용해 모든 행의 '사업장소재지(도로명)'를 위도·경도로 변환 (약 1~2분 소요)</span>
 df2[<span class="str">'위도'</span>] = df2[<span class="str">'사업장소재지(도로명)'</span>].<span class="fn">apply</span>(<span class="kw">lambda</span> x: <span class="fn">kakao_geocoding</span>(x)[<span class="num">0</span>])
 df2[<span class="str">'경도'</span>] = df2[<span class="str">'사업장소재지(도로명)'</span>].<span class="fn">apply</span>(<span class="kw">lambda</span> x: <span class="fn">kakao_geocoding</span>(x)[<span class="num">1</span>])
 
-<span class="fn">print</span>(f<span class="str">'변환 완료: {df2["위도"].notna().sum()}/{len(df2)}개'</span>)
+<span class="fn">print</span>(f<span class="str">'변환 완료 개수: {df2["위도"].notna().sum()}/{len(df2)}개'</span>)
 
-<span class="cm"># 드라이브에 저장 — 다음에 다시 지오코딩 안 해도 돼요!</span>
+<span class="cm"># 결과를 내 구글 드라이브에 저장 (한글 깨짐 방지를 위해 utf-8-sig 인코딩 사용)</span>
 df2.<span class="fn">to_csv</span>(<span class="str">'/content/drive/MyDrive/동물병원_위도경도.csv'</span>, index=<span class="kw">False</span>, encoding=<span class="str">'utf-8-sig'</span>)
-<span class="fn">print</span>(<span class="str">'저장 완료!'</span>)</pre>
+<span class="fn">print</span>(<span class="str">'드라이브에 저장 완료!'</span>)</pre>
               </div>
               <div class="tip">
-                <strong>💡 기다리는 동안</strong><br>
-                코드가 실행되는 2분 동안 Part 1에서 만든 독립운동 사적지 지도를 다시 살펴봐요.
+                <strong>💡 꿀팁!</strong><br>
+                변환 결과를 내 구글 드라이브에 CSV 파일로 한 번 저장해 두면, 다음 실습 때 매번 카카오 API를 호출해 변환 시간을 기다릴 필요 없이 즉시 지도에 활용할 수 있어요!
               </div>
             </div>
           </div>
@@ -518,7 +631,7 @@ df2.<span class="fn">to_csv</span>(<span class="str">'/content/drive/MyDrive/동
               <div class="step-title">변환된 데이터로 지도 찍기</div>
             </div>
             <div class="step-body">
-              <p>Part 1과 코드 구조가 완전히 같아요. 데이터만 달라졌어요!</p>
+              <p>Part 1과 코드 구조가 완전히 같아요. 데이터만 고양시 동물병원으로 달라졌어요!</p>
               <div class="code-block">
                 <div class="code-label">Python</div>
                 <pre><span class="cm"># 저장된 파일 불러오기</span>
@@ -539,15 +652,12 @@ cluster2 = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span
 <span class="fn">display</span>(m2)</pre>
               </div>
               <div class="output-label">실행 결과</div>
-              <div class="output-box">고양시 지도에 동물병원 마커들이 찍혀요.
-우리 동네 주변 동물병원이 어디 있는지 한눈에 확인할 수 있어요!</div>
+              <div class="output-box">고양시 지도에 동물병원 마커들이 찍혀요. 우리 동네 주변 동물병원이 어디 있는지 한눈에 확인할 수 있어요!</div>
             </div>
           </div>
 
         </div>
-      </div>
-
-      <!-- 프롬프트 실습 -->
+      </div><!-- 프롬프트 실습 -->
       <div id="prompt" class="section">
         <h2 class="section-title">🤖 프롬프트로 지도 커스터마이징</h2>
 
