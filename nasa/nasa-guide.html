@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -5,25 +6,220 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NASA API 실습 가이드</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap');
+/* ═══════════ 공통 디자인 (python/chapter06.html과 동일) ═══════════ */
+
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@600;700&family=DM+Mono:wght@400;500&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #ffffff; --surface: #f8fbff; --surface2: #e0f2fe; --border: #bae6fd;
-    --text: #0c1a2e; --text2: #374151; --text3: #6b7280;
-    --html: #e44d26; --html-bg: #fef3f0; --html-border: #f5c4b8;
-    --css: #264de4;  --css-bg: #f0f3fe;  --css-border: #b8c8f5;
-    --js: #c8a000;   --js-bg: #fefbe8;   --js-border: #e8d870;
-    --green: #2d7050; --green-bg: #eaf6f0; --green-border: #9dd4be;
-    --red: #c03040;   --red-bg: #fdf0f2;   --red-border: #f0b8c0;
-    --purple: #7c3aed; --purple-bg: #f5f3ff; --purple-border: #c4b5fd;
-    --nasa: #0b3d91; --nasa-bg: #f0f4ff; --nasa-border: #b0c4f5;
-    --code-bg: #1e1e2e;
+    --bg: #f8f9fc; --surface: #ffffff; --surface2: #f0f4ff;
+    --border: #e2e8f0; --text: #1a202c; --text2: #4a5568; --text3: #94a3b8;
+    --primary: #3b82f6; --primary-bg: #eff6ff; --primary-border: #bfdbfe;
+    --green: #059669; --green-bg: #ecfdf5; --green-border: #a7f3d0;
+    --orange: #d97706; --orange-bg: #fffbeb; --orange-border: #fde68a;
+    --red: #dc2626; --red-bg: #fef2f2; --red-border: #fecaca;
+    --purple: #7c3aed; --purple-bg: #f5f3ff; --purple-border: #ddd6fe;
+    --teal: #0d9488; --teal-bg: #f0fdfa; --teal-border: #99f6e4;
+    --code-bg: #1e293b;
   }
 
-  body { background: var(--bg); font-family: 'Noto Sans KR', sans-serif; color: var(--text); line-height: 1.7; }
-  .page { max-width: 900px; margin: 0 auto; padding: 52px 44px 100px; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); font-family: 'Noto Sans KR', sans-serif; color: var(--text); line-height: 1.75; font-size: 15px; }
+  .wrapper { display: flex; min-height: 100vh; }
+
+  .sidebar { width: 280px; flex-shrink: 0; background: var(--surface); border-right: 1px solid var(--border); position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 24px 0; }
+  .sidebar-logo { padding: 0 20px 20px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+  .sidebar-logo .book-title { font-size: 13px; font-weight: 700; color: var(--primary); letter-spacing: .04em; margin-bottom: 4px; }
+  .sidebar-logo .book-sub { font-size: 12px; color: var(--text3); }
+  .nav-section { margin-bottom: 8px; }
+  .nav-section-title { font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; padding: 6px 20px; }
+  .nav-item { display: block; padding: 7px 20px 7px 28px; font-size: 13px; color: var(--text2); text-decoration: none; border-left: 2px solid transparent; transition: all .15s; }
+  .nav-item:hover { color: var(--primary); background: var(--primary-bg); }
+  .nav-item.active { color: var(--teal); font-weight: 700; border-left-color: var(--teal); background: var(--teal-bg); }
+  .nav-item.done { color: var(--text3); }
+  .nav-item.done::after { content: ' ✓'; color: var(--green); font-size: 11px; }
+  .nav-item.soon { color: var(--text3); cursor: pointer; }
+  .nav-item.soon:hover { color: var(--text2); background: var(--surface2); }
+
+  .main { flex: 1; min-width: 0; }
+  .content { max-width: 860px; margin: 0 auto; padding: 52px 48px 100px; }
+
+  .chapter-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 2px solid var(--border); }
+  .chapter-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--teal-bg); color: var(--teal); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--teal-border); margin-bottom: 12px; }
+  .chapter-title { font-family: 'Noto Serif KR', serif; font-size: 32px; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 12px; }
+  .chapter-desc { font-size: 16px; color: var(--text2); line-height: 1.75; }
+
+  .section { margin-bottom: 52px; }
+  .section-title { font-size: 22px; font-weight: 900; color: var(--text); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+
+  .goal-box { background: var(--teal-bg); border: 1.5px solid var(--teal-border); border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; }
+  .goal-box-title { font-size: 13px; font-weight: 700; color: var(--teal); margin-bottom: 12px; text-transform: uppercase; letter-spacing: .08em; }
+  .goal-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .goal-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text2); }
+  .goal-list li::before { content: '☐'; font-size: 16px; color: var(--teal); flex-shrink: 0; }
+
+  /* 파트 비교 카드 */
+  .part-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .part-card { border-radius: 12px; padding: 20px 24px; border: 2px solid; }
+  .part-card.part1 { background: var(--primary-bg); border-color: var(--primary-border); }
+  .part-card.part2 { background: var(--teal-bg); border-color: var(--teal-border); }
+  .part-card-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+  .part-card.part1 .part-card-label { color: var(--primary); }
+  .part-card.part2 .part-card-label { color: var(--teal); }
+  .part-card-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .part-card-flow { font-size: 13px; color: var(--text2); line-height: 2; }
+  .part-card-flow .arrow { color: var(--text3); margin: 0 4px; }
+
+  .step-list { display: flex; flex-direction: column; gap: 20px; }
+  .step-item { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .step-head { display: flex; align-items: center; gap: 14px; padding: 14px 20px; background: var(--surface2); border-bottom: 1.5px solid var(--border); }
+  .step-num { width: 32px; height: 32px; background: var(--teal); color: white; border-radius: 50%; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .step-body { padding: 20px 24px; font-size: 14px; color: var(--text2); line-height: 1.8; }
+
+  .code-block { background: var(--code-bg); border-radius: 10px; padding: 20px 22px; margin: 14px 0; overflow-x: auto; position: relative; }
+  .code-block pre { font-family: 'DM Mono', monospace; font-size: 13.5px; color: #e2e8f0; line-height: 1.85; white-space: pre; }
+
+  /* 복사 버튼 */
+  .copy-btn { position: absolute; top: 10px; right: 60px; background: #334155; color: #94a3b8; border: none; border-radius: 6px; padding: 3px 10px; font-size: 11px; font-family: 'DM Mono', monospace; cursor: pointer; transition: all .15s; letter-spacing: .04em; }
+  .copy-btn:hover { background: #475569; color: #e2e8f0; }
+  .copy-btn.copied { background: #059669; color: #fff; }
+
+  .code-label { position: absolute; top: 10px; right: 14px; font-family: 'DM Mono', monospace; font-size: 10px; color: #475569; text-transform: uppercase; letter-spacing: .06em; }
+  .kw  { color: #c792ea; }
+  .fn  { color: #82aaff; }
+  .str { color: #c3e88d; }
+  .num { color: #f78c6c; }
+  .cm  { color: #546e7a; font-style: italic; }
+
+  .output-label { font-size: 11px; color: #475569; font-family: 'DM Mono', monospace; letter-spacing: .06em; text-transform: uppercase; margin: 8px 0 4px; }
+  .output-box { background: #0f172a; border: 1px solid #1e3a5f; border-radius: 8px; padding: 14px 18px; font-family: 'DM Mono', monospace; font-size: 13px; color: #a3e635; line-height: 1.7; margin-bottom: 14px; }
+
+  .tip  { background: var(--green-bg); border: 1px solid var(--green-border); border-left: 3px solid var(--green); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
+  .tip strong { color: var(--green); }
+  .warn { background: var(--red-bg); border: 1px solid var(--red-border); border-left: 3px solid var(--red); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
+  .warn strong { color: var(--red); }
+  .note { background: var(--orange-bg); border: 1px solid var(--orange-border); border-left: 3px solid var(--orange); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
+  .note strong { color: var(--orange); }
+
+  .prompt-card { background: #0f172a; border: 2px solid #334155; border-radius: 14px; overflow: hidden; margin: 16px 0; }
+  .prompt-card-head { background: #1e293b; padding: 12px 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #334155; }
+  .prompt-icon { font-size: 16px; }
+  .prompt-title { font-size: 13px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .08em; }
+  .prompt-body { padding: 20px 22px; }
+  .prompt-body pre { font-family: 'DM Mono', monospace; font-size: 13px; color: #e2e8f0; line-height: 1.9; white-space: pre-wrap; }
+  .prompt-rule { font-size: 11px; font-weight: 700; color: #f59e0b; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+  th { background: var(--surface2); padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--border); font-weight: 700; }
+  td { padding: 10px 14px; border-bottom: 1px dashed var(--border); color: var(--text2); }
+  td code { font-family: 'DM Mono', monospace; font-size: 12.5px; background: var(--surface2); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--primary); }
+  tr:last-child td { border-bottom: none; }
+
+  .check-section { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; }
+  .check-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
+  .check-list2 { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .check-list2 li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text2); line-height: 1.6; }
+  .check-list2 li input[type="checkbox"] { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; accent-color: var(--teal); }
+
+  .next-chapter { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; display: flex; align-items: center; gap: 16px; }
+  .next-icon { font-size: 28px; flex-shrink: 0; }
+  .next-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+  .next-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .next-desc { font-size: 13px; color: var(--text2); margin-top: 3px; }
+
+  code { font-family: 'DM Mono', monospace; font-size: 13px; background: var(--surface2); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border); color: var(--primary); }
+  p { margin-bottom: 12px; }
+  strong { color: var(--text); }
+
+  #soon-toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: #fff; padding: 10px 20px; border-radius: 999px; font-size: 13px; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 9999; white-space: nowrap; }
+  #soon-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ═══════════════════════════════════
+     반응형 — 태블릿 / 모바일
+     ═══════════════════════════════════ */
+  html, body { overflow-x: hidden; }         /* 가로 스크롤 방지 */
+  img { max-width: 100%; height: auto; }
+
+  /* 햄버거 버튼 & 백드롭 (기본 숨김, 모바일에서 표시) */
+  .menu-toggle {
+    display: none;
+    position: fixed; top: 12px; left: 12px; z-index: 200;
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--text); color: #fff; border: none;
+    font-size: 20px; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,.25);
+    align-items: center; justify-content: center;
+  }
+  .sidebar-backdrop {
+    display: none;
+    position: fixed; inset: 0; z-index: 90;
+    background: rgba(15,23,42,.5);
+  }
+  .sidebar-backdrop.show { display: block; }
+
+  /* ── 태블릿 이하 (≤1024px): 사이드바를 서랍으로 ── */
+  @media (max-width: 1024px) {
+    .menu-toggle { display: flex; }
+    .sidebar {
+      position: fixed; top: 0; left: 0; height: 100vh;
+      z-index: 100; width: 82%; max-width: 320px;
+      transform: translateX(-100%);
+      transition: transform .28s ease;
+      box-shadow: 4px 0 24px rgba(0,0,0,.18);
+    }
+    .sidebar.open { transform: translateX(0); }
+    .main { width: 100%; }
+    .content { padding: 64px 24px 80px; max-width: 100%; }
+    .chapter-title { font-size: 26px; }
+    .chapter-desc { font-size: 15px; }
+  }
+
+  /* ── 모바일 (≤640px): 글자·여백·탭 더 축소 ── */
+  @media (max-width: 640px) {
+    body { font-size: 14.5px; }
+    .content { padding: 60px 15px 70px; }
+    .chapter-header { margin-bottom: 28px; padding-bottom: 20px; }
+    .chapter-title { font-size: 22px; }
+    .chapter-desc { font-size: 14px; }
+    .section-title { font-size: 18px; }
+
+    /* 소단원 헤더 */
+    .subunit-head { padding: 11px 14px; gap: 10px; }
+    .subunit-num { width: 38px; height: 38px; font-size: 20px; }
+    .subunit-title { font-size: 16px; }
+    .corekq { font-size: 12px; padding: 7px 14px; }
+
+    /* 파트 배너/탭 */
+    .part-divider { padding: 16px 16px; margin: 32px 0 22px; }
+    .part-heading { font-size: 18px; }
+    .part-tabs { gap: 5px; padding: 8px 0; }
+
+    /* 이전/다음 네비 — 세로로 쌓기 */
+    .part-nav { flex-wrap: wrap; gap: 8px; }
+    .part-nav button { flex: 1 1 100%; padding: 11px 14px; font-size: 13.5px; }
+    .part-nav .pn-progress { order: -1; width: 100%; text-align: center; }
+
+    /* 표: 넘치면 가로 스크롤 */
+    table { display: block; overflow-x: auto; white-space: nowrap; font-size: 13px; }
+    .spec-row { grid-template-columns: 64px 1fr; }
+
+    /* 코드/결과 글자 축소 */
+    .code-block pre, .cr-body pre { font-size: 12px; }
+    .concept-card-body, .dobox-body, .analogy, .qna .qna-q, .qna .qna-a { font-size: 13px; }
+
+    /* 성취도 평가 줄바꿈 */
+    .assess { flex-direction: column; align-items: flex-start; gap: 8px; }
+  }
+
+
+
+  /* nasa-guide.html 전용 색상 */
+  :root { --html: #e44d26; --html-bg: #fef3f0; --html-border: #f5c4b8; --css: #264de4; --css-bg: #f0f3fe; --css-border: #b8c8f5; --js: #c8a000; --js-bg: #fefbe8; --js-border: #e8d870; --nasa: #0b3d91; --nasa-bg: #f0f4ff; --nasa-border: #b0c4f5; }
+
+/* ═══════════ 페이지 고유 스타일 ═══════════ */
+
 
   /* 헤더 */
   .header { text-align: center; padding-bottom: 36px; margin-bottom: 48px; border-bottom: 2.5px solid var(--text); }
@@ -130,9 +326,87 @@
   .final ul li::before { content: '☐'; font-size: 18px; color: var(--text3); }
 
   .mono { font-family: 'DM Mono', monospace; font-size: 12px; background: var(--surface2); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--text); }
+
+
+  /* ═══ 통합 레이아웃 보정 (chapter06 디자인에 맞춤) ═══ */
+  .content .page { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+
+  .header { text-align: left; padding-bottom: 32px; margin-bottom: 48px; border-bottom: 2px solid var(--border); }
+  .header-label { display: inline-flex; align-items: center; gap: 6px;
+    background: var(--teal-bg); color: var(--teal); border: 1px solid var(--teal-border);
+    font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 20px; margin-bottom: 12px; }
+  .header h1 { font-family: 'Noto Serif KR', serif; font-size: 32px; font-weight: 700;
+    line-height: 1.3; margin-bottom: 12px; color: var(--text); }
+  .header h1 em { font-style: normal; }
+  .header p { font-size: 16px; color: var(--text2); line-height: 1.75; }
+  .goal-chips { justify-content: flex-start; }
+
+  .sec-title { font-size: 22px; font-weight: 900; color: var(--text); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px; padding-bottom: 12px;
+    border-bottom: 2px solid var(--border); }
+  .sec-title::after { display: none !important; }
+  .part { margin-bottom: 52px; }
+
+  .code-wrap { position: relative; }
+  .code-wrap .copy-btn { top: 8px; right: 12px; }
+
+  @media (max-width: 1024px) {
+    .content { padding: 64px 24px 80px; max-width: 100%; }
+  }
+  @media (max-width: 640px) {
+    .header h1 { font-size: 22px; }
+    .header p { font-size: 14px; }
+    .sec-title { font-size: 18px; }
+  }
+
 </style>
 </head>
 <body>
+<button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()" aria-label="메뉴 열기">☰</button>
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+<div class="wrapper">
+
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <div class="book-title">🍀 GGHS 실습 가이드</div>
+    <div style="padding:0 16px 20px; border-bottom:1px solid var(--border); margin-bottom:16px;">
+      <div style="background:#f0f4ff; border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; font-size:11.5px; color:#4a5568; line-height:1.85;">
+        <div style="font-weight:700; color:#1a202c; margin-bottom:8px; font-size:12px;">📌 수업 유의사항</div>
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          <div style="display:flex; gap:7px;"><span style="color:#3b82f6; flex-shrink:0;">✦</span><span>저작권은 선생님께 있어요. 무단 배포·공유 금지</span></div>
+          <div style="display:flex; gap:7px;"><span style="color:#3b82f6; flex-shrink:0;">✦</span><span>모르는 게 당연해요. 모르면 물어보는 게 실력이에요.</span></div>
+          <div style="display:flex; gap:7px;"><span style="color:#3b82f6; flex-shrink:0;">✦</span><span>틀려도 괜찮아요. 코딩은 틀리면서 배우는 거예요.</span></div>
+          <div style="height:4px;"></div>
+          <div style="display:flex; gap:7px;"><span style="color:#d97706; flex-shrink:0;">✦</span><span>오류가 나도 포기하지 말아요. LLM에게 붙여넣고 도움 받기</span></div>
+          <div style="display:flex; gap:7px;"><span style="color:#d97706; flex-shrink:0;">✦</span><span>글자 하나 오류에 집중하지 말고 큰 흐름 보기</span></div>
+        </div>
+      </div>
+    </div>
+      <div class="book-sub">GGHS 미디어정보리터러시 · 활동 가이드</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">활동 가이드</div>
+      <a href="../game/guide%20(2).html" class="nav-item">1~2차시 · 🎯 클릭 타겟 게임 만들기</a>
+      <a href="../game/game2-guide.html" class="nav-item">2차시 · 🕹️ 나만의 게임 만들기</a>
+      <a href="nasa-guide.html" class="nav-item active">3차시 · 🚀 NASA API 실습</a>
+      <a href="../mymap/kakaomap-search-guide.html" class="nav-item">4차시 · 🗺️ 카카오맵 장소 검색</a>
+    </div>
+    <div style="margin-top:20px; padding:0 20px;">
+      <div style="background:var(--teal-bg); border:1px solid var(--teal-border); border-radius:8px; padding:12px; font-size:12px; color:var(--text2);">
+        <strong style="color:var(--teal);">📑 이 페이지 목차</strong>
+        <div style="margin-top:8px; display:flex; flex-direction:column; gap:4px;">
+          <a href="#sec-1" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">API 기본 개념</a>
+          <a href="#sec-2" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">오늘의 목표</a>
+          <a href="#sec-3" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">실습 순서</a>
+          <a href="#sec-4" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">부록 — 다른 NASA API 탐색하기</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content">
 <div class="page">
 
   <!-- 헤더 -->
@@ -150,7 +424,7 @@
 
   <!-- API 개념 -->
   <div class="part">
-    <div class="sec-title">API 기본 개념</div>
+    <div class="sec-title" id="sec-1">API 기본 개념</div>
 
     <!-- API란 -->
     <div class="step-card">
@@ -290,7 +564,7 @@ data.url
 
   <!-- 오늘의 목표 -->
   <div class="part">
-    <div class="sec-title">오늘의 목표</div>
+    <div class="sec-title" id="sec-2">오늘의 목표</div>
     <p class="desc">
       NASA가 공개한 두 가지 데이터(오늘의 우주사진 + 소행성 근접 정보)를 가져와
       <strong>탭 구조의 웹페이지</strong>로 만들기.
@@ -307,7 +581,7 @@ data.url
 
   <!-- STEP 1: API 키 발급 -->
   <div class="part">
-    <div class="sec-title">실습 순서</div>
+    <div class="sec-title" id="sec-3">실습 순서</div>
 
     <div class="step-card">
       <div class="step-card-head nasa">
@@ -541,7 +815,7 @@ index.html, style.css, script.js 파일 3개로 나눠서 각각 보여줘.
 
   <!-- 부록 -->
   <div class="part">
-    <div class="sec-title">부록 — 다른 NASA API 탐색하기</div>
+    <div class="sec-title" id="sec-4">부록 — 다른 NASA API 탐색하기</div>
     <p class="desc">APOD와 Asteroids 외에도 다양한 NASA API 활용 가능. 아래 절차로 직접 탐색.</p>
 
     <ul class="do-list" style="margin-bottom:20px;">
@@ -605,5 +879,44 @@ index.html, style.css, script.js 파일 3개로 나눠서 각각 보여줘.
   </div>
 
 </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    sidebar.classList.toggle('open');
+    backdrop.classList.toggle('show');
+  }
+  function closeSidebar() {
+    document.querySelector('.sidebar').classList.remove('open');
+    document.getElementById('sidebarBackdrop').classList.remove('show');
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.sidebar a').forEach(a => {
+      a.addEventListener('click', () => { if (window.innerWidth <= 1024) closeSidebar(); });
+    });
+  });
+
+  /* 코드 복사 버튼 */
+  document.querySelectorAll('.code-wrap, .code-block').forEach(block => {
+    const pre = block.querySelector('pre');
+    if (!pre) return;
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.textContent = 'copy';
+    btn.onclick = () => {
+      navigator.clipboard.writeText(pre.innerText).then(() => {
+        btn.textContent = 'copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1500);
+      });
+    };
+    block.appendChild(btn);
+  });
+</script>
+
 </body>
 </html>
