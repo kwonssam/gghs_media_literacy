@@ -37,19 +37,20 @@
   .nav-item.active { color: var(--teal); font-weight: 700; border-left-color: var(--teal); background: var(--teal-bg); }
   .nav-item.done { color: var(--text3); }
   .nav-item.done::after { content: ' ✓'; color: var(--green); font-size: 11px; }
-  .nav-item.soon { color: var(--text3); cursor: pointer; }
-  .nav-item.soon:hover { color: var(--text2); background: var(--surface2); }
+  .nav-item.soon { color: var(--text3); }
 
   .main { flex: 1; min-width: 0; }
-  .content { max-width: 860px; margin: 0 auto; padding: 52px 48px 100px; }
+  .content { max-width: 880px; margin: 0 auto; padding: 52px 48px 100px; }
 
-  .chapter-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 2px solid var(--border); }
+  .chapter-header { margin-bottom: 36px; padding-bottom: 28px; border-bottom: 2px solid var(--border); }
   .chapter-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--teal-bg); color: var(--teal); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--teal-border); margin-bottom: 12px; }
   .chapter-title { font-family: 'Noto Serif KR', serif; font-size: 32px; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 12px; }
   .chapter-desc { font-size: 16px; color: var(--text2); line-height: 1.75; }
 
-  .section { margin-bottom: 52px; }
+  .section { margin-bottom: 52px; scroll-margin-top: 20px; }
   .section-title { font-size: 22px; font-weight: 900; color: var(--text); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+  .sub-title { font-size: 17px; font-weight: 700; color: var(--text); margin: 30px 0 10px; }
+  p { margin: 10px 0; color: var(--text2); }
 
   .goal-box { background: var(--teal-bg); border: 1.5px solid var(--teal-border); border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; }
   .goal-box-title { font-size: 13px; font-weight: 700; color: var(--teal); margin-bottom: 12px; text-transform: uppercase; letter-spacing: .08em; }
@@ -57,160 +58,164 @@
   .goal-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text2); }
   .goal-list li::before { content: '☐'; font-size: 16px; color: var(--teal); flex-shrink: 0; }
 
-  /* 파트 비교 카드 */
-  .part-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
-  .part-card { border-radius: 12px; padding: 20px 24px; border: 2px solid; }
-  .part-card.part1 { background: var(--primary-bg); border-color: var(--primary-border); }
-  .part-card.part2 { background: var(--teal-bg); border-color: var(--teal-border); }
-  .part-card-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
-  .part-card.part1 .part-card-label { color: var(--primary); }
-  .part-card.part2 .part-card-label { color: var(--teal); }
-  .part-card-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
-  .part-card-flow { font-size: 13px; color: var(--text2); line-height: 2; }
-  .part-card-flow .arrow { color: var(--text3); margin: 0 4px; }
-
-  .step-list { display: flex; flex-direction: column; gap: 20px; }
-  .step-item { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; }
-  .step-head { display: flex; align-items: center; gap: 14px; padding: 14px 20px; background: var(--surface2); border-bottom: 1.5px solid var(--border); }
-  .step-num { width: 32px; height: 32px; background: var(--teal); color: white; border-radius: 50%; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .step-title { font-size: 15px; font-weight: 700; color: var(--text); }
-  .step-body { padding: 20px 24px; font-size: 14px; color: var(--text2); line-height: 1.8; }
-
   .code-block { background: var(--code-bg); border-radius: 10px; padding: 20px 22px; margin: 14px 0; overflow-x: auto; position: relative; }
   .code-block pre { font-family: 'DM Mono', monospace; font-size: 13.5px; color: #e2e8f0; line-height: 1.85; white-space: pre; }
-
-  /* 복사 버튼 */
-  .copy-btn { position: absolute; top: 10px; right: 60px; background: #334155; color: #94a3b8; border: none; border-radius: 6px; padding: 3px 10px; font-size: 11px; font-family: 'DM Mono', monospace; cursor: pointer; transition: all .15s; letter-spacing: .04em; }
+  .code-label { position: absolute; top: 10px; left: 22px; font-family: 'DM Mono', monospace; font-size: 10.5px; color: #64748b; letter-spacing: .08em; }
+  .code-block.labeled { padding-top: 34px; }
+  .copy-btn { position: absolute; top: 10px; right: 16px; background: #334155; color: #94a3b8; border: none; border-radius: 6px; padding: 3px 10px; font-size: 11px; font-family: 'DM Mono', monospace; cursor: pointer; transition: all .15s; letter-spacing: .04em; }
   .copy-btn:hover { background: #475569; color: #e2e8f0; }
   .copy-btn.copied { background: #059669; color: #fff; }
+  .kw { color: #c792ea; } .fn { color: #82aaff; } .str { color: #c3e88d; } .num { color: #f78c6c; } .cm { color: #546e7a; font-style: italic; } .bi { color: #ffcb6b; }
 
-  .code-label { position: absolute; top: 10px; right: 14px; font-family: 'DM Mono', monospace; font-size: 10px; color: #475569; text-transform: uppercase; letter-spacing: .06em; }
-  .kw  { color: #c792ea; }
-  .fn  { color: #82aaff; }
-  .str { color: #c3e88d; }
-  .num { color: #f78c6c; }
-  .cm  { color: #546e7a; font-style: italic; }
+  .result { background: #0f172a; border: 1px solid #1e3a5f; border-radius: 8px; padding: 14px 18px; margin: 8px 0 14px; font-family: 'DM Mono', monospace; font-size: 13px; color: #a3e635; line-height: 1.7; white-space: pre-wrap; overflow-x: auto; }
+  .result-label { font-family: 'DM Mono', monospace; font-size: 11px; color: #64748b; letter-spacing: .06em; text-transform: uppercase; display: block; margin-bottom: 6px; }
 
-  .output-label { font-size: 11px; color: #475569; font-family: 'DM Mono', monospace; letter-spacing: .06em; text-transform: uppercase; margin: 8px 0 4px; }
-  .output-box { background: #0f172a; border: 1px solid #1e3a5f; border-radius: 8px; padding: 14px 18px; font-family: 'DM Mono', monospace; font-size: 13px; color: #a3e635; line-height: 1.7; margin-bottom: 14px; }
-
-  .tip  { background: var(--green-bg); border: 1px solid var(--green-border); border-left: 3px solid var(--green); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
+  .tip  { background: var(--green-bg); border-left: 3px solid var(--green); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
   .tip strong { color: var(--green); }
-  .warn { background: var(--red-bg); border: 1px solid var(--red-border); border-left: 3px solid var(--red); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
+  .warn { background: var(--red-bg); border-left: 3px solid var(--red); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
   .warn strong { color: var(--red); }
-  .note { background: var(--orange-bg); border: 1px solid var(--orange-border); border-left: 3px solid var(--orange); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
+  .note { background: var(--orange-bg); border-left: 3px solid var(--orange); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
   .note strong { color: var(--orange); }
-
-  .prompt-card { background: #0f172a; border: 2px solid #334155; border-radius: 14px; overflow: hidden; margin: 16px 0; }
-  .prompt-card-head { background: #1e293b; padding: 12px 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #334155; }
-  .prompt-icon { font-size: 16px; }
-  .prompt-title { font-size: 13px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .08em; }
-  .prompt-body { padding: 20px 22px; }
-  .prompt-body pre { font-family: 'DM Mono', monospace; font-size: 13px; color: #e2e8f0; line-height: 1.9; white-space: pre-wrap; }
-  .prompt-rule { font-size: 11px; font-weight: 700; color: #f59e0b; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+  .ask { background: var(--purple-bg); border-left: 3px solid var(--purple); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
+  .ask strong { color: var(--purple); }
+  .info { background: var(--primary-bg); border-left: 3px solid var(--primary); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--text2); margin: 12px 0; }
+  .info strong { color: var(--primary); }
 
   table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
-  th { background: var(--surface2); padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--border); font-weight: 700; }
-  td { padding: 10px 14px; border-bottom: 1px dashed var(--border); color: var(--text2); }
-  td code { font-family: 'DM Mono', monospace; font-size: 12.5px; background: var(--surface2); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--primary); }
-  tr:last-child td { border-bottom: none; }
+  th { background: var(--surface2); padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--border); font-weight: 700; font-size: 13px; }
+  td { padding: 10px 14px; border-bottom: 1px dashed var(--border); color: var(--text2); vertical-align: top; }
+  td code, th code, p code, li code, .mrow code, .flow code { font-family: 'DM Mono', monospace; font-size: 12.5px; background: var(--surface2); color: var(--purple); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+  body { overflow-wrap: break-word; }
+  .check-list li, .goal-list li { flex-wrap: wrap; min-width: 0; }
+  .tbl-scroll { overflow-x: auto; margin: 14px 0; }
+  .tbl-scroll table { margin: 0; }
+  .compare { min-width: 560px; }
+  .compare th:first-child { width: 22%; }
+  .compare td.yes { color: var(--green); font-weight: 700; }
+  .compare td.no  { color: var(--red); font-weight: 700; }
 
-  .check-section { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; }
-  .check-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
-  .check-list2 { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-  .check-list2 li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text2); line-height: 1.6; }
-  .check-list2 li input[type="checkbox"] { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; accent-color: var(--teal); }
+  /* ══════ 단계 카드 (정제/점검 4단계) ══════ */
+  .mstep { border: 1.5px solid var(--border); border-radius: 12px; margin: 16px 0; background: var(--surface); overflow: hidden; }
+  .mstep-head { display: flex; align-items: center; gap: 10px; padding: 12px 18px; background: var(--bg); border-bottom: 1px solid var(--border); }
+  .mstep-head .mn { width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+  .mstep-head .mt { font-size: 15.5px; font-weight: 700; color: var(--text); line-height: 1.4; }
+  .p-a .mstep-head .mn { background: var(--orange); }
+  .p-b .mstep-head .mn { background: var(--primary); }
+  .mstep-body { padding: 14px 18px 18px; }
+  .mstep-body .code-block { margin: 12px 0; }
+  .mrow { display: grid; grid-template-columns: 86px 1fr; gap: 12px; align-items: start; margin: 11px 0; font-size: 13.5px; color: var(--text2); line-height: 1.7; }
+  .mrow .ml { font-size: 10.5px; font-weight: 700; letter-spacing: .02em; padding: 3px 6px; border-radius: 5px; text-align: center; margin-top: 3px; }
+  .ml-why  { background: var(--primary-bg); color: var(--primary); border: 1px solid var(--primary-border); }
+  .ml-fail { background: var(--red-bg);     color: var(--red);     border: 1px solid var(--red-border); }
+  .ml-any  { background: var(--orange-bg);  color: var(--orange);  border: 1px solid var(--orange-border); }
+  .ml-ask  { background: var(--purple-bg);  color: var(--purple);  border: 1px solid var(--purple-border); }
+  .ml-ok   { background: var(--green-bg);   color: var(--green);   border: 1px solid var(--green-border); }
 
-  .next-chapter { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; display: flex; align-items: center; gap: 16px; }
-  .next-icon { font-size: 28px; flex-shrink: 0; }
-  .next-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
-  .next-title { font-size: 15px; font-weight: 700; color: var(--text); }
-  .next-desc { font-size: 13px; color: var(--text2); margin-top: 3px; }
+  .pbox { position: relative; background: var(--purple-bg); border: 1px solid var(--purple-border); border-radius: 8px; padding: 12px 14px; }
+  .pbox pre { font-family: 'DM Mono', monospace; font-size: 12.5px; color: #4c1d95; line-height: 1.8; white-space: pre-wrap; word-break: break-word; margin-right: 46px; }
+  .pbox .copy-btn { background: #ddd6fe; color: #5b21b6; top: 8px; right: 8px; }
+  .pbox .copy-btn:hover { background: #c4b5fd; color: #4c1d95; }
 
-  code { font-family: 'DM Mono', monospace; font-size: 13px; background: var(--surface2); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border); color: var(--primary); }
-  p { margin-bottom: 12px; }
-  strong { color: var(--text); }
+  .flow { display: flex; flex-direction: column; gap: 0; margin: 18px 0; }
+  .flow .fb { border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 16px; background: var(--surface); }
+  .flow .fb .ft { font-size: 14.5px; font-weight: 700; color: var(--text); }
+  .flow .fb .fd { font-size: 12.5px; color: var(--text3); margin-top: 2px; }
+  .flow .fa { text-align: center; color: var(--text3); font-size: 13px; line-height: 1.5; padding: 7px 0; }
+  .flow .fa strong { color: var(--text2); }
+  .flow .fb.branch { border-color: var(--orange-border); background: var(--orange-bg); }
+  .flow .fb.branch .ft { color: var(--orange); }
+  .flow .fb.goal { border-color: var(--green-border); background: var(--green-bg); }
+  .flow .fb.goal .ft { color: var(--green); }
 
-  #soon-toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: #fff; padding: 10px 20px; border-radius: 999px; font-size: 13px; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 9999; white-space: nowrap; }
-  #soon-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .fill th, .fill td { font-size: 13px; }
+  .fill .blank { color: var(--text3); letter-spacing: .1em; }
 
-  /* ═══════════════════════════════════
-     반응형 — 태블릿 / 모바일
-     ═══════════════════════════════════ */
-  html, body { overflow-x: hidden; }         /* 가로 스크롤 방지 */
-  img { max-width: 100%; height: auto; }
+  /* ══════ 데이터별 탭 ══════ */
+  .dataset-tabs { margin-bottom: 52px; }
+  .tab-bar { display: flex; gap: 8px; border-bottom: 2px solid var(--border); margin-bottom: 0; overflow-x: auto; padding-bottom: 0; }
+  .tab-btn { flex: 1 1 0; min-width: 140px; background: var(--surface); border: 1.5px solid var(--border); border-bottom: none; border-radius: 10px 10px 0 0; padding: 13px 14px 12px; cursor: pointer; font-family: inherit; text-align: left; transition: all .15s; position: relative; top: 2px; }
+  .tab-btn .tb-tag { display: block; font-size: 10px; font-weight: 700; letter-spacing: .08em; color: var(--text3); margin-bottom: 3px; }
+  .tab-btn .tb-name { display: block; font-size: 14.5px; font-weight: 700; color: var(--text2); line-height: 1.4; }
+  .tab-btn .tb-meta { display: block; font-size: 11.5px; color: var(--text3); margin-top: 3px; }
+  .tab-btn:hover { background: var(--surface2); }
+  .tab-btn[aria-selected="true"] { background: var(--surface); border-width: 2px; border-bottom: 2px solid var(--surface); }
+  .tab-btn[aria-selected="true"] .tb-name { color: var(--text); }
 
-  /* 햄버거 버튼 & 백드롭 (기본 숨김, 모바일에서 표시) */
-  .menu-toggle {
-    display: none;
-    position: fixed; top: 12px; left: 12px; z-index: 200;
-    width: 44px; height: 44px; border-radius: 12px;
-    background: var(--text); color: #fff; border: none;
-    font-size: 20px; cursor: pointer;
-    box-shadow: 0 4px 14px rgba(0,0,0,.25);
-    align-items: center; justify-content: center;
+  .tab-btn.t-a[aria-selected="true"] { border-color: var(--orange); }
+  .tab-btn.t-a[aria-selected="true"] .tb-tag { color: var(--orange); }
+  .tab-btn.t-b[aria-selected="true"] { border-color: var(--primary); }
+  .tab-btn.t-b[aria-selected="true"] .tb-tag { color: var(--primary); }
+  .tab-btn.t-c[aria-selected="true"] { border-color: var(--purple); }
+  .tab-btn.t-c[aria-selected="true"] .tb-tag { color: var(--purple); }
+
+  .tab-panel { display: none; border: 2px solid var(--border); border-top: none; border-radius: 0 0 12px 12px; padding: 28px 30px 34px; background: var(--surface); }
+  .tab-panel.show { display: block; }
+  .tab-panel.p-a { border-color: var(--orange); }
+  .tab-panel.p-b { border-color: var(--primary); }
+  .tab-panel.p-c { border-color: var(--purple); }
+
+  .ds-head { border-radius: 10px; padding: 16px 20px; margin-bottom: 24px; }
+  .ds-head h3 { font-size: 19px; font-weight: 900; margin-bottom: 6px; }
+  .ds-head p { font-size: 13.5px; margin: 0; }
+  .ds-head .ds-file { font-family: 'DM Mono', monospace; font-size: 12px; margin-top: 8px; display: inline-block; padding: 3px 9px; border-radius: 5px; background: rgba(255,255,255,.72); }
+  .p-a .ds-head { background: var(--orange-bg); border: 1px solid var(--orange-border); }
+  .p-a .ds-head h3 { color: var(--orange); }
+  .p-b .ds-head { background: var(--primary-bg); border: 1px solid var(--primary-border); }
+  .p-b .ds-head h3 { color: var(--primary); }
+  .p-c .ds-head { background: var(--purple-bg); border: 1px solid var(--purple-border); }
+  .p-c .ds-head h3 { color: var(--purple); }
+
+  /* 진행 리본 */
+  .ribbon { display: flex; gap: 6px; margin-bottom: 26px; flex-wrap: wrap; }
+  .ribbon .rb { flex: 1 1 0; min-width: 104px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 9px 11px; }
+  .ribbon .rb .rn { font-size: 9.5px; font-weight: 700; letter-spacing: .08em; color: var(--text3); }
+  .ribbon .rb .rt { font-size: 12.5px; font-weight: 700; color: var(--text2); line-height: 1.4; margin-top: 2px; }
+  .ribbon .rb .rx { font-size: 11px; color: var(--text3); line-height: 1.45; margin-top: 3px; }
+  .p-a .ribbon .rb { border-color: var(--orange-border); }
+  .p-a .ribbon .rb .rn { color: var(--orange); }
+  .p-b .ribbon .rb { border-color: var(--primary-border); }
+  .p-b .ribbon .rb .rn { color: var(--primary); }
+  .p-c .ribbon .rb { border-color: var(--purple-border); }
+  .p-c .ribbon .rb .rn { color: var(--purple); }
+
+  .step-h { font-size: 16.5px; font-weight: 700; color: var(--text); margin: 34px 0 10px; padding-top: 16px; border-top: 1px dashed var(--border); display: flex; align-items: center; gap: 9px; }
+  .step-h:first-of-type { border-top: none; padding-top: 0; }
+  .step-h .sn { display: inline-flex; align-items: center; justify-content: center; width: 25px; height: 25px; border-radius: 50%; color: #fff; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .p-a .step-h .sn { background: var(--orange); }
+  .p-b .step-h .sn { background: var(--primary); }
+  .p-c .step-h .sn { background: var(--purple); }
+
+  .check-list { list-style: none; display: flex; flex-direction: column; gap: 10px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; }
+  .check-list li { display: flex; gap: 10px; font-size: 14px; color: var(--text2); }
+  .check-list li::before { content: '☐'; color: var(--primary); font-size: 17px; line-height: 1.4; flex-shrink: 0; }
+
+  .next-box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 22px 26px; }
+  .next-box .nl { font-size: 11px; font-weight: 700; color: var(--text3); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px; }
+  .next-box .nt { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+
+  .menu-toggle { display: none; position: fixed; top: 14px; left: 14px; z-index: 60; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; width: 40px; height: 40px; font-size: 18px; cursor: pointer; }
+  .sidebar-backdrop { display: none; }
+
+  @media (max-width: 880px) {
+    .menu-toggle { display: block; }
+    .sidebar { position: fixed; z-index: 50; left: -300px; transition: left .2s; }
+    .sidebar.open { left: 0; box-shadow: 0 0 40px rgba(0,0,0,.18); }
+    .sidebar-backdrop.show { display: block; position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 40; }
+    .content { padding: 64px 18px 80px; }
+    .chapter-title { font-size: 25px; }
+    table { font-size: 13px; }
+    th, td { padding: 8px 10px; }
+    .tab-bar { gap: 5px; }
+    .tab-btn { min-width: 118px; padding: 10px 10px 9px; }
+    .tab-btn .tb-name { font-size: 13px; }
+    .tab-btn .tb-meta { display: none; }
+    .tab-panel { padding: 20px 16px 26px; }
+    .mrow { grid-template-columns: 1fr; gap: 4px; }
+    .mrow .ml { justify-self: start; margin-top: 0; }
+    .mstep-body { padding: 12px 12px 16px; }
+    .mstep-head { padding: 10px 12px; }
+    .pbox pre { margin-right: 0; margin-top: 22px; }
   }
-  .sidebar-backdrop {
-    display: none;
-    position: fixed; inset: 0; z-index: 90;
-    background: rgba(15,23,42,.5);
-  }
-  .sidebar-backdrop.show { display: block; }
-
-  /* ── 태블릿 이하 (≤1024px): 사이드바를 서랍으로 ── */
-  @media (max-width: 1024px) {
-    .menu-toggle { display: flex; }
-    .sidebar {
-      position: fixed; top: 0; left: 0; height: 100vh;
-      z-index: 100; width: 82%; max-width: 320px;
-      transform: translateX(-100%);
-      transition: transform .28s ease;
-      box-shadow: 4px 0 24px rgba(0,0,0,.18);
-    }
-    .sidebar.open { transform: translateX(0); }
-    .main { width: 100%; }
-    .content { padding: 64px 24px 80px; max-width: 100%; }
-    .chapter-title { font-size: 26px; }
-    .chapter-desc { font-size: 15px; }
-  }
-
-  /* ── 모바일 (≤640px): 글자·여백·탭 더 축소 ── */
-  @media (max-width: 640px) {
-    body { font-size: 14.5px; }
-    .content { padding: 60px 15px 70px; }
-    .chapter-header { margin-bottom: 28px; padding-bottom: 20px; }
-    .chapter-title { font-size: 22px; }
-    .chapter-desc { font-size: 14px; }
-    .section-title { font-size: 18px; }
-
-    /* 소단원 헤더 */
-    .subunit-head { padding: 11px 14px; gap: 10px; }
-    .subunit-num { width: 38px; height: 38px; font-size: 20px; }
-    .subunit-title { font-size: 16px; }
-    .corekq { font-size: 12px; padding: 7px 14px; }
-
-    /* 파트 배너/탭 */
-    .part-divider { padding: 16px 16px; margin: 32px 0 22px; }
-    .part-heading { font-size: 18px; }
-    .part-tabs { gap: 5px; padding: 8px 0; }
-
-    /* 이전/다음 네비 — 세로로 쌓기 */
-    .part-nav { flex-wrap: wrap; gap: 8px; }
-    .part-nav button { flex: 1 1 100%; padding: 11px 14px; font-size: 13.5px; }
-    .part-nav .pn-progress { order: -1; width: 100%; text-align: center; }
-
-    /* 표: 넘치면 가로 스크롤 */
-    table { display: block; overflow-x: auto; white-space: nowrap; font-size: 13px; }
-    .spec-row { grid-template-columns: 64px 1fr; }
-
-    /* 코드/결과 글자 축소 */
-    .code-block pre, .cr-body pre { font-size: 12px; }
-    .concept-card-body, .dobox-body, .analogy, .qna .qna-q, .qna .qna-a { font-size: 13px; }
-
-    /* 성취도 평가 줄바꿈 */
-    .assess { flex-direction: column; align-items: flex-start; gap: 8px; }
-  }
-
 </style>
 </head>
 <body>
@@ -218,24 +223,15 @@
 <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 <div class="wrapper">
 
+  <!-- ⚠️ 선생님께: 이 <nav> 블록만 기존 사이트의 사이드바 코드로 교체하시면 목차가 그대로 이어집니다 -->
   <nav class="sidebar">
     <div class="sidebar-logo">
-      <div class="book-title">🍀 파이썬 데이터 시각화 </div>
-    <div style="padding:0 16px 20px; border-bottom:1px solid var(--border); margin-bottom:16px;">
-      <img src="Gemini_Generated_Image_v908ayv908ayv908.png" alt="정보 마스코트" style="width:100%; border-radius:12px; margin-bottom:12px; display:block;">
-      <div style="background:#f0f4ff; border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; font-size:11.5px; color:#4a5568; line-height:1.85;">
-        <div style="font-weight:700; color:#1a202c; margin-bottom:8px; font-size:12px;">📌 수업 유의사항</div>
-        <div style="display:flex; flex-direction:column; gap:5px;">
-          <div style="display:flex; gap:7px;"><span style="color:#3b82f6; flex-shrink:0;">✦</span><span>저작권은 선생님께 있어요. 무단 배포·공유 금지</span></div>
-          <div style="display:flex; gap:7px;"><span style="color:#3b82f6; flex-shrink:0;">✦</span><span>모르는 게 당연해요. 모르면 물어보는 게 실력이에요.</span></div>
-          <div style="display:flex; gap:7px;"><span style="color:#3b82f6; flex-shrink:0;">✦</span><span>틀려도 괜찮아요. 코딩은 틀리면서 배우는 거예요.</span></div>
-          <div style="height:4px;"></div>
-          <div style="display:flex; gap:7px;"><span style="color:#d97706; flex-shrink:0;">✦</span><span>오류가 나도 포기하지 말아요. LLM에게 붙여넣고 도움 받기</span></div>
-          <div style="display:flex; gap:7px;"><span style="color:#d97706; flex-shrink:0;">✦</span><span>글자 하나 오류에 집중하지 말고 큰 흐름 보기</span></div>
-        </div>
-      </div>
-    </div>
+      <div class="book-title">🍀 파이썬 데이터 시각화</div>
       <div class="book-sub">GGHS 미디어정보리터러시 · 10차시</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">먼저 읽기</div>
+      <a href="prompt-guide.html" class="nav-item">🤖 프롬프트 작성 가이드</a>
     </div>
     <div class="nav-section">
       <div class="nav-section-title">1부 — 시작하기</div>
@@ -251,21 +247,15 @@
     </div>
     <div class="nav-section">
       <div class="nav-section-title">3부 — 수행평가</div>
-      <a href="chapter07.html" class="nav-item active">7~9차시 · 수행평가 진행</a>
-      <a href="#" class="nav-item soon" onclick="showClassroom(event)">10차시~ · 자습 및 개별 확인</a>
+      <a href="chapter07.html" class="nav-item">7~9차시 · 수행평가 진행</a>
+      <a href="#" class="nav-item soon">10차시~ · 자습 및 개별 확인</a>
     </div>
-    <div style="margin-top:20px; padding:0 20px;">
-      <div style="background:var(--teal-bg); border:1px solid var(--teal-border); border-radius:8px; padding:12px; font-size:12px; color:var(--text2);">
-        <strong style="color:var(--teal);">🗺️ 6차시 목차</strong>
-        <div style="margin-top:8px; display:flex; flex-direction:column; gap:4px;">
-          <a href="#concept" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">📌 핵심 개념</a>
-          <a href="#compare" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">📊 파트1 vs 파트2</a>
-          <a href="#part1" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">🗺️ Part 1 · 독립운동 사적지</a>
-          <a href="#part2" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">🐾 Part 2 · 동물병원 지오코딩</a>
-          <a href="#prompt" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">🤖 프롬프트 실습</a>
-          <a href="#check" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">✅ 점검하기</a>
-        </div>
-      </div>
+    <div class="nav-section">
+      <div class="nav-section-title">이 페이지의 데이터</div>
+      <a href="#tabs" class="nav-item" onclick="showTab('a')">🗺️ 독립운동 국외사적지</a>
+      <a href="#tabs" class="nav-item" onclick="showTab('b')">🏫 전국 학교 위치</a>
+      <a href="#tabs" class="nav-item" onclick="showTab('c')">🐾 고양시 동물병원</a>
+      <a href="#reuse" class="nav-item">🧰 내 데이터로 할 때</a>
     </div>
   </nav>
 
@@ -274,629 +264,783 @@
 
       <div class="chapter-header">
         <div class="chapter-badge">6차시</div>
-        <h1 class="chapter-title">데이터를 지도 위에 —<br>지도 시각화</h1>
+        <h1 class="chapter-title">데이터를 지도 위에 — 지도 시각화</h1>
         <p class="chapter-desc">
-          숫자·그래프·워드클라우드로 볼 수 없는 것이 있어요. 바로 <strong>위치</strong>예요.<br>
-          이번엔 데이터를 지도 위에 직접 찍어봅니다.<br>
-          독립운동이 세계 어느 곳에서 일어났는지, 우리 동네 동물병원은 어디에 있는지 확인해봐요.
+          같은 folium, 같은 다섯 단계. 그런데 <strong>데이터가 바뀌면 해야 할 일이 달라집니다.</strong><br>
+          세 가지 데이터를 <strong>탭으로 바꿔 가며</strong> 그 차이를 직접 확인합니다.
         </p>
       </div>
 
-      <!-- 학습 목표 -->
-      <div class="section">
+      <!-- ═══════════ 수업 유의사항 ═══════════ -->
+      <div class="section" id="notice">
+        <h2 class="section-title">📌 수업 유의사항</h2>
+        <ul class="goal-list" style="gap:10px">
+          <li>코드를 <strong>외우지 않습니다.</strong> 복사해서 실행하고, <strong>숫자와 단어를 바꿔 보는 것</strong>이 오늘의 공부입니다.</li>
+          <li>지도가 한 번에 안 떠도 정상입니다. 오류 메시지를 <strong>그대로 읽는 연습</strong>부터 합니다.</li>
+          <li>아래 <strong>탭 세 개는 순서대로</strong> 하는 것을 권합니다. A → B → C로 갈수록 데이터가 까다로워집니다.</li>
+          <li>C 탭(동물병원)은 <strong>카카오 API 키</strong>가 필요합니다. 키가 없으면 A·B만으로도 수업은 완결됩니다.</li>
+        </ul>
+      </div>
+
+      <!-- ═══════════ 학습 목표 ═══════════ -->
+      <div class="section" id="goal">
         <h2 class="section-title">🎯 이 장에서 배우는 것</h2>
         <div class="goal-box">
           <div class="goal-box-title">학습 목표</div>
           <ul class="goal-list">
-            <li><code>folium.Map()</code>으로 기본 지도를 띄울 수 있다</li>
+            <li><code>folium.Map()</code>으로 원하는 곳이 중심인 지도를 띄울 수 있다</li>
             <li>마커를 찍고 <code>popup</code>·<code>tooltip</code>으로 정보를 달 수 있다</li>
-            <li><code>for문</code>으로 CSV 데이터의 모든 위치에 마커를 찍을 수 있다</li>
-            <li><code>MarkerCluster</code>로 마커를 군집화할 수 있다</li>
-            <li>지오코딩이 무엇인지 설명할 수 있다</li>
-            <li>카카오 REST API로 주소를 위도·경도로 변환할 수 있다</li>
+            <li><code>for문</code>으로 CSV의 모든 위치에 마커를 찍을 수 있다</li>
+            <li><code>MarkerCluster</code>로 많은 마커를 묶어 볼 수 있다</li>
+            <li>데이터가 <strong>수천·수만 건일 때</strong> <code>CircleMarker</code>·<code>FastMarkerCluster</code>로 가볍게 그릴 수 있다</li>
+            <li><strong>필터링</strong>으로 원하는 지역·종류만 뽑을 수 있다</li>
+            <li><strong>지오코딩</strong>(주소→좌표)과 <strong>역지오코딩</strong>(좌표→주소)을 구분하고 쓸 수 있다</li>
+            <li>데이터마다 <strong>해야 할 준비 작업이 다르다</strong>는 것을 설명할 수 있다</li>
           </ul>
         </div>
       </div>
 
-      <!-- 핵심 개념 -->
-      <div id="concept" class="section">
+      <!-- ═══════════ 핵심 개념 ═══════════ -->
+      <div class="section" id="concept">
         <h2 class="section-title">📌 핵심 개념</h2>
-
         <table>
-          <tr><th>개념</th><th>설명</th></tr>
-          <tr><td><strong>folium</strong></td><td>파이썬으로 인터랙티브 지도를 만드는 라이브러리. 마우스로 확대·축소·이동 가능</td></tr>
-          <tr><td><strong>위도·경도</strong></td><td>지구 위의 모든 위치를 나타내는 숫자. 서울: 위도 37.5, 경도 127.0</td></tr>
-          <tr><td><strong>지오코딩</strong></td><td>주소 → 위도·경도로 변환하는 것. "경기도 고양시 덕양구 ..." → (37.6, 126.8)</td></tr>
-          <tr><td><strong>MarkerCluster</strong></td><td>가까운 마커들을 묶어서 숫자로 표시. 줌인하면 개별 마커로 풀림</td></tr>
+          <tr><th style="width:26%">개념</th><th>설명</th></tr>
+          <tr><td><strong>folium</strong></td><td>파이썬으로 <strong>마우스로 움직이는 지도</strong>를 만드는 라이브러리</td></tr>
+          <tr><td><strong>위도·경도</strong></td><td>지구 위 한 점을 가리키는 두 숫자. 우리나라는 <strong>위도 33~38.5, 경도 124.7~131</strong>. 서울 37.5 / 127.0</td></tr>
+          <tr><td><strong>Marker</strong></td><td>핀 모양 표시. 예쁘지만 <strong>개수가 많으면 무겁다</strong></td></tr>
+          <tr><td><strong>CircleMarker</strong></td><td>작은 원. 수천 개도 <strong>가볍다</strong>. 색으로 분류하기 좋다</td></tr>
+          <tr><td><strong>MarkerCluster</strong></td><td>가까운 마커를 <strong>숫자 뭉치</strong>로 묶음. 확대하면 풀린다</td></tr>
+          <tr><td><strong>필터링</strong></td><td>조건에 맞는 줄만 골라내기. <code>df[df['학교급구분'] == '고등학교']</code></td></tr>
+          <tr><td><strong>지오코딩</strong></td><td><strong>주소 → 위도·경도</strong> 변환 &nbsp;(C 탭에서 사용)</td></tr>
+          <tr><td><strong>역(逆)지오코딩</strong></td><td><strong>위도·경도 → 주소</strong> 변환 &nbsp;(B 탭에서 사용)</td></tr>
         </table>
-
-        <div class="tip">
-          <strong>💡 오늘 쓸 라이브러리</strong><br>
-          <code>folium</code> — 지도 만들기 / <code>folium.plugins</code> — 마커 군집화 / <code>pandas</code> — CSV 불러오기 / <code>requests</code> — 카카오 API 요청
-        </div>
       </div>
 
-      <!-- 파트1 vs 파트2 비교 -->
-      <div id="compare" class="section">
-        <h2 class="section-title">📊 오늘 수업 흐름 — 파트1 vs 파트2</h2>
-
-        <p style="font-size:14px; color:var(--text2); margin-bottom:16px;">
-          오늘은 두 가지 상황을 다뤄요. 데이터에 위도·경도가 있는지 없는지에 따라 방법이 달라요.
-        </p>
-
-        <div class="part-compare">
-          <div class="part-card part1">
-            <div class="part-card-label">🗺️ Part 1</div>
-            <div class="part-card-title">위도·경도가 있는 데이터</div>
-            <div class="part-card-flow">
-              📂 독립운동 국외사적지 CSV<br>
-              <span class="arrow">↓</span><br>
-              🗺️ 지도에 바로 찍기
-            </div>
-          </div>
-          <div class="part-card part2">
-            <div class="part-card-label">🐾 Part 2</div>
-            <div class="part-card-title">주소만 있는 데이터</div>
-            <div class="part-card-flow">
-              📂 고양시 동물병원 CSV<br>
-              <span class="arrow">↓</span><br>
-              📍 지오코딩 (주소 → 위도·경도)<br>
-              <span class="arrow">↓</span><br>
-              🗺️ 지도에 찍기
-            </div>
-          </div>
-        </div>
-
-        <div class="note">
-          <strong>핵심:</strong> 지도에 찍는 코드는 파트1·파트2 모두 동일해요.<br>
-          파트2는 먼저 지오코딩으로 위도·경도를 만들어주는 과정이 추가될 뿐이에요.
-        </div>
+      <!-- ═══════════ 세 데이터 비교 ═══════════ -->
+      <div class="section" id="compare">
+        <h2 class="section-title">📊 오늘 다루는 세 가지 데이터</h2>
+        <p>모두 <strong>같은 다섯 단계</strong>를 밟습니다. 하지만 <strong>①·②단계에서 해야 할 일이 완전히 다릅니다.</strong> 그것이 오늘의 핵심입니다.</p>
+        <div class="tbl-scroll"><table class="compare">
+          <tr>
+            <th></th>
+            <th style="color:var(--orange)">🗺️ A · 독립운동 사적지</th>
+            <th style="color:var(--primary)">🏫 B · 전국 학교 위치</th>
+            <th style="color:var(--purple)">🐾 C · 고양시 동물병원</th>
+          </tr>
+          <tr><td><strong>좌표가 있나?</strong></td>
+            <td class="yes">있다 (단, 지저분함)</td>
+            <td class="yes">있다 (아주 깨끗함)</td>
+            <td class="no">아예 없다</td></tr>
+          <tr><td><strong>데이터 크기</strong></td>
+            <td>수백 건</td>
+            <td><strong>12,011건</strong></td>
+            <td>수십~수백 건</td></tr>
+          <tr><td><strong>인코딩</strong></td>
+            <td><code>cp949</code></td>
+            <td><code>utf-8-sig</code></td>
+            <td><code>cp949</code></td></tr>
+          <tr><td><strong>②단계에서 할 일</strong></td>
+            <td><strong>정제</strong> — <code>'없음'</code>·<code>°</code> 지우고 숫자로 바꾸기</td>
+            <td><strong>점검</strong> — 깨끗한지 확인만 (+ 빈 주소 12건 발견)</td>
+            <td><strong>생성</strong> — 주소를 좌표로 만들기</td></tr>
+          <tr><td><strong>지도 그리는 법</strong></td>
+            <td><code>MarkerCluster</code></td>
+            <td>범위별로 <strong>세 가지</strong><br><code>Marker</code>→<code>MarkerCluster</code>→<code>FastMarkerCluster</code></td>
+            <td><code>MarkerCluster</code></td></tr>
+          <tr><td><strong>API 필요?</strong></td>
+            <td class="no">아니오</td>
+            <td>빈칸 12건에만 (선택)</td>
+            <td class="yes">예 — 필수</td></tr>
+          <tr><td><strong>배우는 핵심</strong></td>
+            <td>지저분한 데이터 <strong>정제</strong></td>
+            <td>큰 데이터 <strong>필터링·성능</strong></td>
+            <td><strong>지오코딩</strong></td></tr>
+        </table></div>
+        <div class="tip"><strong>💡 읽는 법</strong> 세 탭의 단계 번호(①~⑤)는 <strong>서로 짝이 맞습니다.</strong> A탭 ②단계와 B탭 ②단계를 번갈아 보면 "같은 자리에서 무엇이 달라지는지"가 한눈에 보입니다.</div>
       </div>
 
-      <!-- 기초 설정 -->
-      <div class="section">
-        <h2 class="section-title">📌 기초 설정 — 매 차시 처음에 실행해요</h2>
+      <!-- ═══════════ 기초 설정 (공통) ═══════════ -->
+      <div class="section" id="setup">
+        <h2 class="section-title">⚙️ 기초 설정 — 세 데이터 공통</h2>
+        <p>어떤 탭을 하든 <strong>이 셀은 딱 한 번만</strong> 실행하면 됩니다.</p>
+        <div class="code-block labeled">
+          <span class="code-label">공통 CELL — 준비</span>
+          <button class="copy-btn">copy</button>
+<pre><span class="cm"># 구글 드라이브 연결 (팝업에서 본인 계정 허용)</span>
+<span class="kw">from</span> google.colab <span class="kw">import</span> drive
+drive.<span class="fn">mount</span>(<span class="str">'/content/drive'</span>)
 
-        <div style="background:var(--indigo-bg,#eef2ff); border:1.5px solid var(--indigo-border,#c7d2fe); border-radius:12px; padding:20px 24px;">
-          <div style="font-size:13px; font-weight:700; color:#4f46e5; margin-bottom:16px;">📌 모든 차시에서 공통으로 실행하는 셀 + 6차시 추가 셀</div>
-
-          <!-- 셀 A -->
-          <div style="margin-bottom:16px;">
-            <div style="font-size:12px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px;">셀 A — 구글 드라이브 연결</div>
-            <div class="code-block" style="margin:0;">
-              <button class="copy-btn">copy</button>
-              <pre><span class="kw">from</span> google.colab <span class="kw">import</span> drive
-drive.<span class="fn">mount</span>(<span class="str">'/content/drive'</span>)</pre>
-            </div>
-            <div style="background:var(--surface2); border:1px solid var(--border); border-radius:0 0 8px 8px; padding:10px 14px; font-size:13px; color:var(--text2); line-height:1.7;">
-              <strong style="color:var(--text);">역할:</strong> 내 구글 드라이브를 코랩에 연결해요.<br>
-              실행하면 허용 버튼을 눌러야 해요. 이 셀을 실행해야 드라이브에 있는 CSV 파일을 불러올 수 있어요.
-            </div>
-          </div>
-
-          <!-- 셀 B -->
-          <div style="margin-bottom:16px;">
-            <div style="font-size:12px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px;">셀 B — 데이터 분석 라이브러리 불러오기</div>
-            <div class="code-block" style="margin:0;">
-              <button class="copy-btn">copy</button>
-              <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
-<span class="kw">import</span> glob</pre>
-            </div>
-            <div style="background:var(--surface2); border:1px solid var(--border); border-radius:0 0 8px 8px; padding:10px 14px; font-size:13px; color:var(--text2); line-height:1.7;">
-              <strong style="color:var(--text);">역할:</strong><br>
-              <code>pandas</code> — 표 형태의 데이터를 다루는 라이브러리예요. <code>pd</code>는 pandas의 별명(약칭)이에요.<br>
-              <code>glob</code> — 드라이브 전체에서 파일을 자동으로 찾아주는 도구예요. 파일 경로를 일일이 쓰지 않아도 돼요.
-            </div>
-          </div>
-
-          <!-- 셀 C -->
-          <div>
-            <div style="font-size:12px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px;">셀 C — 지도 라이브러리 설치 <span style="font-size:11px; background:#e0e7ff; color:#4338ca; border-radius:4px; padding:2px 6px; margin-left:4px;">6차시 추가</span></div>
-            <div class="code-block" style="margin:0;">
-              <button class="copy-btn">copy</button>
-              <pre>!pip install folium -q
+<span class="cm"># 도구 불러오기</span>
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">import</span> glob
+!pip install folium -q
 <span class="kw">import</span> folium
-<span class="kw">from</span> folium.plugins <span class="kw">import</span> MarkerCluster
+<span class="kw">from</span> folium.plugins <span class="kw">import</span> MarkerCluster, FastMarkerCluster
 <span class="kw">from</span> IPython.display <span class="kw">import</span> display</pre>
-            </div>
-            <div style="background:var(--surface2); border:1px solid var(--border); border-radius:0 0 8px 8px; padding:10px 14px; font-size:13px; color:var(--text2); line-height:1.7;">
-              <strong style="color:var(--text);">역할:</strong><br>
-              <code>folium</code> — 파이썬으로 인터랙티브 지도를 만드는 라이브러리예요. 마우스로 확대·축소·이동이 가능한 지도를 HTML로 만들어줘요.<br>
-              <code>MarkerCluster</code> — 가까운 마커를 숫자로 묶어주는 플러그인이에요. 줌인하면 개별 마커로 풀려요.<br>
-              <code>display</code> — 코랩에서 지도를 화면에 바로 보여주는 함수예요. 없으면 지도가 출력이 안 돼요.
-            </div>
-          </div>
-
-          <div style="background:#f3f4f6; border-left:3px solid #9ca3af; border-radius:0 6px 6px 0; padding:8px 12px; font-size:12px; color:#374151; margin-top:16px;">
-            💡 6차시는 지도 시각화(folium)라 그래프를 matplotlib으로 그리지 않아요. 한글 폰트 설치(셀 A)는 필요 없어요.
-          </div>
         </div>
       </div>
 
-      <!-- Part 1 -->
-      <div id="part1" class="section">
-        <h2 class="section-title">🗺️ Part 1 — 독립운동 국외사적지</h2>
+      <!-- ═══════════════════════════════════════════════════ -->
+      <!-- ══════════════ 데이터별 탭 ══════════════ -->
+      <!-- ═══════════════════════════════════════════════════ -->
+      <div class="section dataset-tabs" id="tabs">
+        <h2 class="section-title">🧭 데이터별 실습 — 탭을 눌러 보세요</h2>
 
-        <p style="font-size:14px; color:var(--text2); margin-bottom:20px;">
-          독립기념관 국외사적지 데이터는 위도·경도가 이미 있어서 바로 지도에 찍을 수 있어요.<br>
-          하지만 공공데이터 특성상 빈 값이나 기호 같은 '방해 요소'가 많습니다. 에러 없는 지도를 위해 단계별로 완벽하게 정제해 봐요.
-        </p>
+        <div class="tab-bar" role="tablist">
+          <button class="tab-btn t-a" role="tab" aria-selected="true" data-tab="a" onclick="showTab('a')">
+            <span class="tb-tag">A · 정제</span>
+            <span class="tb-name">🗺️ 독립운동 국외사적지</span>
+            <span class="tb-meta">좌표 있음 · 지저분함</span>
+          </button>
+          <button class="tab-btn t-b" role="tab" aria-selected="false" data-tab="b" onclick="showTab('b')">
+            <span class="tb-tag">B · 필터링</span>
+            <span class="tb-name">🏫 전국 학교 위치</span>
+            <span class="tb-meta">12,011건 · 깨끗함</span>
+          </button>
+          <button class="tab-btn t-c" role="tab" aria-selected="false" data-tab="c" onclick="showTab('c')">
+            <span class="tb-tag">C · 지오코딩</span>
+            <span class="tb-name">🐾 고양시 동물병원</span>
+            <span class="tb-meta">좌표 없음 · API 필요</span>
+          </button>
+        </div>
 
-        <div class="step-list">
+        <!-- ───────────── TAB A ───────────── -->
+        <div class="tab-panel p-a show" id="panel-a" role="tabpanel">
+          <div class="ds-head">
+            <h3>🗺️ A · 독립운동 국외사적지</h3>
+            <p>해외에 남아 있는 독립운동 관련 사적지. <strong>위도·경도는 있지만 글자가 섞여 있어 그대로는 못 씁니다.</strong> 오늘 배울 <strong>정제(cleaning)</strong>의 교과서 같은 데이터입니다.</p>
+            <span class="ds-file">독립기념관_국외사적지_사적지관리.csv · cp949</span>
+          </div>
 
-          <!-- STEP 1 -->
-          <div class="step-item">
-            <div class="step-head">
-              <div class="step-num">1</div>
-              <div class="step-title">기본 지도 띄우기</div>
-            </div>
-            <div class="step-body">
-              <p>기초 설정에서 설치한 folium으로 세계 지도를 화면에 띄워봐요.</p>
-              <div style="margin-bottom:14px;">
-                <table style="width:100%; font-size:13px;">
-                  <tr><th style="width:40%;">코드</th><th>역할</th></tr>
-                  <tr><td><code>folium.Map()</code></td><td>지도 객체를 만들어요. 여기서 중심 위치와 줌 레벨을 정해요.</td></tr>
-                  <tr><td><code>location=[위도, 경도]</code></td><td>지도의 중심을 어디로 할지 정해요. 숫자 순서가 중요해요!</td></tr>
-                  <tr><td><code>zoom_start=3</code></td><td>처음 열릴 때 확대 수준이에요. 숫자가 클수록 가까이 보여요.</td></tr>
-                  <tr><td><code>display(m)</code></td><td>만든 지도를 화면에 출력해요.</td></tr>
-                </table>
-              </div>
+          <div class="ribbon">
+            <div class="rb"><div class="rn">STEP ①</div><div class="rt">불러오기</div><div class="rx">cp949</div></div>
+            <div class="rb"><div class="rn">STEP ②</div><div class="rt">정제 4단계</div><div class="rx">'없음' · ° 제거</div></div>
+            <div class="rb"><div class="rn">STEP ③</div><div class="rt">마커 1개</div><div class="rx">상하이 임시정부</div></div>
+            <div class="rb"><div class="rn">STEP ④</div><div class="rt">전체 지도</div><div class="rx">MarkerCluster</div></div>
+            <div class="rb"><div class="rn">STEP ⑤</div><div class="rt">심화</div><div class="rx">popup 꾸미기</div></div>
+          </div>
+
+          <h4 class="step-h"><span class="sn">1</span>데이터 불러오기</h4>
+          <div class="code-block labeled">
+            <span class="code-label">A-1</span>
+            <button class="copy-btn">copy</button>
+<pre>files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/독립기념관_국외사적지_사적지관리.csv'</span>,
+                  recursive=<span class="bi">True</span>)
+<span class="fn">print</span>(files)        <span class="cm"># 파일을 찾았는지 먼저 확인!</span>
+
+df = pd.<span class="fn">read_csv</span>(files[<span class="num">0</span>], encoding=<span class="str">'cp949'</span>)
+<span class="fn">print</span>(df.shape)
+df.<span class="fn">head</span>(<span class="num">3</span>)</pre>
+          </div>
+          <div class="tip"><strong>💡 팁</strong> <code>print(files)</code>가 <code>[]</code>(빈 목록)이면 파일을 못 찾은 것입니다. <strong>다음 줄로 넘어가지 말고 여기서 해결</strong>하세요.</div>
+          <div class="note"><strong>📝 왜 <code>cp949</code>?</strong> 예전에 한국에서 만든 CSV는 대부분 <code>cp949</code>(윈도우 한글) 방식입니다. B 탭의 학교 데이터는 <code>utf-8-sig</code>라서 <strong>여기를 반드시 바꿔야 합니다.</strong></div>
+
+          <h4 class="step-h"><span class="sn">2</span>정제 4단계 — 하나씩 뜯어봅니다</h4>
+          <p>위도 칸을 들여다보면 <code>'없음'</code>이라는 <strong>글자</strong>와 <code>31.219272°</code>처럼 <strong>도(°) 기호</strong>가 섞여 있습니다. 이대로는 지도에 찍을 수 없습니다.</p>
+          <div class="warn"><strong>⚠️ 왜 네 덩어리로 나누어 배우나요?</strong> 코드를 한 번에 붙여 놓으면 <strong>복사만 하고 넘어가게</strong> 됩니다. 그런데 <strong>여러분이 다음에 만날 데이터에는 이 코드가 그대로 안 먹힙니다.</strong> 각 단계가 <strong>무엇을, 왜</strong> 하는지 알아야 내 데이터에 맞게 고쳐 쓸 수 있습니다.</div>
+
+          <h5 style="font-size:14.5px;font-weight:700;margin:24px 0 8px">0단계 &nbsp;· &nbsp;코드를 쓰기 전에, 눈으로 먼저 봅니다</h5>
+          <p>정제는 <strong>"무엇이 들어 있는지 본 다음"</strong> 시작합니다. 보지 않고 코드부터 쓰면, 지워야 할 것을 못 지우고 지우지 말아야 할 것을 지웁니다.</p>
+          <div class="code-block labeled">
+            <span class="code-label">A-2-0 · 먼저 들여다보기</span>
+            <button class="copy-btn">copy</button>
+<pre><span class="cm"># 위도 칸에 실제로 어떤 값들이 들어 있나?</span>
+<span class="fn">print</span>(df[<span class="str">'위도'</span>].dtype)              <span class="cm"># object = 글자로 저장되어 있다는 뜻</span>
+<span class="fn">print</span>(df[<span class="str">'위도'</span>].<span class="fn">unique</span>()[:<span class="num">20</span>])      <span class="cm"># 서로 다른 값 20개만 뽑아 보기</span></pre>
+          </div>
+          <div class="result"><span class="result-label">실행 결과 (예시)</span>object
+['31.219272°' '39.0194°' '없음' '41.7972°' ... ]
+→ 숫자 뒤에 ° 가 붙어 있고, '없음' 이라는 글자도 섞여 있다.</div>
+
+          <!-- ① -->
+          <div class="mstep">
+            <div class="mstep-head"><span class="mn">①</span><span class="mt">숫자가 아닌 '글자'를 빈값으로 바꾸기</span></div>
+            <div class="mstep-body">
+              <div class="mrow"><span class="ml ml-why">왜?</span><div>사람이 손으로 입력한 표에는 <strong>"모른다"는 뜻의 글자</strong>가 들어갑니다. 컴퓨터는 <code>'없음'</code>을 숫자로 읽지 못합니다. 먼저 <strong>"이건 값이 없는 칸"</strong>이라고 표시해 줘야 합니다.</div></div>
               <div class="code-block">
-                <div class="code-label">Python</div>
-                <pre><span class="cm"># location=[위도, 경도] — 지도 중심 위치 (아시아 중심으로 설정)
-# zoom_start — 숫자가 클수록 더 가까이 (1~18)</span>
-m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>)
-<span class="fn">display</span>(m)</pre>
+                <button class="copy-btn">copy</button>
+<pre>df[<span class="str">'위도'</span>] = df[<span class="str">'위도'</span>].<span class="fn">replace</span>(<span class="str">'없음'</span>, pd.NA)
+df[<span class="str">'경도'</span>] = df[<span class="str">'경도'</span>].<span class="fn">replace</span>(<span class="str">'없음'</span>, pd.NA)</pre>
               </div>
-              <div class="output-label">실행 결과</div>
-              <div class="output-box">마우스로 확대·축소·이동이 가능한 세계 지도가 나타나요!</div>
-              <div class="tip">
-                <strong>💡 zoom_start 값</strong><br>
-                2 = 세계 전체 / 6 = 한국 전체 / 10 = 도시 수준 / 15 = 동네 수준
-              </div>
+              <div class="mrow"><span class="ml ml-fail">안 하면</span><div><code>ValueError: could not convert string to float: '없음'</code> — "'없음'을 숫자로 못 바꾸겠다"는 뜻입니다.</div></div>
+              <div class="mrow"><span class="ml ml-any">다른 데이터</span><div>데이터마다 쓰는 말이 다릅니다. <code>'-'</code> · <code>'미상'</code> · <code>'해당없음'</code> · <code>'N/A'</code> · <code>'.'</code> · 빈 칸 · 심지어 <code>0</code>. <strong>그래서 0단계에서 <code>unique()</code>로 먼저 봐야 합니다.</strong> 이 줄은 데이터마다 바뀝니다.</div></div>
+              <div class="mrow"><span class="ml ml-ask">물어보기</span><div class="pbox"><button class="copy-btn">copy</button><pre>내 CSV의 '위도' 컬럼에 숫자가 아닌 값이 섞여 있는지 확인하고 싶어.
+고유값을 개수와 함께 보여 주고,
+숫자로 바꿀 수 없는 값만 따로 목록으로 뽑아 줘.
+pandas 코드로, 줄마다 한국어 주석을 달아 줘.</pre></div></div>
             </div>
           </div>
 
-          <!-- STEP 2 -->
-          <div class="step-item">
-            <div class="step-head">
-              <div class="step-num">2</div>
-              <div class="step-title">마커 하나 찍기</div>
-            </div>
-            <div class="step-body">
-              <p>지도 위에 핀(마커)을 찍고, 클릭하거나 마우스를 올리면 정보가 뜨게 해봐요.</p>
-              <div style="margin-bottom:14px;">
-                <table style="width:100%; font-size:13px;">
-                  <tr><th style="width:40%;">파라미터</th><th>역할</th></tr>
-                  <tr><td><code>location=[위도, 경도]</code></td><td>마커를 찍을 위치예요.</td></tr>
-                  <tr><td><code>popup='...'</code></td><td>마커를 <strong>클릭</strong>하면 나타나는 설명이에요.</td></tr>
-                  <tr><td><code>tooltip='...'</code></td><td>마커에 <strong>마우스를 올리면</strong> 나타나는 이름이에요.</td></tr>
-                  <tr><td><code>icon=folium.Icon(color='red')</code></td><td>마커 색깔을 바꿀 수 있어요. (옵션)</td></tr>
-                  <tr><td><code>.add_to(m)</code></td><td>만든 마커를 지도 m에 추가해요. 이 줄이 없으면 지도에 안 찍혀요!</td></tr>
-                </table>
-              </div>
+          <!-- ② -->
+          <div class="mstep">
+            <div class="mstep-head"><span class="mn">②</span><span class="mt">숫자에 붙어 있는 기호 지우기</span></div>
+            <div class="mstep-body">
+              <div class="mrow"><span class="ml ml-why">왜?</span><div><code>31.219272°</code>는 <strong>사람 눈에는</strong> 숫자입니다. 컴퓨터에게는 <code>°</code> 하나 때문에 <strong>글자 덩어리</strong>입니다. 기호를 떼어 내야 비로소 숫자가 됩니다.</div></div>
               <div class="code-block">
-                <div class="code-label">Python</div>
-                <pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>)
+                <button class="copy-btn">copy</button>
+<pre><span class="cm"># astype(str) : 일단 전부 글자로 통일해야 .str.replace 를 쓸 수 있다</span>
+df[<span class="str">'위도'</span>] = df[<span class="str">'위도'</span>].<span class="fn">astype</span>(<span class="fn">str</span>).str.<span class="fn">replace</span>(<span class="str">'°'</span>, <span class="str">''</span>, regex=<span class="bi">False</span>)
+df[<span class="str">'경도'</span>] = df[<span class="str">'경도'</span>].<span class="fn">astype</span>(<span class="fn">str</span>).str.<span class="fn">replace</span>(<span class="str">'°'</span>, <span class="str">''</span>, regex=<span class="bi">False</span>)</pre>
+              </div>
+              <div class="mrow"><span class="ml ml-fail">안 하면</span><div>오류는 안 납니다. <strong>더 무섭습니다.</strong> ③단계에서 전부 빈값이 되고, ④단계에서 <strong>전부 삭제</strong>됩니다. → <em>"데이터가 0줄이 됐어요"</em>의 진짜 원인이 대부분 여기입니다.</div></div>
+              <div class="mrow"><span class="ml ml-any">다른 데이터</span><div><code>1,234</code>의 쉼표 · <code>35%</code>의 퍼센트 · <code>12,000원</code> · <code>5.2km</code> · 눈에 안 보이는 <strong>앞뒤 공백</strong>. 붙어 있는 기호가 무엇이냐만 다를 뿐, <strong>하는 일은 똑같습니다.</strong></div></div>
+              <div class="mrow"><span class="ml ml-ask">물어보기</span><div class="pbox"><button class="copy-btn">copy</button><pre>'위도' 컬럼 값에 숫자·소수점·마이너스 말고
+어떤 문자가 섞여 있는지 전부 찾아 줘.
+그 문자들을 제거하는 pandas 코드도 함께 줘.
+줄마다 한국어 주석을 달아 줘.</pre></div></div>
+            </div>
+          </div>
 
-<span class="cm"># 상하이 대한민국임시정부 청사 위치</span>
+          <!-- ③ -->
+          <div class="mstep">
+            <div class="mstep-head"><span class="mn">③</span><span class="mt">글자를 진짜 숫자로 바꾸기</span></div>
+            <div class="mstep-body">
+              <div class="mrow"><span class="ml ml-why">왜?</span><div>①②를 거쳐도 아직 <strong>"숫자처럼 생긴 글자"</strong>입니다. folium은 <strong>숫자만</strong> 받습니다. 여기서 진짜 숫자(<code>float</code>)로 바꿉니다.</div></div>
+              <div class="code-block">
+                <button class="copy-btn">copy</button>
+<pre><span class="cm"># errors='coerce' : 못 바꾸는 값은 오류를 내지 말고 빈값으로 두라는 뜻</span>
+df[<span class="str">'위도'</span>] = pd.<span class="fn">to_numeric</span>(df[<span class="str">'위도'</span>], errors=<span class="str">'coerce'</span>)
+df[<span class="str">'경도'</span>] = pd.<span class="fn">to_numeric</span>(df[<span class="str">'경도'</span>], errors=<span class="str">'coerce'</span>)
+
+<span class="fn">print</span>(df[<span class="str">'위도'</span>].dtype)     <span class="cm"># float64 가 나와야 성공</span></pre>
+              </div>
+              <div class="mrow"><span class="ml ml-ok">숨은 역할</span><div><code>errors='coerce'</code>는 <strong>안전망</strong>입니다. ①②에서 미처 못 잡은 이상한 값이 여기서 조용히 빈값이 됩니다. 그래서 ④단계가 꼭 필요합니다.</div></div>
+              <div class="mrow"><span class="ml ml-fail">안 하면</span><div>지도에 마커가 하나도 안 찍히거나 <code>TypeError</code>가 납니다. <strong>지도가 안 뜨면 가장 먼저 <code>dtype</code>을 확인하세요.</strong></div></div>
+              <div class="mrow"><span class="ml ml-any">다른 데이터</span><div>이 줄은 <strong>거의 바뀌지 않습니다.</strong> 컬럼 이름만 바꾸면 어떤 데이터에도 그대로 씁니다. 날짜라면 <code>pd.to_datetime()</code>으로 짝을 이룹니다.</div></div>
+              <div class="mrow"><span class="ml ml-ask">물어보기</span><div class="pbox"><button class="copy-btn">copy</button><pre>'위도','경도' 컬럼을 숫자형으로 바꿔 줘.
+바꾸다 실패한 값이 몇 개이고 어떤 값이었는지도 함께 출력해 줘.</pre></div></div>
+            </div>
+          </div>
+
+          <!-- ④ -->
+          <div class="mstep">
+            <div class="mstep-head"><span class="mn">④</span><span class="mt">끝까지 빈값인 줄 버리기</span></div>
+            <div class="mstep-body">
+              <div class="mrow"><span class="ml ml-why">왜?</span><div>좌표가 없으면 <strong>지도 위 어디에도 놓을 수 없습니다.</strong> 그 줄은 지도를 그리는 동안만 빼 둡니다.</div></div>
+              <div class="code-block">
+                <button class="copy-btn">copy</button>
+<pre>이전 = <span class="fn">len</span>(df)                                 <span class="cm"># 버리기 전에 세어 둔다</span>
+
+df.<span class="fn">dropna</span>(subset=[<span class="str">'위도'</span>, <span class="str">'경도'</span>], inplace=<span class="bi">True</span>)
+
+<span class="fn">print</span>(<span class="str">'버리기 전:'</span>, 이전, <span class="str">'줄'</span>)
+<span class="fn">print</span>(<span class="str">'버린 줄  :'</span>, 이전 - <span class="fn">len</span>(df), <span class="str">'줄'</span>)
+<span class="fn">print</span>(<span class="str">'남은 줄  :'</span>, <span class="fn">len</span>(df), <span class="str">'줄'</span>)</pre>
+              </div>
+              <div class="mrow"><span class="ml ml-ok">꼭 셀 것</span><div><strong>몇 줄을 버렸는지 반드시 세어서 적어 두세요.</strong> 200줄 중 3줄을 버린 것과 <strong>150줄을 버린 것</strong>은 완전히 다른 이야기입니다.</div></div>
+              <div class="mrow"><span class="ml ml-fail">안 하면</span><div>마커를 찍는 <code>for문</code>에서 <code>ValueError: Location values cannot contain NaNs</code>가 납니다.</div></div>
+              <div class="mrow"><span class="ml ml-any">다른 데이터</span><div><strong>무조건 버리는 게 정답은 아닙니다.</strong> 주소가 있다면 <strong>버리지 말고 지오코딩으로 채우는 것</strong>이 낫습니다 → C 탭. "버릴까 채울까"를 <strong>정하는 것</strong>이 ④단계의 진짜 일입니다.</div></div>
+              <div class="mrow"><span class="ml ml-ask">물어보기</span><div class="pbox"><button class="copy-btn">copy</button><pre>좌표가 비어 있는 행을 지우려고 해.
+지우기 전 행 수, 지운 행 수, 지운 뒤 행 수를 출력하고,
+지워진 행의 이름 컬럼도 목록으로 보여 줘.</pre></div></div>
+            </div>
+          </div>
+
+          <div class="warn"><strong>⚠️ 순서가 중요합니다</strong> ②를 먼저 하면 <code>'없음'</code>이 그대로 남고, ③을 ②보다 먼저 하면 <code>°</code> 때문에 <strong>전부 빈값</strong>이 됩니다. <strong>①②③④ 순서를 지키세요.</strong><br>
+          기억법 — <strong>글자 치우고(①) → 기호 떼고(②) → 숫자로 바꾸고(③) → 남은 빈칸 정리(④)</strong></div>
+          <div class="info"><strong>🤔 생각해 보기</strong> 정제 후 줄 수가 줄었습니다. 버려진 줄들은 <strong>좌표를 모르는 사적지</strong>입니다. 지도에서 사라졌다는 것은 <strong>"존재하지 않는다"가 아니라 "우리가 위치를 모른다"</strong>는 뜻입니다. 지도에 없는 것을 없다고 말하면 안 되는 이유입니다.</div>
+
+          <h4 class="step-h"><span class="sn">3</span>기본 지도 + 마커 1개</h4>
+          <p>사적지는 <strong>중국·러시아·미국 등 해외</strong>에 있습니다. 그래서 지도 중심을 아시아 전체로 넓게 잡습니다.</p>
+          <div class="code-block labeled">
+            <span class="code-label">A-3</span>
+            <button class="copy-btn">copy</button>
+<pre><span class="cm"># location=[위도, 경도] · zoom_start 가 작을수록 넓게 보인다</span>
+m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>)
+
 folium.<span class="fn">Marker</span>(
     location=[<span class="num">31.219272</span>, <span class="num">121.46998</span>],
-    popup=<span class="str">'대한민국임시정부 상하이 청사'</span>,   <span class="cm"># 클릭하면 뜨는 설명</span>
-    tooltip=<span class="str">'임시정부 청사'</span>                <span class="cm"># 마우스 올리면 뜨는 이름</span>
+    popup=<span class="str">'대한민국임시정부 상하이 청사'</span>,
+    tooltip=<span class="str">'임시정부 청사'</span>
 ).<span class="fn">add_to</span>(m)
 
 <span class="fn">display</span>(m)</pre>
-              </div>
-              <table style="margin-top:12px;">
-                <tr><th>옵션</th><th>언제 뜨나요</th></tr>
-                <tr><td><code>popup</code></td><td>마커 클릭 시</td></tr>
-                <tr><td><code>tooltip</code></td><td>마우스 올릴 때</td></tr>
-              </table>
-              <div class="note" style="margin-top:12px;">
-                <strong>📝 직접 해봐요:</strong> 위도·경도를 다른 곳으로 바꿔봐요.<br>
-                예) 하얼빈 안중근 의거 현장: <code>[45.7, 126.6]</code>
-              </div>
-            </div>
           </div>
+          <table>
+            <tr><th style="width:30%">부분</th><th>하는 일</th></tr>
+            <tr><td><code>location=[위도, 경도]</code></td><td>지도의 <strong>가운데</strong>. 순서는 항상 위도 먼저</td></tr>
+            <tr><td><code>zoom_start</code></td><td><strong>3</strong>=아시아 전체, <strong>7</strong>=한 나라, <strong>12</strong>=도시, <strong>16</strong>=건물</td></tr>
+            <tr><td><code>popup</code></td><td>마커를 <strong>클릭</strong>했을 때 나오는 말풍선</td></tr>
+            <tr><td><code>tooltip</code></td><td>마커에 <strong>마우스를 올렸을</strong> 때 뜨는 짧은 글</td></tr>
+            <tr><td><code>.add_to(m)</code></td><td>만든 마커를 지도에 <strong>붙이기</strong>. 빼먹으면 아무것도 안 보입니다</td></tr>
+          </table>
+          <div class="ask"><strong>📝 해보기</strong> <code>zoom_start</code>를 1로, 다시 10으로 바꿔 보세요. 그리고 <code>location</code>을 <code>[31.2, 121.5]</code>(상하이)로 바꿔 보세요.</div>
 
-          <!-- STEP 3-1 -->
-          <div class="step-item">
-            <div class="step-head">
-              <div class="step-num">3-1</div>
-              <div class="step-title">데이터 파일 불러오기</div>
-            </div>
-            <div class="step-body">
-              <p>구글 드라이브에 저장된 국외사적지 CSV 데이터를 판다스 데이터프레임으로 가져옵니다.</p>
-              <div class="code-block">
-                <div class="code-label">Python</div>
-                <pre><span class="cm"># 구글 드라이브에서 파일 검색 후 파일 읽기</span>
-files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/독립기념관_국외사적지_사적지관리.csv'</span>, recursive=<span class="kw">True</span>)
-df = pd.<span class="fn">read_csv</span>(files[<span class="num">0</span>], encoding=<span class="str">'cp949'</span>)
+          <h4 class="step-h"><span class="sn">4</span>전체 사적지 지도 (MarkerCluster)</h4>
+          <div class="code-block labeled">
+            <span class="code-label">A-4</span>
+            <button class="copy-btn">copy</button>
+<pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>)
+cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(m)   <span class="cm"># 마커를 담을 '뭉치'를 먼저 만든다</span>
 
-<span class="fn">print</span>(<span class="str">"데이터 로드 완료! 데이터 크기:"</span>, df.shape)</pre>
-              </div>
-            </div>
-          </div>
-
-          <!-- 데이터 정제 도식화 -->
-          <div style="background:var(--surface2); border:1.5px solid var(--border); border-radius:12px; padding:18px 20px; margin-bottom:8px;">
-            <div style="font-size:12px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:12px;">📋 데이터 정제 4단계 흐름</div>
-            <div style="display:flex; align-items:stretch; gap:4px; overflow-x:auto; padding-bottom:4px;">
-              <div style="background:#fce7f3; border:2px solid #db2777; border-radius:8px; padding:10px 12px; text-align:center; white-space:nowrap; min-width:120px;">
-                <div style="font-size:10px; color:#9d174d; font-weight:700; margin-bottom:4px;">① '없음' 제거</div>
-                <code style="font-size:12px; color:#831843; font-weight:900;">.replace('없음', NA)</code>
-                <div style="font-size:10px; color:#9d174d; margin-top:4px;">텍스트 → 빈 값</div>
-              </div>
-              <div style="font-size:18px; color:#374151; font-weight:900; display:flex; align-items:center;">→</div>
-              <div style="background:#fef3c7; border:2px solid #d97706; border-radius:8px; padding:10px 12px; text-align:center; white-space:nowrap; min-width:120px;">
-                <div style="font-size:10px; color:#92400e; font-weight:700; margin-bottom:4px;">② 특수문자 제거</div>
-                <code style="font-size:12px; color:#78350f; font-weight:900;">.str.replace(°)</code>
-                <div style="font-size:10px; color:#92400e; margin-top:4px;">° 기호 삭제</div>
-              </div>
-              <div style="font-size:18px; color:#374151; font-weight:900; display:flex; align-items:center;">→</div>
-              <div style="background:#d1fae5; border:2px solid #059669; border-radius:8px; padding:10px 12px; text-align:center; white-space:nowrap; min-width:120px;">
-                <div style="font-size:10px; color:#065f46; font-weight:700; margin-bottom:4px;">③ 숫자 타입 변환</div>
-                <code style="font-size:12px; color:#064e3b; font-weight:900;">pd.to_numeric()</code>
-                <div style="font-size:10px; color:#065f46; margin-top:4px;">문자 → Float</div>
-              </div>
-              <div style="font-size:18px; color:#374151; font-weight:900; display:flex; align-items:center;">→</div>
-              <div style="background:#dbeafe; border:2px solid #2563eb; border-radius:8px; padding:10px 12px; text-align:center; white-space:nowrap; min-width:120px;">
-                <div style="font-size:10px; color:#1e40af; font-weight:700; margin-bottom:4px;">④ 빈 행 최종 제거</div>
-                <code style="font-size:12px; color:#1e3a8a; font-weight:900;">.dropna()</code>
-                <div style="font-size:10px; color:#1e40af; margin-top:4px;">NaN 행 삭제</div>
-              </div>
-            </div>
-            <div style="background:#1e293b; border-radius:8px; padding:10px 14px; margin-top:12px; font-size:12px; color:#e2e8f0; line-height:1.8;">
-              💡 <strong style="color:#f8fafc;">①과 ④는 둘 다 '제거'지만 역할이 달라요.</strong><br>
-              <span style="color:#94a3b8;">① '없음'은 <strong style="color:#f9a8d4;">텍스트</strong>라서 숫자로 인식이 안 돼요 → <strong style="color:#f9a8d4;">빈 값(NA)으로 교체</strong><br>
-              ④는 ①③ 과정을 거치고도 남아있는 <strong style="color:#86efac;">NaN 행</strong>을 → <strong style="color:#86efac;">완전히 삭제</strong></span>
-            </div>
-          </div>
-
-          <!-- STEP 3-2 -->
-          <div class="step-item">
-            <div class="step-head">
-              <div class="step-num">3-2</div>
-              <div class="step-title">데이터 정제 ① — '없음' 텍스트를 빈 값으로 교체</div>
-            </div>
-            <div class="step-body">
-              <p>위도와 경도 컬럼에 적혀 있는 글자 <code>'없음'</code>을 파이썬이 인식할 수 있는 공식 빈 값(결측치, <code>pd.NA</code>)으로 변경합니다.</p>
-              <div class="code-block">
-                <div class="code-label">Python</div>
-                <pre><span class="cm"># '없음'이라는 문자열을 판다스의 결측치(NA)로 교체</span>
-df[<span class="str">'위도'</span>] = df[<span class="str">'위도'</span>].<span class="fn">replace</span>(<span class="str">'없음'</span>, pd.NA)
-df[<span class="str">'경도'</span>] = df[<span class="str">'경도'</span>].<span class="fn">replace</span>(<span class="str">'없음'</span>, pd.NA)</pre>
-              </div>
-            </div>
-          </div>
-
-          <!-- STEP 3-3 -->
-          <div class="step-item">
-            <div class="step-head">
-              <div class="step-num">3-3</div>
-              <div class="step-title">데이터 정제 ② — 도 기호(°) 제거</div>
-            </div>
-            <div class="step-body">
-              <p>위경도 데이터 뒤에 붙어 있는 도 기호(<code>°</code>)를 문자열 치환 기능으로 제거해요.</p>
-              <div class="code-block">
-                <div class="code-label">Python</div>
-                <pre><span class="cm"># 문자열(str)로 바꾼 후, 도 기호(°)를 빈 칸으로 치환</span>
-df[<span class="str">'위도'</span>] = df[<span class="str">'위도'</span>].<span class="fn">astype</span>(<span class="fn">str</span>).str.<span class="fn">replace</span>(<span class="str">'°'</span>, <span class="str">''</span>, regex=<span class="kw">False</span>)
-df[<span class="str">'경도'</span>] = df[<span class="str">'경도'</span>].<span class="fn">astype</span>(<span class="fn">str</span>).str.<span class="fn">replace</span>(<span class="str">'°'</span>, <span class="str">''</span>, regex=<span class="kw">False</span>)</pre>
-              </div>
-            </div>
-          </div>
-
-          <!-- STEP 3-4 -->
-          <div class="step-item">
-            <div class="step-head">
-              <div class="step-num">3-4</div>
-              <div class="step-title">데이터 정제 ③ — 진짜 숫자 타입으로 변환하기</div>
-            </div>
-            <div class="step-body">
-              <p>텍스트 상태인 위도와 경도를 컴퓨터가 연산하고 지도에 표시할 수 있도록 소수점 숫자(Float) 타입으로 변환합니다. 변환 불가능한 값이 있다면 강제로 결측치(NaN)로 만듭니다.</p>
-              <div class="code-block">
-                <div class="code-label">Python</div>
-                <pre><span class="cm"># to_numeric을 통해 문자를 진짜 숫자형으로 변환 (errors='coerce'는 에러 발생 시 NaN 처리)</span>
-df[<span class="str">'위도'</span>] = pd.<span class="fn">to_numeric</span>(df[<span class="str">'위도'</span>], errors=<span class="str">'coerce'</span>)
-df[<span class="str">'경도'</span>] = pd.<span class="fn">to_numeric</span>(df[<span class="str">'경도'</span>], errors=<span class="str">'coerce'</span>)</pre>
-              </div>
-            </div>
-          </div>
-
-          <!-- STEP 3-5 -->
-          <div class="step-item">
-            <div class="step-head">
-              <div class="step-num">3-5</div>
-              <div class="step-title">데이터 정제 ④ — NaN 행 최종 제거</div>
-            </div>
-            <div class="step-body">
-              <p>①③ 과정을 거치고도 위도나 경도가 <code>NaN</code>인 행이 남아있어요. 이 행들은 지도에 마커를 찍을 수 없으니 완전히 삭제해요.</p>
-              <div class="code-block">
-                <div class="code-label">Python</div>
-                <pre><span class="cm"># dropna를 사용하여 위도나 경도가 비어있는 행을 한 번에 제거</span>
-df.<span class="fn">dropna</span>(subset=[<span class="str">'위도'</span>, <span class="str">'경도'</span>], inplace=<span class="kw">True</span>)</pre>
-              </div>
-              <div class="note">
-                <strong>💡 왜 이렇게 꼼꼼하게 정제할까요?</strong><br>
-                지도를 그리는 <code>folium.Marker</code>는 위도와 경도 값으로 <strong>순수한 숫자(Float)</strong>가 채워져 있어야만 에러 없이 정상 작동하기 때문입니다.
-              </div>
-            </div>
-          </div>
-
-          <!-- STEP 3-6 -->
-          <div class="step-item">
-            <div class="step-head">
-              <div class="step-num">3-6</div>
-              <div class="step-title">전체 데이터 지도 출력 + 마커 군집화</div>
-            </div>
-            <div class="step-body">
-              <p>정제된 데이터를 <code>for문</code>으로 돌며 모든 사적지에 마커를 찍어요. <code>MarkerCluster</code>로 밀집된 지역을 묶어줘요.</p>
-
-              <div style="font-size:12px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px;">셀 ① — 지도 생성</div>
-              <div class="code-block" style="margin-bottom:8px;">
-                <div class="code-label">Python</div>
-                <pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>)</pre>
-              </div>
-              <div style="background:var(--surface2); border:1px solid var(--border); border-radius:0 0 8px 8px; padding:8px 14px; font-size:13px; color:var(--text2); margin-bottom:14px;">
-                지도 객체를 만들어요. 아시아 중심(위도 30, 경도 100)으로 세계 지도를 열어요.
-              </div>
-
-              <div style="font-size:12px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px;">셀 ② — 클러스터 박스 생성</div>
-              <div class="code-block" style="margin-bottom:8px;">
-                <div class="code-label">Python</div>
-                <pre>cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(m)</pre>
-              </div>
-              <div style="background:var(--surface2); border:1px solid var(--border); border-radius:0 0 8px 8px; padding:8px 14px; font-size:13px; color:var(--text2); margin-bottom:14px;">
-                마커들을 묶어줄 클러스터 박스를 만들고 지도 m에 붙여요. 마커를 m이 아닌 cluster에 추가하면 자동으로 군집화돼요.
-              </div>
-
-              <div style="font-size:12px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px;">셀 ③ — for문으로 마커 찍기</div>
-              <div class="code-block">
-                <div class="code-label">Python</div>
-                <pre><span class="cm"># df의 모든 행을 한 줄씩 꺼내서 마커를 찍어요</span>
 <span class="kw">for</span> idx, row <span class="kw">in</span> df.<span class="fn">iterrows</span>():
     folium.<span class="fn">Marker</span>(
         location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
         popup=row[<span class="str">'사적지명(국문)'</span>],
         tooltip=row[<span class="str">'사적지명(국문)'</span>]
-    ).<span class="fn">add_to</span>(cluster)   <span class="cm"># m이 아닌 cluster에 추가해야 군집화돼요!</span></pre>
-              </div>
-              <div style="background:var(--surface2); border:1px solid var(--border); border-radius:0 0 8px 8px; padding:8px 14px; font-size:13px; color:var(--text2); margin-bottom:14px;">
-                <code>df.iterrows()</code> — 데이터프레임을 한 행씩 꺼내요.<br>
-                <code>row['위도']</code> — 그 행의 위도 값이에요.<br>
-                <code>.add_to(cluster)</code> — m 대신 cluster에 추가해야 군집화가 돼요. m에 직접 추가하면 마커가 전부 따로 찍혀요.
-              </div>
+    ).<span class="fn">add_to</span>(cluster)          <span class="cm"># ← m 이 아니라 cluster 에 붙인다!</span>
 
-              <div style="font-size:12px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px; margin-top:14px;">셀 ② — 지도 출력</div>
-              <div class="code-block">
-                <div class="code-label">Python</div>
-                <pre><span class="fn">display</span>(m)</pre>
-              </div>
-
-              <div class="output-label">실행 결과</div>
-              <div class="output-box">중국, 미국, 일본 등 전 세계에 퍼져 있는 독립운동 사적지들이 숫자가 적힌 원(클러스터)으로 묶여 표시돼요. 줌인하면 원이 풀리며 개별 마커들이 보여요.</div>
-              <div class="tip">
-                <strong>💡</strong> 중국 쪽을 줌인해봐요. 상하이 임시정부, 윤봉길 의거 장소 등 구체적인 사적지들이 보여요!
-              </div>
-            </div>
+<span class="fn">display</span>(m)</pre>
           </div>
+          <div class="warn"><strong>⚠️ 가장 많이 하는 실수</strong> <code>.add_to(m)</code>이라고 쓰면 클러스터가 작동하지 않습니다. 반드시 <code>.add_to(cluster)</code>입니다.</div>
+          <div class="info"><strong>🤔 생각해 보기</strong> 뭉치 숫자가 가장 큰 나라는 어디인가요? 왜 그 나라에 사적지가 많을까요?</div>
 
-        </div>
-      </div><!-- Part 2 -->
-      <div id="part2" class="section">
-        <h2 class="section-title">🐾 Part 2 — 고양시 동물병원 지오코딩</h2>
-
-        <p style="font-size:14px; color:var(--text2); margin-bottom:20px;">
-          동물병원 데이터에는 주소만 있고 위도·경도가 없어요.<br>
-          카카오 API로 주소를 위도·경도로 변환한 뒤 지도에 찍어봐요.
-        </p>
-
-        <!-- Part 2 전체 흐름 도식 -->
-        <div style="background:var(--surface2); border:1.5px solid var(--border); border-radius:12px; padding:18px 20px; margin-bottom:24px;">
-          <div style="font-size:12px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:14px;">🗺️ Part 2 전체 흐름</div>
-
-          <!-- 가로 파이프라인 -->
-          <div style="display:flex; align-items:stretch; gap:4px; overflow-x:auto; padding-bottom:8px; margin-bottom:16px;">
-            <div style="background:#f3e8ff; border:2px solid #9333ea; border-radius:8px; padding:10px 12px; text-align:center; white-space:nowrap; min-width:110px;">
-              <div style="font-size:10px; color:#6b21a8; font-weight:700; margin-bottom:4px;">STEP 4</div>
-              <div style="font-size:18px; margin-bottom:2px;">🔑</div>
-              <div style="font-size:11px; color:#581c87; font-weight:700;">API 키 입력</div>
-              <div style="font-size:10px; color:#7c3aed; margin-top:2px;">REST API 키</div>
-            </div>
-            <div style="font-size:18px; color:#374151; font-weight:900; display:flex; align-items:center; flex-shrink:0;">→</div>
-            <div style="background:#d1fae5; border:2px solid #059669; border-radius:8px; padding:10px 12px; text-align:center; white-space:nowrap; min-width:110px;">
-              <div style="font-size:10px; color:#065f46; font-weight:700; margin-bottom:4px;">STEP 5-1</div>
-              <div style="font-size:18px; margin-bottom:2px;">📂</div>
-              <div style="font-size:11px; color:#064e3b; font-weight:700;">데이터 불러오기</div>
-              <div style="font-size:10px; color:#059669; margin-top:2px;">동물병원 CSV</div>
-            </div>
-            <div style="font-size:18px; color:#374151; font-weight:900; display:flex; align-items:center; flex-shrink:0;">→</div>
-            <div style="background:#dbeafe; border:2px solid #2563eb; border-radius:8px; padding:10px 12px; text-align:center; white-space:nowrap; min-width:110px;">
-              <div style="font-size:10px; color:#1e40af; font-weight:700; margin-bottom:4px;">STEP 5-2</div>
-              <div style="font-size:18px; margin-bottom:2px;">⚙️</div>
-              <div style="font-size:11px; color:#1e3a8a; font-weight:700;">변환 함수 만들기</div>
-              <div style="font-size:10px; color:#2563eb; margin-top:2px;">kakao_geocoding()</div>
-            </div>
-            <div style="font-size:18px; color:#374151; font-weight:900; display:flex; align-items:center; flex-shrink:0;">→</div>
-            <div style="background:#fef3c7; border:2px solid #d97706; border-radius:8px; padding:10px 12px; text-align:center; white-space:nowrap; min-width:110px;">
-              <div style="font-size:10px; color:#92400e; font-weight:700; margin-bottom:4px;">STEP 5-3</div>
-              <div style="font-size:18px; margin-bottom:2px;">📍</div>
-              <div style="font-size:11px; color:#78350f; font-weight:700;">주소 → 위도·경도</div>
-              <div style="font-size:10px; color:#d97706; margin-top:2px;">.apply() → CSV 저장</div>
-            </div>
-            <div style="font-size:18px; color:#374151; font-weight:900; display:flex; align-items:center; flex-shrink:0;">→</div>
-            <div style="background:#fce7f3; border:2px solid #db2777; border-radius:8px; padding:10px 12px; text-align:center; white-space:nowrap; min-width:110px;">
-              <div style="font-size:10px; color:#9d174d; font-weight:700; margin-bottom:4px;">STEP 6</div>
-              <div style="font-size:18px; margin-bottom:2px;">🗺️</div>
-              <div style="font-size:11px; color:#831843; font-weight:700;">지도에 찍기</div>
-              <div style="font-size:10px; color:#db2777; margin-top:2px;">Part 1과 동일</div>
-            </div>
-          </div>
-
-          <!-- 핵심 개념 설명 -->
-          <div style="background:#1e293b; border-radius:8px; padding:12px 16px; font-size:13px; color:#e2e8f0; line-height:1.9;">
-            🤔 <strong style="color:#f8fafc;">왜 이렇게 복잡한가요?</strong><br>
-            <span style="color:#94a3b8;">Part 1의 독립운동 데이터는 위도·경도가 이미 있었어요.<br>
-            하지만 공공데이터 대부분은 <strong style="color:#fcd34d;">주소만</strong> 있고 위도·경도가 없어요.<br>
-            그래서 카카오 API한테 "이 주소 위도·경도로 바꿔줘" 하고 요청하는 과정이 필요해요.<br>
-            이걸 <strong style="color:#86efac;">지오코딩(Geocoding)</strong>이라고 해요.</span>
-          </div>
+          <h4 class="step-h"><span class="sn">5</span>심화 — 이렇게 바꿔 보세요</h4>
+          <table>
+            <tr><th style="width:12%">난이도</th><th>도전 과제</th><th style="width:40%">힌트</th></tr>
+            <tr><td>⭐</td><td>배경 지도 바꾸기</td><td><code>folium.Map(..., tiles='CartoDB positron')</code></td></tr>
+            <tr><td>⭐</td><td>마커 색·아이콘 바꾸기</td><td><code>icon=folium.Icon(color='red', icon='flag')</code></td></tr>
+            <tr><td>⭐⭐</td><td>popup에 두 줄 넣기</td><td><code>popup=row['사적지명(국문)'] + '&lt;br&gt;' + str(row['주소'])</code> ※ 실제 컬럼명 확인</td></tr>
+            <tr><td>⭐⭐</td><td>어떤 컬럼들이 있는지 모두 보기</td><td><code>print(list(df.columns))</code> → 쓸 만한 칸을 찾아보세요</td></tr>
+          </table>
         </div>
 
-        <div class="step-list">
+        <!-- ───────────── TAB B ───────────── -->
+        <div class="tab-panel p-b" id="panel-b" role="tabpanel">
+          <div class="ds-head">
+            <h3>🏫 B · 전국 초·중·고 학교 위치</h3>
+            <p>전국 <strong>12,011개교</strong>의 위치. 좌표가 <strong>이미 완벽하게</strong> 들어 있어서 정제할 게 없습니다. 대신 <strong>"너무 많다"</strong>는 새로운 문제가 생깁니다. 여기서는 <strong>필터링과 성능</strong>을 배웁니다.</p>
+            <span class="ds-file">한국교육시설안전원_초중등학교위치.csv · utf-8-sig · 12,011행 × 18열</span>
+          </div>
 
-          <!-- STEP 4 -->
-          <div class="step-item">
-            <div class="step-head">
-              <div class="step-num">4</div>
-              <div class="step-title">카카오 REST API 키 입력하기</div>
-            </div>
-            <div class="step-body">
-              <p>선생님한테 받은 REST API 키를 아래 코드에 붙여넣어요.</p>
-              <div class="warn">
-                <strong>⚠️ JavaScript 키 ❌ → REST API 키 ✅</strong><br>
-                카카오 디벨로퍼스에서 앱을 선택하면 키 종류가 여러 개 나와요.<br>
-                반드시 <strong>REST API 키</strong>를 복사해서 사용하세요.
+          <div class="ribbon">
+            <div class="rb"><div class="rn">STEP ①</div><div class="rt">불러오기</div><div class="rx">utf-8-sig ⚠️</div></div>
+            <div class="rb"><div class="rn">STEP ②</div><div class="rt">점검 4단계</div><div class="rx">정제 대신 확인</div></div>
+            <div class="rb"><div class="rn">STEP ③</div><div class="rt">마커 1개</div><div class="rx">우리 학교</div></div>
+            <div class="rb"><div class="rn">STEP ④</div><div class="rt">범위 3단 확장</div><div class="rx">고양→경기→전국</div></div>
+            <div class="rb"><div class="rn">STEP ⑤</div><div class="rt">심화</div><div class="rx">색 구분 · 역지오코딩</div></div>
+          </div>
+
+          <h4 class="step-h"><span class="sn">1</span>데이터 불러오기</h4>
+          <div class="warn"><strong>⚠️ A 탭과 다른 점 — 여기가 제일 중요합니다</strong> 이 파일은 <code>encoding=<strong>'utf-8-sig'</strong></code>입니다. A 탭의 <code>cp949</code>를 그대로 쓰면 <code>UnicodeDecodeError</code>가 납니다.</div>
+          <div class="code-block labeled">
+            <span class="code-label">B-1</span>
+            <button class="copy-btn">copy</button>
+<pre>files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/한국교육시설안전원_초중등학교위치.csv'</span>,
+                  recursive=<span class="bi">True</span>)
+<span class="fn">print</span>(files)
+
+df = pd.<span class="fn">read_csv</span>(files[<span class="num">0</span>], encoding=<span class="str">'utf-8-sig'</span>)   <span class="cm"># ← cp949 아님!</span>
+<span class="fn">print</span>(df.shape)
+<span class="fn">print</span>(<span class="fn">list</span>(df.columns))
+df.<span class="fn">head</span>(<span class="num">3</span>)</pre>
+          </div>
+          <div class="result"><span class="result-label">실행 결과</span>(12011, 18)
+['학교ID', '학교명', '학교급구분', '설립일자', '설립형태', '본교분교구분', '운영상태',
+ '소재지지번주소', '소재지도로명주소', '시도교육청코드', '시도교육청명', '교육지원청코드',
+ '교육지원청명', '생성일자', '변경일자', '위도', '경도', '데이터기준일자']</div>
+
+          <h5 style="font-size:14.5px;font-weight:700;margin:22px 0 8px">쓸 만한 칸 고르기 — 18개 중 이 9개</h5>
+          <table>
+            <tr><th style="width:26%">컬럼</th><th style="width:30%">값의 모습</th><th>이렇게 씁니다</th></tr>
+            <tr><td><code>학교명</code></td><td>고양국제고등학교</td><td><code>popup</code>·<code>tooltip</code></td></tr>
+            <tr><td><code>위도</code> <code>경도</code></td><td>37.684587 / 126.808645</td><td>마커 위치. <strong>이미 숫자, 결측 0개</strong></td></tr>
+            <tr><td><code>학교급구분</code></td><td>초등 6,303 · 중 3,312 · 고 2,396</td><td><strong>색 구분</strong>, 레이어 나누기</td></tr>
+            <tr><td><code>설립형태</code></td><td>공립 10,306 · 사립 1,660 · 국립 45</td><td>"사립고는 어디에 많을까"</td></tr>
+            <tr><td><code>본교분교구분</code></td><td>본교 11,892 · <strong>분교 119</strong></td><td>분교만 찍기 → 인구 감소 이야기</td></tr>
+            <tr><td><code>설립일자</code></td><td>1882-09-08 ~ 2026-03-01</td><td>개교연도 추출 → 신설 학교 지도</td></tr>
+            <tr><td><code>교육지원청명</code></td><td>경기도고양교육지원청</td><td><strong>가장 정확한 지역 필터</strong></td></tr>
+            <tr><td><code>시도교육청명</code></td><td>경기도교육청 (전국 17개)</td><td>시·도 단위 필터</td></tr>
+            <tr><td><code>소재지도로명주소</code></td><td>경기도 고양시 일산동구 위시티4로 112</td><td>popup 상세. <strong>12건 비어 있음 → ⑤단계</strong></td></tr>
+          </table>
+
+          <h4 class="step-h"><span class="sn">2</span>점검 4단계 — 하나씩 확인합니다</h4>
+          <p><strong>A 탭에서는 지웠지만, 여기서는 확인만 합니다.</strong> 이 데이터는 이미 깨끗하기 때문입니다. 그래도 <strong>확인은 반드시 합니다.</strong> "깨끗하더라"를 <strong>확인한</strong> 사람과 "깨끗할 거야"라고 <strong>믿은</strong> 사람은 다릅니다.</p>
+          <div class="warn"><strong>⚠️ 점검을 건너뛰면</strong> 지도가 이상하게 나왔을 때 <strong>어디서 잘못됐는지 찾을 수 없습니다.</strong> 4단계는 <strong>문제가 없는지 보는 절차</strong>가 아니라, <strong>문제가 생겼을 때 되짚어 갈 발자국</strong>을 남기는 일입니다.</div>
+          <div class="tbl-scroll"><table>
+            <tr><th style="width:8%"></th><th style="width:32%">A 탭에서는 (정제)</th><th>B 탭에서는 (점검)</th></tr>
+            <tr><td><strong>①</strong></td><td><code>'없음'</code> → NA</td><td><strong>모양</strong> — 내가 연 파일이 맞나</td></tr>
+            <tr><td><strong>②</strong></td><td><code>°</code> 삭제</td><td><strong>결측</strong> — 어디가 비었나</td></tr>
+            <tr><td><strong>③</strong></td><td><code>to_numeric</code></td><td><strong>자료형</strong> — 숫자인가 글자인가</td></tr>
+            <tr><td><strong>④</strong></td><td><code>dropna</code></td><td><strong>범위</strong> — 값이 말이 되나</td></tr>
+          </table></div>
+
+          <!-- ① -->
+          <div class="mstep">
+            <div class="mstep-head"><span class="mn">①</span><span class="mt">모양 — 내가 연 파일이 맞습니까?</span></div>
+            <div class="mstep-body">
+              <div class="mrow"><span class="ml ml-why">왜?</span><div>가장 흔한 사고는 <strong>엉뚱한 파일을 열어 놓고 한 시간을 쓰는 것</strong>입니다. 12,011줄이 나와야 하는데 3줄이 나왔다면, 그 자리에서 멈춰야 합니다.</div></div>
+              <div class="code-block">
+                <button class="copy-btn">copy</button>
+<pre><span class="fn">print</span>(<span class="str">'① 모양:'</span>, df.shape)          <span class="cm"># (행 수, 열 수)</span>
+<span class="fn">print</span>(<span class="fn">list</span>(df.columns))                 <span class="cm"># 어떤 칸이 있나</span>
+df.<span class="fn">head</span>(<span class="num">3</span>)                              <span class="cm"># 첫 3줄을 눈으로</span></pre>
               </div>
-              <table style="margin-top:12px;">
-                <tr><th>키 종류</th><th>용도</th><th>오늘 사용</th></tr>
-                <tr><td>앱 키 (JavaScript)</td><td>웹 지도 서비스</td><td>❌</td></tr>
-                <tr><td><strong>REST API 키</strong></td><td>서버 API 요청</td><td>✅</td></tr>
-                <tr><td>Native 앱 키</td><td>모바일 앱</td><td>❌</td></tr>
-              </table>
+              <div class="result"><span class="result-label">실행 결과</span>① 모양: (12011, 18)</div>
+              <div class="mrow"><span class="ml ml-fail">멈춰야 할 때</span><div>· 행 수가 예상과 다르다 → <strong>파일이 다르거나 일부만 열렸다</strong><br>· 컬럼 이름이 <code>Unnamed: 0</code> 뿐이다 → <strong>구분자·인코딩이 잘못됐다</strong><br>· 한글이 <code>ìœ„ë„</code> 처럼 깨진다 → <strong>인코딩을 바꿔야 한다</strong></div></div>
+              <div class="mrow"><span class="ml ml-any">다른 데이터</span><div>이 세 줄은 <strong>어떤 데이터를 열든 똑같이</strong> 씁니다. <strong>CSV를 읽은 다음 줄에는 항상 <code>shape</code>과 <code>head()</code></strong> — 습관으로 만드세요.</div></div>
+              <div class="mrow"><span class="ml ml-ask">물어보기</span><div class="pbox"><button class="copy-btn">copy</button><pre>이 CSV를 읽고 행·열 개수, 컬럼 이름 목록, 첫 3줄을 보여 줘.
+한글이 깨지면 utf-8-sig → cp949 → euc-kr 순서로 인코딩을 바꿔 가며
+시도하는 코드로 만들어 줘.</pre></div></div>
             </div>
           </div>
 
-          <!-- STEP 5-1 (순서 변경: 데이터 먼저) -->
-          <div class="step-item">
-            <div class="step-head">
-              <div class="step-num">5-1</div>
-              <div class="step-title">동물병원 데이터 불러오기</div>
-            </div>
-            <div class="step-body">
-              <p>주소가 담긴 동물병원 CSV를 불러와요. Part 1에서 독립운동 CSV 불러온 것과 동일한 방식이에요.</p>
+          <!-- ② -->
+          <div class="mstep">
+            <div class="mstep-head"><span class="mn">②</span><span class="mt">결측 — 어느 칸이 비어 있습니까?</span></div>
+            <div class="mstep-body">
+              <div class="mrow"><span class="ml ml-why">왜?</span><div>비어 있는 칸을 <strong>어떻게 할지 정해야</strong> 다음으로 갈 수 있습니다. 선택지는 셋뿐입니다 — <strong>버린다 / 채운다 / 그냥 둔다.</strong> 어디가 비었는지 모르면 이 선택 자체를 할 수 없습니다.</div></div>
               <div class="code-block">
-                <div class="code-label">Python</div>
-                <pre><span class="cm"># 동물병원 데이터 불러오기</span>
-files2 = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/경기도_고양시_동물병원현황.csv'</span>, recursive=<span class="kw">True</span>)
-df2 = pd.<span class="fn">read_csv</span>(files2[<span class="num">0</span>], encoding=<span class="str">'cp949'</span>)
+                <button class="copy-btn">copy</button>
+<pre><span class="fn">print</span>(df[[<span class="str">'학교명'</span>, <span class="str">'위도'</span>, <span class="str">'경도'</span>, <span class="str">'소재지도로명주소'</span>]].<span class="fn">isna</span>().<span class="fn">sum</span>())</pre>
+              </div>
+              <div class="result"><span class="result-label">실행 결과</span>학교명             0
+위도              0
+경도              0
+소재지도로명주소    12      ← 여기만 비어 있다</div>
+              <div class="mrow"><span class="ml ml-ok">판단하기</span><div>· <strong>좌표</strong>가 0개 → 그냥 진행<br>· <strong>도로명주소</strong> 12개 → 지도를 그리는 데는 상관없다. 하지만 popup에 쓰려면 <strong>채워야</strong> 한다 → ⑤단계 역지오코딩</div></div>
+              <div class="mrow"><span class="ml ml-fail">안 하면</span><div>popup에 <code>nan</code>이 그대로 뜹니다. 지도는 그려지지만 <strong>보는 사람은 오류로 받아들입니다.</strong></div></div>
+              <div class="mrow"><span class="ml ml-any">다른 데이터</span><div>같은 결측이라도 <strong>어느 칸이냐에 따라 대응이 다릅니다.</strong> 좌표가 비면 → 버리거나 지오코딩. 이름이 비면 → popup만 비워 둠. 숫자가 비면 → 평균? 0? <strong>0으로 채우는 건 대개 나쁜 선택</strong>입니다.</div></div>
+              <div class="mrow"><span class="ml ml-ask">물어보기</span><div class="pbox"><button class="copy-btn">copy</button><pre>각 컬럼의 결측(빈칸) 개수와 비율을 표로 보여 줘.
+결측이 있는 컬럼만 골라서 많은 순으로 정렬해 줘.
+그리고 각 컬럼을 '버린다 / 채운다 / 그냥 둔다' 중
+무엇으로 처리하면 좋을지 이유와 함께 제안해 줘.</pre></div></div>
+            </div>
+          </div>
+
+          <!-- ③ -->
+          <div class="mstep">
+            <div class="mstep-head"><span class="mn">③</span><span class="mt">자료형 — 숫자입니까, 글자입니까?</span></div>
+            <div class="mstep-body">
+              <div class="mrow"><span class="ml ml-why">왜?</span><div><strong>여기가 갈림길입니다.</strong> 이 한 줄의 결과에 따라 <strong>A 탭으로 돌아갈지, 그냥 진행할지</strong>가 정해집니다.</div></div>
+              <div class="code-block">
+                <button class="copy-btn">copy</button>
+<pre><span class="fn">print</span>(<span class="str">'③ 자료형:'</span>, df[<span class="str">'위도'</span>].dtype, df[<span class="str">'경도'</span>].dtype)</pre>
+              </div>
+              <div class="result"><span class="result-label">실행 결과</span>③ 자료형: float64 float64   ← 숫자. 정제 없이 통과!</div>
+              <div class="mrow"><span class="ml ml-ok">갈림길</span><div>· <code>float64</code> / <code>int64</code> → <strong>숫자입니다. ④단계로.</strong><br>· <code>object</code> → <strong>글자입니다. A 탭의 정제 ①②③을 그대로 가져와서 실행한 뒤 돌아오세요.</strong></div></div>
+              <div class="mrow"><span class="ml ml-any">다른 데이터</span><div>공공데이터는 <strong>절반 이상이 <code>object</code></strong>로 나옵니다. 오늘 B 데이터가 <code>float64</code>인 건 <strong>운이 좋은 편</strong>입니다. 그러니 A 탭의 정제 4단계는 <strong>예외가 아니라 기본</strong>이라고 생각하세요.</div></div>
+              <div class="mrow"><span class="ml ml-ask">물어보기</span><div class="pbox"><button class="copy-btn">copy</button><pre>모든 컬럼의 자료형을 보여 줘.
+숫자여야 하는데 글자(object)로 되어 있는 컬럼이 있으면 알려 주고,
+왜 글자로 읽혔는지 원인(섞여 있는 문자)까지 찾아 줘.</pre></div></div>
+            </div>
+          </div>
+
+          <!-- ④ -->
+          <div class="mstep">
+            <div class="mstep-head"><span class="mn">④</span><span class="mt">범위 — 값이 말이 됩니까?</span></div>
+            <div class="mstep-body">
+              <div class="mrow"><span class="ml ml-why">왜?</span><div><strong>숫자라고 해서 맞는 값은 아닙니다.</strong> <code>37.5</code>와 <code>127.0</code>이 뒤바뀌면 위치는 <strong>중국 신장 사막</strong>이 됩니다. 오류도 안 나고 지도도 잘 그려집니다. <strong>그래서 제일 위험합니다.</strong></div></div>
+              <div class="code-block">
+                <button class="copy-btn">copy</button>
+<pre><span class="fn">print</span>(<span class="str">'④ 위도:'</span>, df[<span class="str">'위도'</span>].<span class="fn">min</span>(), <span class="str">'~'</span>, df[<span class="str">'위도'</span>].<span class="fn">max</span>())
+<span class="fn">print</span>(<span class="str">'④ 경도:'</span>, df[<span class="str">'경도'</span>].<span class="fn">min</span>(), <span class="str">'~'</span>, df[<span class="str">'경도'</span>].<span class="fn">max</span>())
+
+<span class="cm"># 우리나라 범위 : 위도 33~39, 경도 124~132</span>
+밖 = ~(df[<span class="str">'위도'</span>].<span class="fn">between</span>(<span class="num">33</span>, <span class="num">39</span>) &amp; df[<span class="str">'경도'</span>].<span class="fn">between</span>(<span class="num">124</span>, <span class="num">132</span>))
+<span class="fn">print</span>(<span class="str">'④ 한국 밖 좌표:'</span>, 밖.<span class="fn">sum</span>(), <span class="str">'개'</span>)</pre>
+              </div>
+              <div class="result"><span class="result-label">실행 결과</span>④ 위도: 33.169187 ~ 38.496963
+④ 경도: 124.661625 ~ 130.907353
+④ 한국 밖 좌표: 0 개</div>
+              <div class="mrow"><span class="ml ml-fail">흔한 사고</span><div>· <strong>위도·경도 뒤바뀜</strong> — 위도가 127이면 100% 뒤바뀐 것<br>· <strong>0, 0</strong> — 아프리카 앞바다. 값이 없을 때 0을 넣어 둔 데이터<br>· <strong>소수점 위치 오류</strong> — 3.75123 (37.5123 이어야 함)</div></div>
+              <div class="mrow"><span class="ml ml-any">다른 데이터</span><div>좌표가 아니어도 똑같이 씁니다. 나이 <code>0~120</code>, 시험 점수 <code>0~100</code>, 연도 <code>1900~올해</code>. <strong>"이 값이 가질 수 있는 최소·최대는?"</strong> 을 스스로 정하고 확인하는 것이 ④단계입니다.</div></div>
+              <div class="mrow"><span class="ml ml-ask">물어보기</span><div class="pbox"><button class="copy-btn">copy</button><pre>'위도'는 33~39, '경도'는 124~132 범위여야 해.
+이 범위를 벗어난 행이 있는지 찾아서 보여 줘.
+위도·경도가 서로 뒤바뀐 것으로 보이는 행도 함께 찾아 줘.</pre></div></div>
+            </div>
+          </div>
+
+          <div class="info"><strong>🤔 A 탭과 비교해 보세요</strong> 여기서는 <code>pd.to_numeric()</code>이 필요 없었습니다. ③단계에서 이미 <code>float64</code>였으니까요. 만약 <code>object</code>가 나왔다면? <strong>A 탭의 정제 4단계를 그대로 가져와야 합니다.</strong> 같은 ②단계인데 해야 할 일이 정반대입니다. — <strong>그래서 코드를 외우는 게 아니라 순서를 외우는 것입니다.</strong></div>
+
+          <h4 class="step-h"><span class="sn">3</span>기본 지도 + 마커 1개 (우리 학교)</h4>
+          <p>A 탭은 해외라서 <code>zoom_start=3</code>이었습니다. 여기는 한국이니 훨씬 크게 봅니다.</p>
+          <table>
+            <tr><th style="width:20%">보고 싶은 범위</th><th style="width:34%">location</th><th>zoom_start</th></tr>
+            <tr><td>전국</td><td><code>[36.45, 127.55]</code></td><td>7</td></tr>
+            <tr><td>경기도</td><td><code>[37.434, 127.027]</code></td><td>9</td></tr>
+            <tr><td>고양시</td><td><code>[37.659, 126.811]</code></td><td>12</td></tr>
+            <tr><td>학교 건물</td><td><code>[37.6846, 126.8086]</code></td><td>16</td></tr>
+          </table>
+          <div class="code-block labeled">
+            <span class="code-label">B-3</span>
+            <button class="copy-btn">copy</button>
+<pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">37.6846</span>, <span class="num">126.8086</span>], zoom_start=<span class="num">16</span>)
+
+folium.<span class="fn">Marker</span>(
+    location=[<span class="num">37.6846</span>, <span class="num">126.8086</span>],
+    popup=<span class="str">'고양국제고등학교 · 경기도 고양시 일산동구 위시티4로 112'</span>,
+    tooltip=<span class="str">'우리 학교'</span>
+).<span class="fn">add_to</span>(m)
+
+<span class="fn">display</span>(m)</pre>
+          </div>
+          <div class="ask"><strong>📝 해보기</strong> 좌표와 학교명을 <strong>집 근처 학교</strong>로 바꿔 보세요. 좌표는 ④단계를 하고 나면 데이터에서 직접 찾을 수 있습니다.</div>
+
+          <h4 class="step-h"><span class="sn">4</span>전체 지도 — 범위를 세 번 넓힙니다</h4>
+          <div class="warn"><strong>⚠️ 전국 12,011개를 A 탭 방식(<code>iterrows</code>+<code>Marker</code>)으로 찍지 마세요.</strong> 수 분간 멈추거나 브라우저가 죽습니다. <strong>개수가 달라지면 방법도 달라집니다.</strong></div>
+
+          <h5 style="font-size:14.5px;font-weight:700;margin:22px 0 8px">④-1 &nbsp;고양시 174개교 — Marker + for문</h5>
+          <p>전국을 바로 찍지 않습니다. <strong>먼저 우리 지역만</strong> 골라냅니다. 이것이 <strong>필터링</strong>입니다.</p>
+          <div class="code-block labeled">
+            <span class="code-label">B-4-1</span>
+            <button class="copy-btn">copy</button>
+<pre>고양 = df[df[<span class="str">'교육지원청명'</span>] == <span class="str">'경기도고양교육지원청'</span>]
+<span class="fn">print</span>(<span class="fn">len</span>(고양), <span class="str">'개교'</span>)
+<span class="fn">print</span>(고양[<span class="str">'학교급구분'</span>].<span class="fn">value_counts</span>())
+
+m = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>)
+
+<span class="kw">for</span> idx, row <span class="kw">in</span> 고양.<span class="fn">iterrows</span>():
+    folium.<span class="fn">Marker</span>(
+        location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
+        popup=row[<span class="str">'학교명'</span>],
+        tooltip=row[<span class="str">'학교명'</span>]
+    ).<span class="fn">add_to</span>(m)
+
+<span class="fn">display</span>(m)</pre>
+          </div>
+          <div class="result"><span class="result-label">실행 결과</span>174 개교
+초등학교    91
+중학교      45
+고등학교     38</div>
+          <div class="ask"><strong>📝 해보기</strong> <code>고양</code> 대신 아래로 바꿔 실행해 보세요.<br>
+          ① 고양시 <strong>고등학교만</strong> — <code>고양[고양['학교급구분'] == '고등학교']</code><br>
+          ② 고양시 <strong>사립학교만</strong> — <code>고양[고양['설립형태'] == '사립']</code><br>
+          ③ <strong>내가 사는 구만</strong> — <code>고양[고양['소재지지번주소'].str.contains('일산서구')]</code></div>
+
+          <h5 style="font-size:14.5px;font-weight:700;margin:26px 0 8px">④-2 &nbsp;경기도 2,558개교 — MarkerCluster</h5>
+          <p>174개는 괜찮았습니다. 2,558개를 그냥 찍으면 <strong>핀이 겹쳐 아무것도 안 보입니다.</strong> A 탭에서 배운 <code>MarkerCluster</code>를 여기서 씁니다.</p>
+          <div class="code-block labeled">
+            <span class="code-label">B-4-2</span>
+            <button class="copy-btn">copy</button>
+<pre>경기 = df[df[<span class="str">'시도교육청명'</span>] == <span class="str">'경기도교육청'</span>]
+<span class="fn">print</span>(<span class="fn">len</span>(경기), <span class="str">'개교'</span>)
+
+m = folium.<span class="fn">Map</span>(location=[<span class="num">37.434</span>, <span class="num">127.027</span>], zoom_start=<span class="num">9</span>)
+cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(m)
+
+<span class="kw">for</span> idx, row <span class="kw">in</span> 경기.<span class="fn">iterrows</span>():
+    folium.<span class="fn">Marker</span>(
+        location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
+        popup=row[<span class="str">'학교명'</span>],
+        tooltip=row[<span class="str">'학교명'</span>]
+    ).<span class="fn">add_to</span>(cluster)
+
+<span class="fn">display</span>(m)</pre>
+          </div>
+          <div class="info"><strong>🤔 생각해 보기</strong> 숫자가 가장 큰 뭉치는 어느 도시인가요? 학교가 많다는 것은 무엇을 뜻할까요? (인구? 면적? 신도시?)</div>
+
+          <h5 style="font-size:14.5px;font-weight:700;margin:26px 0 8px">④-3 &nbsp;전국 12,011개교 — FastMarkerCluster</h5>
+          <p><code>FastMarkerCluster</code>는 <strong>for문이 필요 없습니다.</strong> <code>[[위도, 경도], ...]</code> 목록만 넘기면 끝입니다.</p>
+          <div class="code-block labeled">
+            <span class="code-label">B-4-3</span>
+            <button class="copy-btn">copy</button>
+<pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">36.45</span>, <span class="num">127.55</span>], zoom_start=<span class="num">7</span>)
+
+좌표목록 = df[[<span class="str">'위도'</span>, <span class="str">'경도'</span>]].values.<span class="fn">tolist</span>()
+<span class="fn">print</span>(<span class="fn">len</span>(좌표목록), <span class="str">'개 좌표'</span>)
+
+<span class="fn">FastMarkerCluster</span>(좌표목록).<span class="fn">add_to</span>(m)
+<span class="fn">display</span>(m)</pre>
+          </div>
+          <div class="tip"><strong>💡 팁</strong> 빠른 대신 <code>popup</code>으로 학교명을 달기 어렵습니다. <strong>빠름과 자세함은 맞바꾸는 관계</strong>입니다. 자세히 보고 싶으면 범위를 좁히세요.</div>
+
+          <h4 class="step-h"><span class="sn">5</span>심화 — 색 구분 · 켜고 끄기 · 역지오코딩</h4>
+
+          <h5 style="font-size:14.5px;font-weight:700;margin:22px 0 8px">⑤-1 &nbsp;학교급별 색 구분 + 체크박스</h5>
+          <p><code>CircleMarker</code>는 작은 원이라 가볍고 <strong>색으로 분류</strong>하기 좋습니다. <code>FeatureGroup</code> + <code>LayerControl</code>을 쓰면 <strong>초·중·고를 켜고 끌 수</strong> 있습니다.</p>
+          <div class="code-block labeled">
+            <span class="code-label">B-5-1</span>
+            <button class="copy-btn">copy</button>
+<pre>색 = {<span class="str">'초등학교'</span>: <span class="str">'#3b82f6'</span>, <span class="str">'중학교'</span>: <span class="str">'#059669'</span>, <span class="str">'고등학교'</span>: <span class="str">'#dc2626'</span>}
+
+m = folium.<span class="fn">Map</span>(location=[<span class="num">37.434</span>, <span class="num">127.027</span>], zoom_start=<span class="num">9</span>,
+               tiles=<span class="str">'CartoDB positron'</span>)   <span class="cm"># 연한 배경 — 색이 잘 보인다</span>
+
+<span class="kw">for</span> 급 <span class="kw">in</span> [<span class="str">'초등학교'</span>, <span class="str">'중학교'</span>, <span class="str">'고등학교'</span>]:
+    그룹 = folium.<span class="fn">FeatureGroup</span>(name=급)      <span class="cm"># 급별로 '층'을 하나씩</span>
+    대상 = 경기[경기[<span class="str">'학교급구분'</span>] == 급]
+
+    <span class="kw">for</span> idx, row <span class="kw">in</span> 대상.<span class="fn">iterrows</span>():
+        folium.<span class="fn">CircleMarker</span>(
+            location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
+            radius=<span class="num">3</span>,
+            color=색[급],
+            fill=<span class="bi">True</span>,
+            fill_opacity=<span class="num">0.7</span>,
+            weight=<span class="num">0</span>,
+            tooltip=row[<span class="str">'학교명'</span>] + <span class="str">' ('</span> + 급 + <span class="str">')'</span>
+        ).<span class="fn">add_to</span>(그룹)
+
+    그룹.<span class="fn">add_to</span>(m)
+
+folium.<span class="fn">LayerControl</span>(collapsed=<span class="bi">False</span>).<span class="fn">add_to</span>(m)   <span class="cm"># 오른쪽 위 체크박스</span>
+<span class="fn">display</span>(m)</pre>
+          </div>
+          <div class="info"><strong>🤔 생각해 보기</strong> 초등학교만 켜 보고, 그다음 고등학교만 켜 보세요. <strong>빈 곳이 생기는 지역</strong>이 보이나요? 그 지역 학생들은 고등학교를 가려면 어떻게 해야 할까요?</div>
+
+          <h5 style="font-size:14.5px;font-weight:700;margin:26px 0 8px">⑤-2 &nbsp;빈 주소 12건 채우기 — 역지오코딩</h5>
+          <p>②단계에서 <code>소재지도로명주소</code>가 <strong>12건</strong> 비어 있었습니다. 좌표는 있으니 <strong>좌표로 주소를 알아낼 수</strong> 있습니다. 이것이 <strong>역지오코딩</strong>입니다. (C 탭은 그 반대 방향입니다.)</p>
+          <div class="code-block labeled">
+            <span class="code-label">B-5-2 · 빈칸 확인</span>
+            <button class="copy-btn">copy</button>
+<pre>빈칸 = df[df[<span class="str">'소재지도로명주소'</span>].<span class="fn">isna</span>()]
+<span class="fn">print</span>(<span class="fn">len</span>(빈칸), <span class="str">'건'</span>)
+빈칸[[<span class="str">'학교명'</span>, <span class="str">'소재지지번주소'</span>, <span class="str">'위도'</span>, <span class="str">'경도'</span>]]</pre>
+          </div>
+          <div class="result"><span class="result-label">실행 결과 — 12건</span>인천검단호수초등학교   인천광역시 서구 불로동 483-6        37.608851  126.683478
+인천운남고등학교       인천광역시 중구 운남동 1737-1       37.483147  126.541904
+달전초등학교          경상북도 포항시 북구 흥해읍 이인리 427-1  36.069682  129.335166
+이순신초등학교         충청남도 아산시 배방읍 세교리 1590      36.781647  127.099488
+인천윤슬초등학교        인천광역시 중구 운서동 865           37.484262  126.502059
+서사초등학교           울산광역시 울주군 범서읍 서사리 265-3    35.592496  129.271885
+홍주초등학교           충청남도 홍성군 홍북읍 신경리 930       36.651953  126.676524
+인천신검단중학교        인천광역시 서구 불로동 247-16        37.609265  126.699289
+인천달빛초등학교        인천광역시 중구 운서동 3105          37.483970  126.502062
+거제상문중학교         경상남도 거제시 상동동 56-1          34.862794  128.634747
+운정중앙초등학교        경기도 파주시 목동동 337            37.722785  126.725748
+군산내흥초등학교        전북특별자치도 군산시 내흥동 1063      35.994671  126.755846</div>
+          <div class="info"><strong>🤔 왜 비어 있을까?</strong> 대부분 <strong>최근 개교한 신도시 학교</strong>입니다. 인천 검단·운서, 파주 목동동, 아산 배방… 아파트가 먼저 올라가고 도로명이 나중에 붙는 경우가 있습니다. <strong>데이터의 빈칸에도 이유가 있습니다.</strong></div>
+          <div class="note"><strong>📝 준비</strong> 아래 코드는 C 탭의 <strong>API 키 준비</strong>가 먼저 필요합니다. C 탭 ③단계를 먼저 보고 오세요.</div>
+          <div class="code-block labeled">
+            <span class="code-label">B-5-2 · 좌표 → 주소</span>
+            <button class="copy-btn">copy</button>
+<pre><span class="kw">import</span> requests
+KAKAO_API_KEY = <span class="str">'여기에_REST_API_키_입력'</span>
+
+<span class="kw">def</span> <span class="fn">좌표로_주소찾기</span>(위도, 경도):
+    url = <span class="str">'https://dapi.kakao.com/v2/local/geo/coord2address.json'</span>
+    headers = {<span class="str">'Authorization'</span>: <span class="str">f'KakaoAK {KAKAO_API_KEY}'</span>}
+    params = {<span class="str">'x'</span>: 경도, <span class="str">'y'</span>: 위도}      <span class="cm"># x=경도, y=위도 — 순서 주의!</span>
+
+    결과 = requests.<span class="fn">get</span>(url, headers=headers, params=params).<span class="fn">json</span>()
+    <span class="kw">if</span> 결과[<span class="str">'documents'</span>]:
+        문서 = 결과[<span class="str">'documents'</span>][<span class="num">0</span>]
+        <span class="kw">if</span> 문서[<span class="str">'road_address'</span>]:
+            <span class="kw">return</span> 문서[<span class="str">'road_address'</span>][<span class="str">'address_name'</span>]
+        <span class="kw">return</span> 문서[<span class="str">'address'</span>][<span class="str">'address_name'</span>]
+    <span class="kw">return</span> <span class="bi">None</span>
+
+<span class="cm"># 비어 있는 12줄만 채운다</span>
+<span class="kw">for</span> idx <span class="kw">in</span> df[df[<span class="str">'소재지도로명주소'</span>].<span class="fn">isna</span>()].index:
+    주소 = <span class="fn">좌표로_주소찾기</span>(df.<span class="fn">at</span>[idx, <span class="str">'위도'</span>], df.<span class="fn">at</span>[idx, <span class="str">'경도'</span>])
+    df.<span class="fn">at</span>[idx, <span class="str">'소재지도로명주소'</span>] = 주소
+    <span class="fn">print</span>(df.<span class="fn">at</span>[idx, <span class="str">'학교명'</span>], <span class="str">'→'</span>, 주소)
+
+<span class="fn">print</span>(<span class="str">'남은 결측:'</span>, df[<span class="str">'소재지도로명주소'</span>].<span class="fn">isna</span>().<span class="fn">sum</span>())
+
+df.<span class="fn">to_csv</span>(<span class="str">'/content/drive/MyDrive/학교위치_주소보완.csv'</span>,
+          index=<span class="bi">False</span>, encoding=<span class="str">'utf-8-sig'</span>)</pre>
+          </div>
+          <div class="tip"><strong>💡 팁</strong> 결과를 <strong>꼭 파일로 저장</strong>하세요. 저장하지 않으면 다음에 노트북을 켤 때 API를 또 불러야 합니다.</div>
+
+          <h5 style="font-size:14.5px;font-weight:700;margin:26px 0 8px">⑤-3 &nbsp;도전 과제</h5>
+          <table>
+            <tr><th style="width:12%">난이도</th><th>과제</th><th style="width:38%">힌트</th></tr>
+            <tr><td>⭐</td><td>우리 동네(읍·면·동)만</td><td><code>df['소재지지번주소'].str.contains('행신동')</code></td></tr>
+            <tr><td>⭐</td><td>배경 지도 바꾸기</td><td><code>tiles='CartoDB dark_matter'</code></td></tr>
+            <tr><td>⭐⭐</td><td>popup에 주소까지</td><td><code>row['학교명'] + '&lt;br&gt;' + str(row['소재지도로명주소'])</code></td></tr>
+            <tr><td>⭐⭐</td><td>전국 <strong>분교 119곳</strong>만</td><td><code>df[df['본교분교구분'] == '분교']</code> — 어디에 모여 있나요?</td></tr>
+            <tr><td>⭐⭐</td><td>2000년 이후 개교 (2,762개교)</td><td><code>pd.to_datetime(df['설립일자']).dt.year</code></td></tr>
+            <tr><td>⭐⭐⭐</td><td>열지도(HeatMap)</td><td><code>from folium.plugins import HeatMap</code></td></tr>
+          </table>
+        </div>
+
+        <!-- ───────────── TAB C ───────────── -->
+        <div class="tab-panel p-c" id="panel-c" role="tabpanel">
+          <div class="ds-head">
+            <h3>🐾 C · 고양시 동물병원</h3>
+            <p>주소는 있는데 <strong>위도·경도 칸이 아예 없습니다.</strong> 지도에 찍으려면 <strong>좌표를 직접 만들어야</strong> 합니다. 이것이 <strong>지오코딩</strong>입니다.</p>
+            <span class="ds-file">경기도_고양시_동물병원현황.csv · cp949</span>
+          </div>
+
+          <div class="ribbon">
+            <div class="rb"><div class="rn">STEP ①</div><div class="rt">불러오기</div><div class="rx">cp949</div></div>
+            <div class="rb"><div class="rn">STEP ②</div><div class="rt">좌표 없음 확인</div><div class="rx">컬럼부터 보기</div></div>
+            <div class="rb"><div class="rn">STEP ③</div><div class="rt">API 키 + 함수</div><div class="rx">REST API 키</div></div>
+            <div class="rb"><div class="rn">STEP ④</div><div class="rt">변환 · 저장 · 지도</div><div class="rx">1~2분 소요</div></div>
+            <div class="rb"><div class="rn">STEP ⑤</div><div class="rt">심화</div><div class="rx">실패 주소 · 검증</div></div>
+          </div>
+
+          <h4 class="step-h"><span class="sn">1</span>데이터 불러오기</h4>
+          <div class="code-block labeled">
+            <span class="code-label">C-1</span>
+            <button class="copy-btn">copy</button>
+<pre>files2 = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/경기도_고양시_동물병원현황.csv'</span>,
+                   recursive=<span class="bi">True</span>)
+<span class="fn">print</span>(files2)
+
+df2 = pd.<span class="fn">read_csv</span>(files2[<span class="num">0</span>], encoding=<span class="str">'cp949'</span>)   <span class="cm"># A 탭과 같은 cp949</span>
 <span class="fn">print</span>(df2.shape)
-df2[[<span class="str">'업소명'</span>, <span class="str">'사업장소재지(도로명)'</span>]].<span class="fn">head</span>(<span class="num">3</span>)</pre>
-              </div>
-              <div class="output-label">실행 결과 예시</div>
-              <div class="output-box">업소명        사업장소재지(도로명)
-0  고양동물병원   경기도 고양시 덕양구 고양대로 ○○○ (○○동)
-1  일산동물병원   경기도 고양시 일산동구 중앙로 ○○○ (○○동)
-...</div>
-              <div class="tip">
-                <strong>💡</strong> 주소 컬럼 <code>사업장소재지(도로명)</code>이 있죠? 다음 단계에서 이 컬럼을 위도·경도로 바꿔줄 거예요.
-              </div>
-            </div>
+df2.<span class="fn">head</span>(<span class="num">3</span>)</pre>
           </div>
 
-          <!-- STEP 5-2 (순서 변경: 함수 정의) -->
-          <div class="step-item">
-            <div class="step-head">
-              <div class="step-num">5-2</div>
-              <div class="step-title">변환 함수 만들기</div>
-            </div>
-            <div class="step-body">
-              <p>"주소 하나를 받아서 위도·경도로 바꿔주는" 함수를 만들어요. 데이터를 보고 나서 어떤 컬럼을 변환할지 이해한 다음에 함수를 만드는 거예요.</p>
-              <div style="background:#fef9c3; border:2px solid #eab308; border-radius:10px; padding:14px 16px; margin-bottom:14px;">
-                <div style="font-size:12px; font-weight:700; color:#854d0e; margin-bottom:6px;">🤔 함수를 왜 따로 만드나요?</div>
-                <div style="font-size:13px; color:#713f12; line-height:1.7;">
-                  주소가 200개면 카카오 API에 200번 요청해야 해요.<br>
-                  같은 코드를 200번 복사할 수 없으니 함수로 만들어두고 <code>.apply()</code>로 한 번에 돌리는 거예요.
-                </div>
-              </div>
+          <h4 class="step-h"><span class="sn">2</span>좌표가 없다는 것을 확인</h4>
+          <p>A·B 탭에서는 <code>위도</code>·<code>경도</code> 칸이 <strong>있었습니다.</strong> 여기는 없습니다. 먼저 <strong>직접 확인</strong>합니다.</p>
+          <div class="code-block labeled">
+            <span class="code-label">C-2</span>
+            <button class="copy-btn">copy</button>
+<pre><span class="fn">print</span>(<span class="fn">list</span>(df2.columns))          <span class="cm"># '위도', '경도' 가 있는지 찾아보세요</span>
 
-              <div style="font-size:12px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px;">라인별 역할</div>
-              <table style="margin-bottom:14px; font-size:13px;">
-                <tr><th style="width:50%;">코드</th><th>역할</th></tr>
-                <tr><td><code>import requests</code></td><td>인터넷 요청을 보내는 라이브러리예요.</td></tr>
-                <tr><td><code>KAKAO_API_KEY = '...'</code></td><td>선생님한테 받은 키를 여기에 붙여넣어요.</td></tr>
-                <tr><td><code>def kakao_geocoding(address):</code></td><td>주소를 받는 함수를 정의해요.</td></tr>
-                <tr><td><code>url = '...'</code></td><td>카카오 API 주소예요. 그대로 써요.</td></tr>
-                <tr><td><code>headers = {...}</code></td><td>내 API 키를 담아서 인증해요.</td></tr>
-                <tr><td><code>requests.get(...).json()</code></td><td>카카오에 요청 보내고 결과를 JSON으로 받아요.</td></tr>
-                <tr><td><code>if result['documents']:</code></td><td>주소를 찾았으면 위도·경도 반환, 못 찾으면 None 반환해요.</td></tr>
-              </table>
+<span class="fn">print</span>(<span class="str">'위도 칸 있나?'</span>, <span class="str">'위도'</span> <span class="kw">in</span> df2.columns)
+<span class="fn">print</span>(df2[[<span class="str">'업소명'</span>, <span class="str">'사업장소재지(도로명)'</span>]].<span class="fn">head</span>())</pre>
+          </div>
+          <div class="result"><span class="result-label">실행 결과</span>위도 칸 있나? False
+→ 주소는 있다. 주소를 좌표로 바꾸면 된다.</div>
+          <div class="info"><strong>🤔 세 탭의 ②단계 비교</strong><br>
+          · A 탭 — 좌표가 <strong>지저분하다</strong> → 치운다 (정제)<br>
+          · B 탭 — 좌표가 <strong>깨끗하다</strong> → 확인만 한다 (점검)<br>
+          · C 탭 — 좌표가 <strong>없다</strong> → 만든다 (생성)<br>
+          <strong>데이터를 만나면 가장 먼저 "좌표가 어떤 상태인가"를 확인하세요.</strong></div>
 
-              <div class="code-block">
-                <div class="code-label">Python</div>
-                <pre><span class="kw">import</span> requests
+          <h4 class="step-h"><span class="sn">3</span>카카오 REST API 키 + 지오코딩 함수</h4>
+          <table>
+            <tr><th style="width:30%">키 종류</th><th>어디에 쓰나</th></tr>
+            <tr><td><strong>REST API 키</strong></td><td>✅ 파이썬에서 주소·좌표 변환 — <strong>우리가 쓸 것</strong></td></tr>
+            <tr><td>JavaScript 키</td><td>웹페이지에 지도 띄울 때</td></tr>
+            <tr><td>Admin 키</td><td>관리자용 — 절대 코드에 넣지 않기</td></tr>
+          </table>
+          <div class="warn"><strong>⚠️ 주의</strong> 꼭 <strong>REST API 키</strong>를 복사하세요. JavaScript 키를 넣으면 <code>401 Unauthorized</code>가 납니다. 그리고 <strong>키를 깃허브나 카톡에 올리지 마세요.</strong> 남이 내 키로 요청을 보낼 수 있습니다.</div>
+          <div class="info"><strong>🤔 왜 함수를 따로 만드나요?</strong> 같은 일을 수십~수백 번 해야 하니까요. 한 번 만들어 두면 <code>주소로_좌표찾기(주소)</code> 한 줄로 몇 번이든 씁니다. <strong>고치고 싶을 때 한 군데만 고치면 되는 것</strong>도 큰 장점입니다.</div>
+          <div class="code-block labeled">
+            <span class="code-label">C-3</span>
+            <button class="copy-btn">copy</button>
+<pre><span class="kw">import</span> requests
 
-KAKAO_API_KEY = <span class="str">'여기에_REST_API_키_입력'</span>   <span class="cm"># ← 선생님한테 받은 키 입력!</span>
+KAKAO_API_KEY = <span class="str">'여기에_REST_API_키_입력'</span>
 
-<span class="kw">def</span> <span class="fn">kakao_geocoding</span>(address):
+<span class="kw">def</span> <span class="fn">주소로_좌표찾기</span>(주소):
     url = <span class="str">'https://dapi.kakao.com/v2/local/search/address.json'</span>
-    headers = {<span class="str">'Authorization'</span>: f<span class="str">'KakaoAK {KAKAO_API_KEY}'</span>}
+    headers = {<span class="str">'Authorization'</span>: <span class="str">f'KakaoAK {KAKAO_API_KEY}'</span>}
+    결과 = requests.<span class="fn">get</span>(url, headers=headers, params={<span class="str">'query'</span>: 주소}).<span class="fn">json</span>()
 
-    <span class="cm"># 카카오한테 "이 주소 좌표로 변환해줘" 요청</span>
-    result = requests.<span class="fn">get</span>(url, headers=headers, params={<span class="str">'query'</span>: address}).<span class="fn">json</span>()
+    <span class="kw">if</span> 결과[<span class="str">'documents'</span>]:
+        <span class="cm"># y 가 위도, x 가 경도 — folium 과 순서가 반대!</span>
+        <span class="kw">return</span> <span class="fn">float</span>(결과[<span class="str">'documents'</span>][<span class="num">0</span>][<span class="str">'y'</span>]), <span class="fn">float</span>(결과[<span class="str">'documents'</span>][<span class="num">0</span>][<span class="str">'x'</span>])
+    <span class="kw">return</span> <span class="bi">None</span>, <span class="bi">None</span>
 
-    <span class="cm"># 결과가 있으면 위도(y), 경도(x) 반환 / 없으면 None 반환</span>
-    <span class="kw">if</span> result[<span class="str">'documents'</span>]:
-        <span class="kw">return</span> <span class="fn">float</span>(result[<span class="str">'documents'</span>][<span class="num">0</span>][<span class="str">'y'</span>]), <span class="fn">float</span>(result[<span class="str">'documents'</span>][<span class="num">0</span>][<span class="str">'x'</span>])
-    <span class="kw">return</span> <span class="kw">None</span>, <span class="kw">None</span></pre>
-              </div>
-              <div class="note">
-                <strong>📝</strong> 이 셀은 실행해도 아무것도 안 나와요. 함수를 <em>정의</em>만 한 거예요. 실제로 쓰는 건 5-3에서 해요.
-              </div>
-            </div>
+<span class="cm"># 테스트 — 한 건만 먼저 해 본다</span>
+<span class="fn">print</span>(<span class="fn">주소로_좌표찾기</span>(<span class="str">'경기도 고양시 일산동구 위시티4로 112'</span>))</pre>
           </div>
+          <div class="warn"><strong>⚠️ 가장 많이 하는 실수</strong> 카카오 API는 <strong><code>x</code>가 경도, <code>y</code>가 위도</strong>입니다. folium의 <code>[위도, 경도]</code>와 <strong>순서가 반대</strong>입니다. 바꿔 넣으면 엉뚱한 나라가 나옵니다.</div>
 
-          <!-- STEP 5-3 -->
-          <div class="step-item">
-            <div class="step-head">
-              <div class="step-num">5-3</div>
-              <div class="step-title">주소 → 위도·경도 변환 + 저장</div>
-            </div>
-            <div class="step-body">
-              <p>5-1에서 만든 함수를 주소 컬럼 전체에 적용해요. 약 1~2분 걸려요.</p>
-              <div style="background:#fef9c3; border:2px solid #eab308; border-radius:10px; padding:14px 16px; margin-bottom:14px;">
-                <div style="font-size:12px; font-weight:700; color:#854d0e; margin-bottom:6px;">🤔 .apply()가 뭔가요?</div>
-                <div style="font-size:13px; color:#713f12; line-height:1.7;">
-                  <code>.apply(함수)</code>는 컬럼의 모든 행에 함수를 한 번씩 적용해줘요.<br>
-                  <code>df2['주소'].apply(kakao_geocoding)</code> → 주소 200개를 함수에 하나씩 넣어서 위도·경도로 바꿔줘요.
-                </div>
-              </div>
-              <div class="code-block">
-                <div class="code-label">Python</div>
-                <pre><span class="cm"># 주소 컬럼 전체를 위도·경도로 변환 (약 1~2분 소요)</span>
-df2[<span class="str">'위도'</span>] = df2[<span class="str">'사업장소재지(도로명)'</span>].<span class="fn">apply</span>(<span class="kw">lambda</span> x: <span class="fn">kakao_geocoding</span>(x)[<span class="num">0</span>])
-df2[<span class="str">'경도'</span>] = df2[<span class="str">'사업장소재지(도로명)'</span>].<span class="fn">apply</span>(<span class="kw">lambda</span> x: <span class="fn">kakao_geocoding</span>(x)[<span class="num">1</span>])
+          <h4 class="step-h"><span class="sn">4</span>전체 변환 → 저장 → 지도</h4>
+          <div class="note"><strong>📝 참고</strong> 주소 하나마다 인터넷 요청을 한 번씩 보냅니다. 건수에 따라 <strong>1~2분</strong> 걸릴 수 있습니다. 멈춘 게 아니니 기다리세요.</div>
+          <div class="code-block labeled">
+            <span class="code-label">C-4 · 변환하고 저장</span>
+            <button class="copy-btn">copy</button>
+<pre><span class="cm"># 주소 칸을 전부 좌표로 변환</span>
+df2[<span class="str">'위도'</span>] = df2[<span class="str">'사업장소재지(도로명)'</span>].<span class="fn">apply</span>(<span class="kw">lambda</span> x: <span class="fn">주소로_좌표찾기</span>(x)[<span class="num">0</span>])
+df2[<span class="str">'경도'</span>] = df2[<span class="str">'사업장소재지(도로명)'</span>].<span class="fn">apply</span>(<span class="kw">lambda</span> x: <span class="fn">주소로_좌표찾기</span>(x)[<span class="num">1</span>])
 
-<span class="fn">print</span>(f<span class="str">'변환 완료: {df2["위도"].notna().sum()}/{len(df2)}개'</span>)
-
-<span class="cm"># 드라이브에 저장 — 다음에 또 기다릴 필요 없어요!</span>
-df2.<span class="fn">to_csv</span>(<span class="str">'/content/drive/MyDrive/동물병원_위도경도.csv'</span>, index=<span class="kw">False</span>, encoding=<span class="str">'utf-8-sig'</span>)
-<span class="fn">print</span>(<span class="str">'저장 완료!'</span>)</pre>
-              </div>
-              <div class="tip">
-                <strong>💡 왜 저장하나요?</strong><br>
-                변환에 1~2분이 걸려요. 결과를 드라이브에 저장해두면 다음에 STEP 6에서 바로 불러와서 쓸 수 있어요. 매번 기다릴 필요가 없어요.
-              </div>
-            </div>
+<span class="cm"># 꼭 저장! 다음에 또 변환하지 않으려면</span>
+df2.<span class="fn">to_csv</span>(<span class="str">'/content/drive/MyDrive/동물병원_위도경도.csv'</span>,
+           index=<span class="bi">False</span>, encoding=<span class="str">'utf-8-sig'</span>)
+<span class="fn">print</span>(<span class="str">'저장 완료'</span>)</pre>
           </div>
+          <div class="tip"><strong>💡 팁</strong> 저장할 때는 <code>utf-8-sig</code>로 저장합니다. 불러온 파일은 <code>cp949</code>였지만, <strong>새로 만드는 파일은 UTF-8이 표준</strong>입니다. B 탭의 학교 데이터가 <code>utf-8-sig</code>인 이유입니다.</div>
+          <div class="code-block labeled">
+            <span class="code-label">C-4 · 지도 그리기</span>
+            <button class="copy-btn">copy</button>
+<pre><span class="cm"># 저장한 파일을 다시 불러온다 (이제 API 필요 없음)</span>
+df2 = pd.<span class="fn">read_csv</span>(<span class="str">'/content/drive/MyDrive/동물병원_위도경도.csv'</span>,
+                  encoding=<span class="str">'utf-8-sig'</span>)
 
-          <!-- STEP 6 -->
-          <div class="step-item">
-            <div class="step-head">
-              <div class="step-num">6</div>
-              <div class="step-title">변환된 데이터로 지도 찍기</div>
-            </div>
-            <div class="step-body">
-              <p>Part 1과 코드 구조가 완전히 같아요. 데이터만 고양시 동물병원으로 달라졌어요!</p>
-              <div class="code-block">
-                <div class="code-label">Python</div>
-                <pre><span class="cm"># 저장된 파일 불러오기</span>
-df2 = pd.<span class="fn">read_csv</span>(<span class="str">'/content/drive/MyDrive/동물병원_위도경도.csv'</span>, encoding=<span class="str">'utf-8-sig'</span>)
-df2 = df2.<span class="fn">dropna</span>(subset=[<span class="str">'위도'</span>, <span class="str">'경도'</span>])   <span class="cm"># 변환 안 된 행 제거</span>
+<span class="cm"># 변환 실패한 줄은 버린다 (A 탭 ④단계와 같은 dropna!)</span>
+df2 = df2.<span class="fn">dropna</span>(subset=[<span class="str">'위도'</span>, <span class="str">'경도'</span>])
+<span class="fn">print</span>(<span class="fn">len</span>(df2), <span class="str">'곳'</span>)
 
-<span class="cm"># 고양시 중심으로 지도 생성</span>
 m2 = folium.<span class="fn">Map</span>(location=[<span class="num">37.656</span>, <span class="num">126.835</span>], zoom_start=<span class="num">13</span>)
 cluster2 = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(m2)
 
@@ -908,189 +1052,270 @@ cluster2 = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span
     ).<span class="fn">add_to</span>(cluster2)
 
 <span class="fn">display</span>(m2)</pre>
-              </div>
-              <div class="output-label">실행 결과</div>
-              <div class="output-box">고양시 지도에 동물병원 마커들이 찍혀요. 우리 동네 주변 동물병원이 어디 있는지 한눈에 확인할 수 있어요!</div>
-            </div>
           </div>
+          <div class="info"><strong>🤔 여기서 A 탭이 다시 나옵니다</strong> <code>dropna</code>로 실패한 줄을 버리는 것 — A 탭 정제 ④단계와 <strong>똑같은 코드</strong>입니다. 데이터가 달라도 <strong>쓰는 기술은 돌려 씁니다.</strong></div>
 
+          <h4 class="step-h"><span class="sn">5</span>심화 — 실패한 주소와 정확도</h4>
+          <div class="code-block labeled">
+            <span class="code-label">C-5 · 실패한 주소 찾기</span>
+            <button class="copy-btn">copy</button>
+<pre>원본 = pd.<span class="fn">read_csv</span>(files2[<span class="num">0</span>], encoding=<span class="str">'cp949'</span>)
+변환 = pd.<span class="fn">read_csv</span>(<span class="str">'/content/drive/MyDrive/동물병원_위도경도.csv'</span>,
+                   encoding=<span class="str">'utf-8-sig'</span>)
+
+실패 = 변환[변환[<span class="str">'위도'</span>].<span class="fn">isna</span>()]
+<span class="fn">print</span>(<span class="str">'변환 실패:'</span>, <span class="fn">len</span>(실패), <span class="str">'건 /'</span>, <span class="fn">len</span>(원본), <span class="str">'건'</span>)
+실패[[<span class="str">'업소명'</span>, <span class="str">'사업장소재지(도로명)'</span>]]</pre>
+          </div>
+          <div class="info"><strong>🤔 왜 실패할까?</strong> 주소에 괄호나 층수가 붙어 있거나(<code>2층</code>, <code>101호</code>), 오래된 주소이거나, 띄어쓰기가 어긋나면 못 찾습니다. <strong>지도에서 사라진 동물병원은 문을 닫은 게 아니라, 주소 글자가 조금 달랐을 뿐입니다.</strong></div>
+          <div class="ask"><strong>📝 해보기</strong> 실패한 주소에서 괄호 뒷부분을 지우고 다시 시도해 보세요.<br>
+          <code>주소로_좌표찾기(주소.split('(')[0].strip())</code></div>
+
+          <h5 style="font-size:14.5px;font-weight:700;margin:26px 0 8px">⑤-2 &nbsp;지오코딩은 얼마나 정확할까? (B 탭 데이터로 검증)</h5>
+          <p>B 탭의 학교 데이터는 <strong>정답(원본 좌표)을 이미 알고 있습니다.</strong> 그래서 흔치 않은 실험이 가능합니다. <strong>주소로 좌표를 다시 구해 원본과 비교</strong>해 보는 것입니다.</p>
+          <div class="code-block labeled">
+            <span class="code-label">C-5-2 · 오차 재기</span>
+            <button class="copy-btn">copy</button>
+<pre><span class="cm"># B 탭의 고양 고등학교 10곳으로 시험</span>
+표본 = 고양[고양[<span class="str">'학교급구분'</span>] == <span class="str">'고등학교'</span>].<span class="fn">head</span>(<span class="num">10</span>)
+
+<span class="kw">for</span> idx, row <span class="kw">in</span> 표본.<span class="fn">iterrows</span>():
+    새위도, 새경도 = <span class="fn">주소로_좌표찾기</span>(row[<span class="str">'소재지도로명주소'</span>])
+    <span class="kw">if</span> 새위도 <span class="kw">is</span> <span class="bi">None</span>:
+        <span class="fn">print</span>(row[<span class="str">'학교명'</span>], <span class="str">'→ 변환 실패'</span>)
+        <span class="kw">continue</span>
+
+    <span class="cm"># 위도 1도 ≈ 111km, 경도 1도 ≈ 88km (우리나라 기준)</span>
+    거리_m = (((새위도 - row[<span class="str">'위도'</span>]) * <span class="num">111000</span>) ** <span class="num">2</span> +
+              ((새경도 - row[<span class="str">'경도'</span>]) * <span class="num">88000</span>) ** <span class="num">2</span>) ** <span class="num">0.5</span>
+
+    <span class="fn">print</span>(<span class="str">f"{row['학교명']:16s} 차이 {거리_m:7.0f} m"</span>)</pre>
+          </div>
+          <div class="info"><strong>🔑 오늘 수업에서 가장 중요한 이야기</strong><br>
+          차이가 0이 아닐 겁니다. 보통 수십~수백 미터가 나옵니다. 왜 그럴까요?<br>
+          · 원본 좌표는 <strong>학교 건물</strong>, 카카오가 준 좌표는 <strong>도로명주소의 대표 지점</strong>일 수 있습니다.<br>
+          · 학교 부지가 넓으면 <strong>어디를 "학교 위치"로 볼지</strong> 기관마다 다릅니다.<br>
+          → <strong>"지도 위의 점은 사실이 아니라, 누군가의 선택이다."</strong></div>
         </div>
-      </div><!-- 프롬프트 실습 -->
-      <div id="prompt" class="section">
+      </div>
+
+      <!-- ═══════════ 세 탭 총정리 ═══════════ -->
+      <div class="section" id="wrap">
+        <h2 class="section-title">🧩 세 탭을 한 장으로</h2>
+        <p>탭을 다 돌았다면, 아래 표가 <strong>오늘 배운 것의 전부</strong>입니다.</p>
+        <div class="tbl-scroll"><table class="compare">
+          <tr><th>단계</th>
+            <th style="color:var(--orange)">A · 사적지</th>
+            <th style="color:var(--primary)">B · 학교 위치</th>
+            <th style="color:var(--purple)">C · 동물병원</th></tr>
+          <tr><td><strong>① 불러오기</strong></td><td><code>cp949</code></td><td><code>utf-8-sig</code></td><td><code>cp949</code></td></tr>
+          <tr><td><strong>② 좌표 상태</strong></td><td><strong>정제</strong><br>글자·기호 치우기</td><td><strong>점검</strong><br>깨끗한지 확인</td><td><strong>생성</strong><br>주소로 만들기</td></tr>
+          <tr><td><strong>③ 첫 지도</strong></td><td>아시아 <code>zoom 3</code></td><td>학교 <code>zoom 16</code></td><td>고양 <code>zoom 13</code></td></tr>
+          <tr><td><strong>④ 전체 지도</strong></td><td><code>MarkerCluster</code></td><td>174→2,558→12,011<br>방법이 3번 바뀐다</td><td><code>MarkerCluster</code></td></tr>
+          <tr><td><strong>⑤ 심화</strong></td><td>아이콘·배경 바꾸기</td><td>색 구분 · 역지오코딩</td><td>실패 주소 · 정확도 검증</td></tr>
+          <tr><td><strong>한 문장</strong></td><td>"지저분한 데이터는<br>치워야 쓸 수 있다"</td><td>"많은 데이터는<br>좁혀야 보인다"</td><td>"없는 좌표는<br>만들 수 있다"</td></tr>
+        </table></div>
+        <div class="tip"><strong>💡 오늘의 결론</strong> folium 코드는 세 탭이 거의 같았습니다. <strong>달랐던 것은 지도를 그리기 전까지의 준비 과정</strong>입니다. 실제 데이터 작업에서 시간이 가장 많이 드는 곳도 바로 거기입니다.</div>
+      </div>
+
+      <!-- ═══════════ 내 데이터로 할 때 ═══════════ -->
+      <div class="section" id="reuse">
+        <h2 class="section-title">🧰 내 데이터로 할 때 — 4단계 재사용 카드</h2>
+        <p>오늘 배운 folium 코드는 잊어도 됩니다. 필요할 때 다시 찾아보면 되니까요.
+        하지만 <strong>이 순서만은 몸에 남겨 두세요.</strong> 앞으로 어떤 데이터를 만나든 똑같이 씁니다.</p>
+
+        <h3 class="sub-title">순서 — 이렇게 흘러갑니다</h3>
+        <div class="flow">
+          <div class="fb"><div class="ft">① 모양</div><div class="fd">행·열 수 · 컬럼 목록 · 첫 3줄 — 내가 연 파일이 맞나?</div></div>
+          <div class="fa">↓</div>
+          <div class="fb"><div class="ft">② 결측</div><div class="fd">어느 칸이 비었나 — 버릴까 · 채울까 · 그냥 둘까?</div></div>
+          <div class="fa">↓</div>
+          <div class="fb"><div class="ft">③ 자료형</div><div class="fd">숫자인가 글자인가 — <strong>여기가 갈림길</strong></div></div>
+          <div class="fa"><strong>글자(object)</strong>라면 ↓ 아래로 &nbsp;&nbsp;|&nbsp;&nbsp; <strong>숫자(float)</strong>라면 ④로 건너뛰기</div>
+          <div class="fb branch"><div class="ft">정제 ① → ② → ③</div><div class="fd">글자 치우고 → 기호 떼고 → 숫자로 바꾸고 &nbsp;(A 탭)</div></div>
+          <div class="fa">↓ 두 길이 여기서 다시 만납니다</div>
+          <div class="fb"><div class="ft">④ 범위</div><div class="fd">값이 말이 되나 — 최소·최대를 스스로 정해 두고 확인</div></div>
+          <div class="fa">↓</div>
+          <div class="fb goal"><div class="ft">✅ 이제 지도를 그립니다</div><div class="fd">여기까지가 전체 작업 시간의 절반 이상입니다</div></div>
+        </div>
+
+        <h3 class="sub-title">만능 프롬프트 — 새 데이터를 만나면 이걸 먼저</h3>
+        <p><strong>대괄호 안 세 줄만</strong> 내 데이터에 맞게 바꿔서 그대로 붙여 넣으세요.</p>
+        <div class="pbox" style="padding:16px 18px">
+          <button class="copy-btn">copy</button>
+<pre>너는 고등학생에게 파이썬 pandas를 가르치는 선생님이야.
+
+[내 데이터] ○○○.csv — (무엇에 대한 데이터인지 한 줄로)
+[내가 쓰려는 컬럼] ○○○, ○○○, 위도, 경도
+[내가 하려는 것] 지도에 위치를 찍고 싶어
+
+지도를 그리기 전에, 아래 4단계를 순서대로 점검하는 코드를 만들어 줘.
+ ① 모양   — 행·열 수, 컬럼 목록, 첫 3줄
+ ② 결측   — 컬럼별 빈칸 개수와, 각각 어떻게 처리하면 좋을지 제안
+ ③ 자료형 — 위도·경도가 숫자(float)인지
+ ④ 범위   — 위도 33~39, 경도 124~132 를 벗어난 값이 있는지
+
+그리고 ③에서 글자(object)로 나오면,
+어떤 문자·기호가 섞여 있는지 찾아서 정제하는 코드까지 이어서 줘.
+
+[형식] Colab에서 바로 돌아가는 코드. 한 단계씩 셀을 나눠서.
+       줄마다 한국어 주석. 고등학생이 읽을 수 있는 쉬운 말로.</pre>
+        </div>
+        <div class="warn"><strong>⚠️ 답을 받은 뒤가 진짜입니다</strong> AI가 준 코드를 <strong>한 단계씩 실행하고, 각 단계의 출력을 눈으로 확인</strong>하세요. ②단계 출력을 안 보고 ③으로 넘어가면, 4단계로 나눈 의미가 사라집니다.</div>
+
+        <h3 class="sub-title">내 데이터 점검표 — 실행하고 빈칸을 채우세요</h3>
+        <div class="tbl-scroll"><table class="fill">
+          <tr><th style="width:14%">단계</th><th style="width:30%">확인할 것</th><th style="width:26%">쓰는 코드</th><th>내 데이터는?</th></tr>
+          <tr><td><strong>① 모양</strong></td><td>행·열 수가 예상과 맞나</td><td><code>df.shape</code></td><td class="blank">______ 행 × ______ 열</td></tr>
+          <tr><td><strong>② 결측</strong></td><td>좌표에 빈칸이 있나</td><td><code>df.isna().sum()</code></td><td class="blank">있다 ______ 개 / 없다</td></tr>
+          <tr><td><strong>③ 자료형</strong></td><td>위도·경도가 숫자인가</td><td><code>df['위도'].dtype</code></td><td class="blank">float / object → object면 정제로</td></tr>
+          <tr><td><strong>④ 범위</strong></td><td>범위를 벗어난 값이 있나</td><td><code>.between(33, 39)</code></td><td class="blank">있다 ______ 개 / 없다</td></tr>
+          <tr><td colspan="3" style="text-align:right"><strong>정제가 필요했나요?</strong></td><td class="blank">예 → 몇 줄을 버렸나 ______ / 아니오</td></tr>
+        </table></div>
+        <div class="tip"><strong>💡 마지막 칸이 중요합니다</strong> <strong>몇 줄을 버렸는지</strong>는 나중에 지도를 발표할 때 <strong>반드시 함께 말해야 하는 숫자</strong>입니다. "전국 사적지 지도입니다"와 "좌표를 아는 사적지 ○○개의 지도입니다"는 다른 말입니다.</div>
+      </div>
+
+      <!-- ═══════════ 데이터 의심하기 ═══════════ -->
+      <div class="section" id="literacy">
+        <h2 class="section-title">🕵️ 데이터를 의심하기</h2>
+        <p>공공기관이 공개한 데이터라도 <strong>틀린 값이 섞여 있습니다.</strong> B 탭 데이터로 직접 찾아봅시다. 학교 이름에 "중학교"가 들어 있는데 학교급구분이 "초등학교"라면, 둘 중 하나는 틀린 것입니다.</p>
+        <div class="code-block labeled">
+          <span class="code-label">공통 CELL</span>
+          <button class="copy-btn">copy</button>
+<pre>이상 = df[(df[<span class="str">'학교명'</span>].str.<span class="fn">contains</span>(<span class="str">'중학교'</span>)) &amp; (df[<span class="str">'학교급구분'</span>] != <span class="str">'중학교'</span>)]
+이상[[<span class="str">'학교명'</span>, <span class="str">'학교급구분'</span>, <span class="str">'소재지지번주소'</span>]]</pre>
+        </div>
+        <div class="result"><span class="result-label">실행 결과 — 3건</span>넙도초등학교노화중학교넙도분교장       중학교    전라남도 완도군 노화읍 내리 488-1
+가거도초등학교신안흑산중학교가거도분교장   중학교    전라남도 신안군 흑산면 가거도리 266
+인천신검단중학교                   초등학교   인천광역시 서구 불로동 247-16   ← ?!</div>
+        <div class="info"><strong>🤔 세 건은 성격이 다릅니다</strong><br>
+        · 앞의 두 건은 <strong>초·중 통합 분교장</strong>입니다. 이름에 둘 다 들어 있으니 <strong>오류가 아니라 분류의 한계</strong>입니다.<br>
+        · 그런데 <strong>인천신검단중학교가 "초등학교"</strong>로 되어 있습니다. 이건 <strong>입력 오류로 보입니다.</strong><br>
+        → 만약 이 데이터로 "인천 서구 중학교 수"를 세어 기사를 쓴다면? <strong>한 개교가 빠진 기사</strong>가 됩니다.</div>
+        <div class="ask"><strong>📝 해보기</strong> 다른 방식으로도 의심해 보세요.<br>
+        ① 좌표가 완전히 같은 학교가 있을까? — <code>df.duplicated(subset=['위도','경도']).sum()</code> (같은 부지의 초·중·고 병설일 수 있습니다)<br>
+        ② 가장 오래된 학교는? — <code>df.sort_values('설립일자').head(5)</code><br>
+        ③ A 탭 데이터에서 정제 때 <strong>버려진 줄</strong>은 몇 개였나요? 그 사적지들은 어디에 있을까요?</div>
+        <div class="note"><strong>📝 출처 밝히기</strong> B 탭 파일은 <strong>한국교육시설안전원</strong>의 「초중등학교 위치」이고 <code>데이터기준일자</code>는 <strong>2026-03-20</strong>입니다. 데이터를 쓸 때는 <strong>누가 · 언제 기준으로 만든 것인지</strong>를 항상 함께 밝혀야 합니다.</div>
+      </div>
+
+      <!-- ═══════════ 프롬프트 ═══════════ -->
+      <div class="section" id="prompt">
         <h2 class="section-title">🤖 프롬프트로 지도 커스터마이징</h2>
-
-        <p style="font-size:14px; color:var(--text2); margin-bottom:16px;">
-          기본 지도를 완성했으면 이제 꾸며봐요.<br>
-          색깔 바꾸기, 팝업 내용 수정 등 원하는 변경사항을 LLM에게 요청해봐요.
-        </p>
-
-        <div class="prompt-card">
-          <div class="prompt-card-head">
-            <span class="prompt-icon">📋</span>
-            <span class="prompt-title">프롬프트 예시 — 마커 색깔 바꾸기</span>
-          </div>
-          <div class="prompt-body">
-            <div class="prompt-rule">① 페르소나</div>
-            <pre>나는 고등학생이고 파이썬 folium으로 지도를 만들고 있어.</pre>
-            <br>
-            <div class="prompt-rule">② 맥락 + 현재 코드</div>
-            <pre>아래는 내 현재 코드야:
-[현재 코드 전체 붙여넣기]</pre>
-            <br>
-            <div class="prompt-rule">③ 구체적 지시</div>
-            <pre>아래 조건으로 바꿔줘:
-- 마커 색깔을 빨간색으로 바꾸기
-- popup에 동명 정보도 함께 표시하기</pre>
-            <br>
-            <div class="prompt-rule">④ 출력 형식</div>
-            <pre>구글 코랩에서 실행 가능한 코드로 보여줘. 주석은 한국어로.</pre>
-          </div>
-        </div>
-
-        <h3 style="font-size:15px; font-weight:700; margin:24px 0 12px;">도전해볼 것들</h3>
+        <p>코드를 다 외울 필요는 없습니다. 대신 <strong>원하는 것을 정확히 설명하는 법</strong>을 배웁니다. 좋은 프롬프트에는 네 가지가 들어갑니다.</p>
         <table>
-          <tr><th>난이도</th><th>요청 예시</th></tr>
-          <tr><td>⭐</td><td>지도 중심 위치와 줌 레벨 바꾸기</td></tr>
-          <tr><td>⭐</td><td>마커 색깔·아이콘 바꾸기</td></tr>
-          <tr><td>⭐⭐</td><td>popup에 주소, 전화번호 함께 표시하기</td></tr>
-          <tr><td>⭐⭐</td><td>특정 구(덕양구·일산동구·일산서구)별로 색깔 다르게</td></tr>
-          <tr><td>⭐⭐⭐</td><td>히트맵으로 동물병원 밀집도 표현하기</td></tr>
+          <tr><th style="width:20%">요소</th><th>예시</th></tr>
+          <tr><td><strong>① 역할</strong></td><td>"너는 파이썬 folium 지도를 가르치는 선생님이야."</td></tr>
+          <tr><td><strong>② 상황·데이터</strong></td><td>"전국 학교 위치 CSV가 있어. 컬럼은 …, 12,011줄, 위도·경도는 이미 숫자형이야."</td></tr>
+          <tr><td><strong>③ 구체적 요구</strong></td><td>"전국 분교 119곳만 빨간 CircleMarker로, popup에 학교명과 시도교육청명."</td></tr>
+          <tr><td><strong>④ 출력 형식</strong></td><td>"Colab에서 바로 실행되는 코드 하나로, 줄마다 한국어 주석."</td></tr>
         </table>
+        <div class="code-block labeled">
+          <span class="code-label">프롬프트 예시 — 그대로 복사해서 써 보세요</span>
+          <button class="copy-btn">copy</button>
+<pre>너는 고등학생에게 파이썬 folium을 가르치는 선생님이야.
 
-        <div class="warn" style="margin-top:16px;">
-          <strong>⚠️ 오류가 나면?</strong><br>
-          오류 메시지를 그대로 복사해서 LLM에게 현재 코드와 함께 붙여넣고 수정 요청해요.
+[데이터] 전국 초중고 위치 CSV (12,011행)
+ - 컬럼: 학교명, 학교급구분(초등학교/중학교/고등학교), 설립형태(공립/사립/국립),
+         본교분교구분(본교/분교), 설립일자, 시도교육청명, 교육지원청명, 위도, 경도
+ - 위도·경도는 이미 float, 결측 없음
+ - 변수명은 df
+
+[요청] 전국 '사립 고등학교' 950곳만 지도에 표시해 줘.
+ - CircleMarker, 반지름 4, 보라색
+ - popup에 학교명과 소재지도로명주소
+ - 지도 중심은 전국(36.45, 127.55), zoom_start=7
+ - MarkerCluster로 묶어 줘
+
+[형식] Colab에서 바로 돌아가는 코드 한 덩어리.
+       줄마다 한국어 주석. 고등학생이 읽을 수 있게 쉬운 말로.</pre>
         </div>
+        <div class="warn"><strong>⚠️ 꼭 확인할 것</strong> AI가 준 코드가 <strong>돌아가는 것</strong>과 <strong>맞는 것</strong>은 다릅니다. <code>len()</code>으로 개수를 세어 보고, 지도를 <strong>눈으로 확인</strong>하세요. 사립 고등학교가 950곳인데 지도에 50개만 보이면 뭔가 틀린 것입니다.</div>
       </div>
 
-      <!-- 지오코딩 직접 해보기 -->
-      <div class="section">
-        <h2 class="section-title">💡 지오코딩 더 알아보기</h2>
-
-        <p style="font-size:14px; color:var(--text2); margin-bottom:16px;">
-          위에서 선생님이 준 코드로 지오코딩을 실행했어요.<br>
-          직접 코드를 짜보고 싶으면 LLM에게 이렇게 요청해봐요.
-        </p>
-
-        <div class="prompt-card">
-          <div class="prompt-card-head">
-            <span class="prompt-icon">📋</span>
-            <span class="prompt-title">지오코딩 코드 요청 프롬프트</span>
-          </div>
-          <div class="prompt-body">
-            <div class="prompt-rule">① 페르소나</div>
-            <pre>나는 고등학생이고 파이썬으로 주소를 위도·경도로 변환하려고 해.</pre>
-            <br>
-            <div class="prompt-rule">② 맥락</div>
-            <pre>카카오 REST API 키가 있어.
-구글 코랩 환경에서 실행할 거야.
-데이터: 경기도_고양시_동물병원현황.csv
-주소 컬럼명: 사업장소재지(도로명)</pre>
-            <br>
-            <div class="prompt-rule">③ 구체적 지시</div>
-            <pre>아래 조건으로 만들어줘:
-- 카카오 지오코딩 API로 주소 → 위도·경도 변환
-- df에 '위도', '경도' 컬럼으로 추가
-- 완료 후 드라이브에 CSV로 저장</pre>
-            <br>
-            <div class="prompt-rule">④ 출력 형식</div>
-            <pre>구글 코랩에서 실행 가능한 코드로 보여줘. 주석은 한국어로.</pre>
-          </div>
-        </div>
-      </div>
-
-      <!-- 점검하기 -->
-      <div id="check" class="section">
+      <!-- ═══════════ 점검하기 ═══════════ -->
+      <div class="section" id="check">
         <h2 class="section-title">✅ 점검하기</h2>
-        <div class="check-section">
-          <div class="check-title">🎯 아래 항목을 모두 할 수 있으면 다음 차시로 넘어가세요!</div>
-          <ul class="check-list2">
-            <li><input type="checkbox"> <code>folium.Map()</code>으로 기본 지도를 띄울 수 있다</li>
-            <li><input type="checkbox"> <code>folium.Marker()</code>로 마커를 찍고 <code>popup</code>·<code>tooltip</code>을 달 수 있다</li>
-            <li><input type="checkbox"> <code>for문</code>으로 CSV 데이터 전체에 마커를 찍을 수 있다</li>
-            <li><input type="checkbox"> <code>MarkerCluster</code>가 왜 필요한지 설명할 수 있다</li>
-            <li><input type="checkbox"> 지오코딩이 무엇인지 설명할 수 있다</li>
-            <li><input type="checkbox"> 카카오 REST API 키와 JavaScript 키의 차이를 안다</li>
-            <li><input type="checkbox"> 변환된 CSV를 드라이브에 저장할 수 있다</li>
-          </ul>
-        </div>
+        <p>읽어서 아는 것과 해서 아는 것은 다릅니다. <strong>직접 해 보면서</strong> 확인하세요.</p>
+        <ul class="check-list">
+          <li><code>location</code>과 <code>zoom_start</code>로 원하는 곳·원하는 크기의 지도를 띄울 수 있다</li>
+          <li>마커에 <code>popup</code>과 <code>tooltip</code>을 달고, 둘의 차이를 설명할 수 있다</li>
+          <li><code>for문</code>과 <code>iterrows()</code>로 여러 곳에 마커를 찍을 수 있다</li>
+          <li><code>.add_to(cluster)</code>와 <code>.add_to(m)</code>을 구분해서 쓸 수 있다</li>
+          <li><strong>A 탭</strong> — <code>'없음'</code>·<code>°</code>가 섞인 좌표를 정제 4단계로 숫자로 만들 수 있다</li>
+          <li><strong>A 탭</strong> — 정제 ①②③④의 <strong>순서를 지켜야 하는 이유</strong>를 말할 수 있다</li>
+          <li><strong>B 탭</strong> — <code>cp949</code>와 <code>utf-8-sig</code>를 구분해서 파일을 열 수 있다</li>
+          <li><strong>B 탭</strong> — 조건으로 데이터를 걸러내어 원하는 지역·학교급만 뽑을 수 있다</li>
+          <li><strong>B 탭</strong> — 데이터가 많을 때 <code>CircleMarker</code>·<code>FastMarkerCluster</code>를 쓰는 <strong>이유</strong>를 말할 수 있다</li>
+          <li><strong>C 탭</strong> — 좌표가 없는 데이터를 지오코딩으로 지도에 올릴 수 있다</li>
+          <li><strong>C 탭</strong> — 카카오 API에서 <code>x</code>가 경도, <code>y</code>가 위도임을 안다</li>
+          <li><strong>새 데이터를 만나면</strong> ① 모양 → ② 결측 → ③ 자료형 → ④ 범위 <strong>순서로 점검</strong>할 수 있다</li>
+          <li>③단계에서 <code>object</code>가 나오면 <strong>정제로 가야 한다</strong>는 것을 안다</li>
+          <li>각 정제 단계를 <strong>왜 하는지</strong> 한 문장씩 말할 수 있다 (글자 치우기 · 기호 떼기 · 숫자로 · 빈칸 정리)</li>
+          <li><strong>지오코딩</strong>과 <strong>역지오코딩</strong>의 방향 차이를 설명할 수 있다</li>
+          <li>세 데이터의 <strong>②단계가 왜 달랐는지</strong> 한 문장으로 설명할 수 있다</li>
+          <li>같은 장소인데 좌표가 다를 수 있는 <strong>이유</strong>를 한 가지 말할 수 있다</li>
+          <li>공공데이터에서 <strong>의심스러운 값 하나</strong>를 찾아 설명할 수 있다</li>
+          <li>내가 만든 지도의 <strong>데이터 출처와 기준일자</strong>를 밝힐 수 있다</li>
+        </ul>
       </div>
 
-      <!-- 다음 차시 -->
+      <!-- ═══════════ 다음 차시 ═══════════ -->
       <div class="section">
         <h2 class="section-title">🔗 다음 차시 미리보기</h2>
-        <div class="next-chapter">
-          <div class="next-icon">📋</div>
-          <div>
-            <div class="next-label">다음 차시</div>
-            <div class="next-title">7차시 — 수행평가 계획서 작성</div>
-            <div class="next-desc">
-              1~6차시에서 배운 시각화 기술 중 하나를 골라서<br>
-              내가 탐구하고 싶은 주제와 데이터로 직접 프로젝트를 기획해봐요!
-            </div>
-          </div>
+        <div class="next-box">
+          <div class="nl">next</div>
+          <div class="nt">7~9차시 — 수행평가 계획서 작성</div>
+          <p>세 탭에서 만든 지도 중 <strong>하나를 골라</strong> 수행평가 주제로 발전시킵니다.
+          "이 지도에서 무엇이 보이는가"를 <strong>질문 한 문장</strong>으로 만들고,
+          필요한 데이터와 지도 형태를 기획합니다.</p>
+          <p style="margin-top:12px"><a href="chapter07.html" style="color:var(--primary);font-weight:700;text-decoration:none">7차시로 이동 →</a></p>
         </div>
       </div>
+
+      <p style="font-size:12.5px;color:var(--text3);margin-top:40px;text-align:center">
+        데이터 출처 · 독립기념관 「국외사적지」 · 한국교육시설안전원 「초중등학교 위치」(2026-03-20 기준, 12,011개교) · 경기도 고양시 「동물병원 현황」
+      </p>
 
     </div>
   </main>
 </div>
 
-<div id="soon-toast">🔒 곧 공개됩니다!</div>
-
 <script>
-  // ── 모바일 사이드바 서랍 열기/닫기 ──
   function toggleSidebar() {
-    const sidebar = document.querySelector('.sidebar');
-    const backdrop = document.getElementById('sidebarBackdrop');
-    sidebar.classList.toggle('open');
-    backdrop.classList.toggle('show');
+    document.querySelector('.sidebar').classList.toggle('open');
+    document.getElementById('sidebarBackdrop').classList.toggle('show');
   }
-  function closeSidebar() {
-    document.querySelector('.sidebar').classList.remove('open');
-    document.getElementById('sidebarBackdrop').classList.remove('show');
-  }
-  // 사이드바 안의 링크(챕터 이동·목차)를 누르면 모바일에서는 자동으로 닫기
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.sidebar a').forEach(a => {
-      a.addEventListener('click', () => {
-        if (window.innerWidth <= 1024) closeSidebar();
-      });
+
+  function showTab(key) {
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.setAttribute('aria-selected', b.dataset.tab === key ? 'true' : 'false');
     });
-  });
-
-
-  let toastTimer;
-  function showSoon(e) {
-    e.preventDefault();
-    const toast = document.getElementById('soon-toast');
-    toast.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+    document.querySelectorAll('.tab-panel').forEach(p => {
+      p.classList.toggle('show', p.id === 'panel-' + key);
+    });
+    try { history.replaceState(null, '', '#data-' + key); } catch (e) {}
+    if (window.innerWidth <= 880) {
+      document.querySelector('.sidebar').classList.remove('open');
+      document.getElementById('sidebarBackdrop').classList.remove('show');
+    }
   }
 
-  // 복사 버튼
-  document.querySelectorAll('.code-block').forEach(block => {
-    const pre = block.querySelector('pre');
-    if (!pre) return;
-    const btn = document.createElement('button');
-    btn.className = 'copy-btn';
-    btn.textContent = 'copy';
+  // 주소에 #data-b 가 있으면 그 탭으로 열기
+  (function () {
+    const m = location.hash.match(/^#data-([abc])$/);
+    if (m) showTab(m[1]);
+  })();
+
+  document.querySelectorAll('.copy-btn').forEach(btn => {
     btn.onclick = () => {
-      navigator.clipboard.writeText(pre.innerText).then(() => {
-        btn.textContent = 'copied!';
-        btn.classList.add('copied');
-        setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1500);
-      });
+      const pre = btn.parentElement.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText);
+      btn.textContent = 'copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1500);
     };
-    block.appendChild(btn);
   });
-
- function showClassroom(e) {
-    e.preventDefault();
-    alert('📢 구글 클래스룸을 확인하세요!');
-  }
-  
 </script>
 
 </body>
