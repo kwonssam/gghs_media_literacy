@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GGHS 미디어정보리터러시 — 수업 자료</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@600;700&family=DM+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f8f9fc; --surface: #ffffff; --surface2: #f0f4ff;
+    --border: #e2e8f0; --text: #1a202c; --text2: #4a5568; --text3: #94a3b8;
+    --primary: #3b82f6; --primary-bg: #eff6ff; --primary-border: #bfdbfe;
+    --green: #059669; --green-bg: #ecfdf5; --green-border: #a7f3d0;
+    --orange: #d97706; --orange-bg: #fffbeb; --orange-border: #fde68a;
+    --red: #dc2626; --red-bg: #fef2f2; --red-border: #fecaca;
+    --purple: #7c3aed; --purple-bg: #f5f3ff; --purple-border: #ddd6fe;
+    --teal: #0d9488; --teal-bg: #f0fdfa; --teal-border: #99f6e4;
+  }
+
+  html { scroll-behavior: smooth; }
+  html, body { overflow-x: hidden; }
+  body { background: var(--bg); font-family: 'Noto Sans KR', sans-serif; color: var(--text); line-height: 1.75; font-size: 15px; }
+  img { max-width: 100%; height: auto; }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 60px 40px 100px; }
+
+  /* ── 헤더 ── */
+  .site-header { margin-bottom: 20px; padding-bottom: 32px; border-bottom: 2px solid var(--border); }
+  .site-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--teal-bg); color: var(--teal);
+    font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 20px; border: 1px solid var(--teal-border); margin-bottom: 14px; }
+  .site-title { font-family: 'Noto Serif KR', serif; font-size: 34px; font-weight: 700; line-height: 1.3; margin-bottom: 12px; }
+  .site-desc { font-size: 16px; color: var(--text2); }
+
+  /* ── 안내 박스 ── */
+  .notice { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px;
+    padding: 18px 22px; margin: 28px 0 44px; font-size: 13px; color: var(--text2); line-height: 1.9; }
+  .notice-title { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .notice-row { display: flex; gap: 8px; }
+  .notice-row .mk { flex-shrink: 0; }
+  .notice-row.b .mk { color: var(--primary); }
+  .notice-row.o .mk { color: var(--orange); }
+
+  /* ── 섹션 ── */
+  .section { margin-bottom: 52px; }
+  .section-title { font-size: 22px; font-weight: 900; color: var(--text); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+  .section-sub { font-size: 13.5px; color: var(--text3); margin: 0 0 20px; }
+
+  /* ── 카드 ── */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+  .card { display: flex; flex-direction: column; gap: 7px; background: var(--surface);
+    border: 1.5px solid var(--border); border-radius: 12px; padding: 18px 20px;
+    text-decoration: none; color: inherit; transition: transform .15s, border-color .15s, box-shadow .15s; }
+  .card:hover { transform: translateY(-2px); border-color: var(--primary-border); box-shadow: 0 6px 18px rgba(15,23,42,.07); }
+  .card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .card-icon { font-size: 22px; line-height: 1; }
+  .tag { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 20px; border: 1px solid; white-space: nowrap; }
+  .tag.guide { background: var(--teal-bg); color: var(--teal); border-color: var(--teal-border); }
+  .tag.demo  { background: var(--purple-bg); color: var(--purple); border-color: var(--purple-border); }
+  .tag.tool  { background: var(--orange-bg); color: var(--orange); border-color: var(--orange-border); }
+  .tag.sheet { background: var(--primary-bg); color: var(--primary); border-color: var(--primary-border); }
+  .card-label { font-size: 11px; font-weight: 700; color: var(--text3); letter-spacing: .04em; }
+  .card-title { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.5; }
+  .card-desc { font-size: 12.5px; color: var(--text2); line-height: 1.7; }
+
+  /* ── 푸터 ── */
+  .foot { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border);
+    font-size: 12px; color: var(--text3); line-height: 1.9; }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 40px 18px 70px; }
+    .site-title { font-size: 25px; }
+    .site-desc { font-size: 14px; }
+    .section-title { font-size: 18px; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site-header">
+    <div class="site-badge">GGHS 미디어정보리터러시</div>
+    <h1 class="site-title">수업 자료 모음</h1>
+    <p class="site-desc">데이터 분석 · 웹 만들기 · API 활용 · 파이썬 시각화<br>필요한 자료를 눌러서 바로 열어보세요.</p>
+  </header>
+
+  <div class="notice">
+    <div class="notice-title">📌 수업 유의사항</div>
+    <div class="notice-row b"><span class="mk">✦</span><span>저작권은 선생님께 있어요. 무단 배포·공유 금지</span></div>
+    <div class="notice-row b"><span class="mk">✦</span><span>모르는 게 당연해요. 모르면 물어보는 게 실력이에요.</span></div>
+    <div class="notice-row b"><span class="mk">✦</span><span>틀려도 괜찮아요. 코딩은 틀리면서 배우는 거예요.</span></div>
+    <div class="notice-row o"><span class="mk">✦</span><span>오류가 나도 포기하지 말아요. LLM에게 붙여넣고 도움 받기</span></div>
+    <div class="notice-row o"><span class="mk">✦</span><span>글자 하나 오류에 집중하지 말고 큰 흐름 보기</span></div>
+  </div>
+
+  <!-- ═══════ 오렌지3 데이터 분석 ═══════ -->
+  <section class="section">
+    <h2 class="section-title">🍊 오렌지3 데이터 분석</h2>
+    <p class="section-sub">코딩 없이 블록을 연결해서 머신러닝을 체험해요.</p>
+    <div class="grid">
+
+      <a class="card" href="abalone/abalone_final_worksheet.html">
+        <div class="card-top"><span class="card-icon">📊</span><span class="tag guide">학습지</span></div>
+        <div class="card-title">오렌지3 데이터분석</div>
+        <div class="card-desc">실제 사례 6가지로 지도·비지도 학습을 이해하고, 전복 데이터로 회귀 분석을 직접 해봐요.</div>
+      </a>
+
+      <a class="card" href="abalone/test_and_score_comparison.html">
+        <div class="card-top"><span class="card-icon">📐</span><span class="tag guide">참고 자료</span></div>
+        <div class="card-title">Test and Score 읽는 법</div>
+        <div class="card-desc">분류와 회귀의 평가 지표가 어떻게 다른지 타이타닉·전복 데이터로 비교해요.</div>
+      </a>
+
+      <a class="card" href="abalone/abalone_builder.html">
+        <div class="card-top"><span class="card-icon">🐚</span><span class="tag tool">도구</span></div>
+        <div class="card-title">전복 데이터 생성기</div>
+        <div class="card-desc">슬라이더로 값을 조절해 나만의 전복 데이터 CSV를 만들어요.</div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ═══════ 웹 만들기 · 게임 ═══════ -->
+  <section class="section">
+    <h2 class="section-title">🎮 웹 만들기 · 게임</h2>
+    <p class="section-sub">HTML · CSS · JS 세 파일로 나만의 게임을 만들어요.</p>
+    <div class="grid">
+
+      <a class="card" href="game/guide%20(2).html">
+        <div class="card-top"><span class="card-icon">🎯</span><span class="tag guide">실습 가이드</span></div>
+        <div class="card-label">1~2차시</div>
+        <div class="card-title">클릭 타겟 게임 만들기</div>
+        <div class="card-desc">HTML·CSS·JS 세 파일로 나눠서 게임을 만들고, AI로 기능을 추가해요.</div>
+      </a>
+
+      <a class="card" href="game/game2-guide.html">
+        <div class="card-top"><span class="card-icon">🕹️</span><span class="tag guide">실습 가이드</span></div>
+        <div class="card-label">2차시</div>
+        <div class="card-title">나만의 게임 만들기</div>
+        <div class="card-desc">AI 프롬프트로 게임을 만들며 세 파일의 구조를 익혀요.</div>
+      </a>
+
+      <a class="card" href="game/guide3.html">
+        <div class="card-top"><span class="card-icon">🗞️</span><span class="tag guide">실습 가이드</span></div>
+        <div class="card-label">3차시</div>
+        <div class="card-title">가짜뉴스 판별 게임 만들기</div>
+        <div class="card-desc">AI 합성 사건에서 패턴을 찾아 나만의 헤드라인·이미지로 판별 게임을 완성해요.</div>
+      </a>
+
+      <a class="card" href="game/index.html">
+        <div class="card-top"><span class="card-icon">🎯</span><span class="tag demo">완성 예시</span></div>
+        <div class="card-title">미니 타겟 게임</div>
+        <div class="card-desc">10초 안에 공을 클릭해 점수를 모으는 완성본. 먼저 해보고 만들어요.</div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ═══════ API 활용 ═══════ -->
+  <section class="section">
+    <h2 class="section-title">🌐 API 활용</h2>
+    <p class="section-sub">외부 서버의 실시간 데이터를 내 웹페이지로 가져와요.</p>
+    <div class="grid">
+
+      <a class="card" href="etc/api_lesson.html">
+        <div class="card-top"><span class="card-icon">🔌</span><span class="tag guide">개념</span></div>
+        <div class="card-title">API 수업 — 외부 데이터와 연결하기</div>
+        <div class="card-desc">내 파일 안의 데이터에서 벗어나, NASA·카카오 서버의 데이터를 불러오는 개념을 익혀요.</div>
+      </a>
+
+      <a class="card" href="nasa/nasa-guide.html">
+        <div class="card-top"><span class="card-icon">🚀</span><span class="tag guide">실습 가이드</span></div>
+        <div class="card-label">3차시</div>
+        <div class="card-title">NASA API 실습</div>
+        <div class="card-desc">fetch()로 NASA 우주 사진과 소행성 데이터를 가져와 웹페이지로 만들어요.</div>
+      </a>
+
+      <a class="card" href="nasa/nasa_explorer%20(1).html">
+        <div class="card-top"><span class="card-icon">🌌</span><span class="tag demo">완성 예시</span></div>
+        <div class="card-title">NASA 우주 탐험</div>
+        <div class="card-desc">오늘의 우주 사진과 지구 근접 소행성을 보여주는 완성본.</div>
+      </a>
+
+      <a class="card" href="mymap/kakaomap-search-guide.html">
+        <div class="card-top"><span class="card-icon">🗺️</span><span class="tag guide">실습 가이드</span></div>
+        <div class="card-label">4차시</div>
+        <div class="card-title">카카오맵 장소 검색 만들기</div>
+        <div class="card-desc">키워드를 입력하면 지도 위에 주변 장소를 찾아주는 서비스를 직접 제작해요.</div>
+      </a>
+
+      <a class="card" href="mymap/kakaomap-guide.html">
+        <div class="card-top"><span class="card-icon">😊</span><span class="tag guide">실습 가이드</span></div>
+        <div class="card-title">카카오맵으로 행복지도 만들기</div>
+        <div class="card-desc">행복지도 데이터를 지도 위에 시각화하고 나만의 버전으로 업그레이드해요.</div>
+      </a>
+
+      <a class="card" href="mymap/kakaomap-planning-sheet.html">
+        <div class="card-top"><span class="card-icon">📝</span><span class="tag sheet">기획서</span></div>
+        <div class="card-title">나만의 카카오맵 기획서</div>
+        <div class="card-desc">만들 지도를 미리 설계해보는 워크시트.</div>
+      </a>
+
+      <a class="card" href="mymap/kakaomap_visuals.html">
+        <div class="card-top"><span class="card-icon">🖼️</span><span class="tag tool">수업 자료</span></div>
+        <div class="card-title">카카오맵 수업 도식</div>
+        <div class="card-desc">프롬프트 4단계·수업 흐름 도식을 PNG로 내려받을 수 있어요.</div>
+      </a>
+
+      <a class="card" href="mymap/happiness-map.html">
+        <div class="card-top"><span class="card-icon">🗾</span><span class="tag demo">완성 예시</span></div>
+        <div class="card-title">대한민국 행복지도</div>
+        <div class="card-desc">전국 228개 시군구의 삶의 만족도를 지도로 본 완성본.</div>
+      </a>
+
+      <a class="card" href="mymap/neighborhood_map.html">
+        <div class="card-top"><span class="card-icon">🍭</span><span class="tag demo">완성 예시</span></div>
+        <div class="card-title">WELCOME TO MY MAP</div>
+        <div class="card-desc">동네별 맛집·병원·경찰서를 찾아주는 카카오맵 완성본.</div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ═══════ 파이썬 데이터 시각화 ═══════ -->
+  <section class="section">
+    <h2 class="section-title">🍀 파이썬 데이터 시각화</h2>
+    <p class="section-sub">1차시부터 순서대로 따라가면 돼요. 각 페이지 왼쪽 메뉴로도 이동할 수 있어요.</p>
+    <div class="grid">
+
+      <a class="card" href="python/chapter01.html">
+        <div class="card-top"><span class="card-icon">🐍</span><span class="tag guide">교재</span></div>
+        <div class="card-label">1차시</div>
+        <div class="card-title">파이썬 데이터 시각화 시작하기</div>
+        <div class="card-desc">코랩 사용법과 파이썬 기초 문법부터 차근차근.</div>
+      </a>
+
+      <a class="card" href="python/chapter02.html">
+        <div class="card-top"><span class="card-icon">🔍</span><span class="tag guide">교재</span></div>
+        <div class="card-label">2차시</div>
+        <div class="card-title">데이터 탐색하기</div>
+        <div class="card-desc">CSV를 불러와 어떤 데이터인지 살펴보는 방법.</div>
+      </a>
+
+      <a class="card" href="python/chapter03.html">
+        <div class="card-top"><span class="card-icon">📈</span><span class="tag guide">교재</span></div>
+        <div class="card-label">3차시</div>
+        <div class="card-title">데이터 시각화</div>
+        <div class="card-desc">막대·선·점 그래프로 데이터를 그림으로 바꿔요.</div>
+      </a>
+
+      <a class="card" href="python/chapter04.html">
+        <div class="card-top"><span class="card-icon">☁️</span><span class="tag guide">교재</span></div>
+        <div class="card-label">4차시</div>
+        <div class="card-title">워드클라우드 ①</div>
+        <div class="card-desc">글자 데이터에서 자주 나온 단어를 찾아 그림으로.</div>
+      </a>
+
+      <a class="card" href="python/chapter05.html">
+        <div class="card-top"><span class="card-icon">🌥️</span><span class="tag guide">교재</span></div>
+        <div class="card-label">5차시</div>
+        <div class="card-title">워드클라우드 ②</div>
+        <div class="card-desc">모양을 바꾸고 불용어를 다듬어 완성도를 높여요.</div>
+      </a>
+
+      <a class="card" href="python/chapter06.html">
+        <div class="card-top"><span class="card-icon">🗺️</span><span class="tag guide">교재</span></div>
+        <div class="card-label">6차시</div>
+        <div class="card-title">지도 시각화</div>
+        <div class="card-desc">folium으로 데이터를 지도 위에 찍고, 주소를 위경도로 바꿔요.</div>
+      </a>
+
+      <a class="card" href="python/chapter07.html">
+        <div class="card-top"><span class="card-icon">📋</span><span class="tag sheet">안내</span></div>
+        <div class="card-label">7차시</div>
+        <div class="card-title">수행평가 안내</div>
+        <div class="card-desc">배운 시각화 기술로 나만의 탐구 프로젝트를 기획해요.</div>
+      </a>
+
+    </div>
+  </section>
+
+  <div class="foot">
+    GGHS 미디어정보리터러시 · 수업 자료 모음<br>
+    모든 자료의 저작권은 담당 선생님께 있습니다. 무단 배포·공유를 금합니다.
+  </div>
+
+</div>
+</body>
+</html>
