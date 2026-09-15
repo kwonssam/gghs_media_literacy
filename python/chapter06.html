@@ -94,6 +94,17 @@
   .compare td.yes { color: var(--green); font-weight: 700; }
   .compare td.no  { color: var(--red); font-weight: 700; }
 
+  /* ══════ 도전 과제 카드 ══════ */
+  .task { border: 1.5px solid var(--border); border-radius: 10px; margin: 14px 0; overflow: hidden; background: var(--surface); }
+  .task-head { display: flex; align-items: center; gap: 9px; padding: 11px 16px; background: var(--bg); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .task-head .star { font-size: 12px; letter-spacing: -1px; flex-shrink: 0; }
+  .task-head .tt { font-size: 14.5px; font-weight: 700; color: var(--text); }
+  .task-head .tw { font-size: 11.5px; color: var(--text3); margin-left: auto; }
+  .task-body { padding: 12px 16px 14px; }
+  .task-body .code-block { margin: 0; }
+  .task-body p { margin: 0 0 8px; font-size: 13px; }
+  .hi { background: rgba(250,204,21,.22); border-radius: 3px; padding: 1px 2px; }
+
   /* ══════ 심화 접기 ══════ */
   .adv-wrap { margin-top: 34px; padding-top: 22px; border-top: 2px dashed var(--border); }
   .adv-lead { font-size: 13.5px; color: var(--text2); margin-bottom: 14px; }
@@ -396,7 +407,7 @@
         <h2 class="section-title">⚙️ 기초 설정 — 세 데이터 공통</h2>
         <p>어떤 탭을 하든 <strong>이 셀은 딱 한 번만</strong> 실행하면 됩니다.</p>
         <div class="code-block labeled">
-          <span class="code-label">공통 CELL — 준비</span>
+          <span class="code-label">CELL 1 — 준비 (한 번만 실행)</span>
           <button class="copy-btn">copy</button>
 <pre><span class="cm"># 구글 드라이브 연결 (팝업에서 본인 계정 허용)</span>
 <span class="kw">from</span> google.colab <span class="kw">import</span> drive
@@ -408,11 +419,7 @@ drive.<span class="fn">mount</span>(<span class="str">'/content/drive'</span>)
 !pip install folium -q
 <span class="kw">import</span> folium
 <span class="kw">from</span> folium.plugins <span class="kw">import</span> MarkerCluster, FastMarkerCluster
-<span class="kw">from</span> IPython.display <span class="kw">import</span> display
-
-<span class="cm"># 배경 지도 주소 — 한 번만 적어 두고 계속 재사용합니다</span>
-배경 = (<span class="str">'https://server.arcgisonline.com/ArcGIS/rest/services/'</span>
-        <span class="str">'World_Street_Map/MapServer/tile/{z}/{y}/{x}'</span>)</pre>
+<span class="kw">from</span> IPython.display <span class="kw">import</span> display</pre>
         </div>
 
         <h3 class="sub-title">🗺️ 배경 지도 정하기</h3>
@@ -425,22 +432,18 @@ drive.<span class="fn">mount</span>(<span class="str">'/content/drive'</span>)
         <p><code>folium.Map()</code>이 <strong>아래 겹</strong>을 깔고, <code>folium.Marker()</code>가 <strong>위 겹</strong>에 스티커를 붙입니다. 아래 겹을 <strong>어디서 받아올지</strong> 정하는 것이 <code>tiles=</code>입니다.</p>
         <div class="warn"><strong>⚠️ folium 기본값은 쓸 수 없습니다</strong> 기본값인 OpenStreetMap은 <strong>코랩에서 막혀 있어서</strong> 노란 <strong>"Access blocked"</strong> 줄무늬가 깔립니다. 그래서 이 자료는 <strong>Esri</strong>를 씁니다. 키도 가입도 필요 없습니다.</div>
         <div class="code-block labeled">
-          <span class="code-label">배경 지도 정하기</span>
+          <span class="code-label">CELL 2 — 배경 지도 (한 번만 실행)</span>
           <button class="copy-btn">copy</button>
-<pre><span class="cm"># 주소는 한 번만 적어 두고</span>
-배경 = (<span class="str">'https://server.arcgisonline.com/ArcGIS/rest/services/'</span>
-        <span class="str">'World_Street_Map/MapServer/tile/{z}/{y}/{x}'</span>)
-
-<span class="cm"># 지도를 만들 때마다 갖다 쓴다</span>
-지도 = folium.<span class="fn">Map</span>(
-    location=[<span class="num">37.659</span>, <span class="num">126.811</span>],
-    zoom_start=<span class="num">12</span>,
-    tiles=배경,
-    attr=<span class="str">'Esri'</span>            <span class="cm"># 지도 출처. 빼면 오류가 난다</span>
-)
-
-지도</pre>
+<pre>TILE_URL = (<span class="str">'https://server.arcgisonline.com/ArcGIS/rest/services/'</span>
+            <span class="str">'World_Street_Map/MapServer/tile/{z}/{y}/{x}'</span>)</pre>
         </div>
+        <p>이제 지도를 만들 때마다 <strong>이 두 가지를 붙이기만</strong> 하면 됩니다.</p>
+        <div class="code-block">
+          <button class="copy-btn">copy</button>
+<pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>,
+               tiles=TILE_URL, attr=<span class="str">'Esri'</span>)</pre>
+        </div>
+        <div class="warn"><strong>⚠️ <code>attr</code>을 빼면 오류가 납니다</strong> <strong>지도 출처를 밝히라</strong>는 규칙입니다. 안 쓰면 <code>You must provide an attribution</code> 오류가 납니다.</div>
         <p><strong>다른 지도를 쓰고 싶으면</strong> 주소에서 <code>World_Street_Map</code> 자리만 바꾸면 됩니다. 나머지 코드는 그대로입니다.</p>
         <div class="tbl-scroll"><table>
           <tr><th style="width:34%">바꿔 넣을 이름</th><th>모습</th></tr>
@@ -451,8 +454,9 @@ drive.<span class="fn">mount</span>(<span class="str">'/content/drive'</span>)
         </table></div>
         <div class="tip"><strong>💡 안 나올 때 — 세 가지만 확인하세요</strong><br>
         · <strong>노란 줄무늬</strong>가 깔린다 → <code>tiles=</code>와 <code>attr=</code>를 썼는지<br>
-        · <strong>마커</strong>가 안 보인다 → <code>.add_to(지도)</code>를 빼먹지 않았는지<br>
-        · <strong>아무것도 안 나온다</strong> → 마지막 줄에 <code>지도</code>를 썼는지</div>
+        · <strong>마커</strong>가 안 보인다 → <code>.add_to(m)</code>를 빼먹지 않았는지<br>
+        · <strong>아무것도 안 나온다</strong> → 마지막 줄에 <code>m</code>를 썼는지<br>
+        · <strong><code>&lt;folium.map.Marker at 0x...&gt;</code></strong> 만 나온다 → 코드 <strong>조각만</strong> 실행한 것. 셀 전체를 실행하세요</div>
         <div class="info"><strong>🤔 왜 막았을까</strong> OpenStreetMap은 <strong>기부금으로 운영되는 비영리</strong>라서, 출처를 밝히지 않는 요청을 막습니다. <strong>무료로 쓰는 데이터에도 누군가의 비용과 규칙이 있습니다.</strong></div>
       </div>
 
@@ -539,6 +543,7 @@ df.<span class="fn">head</span>(<span class="num">3</span>)</pre>
 df[<span class="str">'경도'</span>] = df[<span class="str">'경도'</span>].<span class="fn">replace</span>(<span class="str">'없음'</span>, pd.NA)</pre>
               </div>
               <div class="mrow"><span class="ml ml-fail">안 하면</span><div><code>ValueError: could not convert string to float: '없음'</code> — "'없음'을 숫자로 못 바꾸겠다"는 뜻입니다.</div></div>
+              <div class="mrow"><span class="ml ml-ok">헷갈림 주의</span><div>①은 <strong>"여기는 값이 없다"고 표시만</strong> 합니다. <strong>줄이 사라지는 것은 ④단계</strong>입니다. ①에서 줄 수를 세어 보면 그대로입니다.</div></div>
               <div class="mrow"><span class="ml ml-any">다른 데이터</span><div>데이터마다 쓰는 말이 다릅니다. <code>'-'</code> · <code>'미상'</code> · <code>'해당없음'</code> · <code>'N/A'</code> · <code>'.'</code> · 빈 칸 · 심지어 <code>0</code>. <strong>그래서 0단계에서 <code>unique()</code>로 먼저 봐야 합니다.</strong> 이 줄은 데이터마다 바뀝니다.</div></div>
               <div class="mrow"><span class="ml ml-ask">물어보기</span><div class="pbox"><button class="copy-btn">copy</button><pre>내 CSV의 '위도' 컬럼에 숫자가 아닌 값이 섞여 있는지 확인하고 싶어.
 고유값을 개수와 함께 보여 주고,
@@ -595,12 +600,12 @@ df[<span class="str">'경도'</span>] = pd.<span class="fn">to_numeric</span>(df
               <div class="mrow"><span class="ml ml-why">왜?</span><div>좌표가 없으면 <strong>지도 위 어디에도 놓을 수 없습니다.</strong> 그 줄은 지도를 그리는 동안만 빼 둡니다.</div></div>
               <div class="code-block">
                 <button class="copy-btn">copy</button>
-<pre>이전 = <span class="fn">len</span>(df)                                 <span class="cm"># 버리기 전에 세어 둔다</span>
+<pre>before = <span class="fn">len</span>(df)                                 <span class="cm"># 버리기 전에 세어 둔다</span>
 
 df.<span class="fn">dropna</span>(subset=[<span class="str">'위도'</span>, <span class="str">'경도'</span>], inplace=<span class="bi">True</span>)
 
-<span class="fn">print</span>(<span class="str">'버리기 전:'</span>, 이전, <span class="str">'줄'</span>)
-<span class="fn">print</span>(<span class="str">'버린 줄  :'</span>, 이전 - <span class="fn">len</span>(df), <span class="str">'줄'</span>)
+<span class="fn">print</span>(<span class="str">'버리기 전:'</span>, before, <span class="str">'줄'</span>)
+<span class="fn">print</span>(<span class="str">'버린 줄  :'</span>, before - <span class="fn">len</span>(df), <span class="str">'줄'</span>)
 <span class="fn">print</span>(<span class="str">'남은 줄  :'</span>, <span class="fn">len</span>(df), <span class="str">'줄'</span>)</pre>
               </div>
               <div class="mrow"><span class="ml ml-ok">꼭 셀 것</span><div><strong>몇 줄을 버렸는지 반드시 세어서 적어 두세요.</strong> 200줄 중 3줄을 버린 것과 <strong>150줄을 버린 것</strong>은 완전히 다른 이야기입니다.</div></div>
@@ -622,7 +627,7 @@ df.<span class="fn">dropna</span>(subset=[<span class="str">'위도'</span>, <sp
             <span class="code-label">A-3</span>
             <button class="copy-btn">copy</button>
 <pre><span class="cm"># location=[위도, 경도] · zoom_start 가 작을수록 넓게 보인다</span>
-m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>, tiles=배경, attr=<span class="str">'Esri'</span>)
+m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>, tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
 
 folium.<span class="fn">Marker</span>(
     location=[<span class="num">31.219272</span>, <span class="num">121.46998</span>],
@@ -634,7 +639,7 @@ folium.<span class="fn">Marker</span>(
           </div>
           <table>
             <tr><th style="width:30%">부분</th><th>하는 일</th></tr>
-            <tr><td><code>location=[위도, 경도]</code></td><td>지도의 <strong>가운데</strong>. 순서는 항상 위도 먼저</td></tr>
+            <tr><td><code>location=[lat, lon]</code></td><td>지도의 <strong>가운데</strong>. 순서는 항상 위도 먼저</td></tr>
             <tr><td><code>zoom_start</code></td><td><strong>3</strong>=아시아 전체, <strong>7</strong>=한 나라, <strong>12</strong>=도시, <strong>16</strong>=건물</td></tr>
             <tr><td><code>popup</code></td><td>마커를 <strong>클릭</strong>했을 때 나오는 말풍선</td></tr>
             <tr><td><code>tooltip</code></td><td>마커에 <strong>마우스를 올렸을</strong> 때 뜨는 짧은 글</td></tr>
@@ -646,8 +651,8 @@ folium.<span class="fn">Marker</span>(
           <div class="code-block labeled">
             <span class="code-label">A-4</span>
             <button class="copy-btn">copy</button>
-<pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>, tiles=배경, attr=<span class="str">'Esri'</span>)
-cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(m)   <span class="cm"># 마커를 담을 '뭉치'를 먼저 만든다</span>
+<pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>, tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
+cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(m)   <span class="cm"># 마커를 담을 'cluster'를 먼저 만든다</span>
 
 <span class="kw">for</span> idx, row <span class="kw">in</span> df.<span class="fn">iterrows</span>():
     folium.<span class="fn">Marker</span>(
@@ -662,13 +667,81 @@ cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>
           <div class="info"><strong>🤔 생각해 보기</strong> 뭉치 숫자가 가장 큰 나라는 어디인가요? 왜 그 나라에 사적지가 많을까요?</div>
 
           <h4 class="step-h"><span class="sn">5</span>심화 — 이렇게 바꿔 보세요</h4>
-          <table>
-            <tr><th style="width:12%">난이도</th><th>도전 과제</th><th style="width:40%">힌트</th></tr>
-            <tr><td>⭐</td><td>배경 지도 바꾸기</td><td><code>배경</code> 주소에서 <code>World_Street_Map</code> → <code>World_Imagery</code>(위성 사진)</td></tr>
-            <tr><td>⭐</td><td>마커 색·아이콘 바꾸기</td><td><code>icon=folium.Icon(color='red', icon='flag')</code></td></tr>
-            <tr><td>⭐⭐</td><td>popup에 두 줄 넣기</td><td><code>popup=row['사적지명(국문)'] + '&lt;br&gt;' + str(row['주소'])</code> ※ 실제 컬럼명 확인</td></tr>
-            <tr><td>⭐⭐</td><td>어떤 컬럼들이 있는지 모두 보기</td><td><code>print(list(df.columns))</code> → 쓸 만한 칸을 찾아보세요</td></tr>
-          </table>
+          <p>아래는 <strong>셀 전체</strong>입니다. 통째로 복사해서 실행하세요. <span class="hi">노란색 부분</span>이 ④단계와 달라진 곳입니다.</p>
+          <div class="warn"><strong>⚠️ <code>&lt;folium.map.Marker at 0x7f...&gt;</code> 같은 글씨만 나온다면</strong> <code>folium.Marker(...)</code> 부분만 <strong>따로 떼어 실행한 것</strong>입니다. 오류가 아니라 "마커 한 개를 만들었다"는 보고입니다. <strong>셀 전체를 실행</strong>하세요.</div>
+
+          <div class="task">
+            <div class="task-head"><span class="star">⭐</span><span class="tt">배경 지도를 위성 사진으로</span><span class="tw">CELL 2 를 고칩니다</span></div>
+            <div class="task-body">
+              <p>지도 코드는 그대로 두고 <strong>CELL 2 의 주소</strong>만 바꿉니다. 바꾼 뒤 CELL 2 를 <strong>다시 실행</strong>하세요.</p>
+              <div class="code-block">
+                <button class="copy-btn">copy</button>
+<pre>TILE_URL = (<span class="str">'https://server.arcgisonline.com/ArcGIS/rest/services/'</span>
+            <span class="str">'<span class="hi">World_Imagery</span>/MapServer/tile/{z}/{y}/{x}'</span>)</pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="task">
+            <div class="task-head"><span class="star">⭐</span><span class="tt">마커 색·아이콘 바꾸기</span><span class="tw">Marker 안에 한 줄 추가</span></div>
+            <div class="task-body">
+              <p><code>folium.Marker(</code> 괄호 <strong>안쪽 맨 끝</strong>에 한 줄을 더합니다. 앞 줄 끝에 <strong>쉼표</strong>를 찍는 것을 잊지 마세요.</p>
+              <div class="code-block">
+                <button class="copy-btn">copy</button>
+<pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>, tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
+cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(m)
+
+<span class="kw">for</span> idx, row <span class="kw">in</span> df.<span class="fn">iterrows</span>():
+    folium.<span class="fn">Marker</span>(
+        location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
+        popup=row[<span class="str">'사적지명(국문)'</span>],
+        tooltip=row[<span class="str">'사적지명(국문)'</span>],
+        <span class="hi">icon=folium.<span class="fn">Icon</span>(color=<span class="str">'red'</span>, icon=<span class="str">'flag'</span>)</span>
+    ).<span class="fn">add_to</span>(cluster)
+
+<span class="fn">display</span>(m)</pre>
+              </div>
+              <p style="margin-top:8px">color 에 쓸 수 있는 값 — <code>'red'</code> <code>'blue'</code> <code>'green'</code> <code>'purple'</code> <code>'orange'</code> <code>'black'</code></p>
+            </div>
+          </div>
+
+          <div class="task">
+            <div class="task-head"><span class="star">⭐⭐</span><span class="tt">쓸 수 있는 칸 이름 확인하기</span><span class="tw">popup 과제보다 먼저</span></div>
+            <div class="task-body">
+              <p>popup 에 새 정보를 넣으려면 <strong>그 칸이 진짜 있는지 먼저 봐야</strong> 합니다. 아무 셀에서나 실행해 보세요.</p>
+              <div class="code-block">
+                <button class="copy-btn">copy</button>
+<pre><span class="fn">print</span>(<span class="fn">list</span>(df.columns))</pre>
+              </div>
+              <div class="result"><span class="result-label">실행 결과 (일부)</span>['사적지관리번호', '사적지명(국문)', '사적지명(영문)', '등급', '종류',
+ '대륙', '국가', '지역', '문헌상주소', '주소(국문)', '위도', '경도',
+ '역사적의의', '설명(국문)', '인물', '단체', '사건', ... ]</div>
+              <p style="margin-top:8px">여기 <strong>없는 이름</strong>을 쓰면 다음 과제에서 오류가 납니다. <code>'국가'</code> 는 있지만 <code>'국가명'</code> 은 없습니다 — <strong>글자 하나가 다르면 다른 칸</strong>입니다.</p>
+            </div>
+          </div>
+
+          <div class="task">
+            <div class="task-head"><span class="star">⭐⭐</span><span class="tt">popup 에 두 줄 넣기</span><span class="tw">popup= 줄을 고칩니다</span></div>
+            <div class="task-body">
+              <p><code>+</code> 로 글자를 이어 붙입니다. <code>&lt;br&gt;</code> 는 <strong>줄 바꿈</strong>이라는 뜻입니다.</p>
+              <div class="code-block">
+                <button class="copy-btn">copy</button>
+<pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>, tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
+cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(m)
+
+<span class="kw">for</span> idx, row <span class="kw">in</span> df.<span class="fn">iterrows</span>():
+    folium.<span class="fn">Marker</span>(
+        location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
+        <span class="hi">popup=row[<span class="str">'사적지명(국문)'</span>] + <span class="str">'&lt;br&gt;'</span> + <span class="fn">str</span>(row[<span class="str">'국가'</span>])</span>,
+        tooltip=row[<span class="str">'사적지명(국문)'</span>]
+    ).<span class="fn">add_to</span>(cluster)
+
+<span class="fn">display</span>(m)</pre>
+              </div>
+              <p style="margin-top:8px"><code>'국가'</code> 자리에 위 과제에서 본 <strong>다른 칸 이름</strong>을 넣어도 됩니다. <code>'종류'</code>, <code>'등급'</code>, <code>'지역'</code> 같은 것들이요.</p>
+              <div class="warn" style="margin-top:8px"><strong>⚠️ <code>KeyError</code> 가 나면</strong> 오류 메시지 <strong>맨 마지막 줄</strong>을 보세요. <code>KeyError: '국가명'</code> 이라고 적혀 있으면 <strong>"'국가명'이라는 칸이 없다"</strong>는 뜻입니다. 파이썬이 <strong>없는 칸 이름을 그대로 알려 주는</strong> 것이니, 위 과제로 돌아가 정확한 이름을 확인하면 됩니다.</div>
+            </div>
+          </div>
         </div>
 
         <!-- ───────────── TAB B ───────────── -->
@@ -692,18 +765,15 @@ cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>
 
           <h4 class="step-h"><span class="sn">1</span>데이터 불러오기</h4>
           <p>파일을 코랩에 올리고 한 줄로 읽습니다. 왼쪽 <strong>📁 폴더 아이콘 → 업로드</strong>로 <code>고양시_학교.csv</code>를 올리세요.</p>
+          <div class="note"><strong>📝 먼저</strong> 위 <a href="#setup" style="color:var(--orange);font-weight:700">⚙️ 기초 설정</a>의 <strong>CELL 1·2를 한 번씩 실행</strong>해 두세요. 런타임을 새로 켤 때마다 한 번만 하면 됩니다.</div>
           <div class="code-block labeled">
             <span class="code-label">B-1</span>
             <button class="copy-btn">copy</button>
 <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
 <span class="kw">import</span> folium
 
-<span class="cm"># 배경 지도 주소 — 한 번만 적어 두고 계속 재사용합니다</span>
-배경 = (<span class="str">'https://server.arcgisonline.com/ArcGIS/rest/services/'</span>
-        <span class="str">'World_Street_Map/MapServer/tile/{z}/{y}/{x}'</span>)
-
-학교 = pd.<span class="fn">read_csv</span>(<span class="str">'/content/고양시_학교.csv'</span>)
-학교.<span class="fn">head</span>()</pre>
+df = pd.<span class="fn">read_csv</span>(<span class="str">'/content/고양시_학교.csv'</span>)
+df.<span class="fn">head</span>()</pre>
           </div>
           <div class="result"><span class="result-label">실행 결과</span>     학교명  학교급구분 설립형태            소재지도로명주소        위도         경도
 가람초등학교  초등학교   공립  경기도 고양시 덕양구 행신로311번길 78  37.623719  126.842224
@@ -717,8 +787,8 @@ cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>
           <div class="code-block labeled">
             <span class="code-label">B-2</span>
             <button class="copy-btn">copy</button>
-<pre><span class="fn">print</span>(학교.shape)                        <span class="cm"># (행 수, 열 수)</span>
-<span class="fn">print</span>(학교[<span class="str">'학교급구분'</span>].<span class="fn">value_counts</span>())     <span class="cm"># 초·중·고 몇 개씩?</span></pre>
+<pre><span class="fn">print</span>(df.shape)                        <span class="cm"># (행 수, 열 수)</span>
+<span class="fn">print</span>(df[<span class="str">'학교급구분'</span>].<span class="fn">value_counts</span>())     <span class="cm"># 초·중·고 몇 개씩?</span></pre>
           </div>
           <div class="result"><span class="result-label">실행 결과</span>(174, 6)
 
@@ -733,22 +803,22 @@ cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>
             <span class="code-label">B-3</span>
             <button class="copy-btn">copy</button>
 <pre><span class="cm"># 고등학교만 고르기</span>
-고등학교 = 학교[학교[<span class="str">'학교급구분'</span>] == <span class="str">'고등학교'</span>]
+high = df[df[<span class="str">'학교급구분'</span>] == <span class="str">'고등학교'</span>]
 
-<span class="fn">print</span>(<span class="fn">len</span>(고등학교), <span class="str">'개교'</span>)
-고등학교.<span class="fn">head</span>()</pre>
+<span class="fn">print</span>(<span class="fn">len</span>(high), <span class="str">'개교'</span>)
+high.<span class="fn">head</span>()</pre>
           </div>
           <div class="result"><span class="result-label">실행 결과</span>38 개교</div>
           <table>
             <tr><th style="width:34%">읽는 법</th><th>뜻</th></tr>
-            <tr><td><code>학교['학교급구분']</code></td><td>학교급구분 <strong>칸 전체</strong>를 꺼낸다</td></tr>
+            <tr><td><code>df['학교급구분']</code></td><td>학교급구분 <strong>칸 전체</strong>를 꺼낸다</td></tr>
             <tr><td><code>== '고등학교'</code></td><td>한 줄씩 <strong>맞나? 아닌가?</strong>를 따진다</td></tr>
-            <tr><td><code>학교[ ... ]</code></td><td><strong>맞는 줄만</strong> 남긴 새 표를 만든다</td></tr>
+            <tr><td><code>df[ ... ]</code></td><td><strong>맞는 줄만</strong> 남긴 새 표를 만든다</td></tr>
           </table>
           <div class="ask"><strong>📝 해보기</strong> 조건을 바꿔 실행해 보세요. 몇 개교가 나오나요?<br>
-          · 사립학교만 — <code>학교[학교['설립형태'] == '사립']</code><br>
-          · 일산서구만 — <code>학교[학교['소재지도로명주소'].str.contains('일산서구')]</code><br>
-          · 중학교만 — <code>학교[학교['학교급구분'] == '중학교']</code></div>
+          · 사립학교만 — <code>df[df['설립형태'] == '사립']</code><br>
+          · 일산서구만 — <code>df[df['소재지도로명주소'].str.contains('일산서구')]</code><br>
+          · 중학교만 — <code>df[df['학교급구분'] == '중학교']</code></div>
 
           <h4 class="step-h"><span class="sn">4</span>학교 한 곳을 지도에 표시하기</h4>
           <p>여기가 오늘의 <strong>첫 번째 새 개념</strong>입니다. 지도를 만들고, 그 위에 점을 하나 찍습니다.</p>
@@ -756,25 +826,25 @@ cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>
             <span class="code-label">B-4</span>
             <button class="copy-btn">copy</button>
 <pre><span class="cm"># 지도 만들기 — 고양시가 가운데 오도록</span>
-지도 = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>, tiles=배경, attr=<span class="str">'Esri'</span>)
+m = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>, tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
 
 <span class="cm"># 점 하나 찍기</span>
 folium.<span class="fn">Marker</span>(
     location=[<span class="num">37.6846</span>, <span class="num">126.8086</span>],
     tooltip=<span class="str">'고양국제고등학교'</span>
-).<span class="fn">add_to</span>(지도)
+).<span class="fn">add_to</span>(m)
 
-지도</pre>
+m</pre>
           </div>
           <table>
             <tr><th style="width:32%">부분</th><th>하는 일</th></tr>
-            <tr><td><code>location=[위도, 경도]</code></td><td>지도의 <strong>가운데</strong>. 순서는 <strong>항상 위도 먼저</strong></td></tr>
+            <tr><td><code>location=[lat, lon]</code></td><td>지도의 <strong>가운데</strong>. 순서는 <strong>항상 위도 먼저</strong></td></tr>
             <tr><td><code>zoom_start</code></td><td>확대 정도. <strong>9</strong>=경기도 · <strong>12</strong>=고양시 · <strong>16</strong>=학교 건물</td></tr>
             <tr><td><code>tooltip</code></td><td>마커에 <strong>마우스를 올렸을 때</strong> 뜨는 글</td></tr>
-            <tr><td><code>.add_to(지도)</code></td><td>만든 마커를 <strong>지도에 붙이기.</strong> 빼먹으면 아무것도 안 보입니다</td></tr>
-            <tr><td>마지막 줄 <code>지도</code></td><td>지도를 <strong>화면에 보여 준다.</strong> 이 줄이 없으면 아무 일도 안 일어납니다</td></tr>
+            <tr><td><code>.add_to(m)</code></td><td>만든 마커를 <strong>지도에 붙이기.</strong> 빼먹으면 아무것도 안 보입니다</td></tr>
+            <tr><td>마지막 줄 <code>m</code></td><td>지도를 <strong>화면에 보여 준다.</strong> 이 줄이 없으면 아무 일도 안 일어납니다</td></tr>
           </table>
-          <div class="tip"><strong>💡 <code>tiles=배경, attr='Esri'</code>는 왜 있나요?</strong> 이게 없으면 코랩에서 지도가 <strong>노란 "Access blocked" 줄무늬</strong>로 나옵니다. <code>배경</code>은 ①단계에서 적어 둔 <strong>배경 지도 주소</strong>이고, <code>attr</code>은 <strong>출처 표기</strong>입니다. 자세한 이유는 위 <a href="#setup" style="color:var(--green);font-weight:700">⚙️ 기초 설정</a>에 있습니다.</div>
+          <div class="tip"><strong>💡 <code>tiles=TILE_URL, attr='Esri'</code>는 왜 있나요?</strong> 이게 없으면 코랩에서 지도가 <strong>노란 "Access blocked" 줄무늬</strong>로 나옵니다. <code>TILE_URL</code>은 ①단계에서 적어 둔 <strong>배경 지도 주소</strong>이고, <code>attr</code>은 <strong>출처 표기</strong>입니다. 자세한 이유는 위 <a href="#setup" style="color:var(--green);font-weight:700">⚙️ 기초 설정</a>에 있습니다.</div>
           <div class="ask"><strong>📝 해보기</strong> <code>zoom_start</code>를 9로, 다시 16으로 바꿔 실행해 보세요. 그리고 <code>location</code>과 <code>tooltip</code>을 <strong>우리 학교</strong>로 바꿔 보세요. 좌표는 ③단계에서 우리 학교를 골라내면 찾을 수 있습니다.</div>
 
           <h4 class="step-h"><span class="sn">5</span>반복문으로 고양시 학교 전체 표시하기</h4>
@@ -782,22 +852,22 @@ folium.<span class="fn">Marker</span>(
           <div class="code-block labeled">
             <span class="code-label">B-5</span>
             <button class="copy-btn">copy</button>
-<pre>지도 = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>, tiles=배경, attr=<span class="str">'Esri'</span>)
+<pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>, tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
 
-<span class="kw">for</span> _, 행 <span class="kw">in</span> 학교.<span class="fn">iterrows</span>():
+<span class="kw">for</span> _, row <span class="kw">in</span> df.<span class="fn">iterrows</span>():
     folium.<span class="fn">Marker</span>(
-        location=[행[<span class="str">'위도'</span>], 행[<span class="str">'경도'</span>]],
-        tooltip=행[<span class="str">'학교명'</span>]
-    ).<span class="fn">add_to</span>(지도)
+        location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
+        tooltip=row[<span class="str">'학교명'</span>]
+    ).<span class="fn">add_to</span>(m)
 
-지도</pre>
+m</pre>
           </div>
           <div class="info"><strong>🤔 ④와 무엇이 달라졌나요?</strong> 딱 두 군데입니다.<br>
-          · 좌표를 직접 쓰던 자리에 → <code>행['위도']</code>, <code>행['경도']</code><br>
-          · 이름을 직접 쓰던 자리에 → <code>행['학교명']</code><br>
-          <strong><code>행</code>은 "지금 꺼낸 한 줄"이라는 뜻입니다.</strong> 첫 바퀴엔 가람초등학교, 다음 바퀴엔 가좌초등학교… 이렇게 174바퀴를 돕니다.</div>
+          · 좌표를 직접 쓰던 자리에 → <code>row['위도']</code>, <code>row['경도']</code><br>
+          · 이름을 직접 쓰던 자리에 → <code>row['학교명']</code><br>
+          <strong><code>row</code>은 "지금 꺼낸 한 줄"이라는 뜻입니다.</strong> 첫 바퀴엔 가람초등학교, 다음 바퀴엔 가좌초등학교… 이렇게 174바퀴를 돕니다.</div>
           <div class="warn"><strong>⚠️ 자주 나오는 실수 두 가지</strong><br>
-          · <code>.add_to(지도)</code>를 빼먹음 → 빈 지도만 나옵니다<br>
+          · <code>.add_to(m)</code>를 빼먹음 → 빈 지도만 나옵니다<br>
           · <code>for</code> 아래 줄의 <strong>들여쓰기</strong>가 없음 → <code>IndentationError</code></div>
 
           <h5 style="font-size:15px;font-weight:700;margin:26px 0 8px">바꿔 볼 것은 이 세 가지</h5>
@@ -823,19 +893,19 @@ folium.<span class="fn">Marker</span>(
             <span class="code-label">B-5 · 세 군데를 바꾼 예시 — 고양시 고등학교만</span>
             <button class="copy-btn">copy</button>
 <pre><span class="cm"># ② 조건을 바꿨다</span>
-대상 = 학교[학교[<span class="str">'학교급구분'</span>] == <span class="str">'고등학교'</span>]
+sel = df[df[<span class="str">'학교급구분'</span>] == <span class="str">'고등학교'</span>]
 
 <span class="cm"># ① 중심과 확대는 그대로</span>
-지도 = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>, tiles=배경, attr=<span class="str">'Esri'</span>)
+m = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>, tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
 
-<span class="kw">for</span> _, 행 <span class="kw">in</span> 대상.<span class="fn">iterrows</span>():
+<span class="kw">for</span> _, row <span class="kw">in</span> sel.<span class="fn">iterrows</span>():
     folium.<span class="fn">Marker</span>(
-        location=[행[<span class="str">'위도'</span>], 행[<span class="str">'경도'</span>]],
-        tooltip=행[<span class="str">'학교명'</span>],
-        popup=행[<span class="str">'소재지도로명주소'</span>]     <span class="cm"># ③ 클릭하면 주소가 보인다</span>
-    ).<span class="fn">add_to</span>(지도)
+        location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
+        tooltip=row[<span class="str">'학교명'</span>],
+        popup=row[<span class="str">'소재지도로명주소'</span>]     <span class="cm"># ③ 클릭하면 주소가 보인다</span>
+    ).<span class="fn">add_to</span>(m)
 
-지도</pre>
+m</pre>
           </div>
 
           <h4 class="step-h"><span class="sn">6</span>지도를 읽어내기 — 오늘의 진짜 목표</h4>
@@ -873,12 +943,12 @@ files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDr
                   recursive=<span class="bi">True</span>)
 <span class="fn">print</span>(files)        <span class="cm"># [] 이면 파일을 못 찾은 것</span>
 
-전국 = pd.<span class="fn">read_csv</span>(files[<span class="num">0</span>], encoding=<span class="str">'utf-8-sig'</span>)
-<span class="fn">print</span>(전국.shape)      <span class="cm"># (12011, 18)</span>
+df_all = pd.<span class="fn">read_csv</span>(files[<span class="num">0</span>], encoding=<span class="str">'utf-8-sig'</span>)
+<span class="fn">print</span>(df_all.shape)      <span class="cm"># (12011, 18)</span>
 
 <span class="cm"># 고양시만 뽑기 — 오늘 쓴 파일은 이렇게 만들었습니다</span>
-고양 = 전국[전국[<span class="str">'교육지원청명'</span>] == <span class="str">'경기도고양교육지원청'</span>]
-<span class="fn">print</span>(<span class="fn">len</span>(고양), <span class="str">'개교'</span>)     <span class="cm"># 174</span></pre>
+goyang = df_all[df_all[<span class="str">'교육지원청명'</span>] == <span class="str">'경기도고양교육지원청'</span>]
+<span class="fn">print</span>(<span class="fn">len</span>(goyang), <span class="str">'개교'</span>)     <span class="cm"># 174</span></pre>
                 </div>
                 <div class="tip"><strong>💡</strong> 지역을 고를 때는 주소를 뒤지는 것보다 <code>교육지원청명</code>이 훨씬 정확합니다. 전국 17개 시도교육청, 경기도만 25개 교육지원청이 있습니다.</div>
               </div>
@@ -891,14 +961,14 @@ files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDr
                 <div class="code-block">
                   <button class="copy-btn">copy</button>
 <pre><span class="cm"># ② 결측 — 비어 있는 칸이 있는가</span>
-<span class="fn">print</span>(학교.<span class="fn">isna</span>().<span class="fn">sum</span>())
+<span class="fn">print</span>(df.<span class="fn">isna</span>().<span class="fn">sum</span>())
 
 <span class="cm"># ③ 자료형 — 위도·경도가 숫자인가 (object 면 A 탭 정제로!)</span>
-<span class="fn">print</span>(학교[<span class="str">'위도'</span>].dtype, 학교[<span class="str">'경도'</span>].dtype)
+<span class="fn">print</span>(df[<span class="str">'위도'</span>].dtype, df[<span class="str">'경도'</span>].dtype)
 
 <span class="cm"># ④ 범위 — 한국 밖으로 튀어나간 좌표가 있는가</span>
-밖 = ~(학교[<span class="str">'위도'</span>].<span class="fn">between</span>(<span class="num">33</span>, <span class="num">39</span>) &amp; 학교[<span class="str">'경도'</span>].<span class="fn">between</span>(<span class="num">124</span>, <span class="num">132</span>))
-<span class="fn">print</span>(<span class="str">'한국 밖:'</span>, 밖.<span class="fn">sum</span>(), <span class="str">'개'</span>)</pre>
+outside = ~(df[<span class="str">'위도'</span>].<span class="fn">between</span>(<span class="num">33</span>, <span class="num">39</span>) &amp; df[<span class="str">'경도'</span>].<span class="fn">between</span>(<span class="num">124</span>, <span class="num">132</span>))
+<span class="fn">print</span>(<span class="str">'한국 밖:'</span>, outside.<span class="fn">sum</span>(), <span class="str">'개'</span>)</pre>
                 </div>
                 <div class="info"><strong>🤔 ④가 왜 필요한가</strong> 위도와 경도가 <strong>뒤바뀌면</strong> 위치가 중국 사막이 됩니다. 오류도 안 나고 지도도 잘 그려집니다. 그래서 제일 위험합니다.</div>
               </div>
@@ -919,20 +989,20 @@ files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDr
 <pre><span class="kw">from</span> folium.plugins <span class="kw">import</span> MarkerCluster, FastMarkerCluster
 
 <span class="cm"># 경기도 2,558개 — 뭉쳐서 보기</span>
-지도 = folium.<span class="fn">Map</span>(location=[<span class="num">37.434</span>, <span class="num">127.027</span>], zoom_start=<span class="num">9</span>, tiles=배경, attr=<span class="str">'Esri'</span>)
-뭉치 = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(지도)
+m = folium.<span class="fn">Map</span>(location=[<span class="num">37.434</span>, <span class="num">127.027</span>], zoom_start=<span class="num">9</span>, tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
+cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(m)
 
-<span class="kw">for</span> _, 행 <span class="kw">in</span> 경기.<span class="fn">iterrows</span>():
-    folium.<span class="fn">Marker</span>([행[<span class="str">'위도'</span>], 행[<span class="str">'경도'</span>]],
-                  tooltip=행[<span class="str">'학교명'</span>]).<span class="fn">add_to</span>(뭉치)   <span class="cm"># 지도가 아니라 뭉치에!</span>
-지도</pre>
+<span class="kw">for</span> _, row <span class="kw">in</span> gyeonggi.<span class="fn">iterrows</span>():
+    folium.<span class="fn">Marker</span>([row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
+                  tooltip=row[<span class="str">'학교명'</span>]).<span class="fn">add_to</span>(cluster)   <span class="cm"># m 이 아니라 cluster 에!</span>
+m</pre>
                 </div>
                 <div class="code-block">
                   <button class="copy-btn">copy</button>
 <pre><span class="cm"># 전국 12,011개 — for문 없이 한 번에</span>
-지도 = folium.<span class="fn">Map</span>(location=[<span class="num">36.45</span>, <span class="num">127.55</span>], zoom_start=<span class="num">7</span>, tiles=배경, attr=<span class="str">'Esri'</span>)
-<span class="fn">FastMarkerCluster</span>(전국[[<span class="str">'위도'</span>, <span class="str">'경도'</span>]].values.<span class="fn">tolist</span>()).<span class="fn">add_to</span>(지도)
-지도</pre>
+m = folium.<span class="fn">Map</span>(location=[<span class="num">36.45</span>, <span class="num">127.55</span>], zoom_start=<span class="num">7</span>, tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
+<span class="fn">FastMarkerCluster</span>(df_all[[<span class="str">'위도'</span>, <span class="str">'경도'</span>]].values.<span class="fn">tolist</span>()).<span class="fn">add_to</span>(m)
+m</pre>
                 </div>
               </div>
             </details>
@@ -943,23 +1013,23 @@ files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDr
                 <p>초·중·고를 <strong>다른 색</strong>으로 칠하고, 오른쪽 위 체크박스로 <strong>켜고 끌 수</strong> 있게 만듭니다. <code>for문</code> 안에 <code>for문</code>이 들어가는 구조라 난도가 한 단계 올라갑니다.</p>
                 <div class="code-block">
                   <button class="copy-btn">copy</button>
-<pre>색 = {<span class="str">'초등학교'</span>: <span class="str">'#3b82f6'</span>, <span class="str">'중학교'</span>: <span class="str">'#059669'</span>, <span class="str">'고등학교'</span>: <span class="str">'#dc2626'</span>}
+<pre>colors = {<span class="str">'초등학교'</span>: <span class="str">'#3b82f6'</span>, <span class="str">'중학교'</span>: <span class="str">'#059669'</span>, <span class="str">'고등학교'</span>: <span class="str">'#dc2626'</span>}
 
-지도 = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>,
-                  tiles=배경, attr=<span class="str">'Esri'</span>)
+m = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>,
+               tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
 
-<span class="kw">for</span> 급 <span class="kw">in</span> [<span class="str">'초등학교'</span>, <span class="str">'중학교'</span>, <span class="str">'고등학교'</span>]:
-    그룹 = folium.<span class="fn">FeatureGroup</span>(name=급)
-    <span class="kw">for</span> _, 행 <span class="kw">in</span> 학교[학교[<span class="str">'학교급구분'</span>] == 급].<span class="fn">iterrows</span>():
+<span class="kw">for</span> level <span class="kw">in</span> [<span class="str">'초등학교'</span>, <span class="str">'중학교'</span>, <span class="str">'고등학교'</span>]:
+    group = folium.<span class="fn">FeatureGroup</span>(name=level)
+    <span class="kw">for</span> _, row <span class="kw">in</span> df[df[<span class="str">'학교급구분'</span>] == level].<span class="fn">iterrows</span>():
         folium.<span class="fn">CircleMarker</span>(
-            location=[행[<span class="str">'위도'</span>], 행[<span class="str">'경도'</span>]],
-            radius=<span class="num">5</span>, color=색[급], fill=<span class="bi">True</span>, fill_opacity=<span class="num">0.8</span>, weight=<span class="num">0</span>,
-            tooltip=행[<span class="str">'학교명'</span>]
-        ).<span class="fn">add_to</span>(그룹)
-    그룹.<span class="fn">add_to</span>(지도)
+            location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
+            radius=<span class="num">5</span>, color=colors[level], fill=<span class="bi">True</span>, fill_opacity=<span class="num">0.8</span>, weight=<span class="num">0</span>,
+            tooltip=row[<span class="str">'학교명'</span>]
+        ).<span class="fn">add_to</span>(group)
+    group.<span class="fn">add_to</span>(m)
 
-folium.<span class="fn">LayerControl</span>(collapsed=<span class="bi">False</span>).<span class="fn">add_to</span>(지도)
-지도</pre>
+folium.<span class="fn">LayerControl</span>(collapsed=<span class="bi">False</span>).<span class="fn">add_to</span>(m)
+m</pre>
                 </div>
                 <div class="tip"><strong>💡 수업에서 쓰는 법</strong> 학생에게 코드를 짜게 하지 말고, <strong>선생님이 미리 실행해 둔 지도를 보여 주며</strong> ⑥단계의 "고등학교만 켜 보기"를 함께 하는 용도로 쓰면 좋습니다.</div>
               </div>
@@ -978,14 +1048,102 @@ folium.<span class="fn">LayerControl</span>(collapsed=<span class="bi">False</sp
             <details class="adv">
               <summary><span class="lvl">심화</span> 더 해 보고 싶은 학생에게 <span class="adv-why">도전 과제 5가지</span></summary>
               <div class="adv-body">
-                <div class="tbl-scroll"><table>
-                  <tr><th style="width:12%">난이도</th><th>과제</th><th style="width:38%">힌트</th></tr>
-                  <tr><td>⭐</td><td>배경 지도 바꾸기</td><td><code>배경</code> 주소에서 <code>World_Street_Map</code> → <code>World_Imagery</code>(위성 사진)</td></tr>
-                  <tr><td>⭐</td><td>마커 색·모양 바꾸기</td><td><code>icon=folium.Icon(color='red', icon='star')</code></td></tr>
-                  <tr><td>⭐⭐</td><td>popup에 두 줄 넣기</td><td><code>popup=행['학교명'] + '&lt;br&gt;' + 행['소재지도로명주소']</code></td></tr>
-                  <tr><td>⭐⭐</td><td>우리 동네만 골라 지도 만들기</td><td><code>학교['소재지도로명주소'].str.contains('행신')</code></td></tr>
-                  <tr><td>⭐⭐⭐</td><td>학교가 빽빽한 곳을 열지도로</td><td><code>from folium.plugins import HeatMap</code></td></tr>
-                </table></div>
+                <p>아래는 <strong>셀 전체</strong>입니다. 통째로 복사해서 실행하세요. <span class="hi">노란색 부분</span>이 B-⑤와 달라진 곳입니다.</p>
+
+                <div class="task">
+                  <div class="task-head"><span class="star">⭐</span><span class="tt">위성 사진으로 보기</span><span class="tw">CELL 2 를 고칩니다</span></div>
+                  <div class="task-body">
+                    <p>고친 뒤 <strong>CELL 2 를 다시 실행</strong>하고, 지도 코드를 또 실행하세요. 우리 학교 운동장이 보입니다.</p>
+                    <div class="code-block">
+                      <button class="copy-btn">copy</button>
+<pre>TILE_URL = (<span class="str">'https://server.arcgisonline.com/ArcGIS/rest/services/'</span>
+            <span class="str">'<span class="hi">World_Imagery</span>/MapServer/tile/{z}/{y}/{x}'</span>)</pre>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="task">
+                  <div class="task-head"><span class="star">⭐</span><span class="tt">마커 색·모양 바꾸기</span><span class="tw">Marker 안에 한 줄 추가</span></div>
+                  <div class="task-body">
+                    <p>앞 줄 끝에 <strong>쉼표</strong>를 찍고 한 줄을 더합니다.</p>
+                    <div class="code-block">
+                      <button class="copy-btn">copy</button>
+<pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>,
+               tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
+
+<span class="kw">for</span> _, row <span class="kw">in</span> df.<span class="fn">iterrows</span>():
+    folium.<span class="fn">Marker</span>(
+        location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
+        tooltip=row[<span class="str">'학교명'</span>],
+        <span class="hi">icon=folium.<span class="fn">Icon</span>(color=<span class="str">'red'</span>, icon=<span class="str">'star'</span>)</span>
+    ).<span class="fn">add_to</span>(m)
+
+m</pre>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="task">
+                  <div class="task-head"><span class="star">⭐⭐</span><span class="tt">클릭하면 주소까지 보이게</span><span class="tw">popup= 줄 추가</span></div>
+                  <div class="task-body">
+                    <div class="code-block">
+                      <button class="copy-btn">copy</button>
+<pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>,
+               tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
+
+<span class="kw">for</span> _, row <span class="kw">in</span> df.<span class="fn">iterrows</span>():
+    folium.<span class="fn">Marker</span>(
+        location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
+        tooltip=row[<span class="str">'학교명'</span>],
+        <span class="hi">popup=row[<span class="str">'학교명'</span>] + <span class="str">'&lt;br&gt;'</span> + row[<span class="str">'소재지도로명주소'</span>]</span>
+    ).<span class="fn">add_to</span>(m)
+
+m</pre>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="task">
+                  <div class="task-head"><span class="star">⭐⭐</span><span class="tt">우리 동네만 골라 보기</span><span class="tw">맨 윗줄에 한 줄 추가</span></div>
+                  <div class="task-body">
+                    <p>지도를 만들기 <strong>전에</strong> 골라내고, <code>for</code> 문에서 <code>df</code> 대신 <strong>골라낸 것</strong>을 씁니다.</p>
+                    <div class="code-block">
+                      <button class="copy-btn">copy</button>
+<pre><span class="hi">sel = df[df[<span class="str">'소재지도로명주소'</span>].str.<span class="fn">contains</span>(<span class="str">'행신'</span>)]</span>
+<span class="fn">print</span>(<span class="fn">len</span>(sel), <span class="str">'개교'</span>)
+
+m = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">14</span>,
+               tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
+
+<span class="kw">for</span> _, row <span class="kw">in</span> <span class="hi">sel</span>.<span class="fn">iterrows</span>():
+    folium.<span class="fn">Marker</span>(
+        location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
+        tooltip=row[<span class="str">'학교명'</span>]
+    ).<span class="fn">add_to</span>(m)
+
+m</pre>
+                    </div>
+                    <p style="margin-top:8px"><code>'행신'</code> 자리에 <strong>우리 동네 이름</strong>을 넣으세요. 0개교가 나오면 그 동네 이름이 주소에 없는 것입니다.</p>
+                  </div>
+                </div>
+
+                <div class="task">
+                  <div class="task-head"><span class="star">⭐⭐⭐</span><span class="tt">학교가 빽빽한 곳을 열지도로</span><span class="tw">Marker 대신 HeatMap</span></div>
+                  <div class="task-body">
+                    <p><code>for</code> 문이 통째로 사라지고 <strong>한 줄</strong>로 바뀝니다.</p>
+                    <div class="code-block">
+                      <button class="copy-btn">copy</button>
+<pre><span class="kw">from</span> folium.plugins <span class="kw">import</span> HeatMap
+
+m = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>,
+               tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
+
+<span class="hi"><span class="fn">HeatMap</span>(df[[<span class="str">'위도'</span>, <span class="str">'경도'</span>]].values.<span class="fn">tolist</span>(), radius=<span class="num">18</span>).<span class="fn">add_to</span>(m)</span>
+
+m</pre>
+                    </div>
+                  </div>
+                </div>
               </div>
             </details>
           </div>
@@ -1021,7 +1179,7 @@ df2.<span class="fn">head</span>(<span class="num">3</span>)</pre>
           </div>
 
           <h4 class="step-h"><span class="sn">2</span>좌표가 없다는 것을 확인</h4>
-          <p>A·B 탭에서는 <code>위도</code>·<code>경도</code> 칸이 <strong>있었습니다.</strong> 여기는 없습니다. 먼저 <strong>직접 확인</strong>합니다.</p>
+          <p>A·B 탭에서는 <code>lat</code>·<code>lon</code> 칸이 <strong>있었습니다.</strong> 여기는 없습니다. 먼저 <strong>직접 확인</strong>합니다.</p>
           <div class="code-block labeled">
             <span class="code-label">C-2</span>
             <button class="copy-btn">copy</button>
@@ -1046,7 +1204,7 @@ df2.<span class="fn">head</span>(<span class="num">3</span>)</pre>
             <tr><td>Admin 키</td><td>관리자용 — 절대 코드에 넣지 않기</td></tr>
           </table>
           <div class="warn"><strong>⚠️ 주의</strong> 꼭 <strong>REST API 키</strong>를 복사하세요. JavaScript 키를 넣으면 <code>401 Unauthorized</code>가 납니다. 그리고 <strong>키를 깃허브나 카톡에 올리지 마세요.</strong> 남이 내 키로 요청을 보낼 수 있습니다.</div>
-          <div class="info"><strong>🤔 왜 함수를 따로 만드나요?</strong> 같은 일을 수십~수백 번 해야 하니까요. 한 번 만들어 두면 <code>주소로_좌표찾기(주소)</code> 한 줄로 몇 번이든 씁니다. <strong>고치고 싶을 때 한 군데만 고치면 되는 것</strong>도 큰 장점입니다.</div>
+          <div class="info"><strong>🤔 왜 함수를 따로 만드나요?</strong> 같은 일을 수십~수백 번 해야 하니까요. 한 번 만들어 두면 <code>address_to_coord(addr)</code> 한 줄로 몇 번이든 씁니다. <strong>고치고 싶을 때 한 군데만 고치면 되는 것</strong>도 큰 장점입니다.</div>
           <div class="code-block labeled">
             <span class="code-label">C-3</span>
             <button class="copy-btn">copy</button>
@@ -1054,20 +1212,20 @@ df2.<span class="fn">head</span>(<span class="num">3</span>)</pre>
 
 KAKAO_API_KEY = <span class="str">'여기에_REST_API_키_입력'</span>
 
-<span class="kw">def</span> <span class="fn">주소로_좌표찾기</span>(주소):
+<span class="kw">def</span> <span class="fn">address_to_coord</span>(addr):
     url = <span class="str">'https://dapi.kakao.com/v2/local/search/address.json'</span>
     headers = {<span class="str">'Authorization'</span>: <span class="str">f'KakaoAK {KAKAO_API_KEY}'</span>}
-    결과 = requests.<span class="fn">get</span>(url, headers=headers, params={<span class="str">'query'</span>: 주소}).<span class="fn">json</span>()
+    res = requests.<span class="fn">get</span>(url, headers=headers, params={<span class="str">'query'</span>: addr}).<span class="fn">json</span>()
 
-    <span class="kw">if</span> 결과[<span class="str">'documents'</span>]:
+    <span class="kw">if</span> res[<span class="str">'documents'</span>]:
         <span class="cm"># y 가 위도, x 가 경도 — folium 과 순서가 반대!</span>
-        <span class="kw">return</span> <span class="fn">float</span>(결과[<span class="str">'documents'</span>][<span class="num">0</span>][<span class="str">'y'</span>]), <span class="fn">float</span>(결과[<span class="str">'documents'</span>][<span class="num">0</span>][<span class="str">'x'</span>])
+        <span class="kw">return</span> <span class="fn">float</span>(res[<span class="str">'documents'</span>][<span class="num">0</span>][<span class="str">'y'</span>]), <span class="fn">float</span>(res[<span class="str">'documents'</span>][<span class="num">0</span>][<span class="str">'x'</span>])
     <span class="kw">return</span> <span class="bi">None</span>, <span class="bi">None</span>
 
 <span class="cm"># 테스트 — 한 건만 먼저 해 본다</span>
-<span class="fn">print</span>(<span class="fn">주소로_좌표찾기</span>(<span class="str">'경기도 고양시 일산동구 위시티4로 112'</span>))</pre>
+<span class="fn">print</span>(<span class="fn">address_to_coord</span>(<span class="str">'경기도 고양시 일산동구 위시티4로 112'</span>))</pre>
           </div>
-          <div class="warn"><strong>⚠️ 가장 많이 하는 실수</strong> 카카오 API는 <strong><code>x</code>가 경도, <code>y</code>가 위도</strong>입니다. folium의 <code>[위도, 경도]</code>와 <strong>순서가 반대</strong>입니다. 바꿔 넣으면 엉뚱한 나라가 나옵니다.</div>
+          <div class="warn"><strong>⚠️ 가장 많이 하는 실수</strong> 카카오 API는 <strong><code>x</code>가 경도, <code>y</code>가 위도</strong>입니다. folium의 <code>[lat, lon]</code>와 <strong>순서가 반대</strong>입니다. 바꿔 넣으면 엉뚱한 나라가 나옵니다.</div>
 
           <h4 class="step-h"><span class="sn">4</span>전체 변환 → 저장 → 지도</h4>
           <div class="note"><strong>📝 참고</strong> 주소 하나마다 인터넷 요청을 한 번씩 보냅니다. 건수에 따라 <strong>1~2분</strong> 걸릴 수 있습니다. 멈춘 게 아니니 기다리세요.</div>
@@ -1075,8 +1233,8 @@ KAKAO_API_KEY = <span class="str">'여기에_REST_API_키_입력'</span>
             <span class="code-label">C-4 · 변환하고 저장</span>
             <button class="copy-btn">copy</button>
 <pre><span class="cm"># 주소 칸을 전부 좌표로 변환</span>
-df2[<span class="str">'위도'</span>] = df2[<span class="str">'사업장소재지(도로명)'</span>].<span class="fn">apply</span>(<span class="kw">lambda</span> x: <span class="fn">주소로_좌표찾기</span>(x)[<span class="num">0</span>])
-df2[<span class="str">'경도'</span>] = df2[<span class="str">'사업장소재지(도로명)'</span>].<span class="fn">apply</span>(<span class="kw">lambda</span> x: <span class="fn">주소로_좌표찾기</span>(x)[<span class="num">1</span>])
+df2[<span class="str">'위도'</span>] = df2[<span class="str">'사업장소재지(도로명)'</span>].<span class="fn">apply</span>(<span class="kw">lambda</span> x: <span class="fn">address_to_coord</span>(x)[<span class="num">0</span>])
+df2[<span class="str">'경도'</span>] = df2[<span class="str">'사업장소재지(도로명)'</span>].<span class="fn">apply</span>(<span class="kw">lambda</span> x: <span class="fn">address_to_coord</span>(x)[<span class="num">1</span>])
 
 <span class="cm"># 꼭 저장! 다음에 또 변환하지 않으려면</span>
 df2.<span class="fn">to_csv</span>(<span class="str">'/content/drive/MyDrive/동물병원_위도경도.csv'</span>,
@@ -1095,7 +1253,7 @@ df2 = pd.<span class="fn">read_csv</span>(<span class="str">'/content/drive/MyDr
 df2 = df2.<span class="fn">dropna</span>(subset=[<span class="str">'위도'</span>, <span class="str">'경도'</span>])
 <span class="fn">print</span>(<span class="fn">len</span>(df2), <span class="str">'곳'</span>)
 
-m2 = folium.<span class="fn">Map</span>(location=[<span class="num">37.656</span>, <span class="num">126.835</span>], zoom_start=<span class="num">13</span>, tiles=배경, attr=<span class="str">'Esri'</span>)
+m2 = folium.<span class="fn">Map</span>(location=[<span class="num">37.656</span>, <span class="num">126.835</span>], zoom_start=<span class="num">13</span>, tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
 cluster2 = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(m2)
 
 <span class="kw">for</span> idx, row <span class="kw">in</span> df2.<span class="fn">iterrows</span>():
@@ -1113,17 +1271,17 @@ cluster2 = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span
           <div class="code-block labeled">
             <span class="code-label">C-5 · 실패한 주소 찾기</span>
             <button class="copy-btn">copy</button>
-<pre>원본 = pd.<span class="fn">read_csv</span>(files2[<span class="num">0</span>], encoding=<span class="str">'cp949'</span>)
-변환 = pd.<span class="fn">read_csv</span>(<span class="str">'/content/drive/MyDrive/동물병원_위도경도.csv'</span>,
+<pre>orig = pd.<span class="fn">read_csv</span>(files2[<span class="num">0</span>], encoding=<span class="str">'cp949'</span>)
+conv = pd.<span class="fn">read_csv</span>(<span class="str">'/content/drive/MyDrive/동물병원_위도경도.csv'</span>,
                    encoding=<span class="str">'utf-8-sig'</span>)
 
-실패 = 변환[변환[<span class="str">'위도'</span>].<span class="fn">isna</span>()]
-<span class="fn">print</span>(<span class="str">'변환 실패:'</span>, <span class="fn">len</span>(실패), <span class="str">'건 /'</span>, <span class="fn">len</span>(원본), <span class="str">'건'</span>)
-실패[[<span class="str">'업소명'</span>, <span class="str">'사업장소재지(도로명)'</span>]]</pre>
+failed = conv[conv[<span class="str">'위도'</span>].<span class="fn">isna</span>()]
+<span class="fn">print</span>(<span class="str">'변환 실패:'</span>, <span class="fn">len</span>(failed), <span class="str">'건 /'</span>, <span class="fn">len</span>(orig), <span class="str">'건'</span>)
+failed[[<span class="str">'업소명'</span>, <span class="str">'사업장소재지(도로명)'</span>]]</pre>
           </div>
           <div class="info"><strong>🤔 왜 실패할까?</strong> 주소에 괄호나 층수가 붙어 있거나(<code>2층</code>, <code>101호</code>), 오래된 주소이거나, 띄어쓰기가 어긋나면 못 찾습니다. <strong>지도에서 사라진 동물병원은 문을 닫은 게 아니라, 주소 글자가 조금 달랐을 뿐입니다.</strong></div>
           <div class="ask"><strong>📝 해보기</strong> 실패한 주소에서 괄호 뒷부분을 지우고 다시 시도해 보세요.<br>
-          <code>주소로_좌표찾기(주소.split('(')[0].strip())</code></div>
+          <code>address_to_coord(addr.split('(')[0].strip())</code></div>
 
           <h5 style="font-size:14.5px;font-weight:700;margin:26px 0 8px">⑤-2 &nbsp;지오코딩은 얼마나 정확할까? (B 탭 데이터로 검증)</h5>
           <p>B 탭의 학교 데이터는 <strong>정답(원본 좌표)을 이미 알고 있습니다.</strong> 그래서 흔치 않은 실험이 가능합니다. <strong>주소로 좌표를 다시 구해 원본과 비교</strong>해 보는 것입니다.</p>
@@ -1131,17 +1289,17 @@ cluster2 = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span
             <span class="code-label">C-5-2 · 오차 재기</span>
             <button class="copy-btn">copy</button>
 <pre><span class="cm"># B 탭의 고양 고등학교 10곳으로 시험</span>
-표본 = 고양[고양[<span class="str">'학교급구분'</span>] == <span class="str">'고등학교'</span>].<span class="fn">head</span>(<span class="num">10</span>)
+sample = goyang[goyang[<span class="str">'학교급구분'</span>] == <span class="str">'고등학교'</span>].<span class="fn">head</span>(<span class="num">10</span>)
 
-<span class="kw">for</span> idx, row <span class="kw">in</span> 표본.<span class="fn">iterrows</span>():
-    새위도, 새경도 = <span class="fn">주소로_좌표찾기</span>(row[<span class="str">'소재지도로명주소'</span>])
-    <span class="kw">if</span> 새위도 <span class="kw">is</span> <span class="bi">None</span>:
+<span class="kw">for</span> idx, row <span class="kw">in</span> sample.<span class="fn">iterrows</span>():
+    new_lat, new_lon = <span class="fn">address_to_coord</span>(row[<span class="str">'소재지도로명주소'</span>])
+    <span class="kw">if</span> new_lat <span class="kw">is</span> <span class="bi">None</span>:
         <span class="fn">print</span>(row[<span class="str">'학교명'</span>], <span class="str">'→ 변환 실패'</span>)
         <span class="kw">continue</span>
 
     <span class="cm"># 위도 1도 ≈ 111km, 경도 1도 ≈ 88km (우리나라 기준)</span>
-    거리_m = (((새위도 - row[<span class="str">'위도'</span>]) * <span class="num">111000</span>) ** <span class="num">2</span> +
-              ((새경도 - row[<span class="str">'경도'</span>]) * <span class="num">88000</span>) ** <span class="num">2</span>) ** <span class="num">0.5</span>
+    dist_m = (((new_lat - row[<span class="str">'위도'</span>]) * <span class="num">111000</span>) ** <span class="num">2</span> +
+              ((new_lon - row[<span class="str">'경도'</span>]) * <span class="num">88000</span>) ** <span class="num">2</span>) ** <span class="num">0.5</span>
 
     <span class="fn">print</span>(<span class="str">f"{row['학교명']:16s} 차이 {거리_m:7.0f} m"</span>)</pre>
           </div>
@@ -1237,8 +1395,8 @@ cluster2 = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span
         <div class="code-block labeled">
           <span class="code-label">공통 CELL</span>
           <button class="copy-btn">copy</button>
-<pre>이상 = 전국[(전국[<span class="str">'학교명'</span>].str.<span class="fn">contains</span>(<span class="str">'중학교'</span>)) &amp; (전국[<span class="str">'학교급구분'</span>] != <span class="str">'중학교'</span>)]
-이상[[<span class="str">'학교명'</span>, <span class="str">'학교급구분'</span>, <span class="str">'소재지지번주소'</span>]]</pre>
+<pre>odd = df_all[(df_all[<span class="str">'학교명'</span>].str.<span class="fn">contains</span>(<span class="str">'중학교'</span>)) &amp; (df_all[<span class="str">'학교급구분'</span>] != <span class="str">'중학교'</span>)]
+odd[[<span class="str">'학교명'</span>, <span class="str">'학교급구분'</span>, <span class="str">'소재지지번주소'</span>]]</pre>
         </div>
         <div class="result"><span class="result-label">실행 결과 — 3건</span>넙도초등학교노화중학교넙도분교장       중학교    전라남도 완도군 노화읍 내리 488-1
 가거도초등학교신안흑산중학교가거도분교장   중학교    전라남도 신안군 흑산면 가거도리 266
@@ -1248,8 +1406,8 @@ cluster2 = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span
         · 그런데 <strong>인천신검단중학교가 "초등학교"</strong>로 되어 있습니다. 이건 <strong>입력 오류로 보입니다.</strong><br>
         → 만약 이 데이터로 "인천 서구 중학교 수"를 세어 기사를 쓴다면? <strong>한 개교가 빠진 기사</strong>가 됩니다.</div>
         <div class="ask"><strong>📝 해보기</strong> 다른 방식으로도 의심해 보세요.<br>
-        ① 좌표가 완전히 같은 학교가 있을까? — <code>전국.duplicated(subset=['위도','경도']).sum()</code> (같은 부지의 초·중·고 병설일 수 있습니다)<br>
-        ② 가장 오래된 학교는? — <code>전국.sort_values('설립일자').head(5)</code><br>
+        ① 좌표가 완전히 같은 학교가 있을까? — <code>df_all.duplicated(subset=['위도','경도']).sum()</code> (같은 부지의 초·중·고 병설일 수 있습니다)<br>
+        ② 가장 오래된 학교는? — <code>df_all.sort_values('설립일자').head(5)</code><br>
         ③ A 탭 데이터에서 정제 때 <strong>버려진 줄</strong>은 몇 개였나요? 그 사적지들은 어디에 있을까요?</div>
         <div class="note"><strong>📝 출처 밝히기</strong> B 탭 파일은 <strong>한국교육시설안전원</strong>의 「초중등학교 위치」이고 <code>데이터기준일자</code>는 <strong>2026-03-20</strong>입니다. 데이터를 쓸 때는 <strong>누가 · 언제 기준으로 만든 것인지</strong>를 항상 함께 밝혀야 합니다.</div>
       </div>
