@@ -408,46 +408,52 @@ drive.<span class="fn">mount</span>(<span class="str">'/content/drive'</span>)
 !pip install folium -q
 <span class="kw">import</span> folium
 <span class="kw">from</span> folium.plugins <span class="kw">import</span> MarkerCluster, FastMarkerCluster
-<span class="kw">from</span> IPython.display <span class="kw">import</span> display</pre>
+<span class="kw">from</span> IPython.display <span class="kw">import</span> display
+
+<span class="cm"># 배경 지도 주소 — 한 번만 적어 두고 계속 재사용합니다</span>
+배경 = (<span class="str">'https://server.arcgisonline.com/ArcGIS/rest/services/'</span>
+        <span class="str">'World_Street_Map/MapServer/tile/{z}/{y}/{x}'</span>)</pre>
         </div>
 
-        <h3 class="sub-title">⚠️ 지도 자리에 노란 줄무늬가 뜬다면</h3>
-        <p>지도 대신 <strong>"Access blocked"</strong>라고 적힌 노란 경고 타일이 깔리는 경우가 있습니다. <strong>코드가 틀린 게 아닙니다.</strong></p>
-        <h4 style="font-size:15px;font-weight:700;margin:20px 0 8px">먼저 — 지도는 두 겹입니다</h4>
-        <p>투명 필름 두 장을 겹친다고 생각하면 쉽습니다.</p>
+        <h3 class="sub-title">🗺️ 배경 지도 정하기</h3>
+        <p><strong>지도는 두 겹입니다.</strong></p>
         <div class="tbl-scroll"><table>
-          <tr><th style="width:14%"></th><th style="width:30%">무엇</th><th style="width:20%">누가 만드나</th><th>어디서 오나</th></tr>
-          <tr><td><strong>위 겹</strong></td><td>우리 <strong>마커</strong></td><td>우리가</td><td>내 CSV 파일에서 — <strong>인터넷 필요 없음</strong></td></tr>
-          <tr><td><strong>아래 겹</strong></td><td><strong>배경 지도</strong> (길·건물·지명)</td><td>남이</td><td><strong>인터넷 서버에서 받아옴</strong></td></tr>
+          <tr><th style="width:14%">겹</th><th style="width:34%">무엇</th><th>어디서 오나</th></tr>
+          <tr><td><strong>위</strong></td><td>내가 찍는 <strong>마커</strong></td><td>내 CSV 파일에서 — 인터넷 필요 없음</td></tr>
+          <tr><td><strong>아래</strong></td><td><strong>배경 지도</strong> (길·건물·지명)</td><td>인터넷 서버에서 받아옴</td></tr>
         </table></div>
-        <p><code>folium.Map()</code>이 <strong>아래 겹을 까는 명령</strong>이고, <code>folium.Marker()</code>는 <strong>위 겹에 스티커를 붙이는 명령</strong>입니다. <code>MarkerCluster</code>도 스티커를 묶어 주는 도구라 위쪽 이야기입니다.</p>
-        <p>그래서 <code>tiles=</code>는 <strong>"아래 겹을 어느 가게에서 받아올까"</strong>를 정하는 것입니다.</p>
-        <div class="warn"><strong>⚠️ 무슨 일이 일어난 건가요?</strong> folium이 기본으로 쓰는 <strong>OpenStreetMap 지도 서버가 코랩에서 오는 요청을 막고</strong> 있습니다. 코랩은 지도를 작은 액자(iframe) 안에 그리는데, 그 액자에는 <strong>"누가 요청했는지"</strong> 정보가 실리지 않습니다. OSM 서버는 출처를 알 수 없는 요청을 차단합니다.</div>
-        <p><strong>해결은 한 줄입니다.</strong> 지도를 만들 때 <code>tiles=</code>로 <strong>배경 지도를 바꾸면</strong> 됩니다. 이 자료의 모든 코드에는 이미 넣어 두었습니다.</p>
+        <p><code>folium.Map()</code>이 <strong>아래 겹</strong>을 깔고, <code>folium.Marker()</code>가 <strong>위 겹</strong>에 스티커를 붙입니다. 아래 겹을 <strong>어디서 받아올지</strong> 정하는 것이 <code>tiles=</code>입니다.</p>
+        <div class="warn"><strong>⚠️ folium 기본값은 쓸 수 없습니다</strong> 기본값인 OpenStreetMap은 <strong>코랩에서 막혀 있어서</strong> 노란 <strong>"Access blocked"</strong> 줄무늬가 깔립니다. 그래서 이 자료는 <strong>Esri</strong>를 씁니다. 키도 가입도 필요 없습니다.</div>
         <div class="code-block labeled">
-          <span class="code-label">배경 지도 바꾸기</span>
+          <span class="code-label">배경 지도 정하기</span>
           <button class="copy-btn">copy</button>
-<pre>지도 = folium.<span class="fn">Map</span>(
+<pre><span class="cm"># 주소는 한 번만 적어 두고</span>
+배경 = (<span class="str">'https://server.arcgisonline.com/ArcGIS/rest/services/'</span>
+        <span class="str">'World_Street_Map/MapServer/tile/{z}/{y}/{x}'</span>)
+
+<span class="cm"># 지도를 만들 때마다 갖다 쓴다</span>
+지도 = folium.<span class="fn">Map</span>(
     location=[<span class="num">37.659</span>, <span class="num">126.811</span>],
     zoom_start=<span class="num">12</span>,
-    tiles=<span class="str">'CartoDB positron'</span>      <span class="cm"># ← 이 한 줄이 핵심</span>
-)</pre>
+    tiles=배경,
+    attr=<span class="str">'Esri'</span>            <span class="cm"># 지도 출처. 빼면 오류가 난다</span>
+)
+
+지도</pre>
         </div>
-        <table>
-          <tr><th style="width:34%">값</th><th>모습</th></tr>
-          <tr><td><code>'CartoDB positron'</code></td><td>연한 회색. <strong>마커가 가장 잘 보입니다.</strong> 이 자료의 기본값</td></tr>
-          <tr><td><code>'CartoDB voyager'</code></td><td>일반 지도에 가까움. 도로에 색이 있습니다</td></tr>
-          <tr><td><code>'CartoDB dark_matter'</code></td><td>어두운 배경. 열지도(HeatMap)에 어울립니다</td></tr>
-        </table>
-        <div class="ask"><strong>🔍 학생과 함께 확인해 보기</strong> <code>tiles=</code>를 <strong>지우고</strong> 실행해 보세요. 노란 줄무늬가 깔립니다. 그런데 <strong>마커는 그 위에 멀쩡히 찍혀 있고, 마우스를 올리면 이름도 뜹니다.</strong><br>
-        왜 그럴까요? — <strong>마커는 우리 파일에서 우리 컴퓨터가 그리니까 인터넷이 필요 없고, 배경 지도만 남의 서버에서 받아오기 때문</strong>입니다. 막힌 건 <strong>아래 겹 하나뿐</strong>입니다.<br>
-        이걸 보고 나면 <em>"지도가 안 나와요"</em>가 아니라 <strong>"두 겹 중 아래 겹만 안 왔어요"</strong>라고 말할 수 있게 됩니다. <strong>오류를 뭉뚱그리지 않고 어디가 문제인지 짚는 연습</strong>입니다.</div>
-        <div class="tip"><strong>📋 외울 것은 세 줄</strong><br>
-        ① <code>folium.Map(</code> 이 있는 줄에는 <strong>항상 <code>tiles=</code></strong>를 쓴다<br>
-        ② <strong>배경</strong>이 안 나오면 → <code>tiles=</code> 문제<br>
-        ③ <strong>마커</strong>가 안 나오면 → <code>.add_to()</code>를 빼먹었거나 좌표 문제</div>
-        <div class="info"><strong>🤔 이것도 오늘 배울 것입니다</strong> 지도는 <strong>하늘에서 공짜로 내려오지 않습니다.</strong> 누군가 서버를 사서 전기요금을 내고 있습니다. OpenStreetMap은 <strong>자원봉사자와 기부금으로 운영되는 비영리</strong>라서, 출처를 밝히지 않는 대량 요청을 막습니다. 우리가 그 정책을 어긴 쪽이었던 겁니다.<br>
-        <strong>"무료로 쓰는 데이터에도 누군가의 비용과 규칙이 있다"</strong> — 데이터를 가져다 쓸 때 늘 확인해야 하는 것입니다.</div>
+        <p><strong>다른 지도를 쓰고 싶으면</strong> 주소에서 <code>World_Street_Map</code> 자리만 바꾸면 됩니다. 나머지 코드는 그대로입니다.</p>
+        <div class="tbl-scroll"><table>
+          <tr><th style="width:34%">바꿔 넣을 이름</th><th>모습</th></tr>
+          <tr><td><code>World_Street_Map</code></td><td>일반 도로 지도 — 기본값</td></tr>
+          <tr><td><code>World_Imagery</code></td><td><strong>위성 사진.</strong> 건물과 운동장이 보입니다</td></tr>
+          <tr><td><code>World_Topo_Map</code></td><td>산·등고선이 보이는 지형도</td></tr>
+          <tr><td><code>World_Gray_Canvas</code></td><td>연한 회색. 색깔 마커를 쓸 때</td></tr>
+        </table></div>
+        <div class="tip"><strong>💡 안 나올 때 — 세 가지만 확인하세요</strong><br>
+        · <strong>노란 줄무늬</strong>가 깔린다 → <code>tiles=</code>와 <code>attr=</code>를 썼는지<br>
+        · <strong>마커</strong>가 안 보인다 → <code>.add_to(지도)</code>를 빼먹지 않았는지<br>
+        · <strong>아무것도 안 나온다</strong> → 마지막 줄에 <code>지도</code>를 썼는지</div>
+        <div class="info"><strong>🤔 왜 막았을까</strong> OpenStreetMap은 <strong>기부금으로 운영되는 비영리</strong>라서, 출처를 밝히지 않는 요청을 막습니다. <strong>무료로 쓰는 데이터에도 누군가의 비용과 규칙이 있습니다.</strong></div>
       </div>
 
       <!-- ═══════════════════════════════════════════════════ -->
@@ -616,7 +622,7 @@ df.<span class="fn">dropna</span>(subset=[<span class="str">'위도'</span>, <sp
             <span class="code-label">A-3</span>
             <button class="copy-btn">copy</button>
 <pre><span class="cm"># location=[위도, 경도] · zoom_start 가 작을수록 넓게 보인다</span>
-m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>, tiles=<span class="str">'CartoDB positron'</span>)
+m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>, tiles=배경, attr=<span class="str">'Esri'</span>)
 
 folium.<span class="fn">Marker</span>(
     location=[<span class="num">31.219272</span>, <span class="num">121.46998</span>],
@@ -640,7 +646,7 @@ folium.<span class="fn">Marker</span>(
           <div class="code-block labeled">
             <span class="code-label">A-4</span>
             <button class="copy-btn">copy</button>
-<pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>, tiles=<span class="str">'CartoDB positron'</span>)
+<pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">30</span>, <span class="num">100</span>], zoom_start=<span class="num">3</span>, tiles=배경, attr=<span class="str">'Esri'</span>)
 cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(m)   <span class="cm"># 마커를 담을 '뭉치'를 먼저 만든다</span>
 
 <span class="kw">for</span> idx, row <span class="kw">in</span> df.<span class="fn">iterrows</span>():
@@ -658,7 +664,7 @@ cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>
           <h4 class="step-h"><span class="sn">5</span>심화 — 이렇게 바꿔 보세요</h4>
           <table>
             <tr><th style="width:12%">난이도</th><th>도전 과제</th><th style="width:40%">힌트</th></tr>
-            <tr><td>⭐</td><td>배경 지도 바꾸기</td><td><code>tiles='CartoDB voyager'</code> 또는 <code>'CartoDB dark_matter'</code></td></tr>
+            <tr><td>⭐</td><td>배경 지도 바꾸기</td><td><code>배경</code> 주소에서 <code>World_Street_Map</code> → <code>World_Imagery</code>(위성 사진)</td></tr>
             <tr><td>⭐</td><td>마커 색·아이콘 바꾸기</td><td><code>icon=folium.Icon(color='red', icon='flag')</code></td></tr>
             <tr><td>⭐⭐</td><td>popup에 두 줄 넣기</td><td><code>popup=row['사적지명(국문)'] + '&lt;br&gt;' + str(row['주소'])</code> ※ 실제 컬럼명 확인</td></tr>
             <tr><td>⭐⭐</td><td>어떤 컬럼들이 있는지 모두 보기</td><td><code>print(list(df.columns))</code> → 쓸 만한 칸을 찾아보세요</td></tr>
@@ -691,6 +697,10 @@ cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>
             <button class="copy-btn">copy</button>
 <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
 <span class="kw">import</span> folium
+
+<span class="cm"># 배경 지도 주소 — 한 번만 적어 두고 계속 재사용합니다</span>
+배경 = (<span class="str">'https://server.arcgisonline.com/ArcGIS/rest/services/'</span>
+        <span class="str">'World_Street_Map/MapServer/tile/{z}/{y}/{x}'</span>)
 
 학교 = pd.<span class="fn">read_csv</span>(<span class="str">'/content/고양시_학교.csv'</span>)
 학교.<span class="fn">head</span>()</pre>
@@ -746,7 +756,7 @@ cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>
             <span class="code-label">B-4</span>
             <button class="copy-btn">copy</button>
 <pre><span class="cm"># 지도 만들기 — 고양시가 가운데 오도록</span>
-지도 = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>, tiles=<span class="str">'CartoDB positron'</span>)
+지도 = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>, tiles=배경, attr=<span class="str">'Esri'</span>)
 
 <span class="cm"># 점 하나 찍기</span>
 folium.<span class="fn">Marker</span>(
@@ -764,7 +774,7 @@ folium.<span class="fn">Marker</span>(
             <tr><td><code>.add_to(지도)</code></td><td>만든 마커를 <strong>지도에 붙이기.</strong> 빼먹으면 아무것도 안 보입니다</td></tr>
             <tr><td>마지막 줄 <code>지도</code></td><td>지도를 <strong>화면에 보여 준다.</strong> 이 줄이 없으면 아무 일도 안 일어납니다</td></tr>
           </table>
-          <div class="tip"><strong>💡 <code>tiles='CartoDB positron'</code>는 왜 있나요?</strong> 이게 없으면 코랩에서 지도가 <strong>노란 "Access blocked" 줄무늬</strong>로 나옵니다. 이유는 위 <a href="#setup" style="color:var(--green);font-weight:700">⚙️ 기초 설정</a>에 적어 두었습니다.</div>
+          <div class="tip"><strong>💡 <code>tiles=배경, attr='Esri'</code>는 왜 있나요?</strong> 이게 없으면 코랩에서 지도가 <strong>노란 "Access blocked" 줄무늬</strong>로 나옵니다. <code>배경</code>은 ①단계에서 적어 둔 <strong>배경 지도 주소</strong>이고, <code>attr</code>은 <strong>출처 표기</strong>입니다. 자세한 이유는 위 <a href="#setup" style="color:var(--green);font-weight:700">⚙️ 기초 설정</a>에 있습니다.</div>
           <div class="ask"><strong>📝 해보기</strong> <code>zoom_start</code>를 9로, 다시 16으로 바꿔 실행해 보세요. 그리고 <code>location</code>과 <code>tooltip</code>을 <strong>우리 학교</strong>로 바꿔 보세요. 좌표는 ③단계에서 우리 학교를 골라내면 찾을 수 있습니다.</div>
 
           <h4 class="step-h"><span class="sn">5</span>반복문으로 고양시 학교 전체 표시하기</h4>
@@ -772,7 +782,7 @@ folium.<span class="fn">Marker</span>(
           <div class="code-block labeled">
             <span class="code-label">B-5</span>
             <button class="copy-btn">copy</button>
-<pre>지도 = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>, tiles=<span class="str">'CartoDB positron'</span>)
+<pre>지도 = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>, tiles=배경, attr=<span class="str">'Esri'</span>)
 
 <span class="kw">for</span> _, 행 <span class="kw">in</span> 학교.<span class="fn">iterrows</span>():
     folium.<span class="fn">Marker</span>(
@@ -816,7 +826,7 @@ folium.<span class="fn">Marker</span>(
 대상 = 학교[학교[<span class="str">'학교급구분'</span>] == <span class="str">'고등학교'</span>]
 
 <span class="cm"># ① 중심과 확대는 그대로</span>
-지도 = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>, tiles=<span class="str">'CartoDB positron'</span>)
+지도 = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>, tiles=배경, attr=<span class="str">'Esri'</span>)
 
 <span class="kw">for</span> _, 행 <span class="kw">in</span> 대상.<span class="fn">iterrows</span>():
     folium.<span class="fn">Marker</span>(
@@ -909,7 +919,7 @@ files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDr
 <pre><span class="kw">from</span> folium.plugins <span class="kw">import</span> MarkerCluster, FastMarkerCluster
 
 <span class="cm"># 경기도 2,558개 — 뭉쳐서 보기</span>
-지도 = folium.<span class="fn">Map</span>(location=[<span class="num">37.434</span>, <span class="num">127.027</span>], zoom_start=<span class="num">9</span>, tiles=<span class="str">'CartoDB positron'</span>)
+지도 = folium.<span class="fn">Map</span>(location=[<span class="num">37.434</span>, <span class="num">127.027</span>], zoom_start=<span class="num">9</span>, tiles=배경, attr=<span class="str">'Esri'</span>)
 뭉치 = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(지도)
 
 <span class="kw">for</span> _, 행 <span class="kw">in</span> 경기.<span class="fn">iterrows</span>():
@@ -920,7 +930,7 @@ files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDr
                 <div class="code-block">
                   <button class="copy-btn">copy</button>
 <pre><span class="cm"># 전국 12,011개 — for문 없이 한 번에</span>
-지도 = folium.<span class="fn">Map</span>(location=[<span class="num">36.45</span>, <span class="num">127.55</span>], zoom_start=<span class="num">7</span>, tiles=<span class="str">'CartoDB positron'</span>)
+지도 = folium.<span class="fn">Map</span>(location=[<span class="num">36.45</span>, <span class="num">127.55</span>], zoom_start=<span class="num">7</span>, tiles=배경, attr=<span class="str">'Esri'</span>)
 <span class="fn">FastMarkerCluster</span>(전국[[<span class="str">'위도'</span>, <span class="str">'경도'</span>]].values.<span class="fn">tolist</span>()).<span class="fn">add_to</span>(지도)
 지도</pre>
                 </div>
@@ -936,7 +946,7 @@ files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDr
 <pre>색 = {<span class="str">'초등학교'</span>: <span class="str">'#3b82f6'</span>, <span class="str">'중학교'</span>: <span class="str">'#059669'</span>, <span class="str">'고등학교'</span>: <span class="str">'#dc2626'</span>}
 
 지도 = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>,
-                  tiles=<span class="str">'CartoDB positron'</span>)
+                  tiles=배경, attr=<span class="str">'Esri'</span>)
 
 <span class="kw">for</span> 급 <span class="kw">in</span> [<span class="str">'초등학교'</span>, <span class="str">'중학교'</span>, <span class="str">'고등학교'</span>]:
     그룹 = folium.<span class="fn">FeatureGroup</span>(name=급)
@@ -970,7 +980,7 @@ folium.<span class="fn">LayerControl</span>(collapsed=<span class="bi">False</sp
               <div class="adv-body">
                 <div class="tbl-scroll"><table>
                   <tr><th style="width:12%">난이도</th><th>과제</th><th style="width:38%">힌트</th></tr>
-                  <tr><td>⭐</td><td>배경 지도 바꾸기</td><td><code>tiles='CartoDB voyager'</code> 또는 <code>'CartoDB dark_matter'</code></td></tr>
+                  <tr><td>⭐</td><td>배경 지도 바꾸기</td><td><code>배경</code> 주소에서 <code>World_Street_Map</code> → <code>World_Imagery</code>(위성 사진)</td></tr>
                   <tr><td>⭐</td><td>마커 색·모양 바꾸기</td><td><code>icon=folium.Icon(color='red', icon='star')</code></td></tr>
                   <tr><td>⭐⭐</td><td>popup에 두 줄 넣기</td><td><code>popup=행['학교명'] + '&lt;br&gt;' + 행['소재지도로명주소']</code></td></tr>
                   <tr><td>⭐⭐</td><td>우리 동네만 골라 지도 만들기</td><td><code>학교['소재지도로명주소'].str.contains('행신')</code></td></tr>
@@ -1085,7 +1095,7 @@ df2 = pd.<span class="fn">read_csv</span>(<span class="str">'/content/drive/MyDr
 df2 = df2.<span class="fn">dropna</span>(subset=[<span class="str">'위도'</span>, <span class="str">'경도'</span>])
 <span class="fn">print</span>(<span class="fn">len</span>(df2), <span class="str">'곳'</span>)
 
-m2 = folium.<span class="fn">Map</span>(location=[<span class="num">37.656</span>, <span class="num">126.835</span>], zoom_start=<span class="num">13</span>, tiles=<span class="str">'CartoDB positron'</span>)
+m2 = folium.<span class="fn">Map</span>(location=[<span class="num">37.656</span>, <span class="num">126.835</span>], zoom_start=<span class="num">13</span>, tiles=배경, attr=<span class="str">'Esri'</span>)
 cluster2 = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(m2)
 
 <span class="kw">for</span> idx, row <span class="kw">in</span> df2.<span class="fn">iterrows</span>():
