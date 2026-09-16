@@ -389,6 +389,42 @@
     .mstep-head { padding: 10px 12px; }
     .pbox pre { margin-right: 0; margin-top: 22px; }
   }
+
+  /* B탭 · 탐구 목표와 문제별 실행 절차 */
+  #panel-b .b-goals { margin:18px 0; padding:20px 22px; border:1.5px solid var(--primary-border); border-radius:12px; background:var(--primary-bg); }
+  #panel-b .b-goals h4 { font-size:15px; color:var(--primary); margin-bottom:12px; }
+  #panel-b .b-goals ol { padding-left:23px; display:grid; gap:12px; }
+  #panel-b .b-goals li::marker { color:var(--primary); font-weight:700; }
+  #panel-b .b-goals a { color:var(--text2); text-decoration:none; font-size:14px; line-height:1.8; }
+  #panel-b .b-goals a:hover { text-decoration:underline; }
+  #panel-b .b-goals a:focus-visible { outline:2px solid var(--primary); outline-offset:3px; }
+  #panel-b .b-goals strong { color:var(--text); }
+  #panel-b .b-inquiry, #panel-b .b-goals { scroll-margin-top:24px; }
+  #panel-b .b-flow { margin:20px 0 28px; padding:16px; border:1px solid var(--border); border-radius:12px; background:var(--bg); }
+  #panel-b .b-flow-title { font-size:12px; font-weight:700; color:var(--primary); margin-bottom:14px; }
+  #panel-b .b-flow ol { list-style:none; display:grid; gap:28px; }
+  #panel-b .b-flow li { display:grid; grid-template-columns:28px minmax(0,1fr) auto; align-items:start; gap:10px; position:relative; padding:13px; border:1px solid var(--primary-border); background:#fff; border-radius:10px; }
+  #panel-b .b-flow li:not(:last-child)::after { content:'↓'; position:absolute; bottom:-26px; left:calc(50% - 8px); width:16px; text-align:center; color:var(--primary); font-size:19px; line-height:24px; }
+  #panel-b .b-flow li:last-child { border-color:var(--green-border); background:var(--green-bg); }
+  #panel-b .b-flow-num { border-radius:50%; background:var(--primary-bg); color:var(--primary); text-align:center; width:26px; height:26px; font-size:12px; font-weight:700; line-height:26px; }
+  #panel-b .b-flow strong { font-size:14px; }
+  #panel-b .b-flow p { margin:4px 0 0; font-size:12.5px; line-height:1.65; }
+  #panel-b .b-flow-ref { font-size:11px; font-weight:700; color:var(--primary); border:1px solid var(--primary-border); padding:2px 7px; border-radius:20px; white-space:nowrap; }
+  #panel-b .b-cell { margin-top:30px; padding-top:20px; border-top:1px solid var(--border); }
+  #panel-b .b-cell-title { font-size:16px; line-height:1.7; }
+  #panel-b .b-cell-title span { display:block; font-family:'DM Mono',monospace; font-size:11px; color:var(--primary); letter-spacing:.04em; }
+  #panel-b .b-cell .cm { color:#9aafbc; }
+  #panel-b .b-cell .code-label { color:#a6b6cb; }
+  #panel-b .b-inquiry .inq-q { font-size:15.5px; }
+  #panel-b .b-return { display:inline-block; margin:16px 0; color:var(--primary); font-size:13px; }
+  @media(max-width:600px) {
+    #panel-b .b-goals { padding:16px; }
+    #panel-b .b-flow { padding:12px; }
+    #panel-b .b-flow li { grid-template-columns:26px minmax(0,1fr); padding:10px; }
+    #panel-b .b-flow-ref { grid-column:2; justify-self:start; }
+    #panel-b .b-cell .lex-r { grid-template-columns:1fr; gap:5px; }
+    #panel-b .b-cell .code-block { padding-left:14px; padding-right:14px; }
+  }
 </style>
 </head>
 <body>
@@ -1047,6 +1083,16 @@ cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>
         <div class="tab-panel p-b" id="panel-b" role="tabpanel">
           <div class="ds-head">
             <h3>🏫 B · 우리 지역 학교 지도</h3>
+
+          <div class="b-goals" id="b-goals" aria-labelledby="b-goals-title">
+            <h4 id="b-goals-title">이 수업을 마치면 할 수 있는 일 세 가지</h4>
+            <ol>
+              <li><a href="#b-inquiry-1"><strong>학교가 모인 곳과 드문 곳</strong>을 찾아 주변 환경과 비교할 수 있다.</a></li>
+              <li><a href="#b-inquiry-2"><strong>초·중·고의 분포</strong>를 비교하고 통학 여건에 관한 질문을 만들 수 있다.</a></li>
+              <li><a href="#b-inquiry-3"><strong>공립·사립의 위치와 학교급 구성</strong>을 비교하고 추가로 확인할 자료를 제시할 수 있다.</a></li>
+            </ol>
+          </div>
+
             <p><strong>전국 12,011개 학교</strong>가 통째로 들어 있는 파일입니다. 여기서 <strong>우리 지역만 직접 골라내서</strong> 지도에 찍고, 그 지도로 <strong>우리 동네에 관한 질문을 만드는 것</strong>이 오늘 할 일입니다.</p>
             <span class="ds-file">전국초중등학교위치표준데이터.xls · 12,011행 × 20열 → 고양시 174행</span>
           </div>
@@ -1121,7 +1167,7 @@ cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>
             <div class="rb"><div class="rn">STEP ⑤</div><div class="rt">읽어내기</div><div class="rx">탐구 3주제</div></div>
           </div>
 
-          <div class="tip"><strong>💡 오늘 새로 배우는 것은 딱 두 개입니다</strong> <code>folium.Map()</code>으로 지도를 만들고, <code>folium.Marker()</code>로 점을 찍는 것. 나머지(<code>read_excel</code> · <code>head()</code> · 조건으로 고르기 · <code>for문</code>)는 <strong>1~5차시에서 이미 해 본 것</strong>입니다.</div>
+          <div class="tip"><strong>💡 먼저 지도와 마커를 익힙니다</strong> <code>folium.Map()</code>으로 지도를 만들고, <code>folium.Marker()</code>로 점을 찍습니다. ⑤단계에서는 <strong>필터링 조건과 반복문에 넣는 표</strong>를 바꾸어 세 문제를 탐구합니다. 각 문제에 필터링·확인 셀과 지도 표시 셀을 제공합니다.</div>
 
           <h4 class="step-h"><span class="sn">1</span>데이터 불러오기 — 그리고 첫 번째 함정</h4>
           <p><code>전국초중등학교위치표준데이터.xls</code>를 <strong>내 구글 드라이브</strong>에 저장해 두세요. A 탭과 <strong>똑같은 모양</strong>의 코드입니다.</p>
@@ -1406,133 +1452,178 @@ m</pre>
           "저 동네는 학교가 적네 → <s>낙후된 동네구나</s>" — 이건 지도가 알려 준 게 아니라 <strong>내가 덧붙인 것</strong>입니다.<br>
           <strong>3단계까지 가야 "그럼 확인해 보자"가 됩니다.</strong> 오늘 세 가지 주제를 이 틀로 해 봅니다.</div>
 
-          <!-- ══ 탐구 1 ══ -->
-          <div class="inq">
-            <div class="inq-h">
-              <div class="inq-n">탐구 1 · 학교가 모인 곳과 드문 곳</div>
-              <div class="inq-q">같은 고양시인데, 왜 어떤 동네에는 학교가 많고 어떤 동네에는 적을까?</div>
-            </div>
-            <div class="inq-b">
-              <div class="inq-l">🗺️ 지도에서 먼저 확인할 것</div>
-              <p>④단계에서 그린 <strong>고양시 174개 전체 지도</strong>를 켜 놓고, <strong>두 곳만</strong> 고르세요.</p>
-              <div class="tbl-scroll"><table class="fill">
-                <tr><th style="width:30%">고를 것</th><th style="width:34%">어디인가</th><th>주변에 무엇이 있나</th></tr>
-                <tr><td>점이 <strong>가장 빽빽한 곳</strong></td><td class="blank">___________</td><td class="blank">_______________</td></tr>
-                <tr><td>점이 <strong>거의 없는 곳</strong></td><td class="blank">___________</td><td class="blank">_______________</td></tr>
-              </table></div>
-              <div class="tip"><strong>💡 주변에 뭐가 있는지 모르겠으면</strong> 아래 심화의 <strong>위성 사진 배경</strong>으로 바꿔 보세요. 산인지, 논밭인지, 아파트 단지인지가 바로 보입니다. <strong>빈 곳이 왜 비었는지 확인하는 것 자체가 답입니다.</strong></div>
+<div class="note"><strong>코랩에서 실행하는 순서</strong> 먼저 <a href="#setup">기초 설정 CELL 1·2</a>와 <strong>B-1의 header=1 고침</strong>을 실행해 전국 표 <code>df_all</code>을 준비하세요. 각 탐구의 첫 셀에서 고양시를 다시 선택하므로 <strong>세 탐구는 각각 시작할 수 있습니다.</strong> 탐구 안에서는 셀 번호 순서대로 실행하세요.</div>
+<p>아래 <strong>copy</strong>를 눌러 코랩의 새 코드 셀에 붙여넣으세요. <strong>조건으로 고르기 → 개수·내용 확인 → 반복문으로 지도에 찍기</strong>를 문제마다 실행합니다. 지도는 출력된 화면을 보며 비교하고, 관찰·해석 질문은 각 문제 끝의 설명을 읽고 생각해 보세요.</p>
+<article class="inq b-inquiry" id="b-inquiry-1" aria-labelledby="b-question-1"><div class="inq-h"><div class="inq-n">탐구 1 · 학교가 모인 곳과 드문 곳</div><h5 class="inq-q" id="b-question-1">같은 고양시인데, 왜 어떤 동네에는 학교가 많고 어떤 동네에는 적을까?</h5></div><div class="inq-b"><div class="b-flow" aria-label="탐구 1 해결 순서"><div class="b-flow-title">문제 해결 순서</div><ol><li><span class="b-flow-num">1</span><div><strong>고양시 학교만 필터링</strong><p>전국 표 df_all에서 교육지원청명이 경기도고양교육지원청인 행을 골라 df에 저장한다.</p></div><span class="b-flow-ref">셀 1</span></li><li><span class="b-flow-num">2</span><div><strong>학교 수·학교급·내용 확인</strong><p>len으로 학교 수, value_counts로 학교급별 수, head로 학교명과 주소를 확인한다.</p></div><span class="b-flow-ref">셀 1</span></li><li><span class="b-flow-num">3</span><div><strong>전체 학교를 지도에 표시</strong><p>df를 for문으로 한 행씩 읽으며 위도·경도 위치에 마커를 찍는다.</p></div><span class="b-flow-ref">셀 2</span></li><li><span class="b-flow-num">4</span><div><strong>모인 곳과 드문 곳 비교</strong><p>같은 확대 수준에서 두 곳을 골라 지명과 주변 모습을 확인한다.</p></div><span class="b-flow-ref">지도 읽기</span></li></ol></div><section class="b-cell" aria-labelledby="B-5-1a-title">
+      <h6 id="B-5-1a-title" class="b-cell-title"><span>B-5-1a</span> 셀 1 · 고양시 필터링과 데이터 확인</h6>
+      <p>전국 데이터에서 <strong>고양교육지원청 소속 학교만</strong> 고릅니다. 지도에 올릴 표가 어떤 내용인지 먼저 확인하세요.</p>
+      <div class="code-block labeled"><span class="code-label">B-5-1a · 코랩 코드 셀</span><button class="copy-btn" aria-label="B-5-1a 코드 복사">copy</button>
+<pre>df = df_all[df_all[<span class="str">&#x27;교육지원청명&#x27;</span>] == <span class="str">&#x27;경기도고양교육지원청&#x27;</span>]
 
-              <div class="inq-l">✍️ 세 단계로 적어 보기</div>
-              <div class="tbl-scroll"><table class="fill">
-                <tr><th style="width:24%">단계</th><th>내가 적은 것</th></tr>
-                <tr><td><strong style="color:var(--teal)">① 본 것</strong><br><span style="font-size:11.5px;color:var(--text3)">사실만</span></td><td class="blank">_________________________________</td></tr>
-                <tr><td><strong style="color:var(--orange)">② 왜 그럴까</strong><br><span style="font-size:11.5px;color:var(--text3)">추측</span></td><td class="blank">_________________________________</td></tr>
-                <tr><td><strong style="color:var(--purple)">③ 확인하려면</strong><br><span style="font-size:11.5px;color:var(--text3)">필요한 자료</span></td><td class="blank">_________________________________</td></tr>
-              </table></div>
+print(len(df), <span class="str">&#x27;개교&#x27;</span>)
+print(df[<span class="str">&#x27;학교급구분&#x27;</span>].value_counts())
+df[[<span class="str">&#x27;학교명&#x27;</span>, <span class="str">&#x27;학교급구분&#x27;</span>, <span class="str">&#x27;소재지도로명주소&#x27;</span>]].head()</pre></div>
+      <div class="lex"><div class="lex-h">이 셀에서 하는 일</div><div class="lex-r"><div class="lex-c">df_all[&#x27;교육지원청명&#x27;] == &#x27;경기도고양교육지원청&#x27;</div><div class="lex-d">학교마다 교육지원청명이 조건과 일치하는지 확인합니다.</div></div><div class="lex-r"><div class="lex-c">df_all[조건]</div><div class="lex-d">조건에 맞는 행만 골라 <code>df</code>에 저장합니다.</div></div><div class="lex-r"><div class="lex-c">len / value_counts / head</div><div class="lex-d">전체 개수, 학교급별 개수, 첫 다섯 행을 확인합니다.</div></div></div>
+      <div class="info"><strong>실행 후 확인</strong> 수업 파일 기준 <strong>174개교</strong>, 초등학교 91·중학교 45·고등학교 38개교가 나옵니다.</div>
+    </section><section class="b-cell" aria-labelledby="B-5-1b-title">
+      <h6 id="B-5-1b-title" class="b-cell-title"><span>B-5-1b</span> 셀 2 · 고양시 전체 학교 지도</h6>
+      <p>셀 1 다음의 <strong>새 코드 셀</strong>에 넣어 실행하세요. 필터링한 <code>df</code> 전체를 지도에 표시합니다.</p>
+      <div class="code-block labeled"><span class="code-label">B-5-1b · 코랩 코드 셀</span><button class="copy-btn" aria-label="B-5-1b 코드 복사">copy</button>
+<pre>m = folium.Map(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>,
+               tiles=TILE_URL, attr=<span class="str">&#x27;Esri&#x27;</span>)
 
-              <div class="inq-l">🗣️ 한 걸음 더 — 같이 이야기해 봅시다</div>
-              <div class="ask"><strong>학교를 한 곳 더 세운다면 어디가 좋을까요? 무엇을 기준으로 정해야 할까요?</strong><br>
-              그리고 여기서 한 번 더 —<br>
-              · <strong>모든 동네에 똑같은 수</strong>로 있어야 공평한가?<br>
-              · 아니면 <strong>학생이 사는 곳과 이동 여건에 맞춰</strong> 있어야 공평한가?<br>
-              <strong>둘은 다른 답입니다.</strong> 어느 쪽이 맞는지가 아니라, <strong>왜 그렇게 생각하는지</strong>를 말해 보세요.</div>
-            </div>
-          </div>
+<span class="cm"># 선택한 표의 학교를 한 줄씩 꺼내 지도에 표시한다</span>
+<span class="kw">for</span> _, row <span class="kw">in</span> df.iterrows():
+    folium.Marker(
+        location=[row[<span class="str">&#x27;위도&#x27;</span>], row[<span class="str">&#x27;경도&#x27;</span>]],
+        tooltip=row[<span class="str">&#x27;학교명&#x27;</span>]
+    ).add_to(m)
 
-          <!-- ══ 탐구 2 ══ -->
-          <div class="inq">
-            <div class="inq-h">
-              <div class="inq-n">탐구 2 · 초 · 중 · 고 분포 비교</div>
-              <div class="inq-q">고등학교가 멀리 있는 동네의 학생들은 무엇이 더 필요할까?</div>
-            </div>
-            <div class="inq-b">
-              <div class="inq-l">🗺️ 지도에서 먼저 확인할 것</div>
-              <p>③단계에서 배운 <strong>조건으로 골라내기</strong>를 씁니다. 이번엔 <code>df</code>(고양시 174곳)에서 다시 한 번 골라내요. <code>sel = ...</code> 한 줄만 바꿔 가며 ④단계 지도를 <strong>세 번</strong> 그려 보세요.</p>
-              <div class="code-block">
-                <button class="copy-btn">copy</button>
-<pre><span class="cm"># ④단계 코드에서 이 줄만 바꿔 가며 세 번 실행</span>
-sel = df[df[<span class="str">'학교급구분'</span>] == <span class="str">'초등학교'</span>]    <span class="cm"># 91곳</span>
-sel = df[df[<span class="str">'학교급구분'</span>] == <span class="str">'중학교'</span>]      <span class="cm"># 45곳</span>
-sel = df[df[<span class="str">'학교급구분'</span>] == <span class="str">'고등학교'</span>]    <span class="cm"># 38곳</span></pre>
-              </div>
-              <div class="tbl-scroll"><table class="fill">
-                <tr><th style="width:22%">켠 것</th><th style="width:16%">개수</th><th>점 사이 간격이 어떤가 · 비는 동네가 있나</th></tr>
-                <tr><td>초등학교만</td><td><strong>91곳</strong></td><td class="blank">_______________________</td></tr>
-                <tr><td>중학교만</td><td><strong>45곳</strong></td><td class="blank">_______________________</td></tr>
-                <tr><td>고등학교만</td><td><strong>38곳</strong></td><td class="blank">_______________________</td></tr>
-              </table></div>
-              <div class="info"><strong>🤔 초등학교가 고등학교의 2.4배입니다</strong> ②단계에서 "왜 절반도 안 될까?"라고 물었던 그 숫자예요.<br>
-              초등학생은 <strong>걸어서</strong> 다니고, 고등학생은 <strong>버스·지하철로</strong> 다닙니다. <strong>지도의 점 간격이 그 차이를 보여 주나요?</strong></div>
+m</pre></div>
+      <div class="lex"><div class="lex-h">이 셀에서 하는 일</div><div class="lex-r"><div class="lex-c">folium.Map(...)</div><div class="lex-d">고양시를 중심으로 새 지도를 만듭니다. 비교할 지도는 중심과 확대 수준을 같게 둡니다.</div></div><div class="lex-r"><div class="lex-c">df.iterrows()</div><div class="lex-d">앞 셀에서 고른 <code>df</code>의 학교를 한 행씩 꺼냅니다.</div></div><div class="lex-r"><div class="lex-c">row[&#x27;위도&#x27;] / row[&#x27;경도&#x27;]</div><div class="lex-d">현재 행의 위도·경도에 마커를 찍습니다. 마우스를 올리면 학교명이 보입니다.</div></div><div class="lex-r"><div class="lex-c">.add_to(m) / 마지막 줄 m</div><div class="lex-d">마커를 지도에 붙이고, 완성된 지도를 셀 아래에 보여 줍니다.</div></div></div>
+      <div class="info"><strong>실행 후 확인</strong> 선택한 <strong>174개교</strong>가 지도에 표시됩니다. 같은 좌표의 마커는 겹칠 수 있으므로 학교 수는 앞 셀의 출력으로 확인하세요.</div>
+    </section><div class="ask"><strong>지도를 읽어 보기</strong><p>학교가 모인 곳과 드문 곳을 하나씩 찾아보세요. 주변에 주택·산·농지 등이 보이나요? 분포의 이유를 추측하고, 확인에 필요한 인구·지역 개발 자료를 생각해 보세요. <strong>학교가 드문 것만으로 학교가 부족하다고 판단할 수는 없습니다.</strong></p></div></div></article><article class="inq b-inquiry" id="b-inquiry-2" aria-labelledby="b-question-2"><div class="inq-h"><div class="inq-n">탐구 2 · 초·중·고 분포 비교</div><h5 class="inq-q" id="b-question-2">고등학교가 멀리 있는 동네의 학생들은 무엇이 더 필요할까?</h5></div><div class="inq-b"><div class="b-flow" aria-label="탐구 2 해결 순서"><div class="b-flow-title">문제 해결 순서</div><ol><li><span class="b-flow-num">1</span><div><strong>고양시 학교 선택</strong><p>전국 표에서 고양시 학교를 골라 공통 비교 범위를 정한다.</p></div><span class="b-flow-ref">셀 1</span></li><li><span class="b-flow-num">2</span><div><strong>초등학교 필터링 → 확인 → 지도 표시</strong><p>학교급구분이 초등학교인 행만 골라 개수와 내용을 확인한 뒤 지도에 찍는다.</p></div><span class="b-flow-ref">셀 1·2</span></li><li><span class="b-flow-num">3</span><div><strong>중학교·고등학교에도 같은 과정 적용</strong><p>중학교는 셀 3·4, 고등학교는 셀 5·6에서 각각 골라 별도의 지도를 그린다.</p></div><span class="b-flow-ref">셀 3~6</span></li><li><span class="b-flow-num">4</span><div><strong>세 지도 비교</strong><p>중심과 확대 수준이 같은 세 지도에서 점의 간격과 학교가 드문 동네를 비교한다.</p></div><span class="b-flow-ref">지도 읽기</span></li></ol></div><section class="b-cell" aria-labelledby="B-5-2a-title">
+      <h6 id="B-5-2a-title" class="b-cell-title"><span>B-5-2a</span> 셀 1 · 초등학교 필터링과 확인</h6>
+      <p>먼저 고양시를 고르고, 그 안에서 <strong>초등학교만</strong> 다시 고릅니다.</p>
+      <div class="code-block labeled"><span class="code-label">B-5-2a · 코랩 코드 셀</span><button class="copy-btn" aria-label="B-5-2a 코드 복사">copy</button>
+<pre>df = df_all[df_all[<span class="str">&#x27;교육지원청명&#x27;</span>] == <span class="str">&#x27;경기도고양교육지원청&#x27;</span>]
 
-              <div class="inq-l">✍️ 세 단계로 적어 보기</div>
-              <div class="tbl-scroll"><table class="fill">
-                <tr><th style="width:24%">단계</th><th>내가 적은 것</th></tr>
-                <tr><td><strong style="color:var(--teal)">① 본 것</strong></td><td class="blank">고등학교가 드문 동네는 ____________________</td></tr>
-                <tr><td><strong style="color:var(--orange)">② 왜 그럴까</strong></td><td class="blank">_________________________________</td></tr>
-                <tr><td><strong style="color:var(--purple)">③ 확인하려면</strong></td><td class="blank">_________________________________</td></tr>
-              </table></div>
+df_elem = df[df[<span class="str">&#x27;학교급구분&#x27;</span>] == <span class="str">&#x27;초등학교&#x27;</span>]
 
-              <div class="inq-l">🗣️ 한 걸음 더 — "멀다"에서 끝내지 않기</div>
-              <div class="ask"><strong>학교가 멀어도 버스가 잘 다니면 괜찮을까요? 그렇지 않은 지역은요?</strong><br>
-              <strong>같은 2km라도 부담이 다릅니다.</strong> 무엇에 따라 달라질까요?<br>
-              · 버스가 <strong>몇 분마다</strong> 오는지 &nbsp;· <strong>갈아타야</strong> 하는지 &nbsp;· 교통비 &nbsp;· 차로 데려다줄 사람이 있는지<br>
-              → <strong>차로 데려다줄 사람이 없어도 학교에 편하게 갈 수 있어야 하지 않을까요?</strong><br>
-              지도만으로는 여기까지 알 수 없습니다. <strong>③단계에 "버스 노선·배차 자료"라고 적으면 그게 답입니다.</strong></div>
+print(len(df_elem), <span class="str">&#x27;개교&#x27;</span>)
+df_elem[[<span class="str">&#x27;학교명&#x27;</span>, <span class="str">&#x27;학교급구분&#x27;</span>, <span class="str">&#x27;소재지도로명주소&#x27;</span>]].head()</pre></div>
+      <div class="lex"><div class="lex-h">이 셀에서 하는 일</div><div class="lex-r"><div class="lex-c">df[&#x27;학교급구분&#x27;] == &#x27;초등학교&#x27;</div><div class="lex-d">고양시 학교 중 학교급구분이 초등학교인 행인지 확인합니다.</div></div><div class="lex-r"><div class="lex-c">df_elem = df[조건]</div><div class="lex-d">조건에 맞는 행을 <code>df_elem</code>에 저장합니다.</div></div><div class="lex-r"><div class="lex-c">len(df_elem) / head()</div><div class="lex-d">선택된 학교 수와 첫 다섯 행의 내용을 확인합니다.</div></div></div>
+      <div class="info"><strong>실행 후 확인</strong> 수업 파일에서는 <strong>91개교</strong>가 나옵니다.</div>
+    </section><section class="b-cell" aria-labelledby="B-5-2b-title">
+      <h6 id="B-5-2b-title" class="b-cell-title"><span>B-5-2b</span> 셀 2 · 초등학교 지도</h6>
+      <p>앞 셀에서 고른 <code>df_elem</code>만 반복문으로 읽습니다. <strong>지도 중심과 확대 수준은 동일하게</strong> 유지합니다.</p>
+      <div class="code-block labeled"><span class="code-label">B-5-2b · 코랩 코드 셀</span><button class="copy-btn" aria-label="B-5-2b 코드 복사">copy</button>
+<pre>m = folium.Map(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>,
+               tiles=TILE_URL, attr=<span class="str">&#x27;Esri&#x27;</span>)
 
-              <div class="inq-l">🛠️ 그래서 무엇을 하면 좋을까 — 대안 적어 보기</div>
-              <p>문제를 찾았으면 <strong>거기서 멈추지 않습니다.</strong> 무엇을 하면 나아질지 적어 보세요. <strong>정답은 없습니다.</strong></p>
-              <div class="tbl-scroll"><table class="fill">
-                <tr><th style="width:30%">대안</th><th style="width:34%">누가 할 수 있나</th><th>확인해야 할 것</th></tr>
-                <tr><td>통학버스를 운영한다</td><td class="blank">___________</td><td class="blank">비용은? 몇 명이 탈까?</td></tr>
-                <tr><td>버스 배차를 늘린다</td><td class="blank">___________</td><td class="blank">___________________</td></tr>
-                <tr><td class="blank">_______________</td><td class="blank">___________</td><td class="blank">___________________</td></tr>
-              </table></div>
-              <div class="tip"><strong>💡 대안에도 근거가 필요합니다</strong> "통학버스를 운영하자"는 말은 쉽습니다. 그런데 <strong>몇 명이 탈지, 비용이 얼마인지</strong> 모르면 제안이 아니라 바람일 뿐이에요.<br>
-              <strong>세 번째 칸이 그래서 있습니다.</strong></div>
-            </div>
-          </div>
+<span class="cm"># 선택한 표의 학교를 한 줄씩 꺼내 지도에 표시한다</span>
+<span class="kw">for</span> _, row <span class="kw">in</span> df_elem.iterrows():
+    folium.Marker(
+        location=[row[<span class="str">&#x27;위도&#x27;</span>], row[<span class="str">&#x27;경도&#x27;</span>]],
+        tooltip=row[<span class="str">&#x27;학교명&#x27;</span>]
+    ).add_to(m)
 
-          <!-- ══ 탐구 3 ══ -->
-          <div class="inq warn-c">
-            <div class="inq-h">
-              <div class="inq-n">탐구 3 · 공립과 사립 &nbsp;— &nbsp;⚠️ 해석에 주의가 필요한 주제</div>
-              <div class="inq-q">우리 지역에서 공립학교와 사립학교는 각각 어디에 있고, 교육을 어떻게 나누어 맡고 있을까?</div>
-            </div>
-            <div class="inq-b">
-              <div class="inq-l">🗺️ 지도에서 먼저 확인할 것</div>
-              <div class="code-block">
-                <button class="copy-btn">copy</button>
-<pre>sel = df[df[<span class="str">'설립형태'</span>] == <span class="str">'사립'</span>]
-<span class="fn">print</span>(<span class="fn">len</span>(sel), <span class="str">'곳'</span>)
-sel[[<span class="str">'학교명'</span>, <span class="str">'학교급구분'</span>, <span class="str">'소재지도로명주소'</span>]]</pre>
-              </div>
-              <div class="result"><span class="result-label">실행 결과</span>6 곳</div>
-              <div class="ask"><strong>📝 174곳 중 6곳입니다. 목록을 보고 두 가지를 찾아보세요.</strong><br>
-              ① <strong>학교급이 어디에 쏠려 있나요?</strong> (초 · 중 · 고 중 어디에 몇 곳?)<br>
-              ② <strong>주소가 똑같은 학교 쌍</strong>이 보이나요? 왜 그럴까요?</div>
-              <div class="info"><strong>🤔 눈에 보이는 사실 두 가지</strong><br>
-              · 6곳 중 <strong>5곳이 고등학교</strong>, 1곳이 중학교입니다. <strong>사립 초등학교는 고양시에 한 곳도 없습니다.</strong><br>
-              · <code>통일로 820</code>에 두 곳, <code>덕이로172번길 4-39</code>에 두 곳 — <strong>같은 주소에 학교가 둘씩</strong> 있습니다.<br>
-              여기까지가 <strong>지도와 표가 알려 준 사실</strong>입니다.</div>
+m</pre></div>
+      <div class="lex"><div class="lex-h">이 셀에서 하는 일</div><div class="lex-r"><div class="lex-c">folium.Map(...)</div><div class="lex-d">고양시를 중심으로 새 지도를 만듭니다. 비교할 지도는 중심과 확대 수준을 같게 둡니다.</div></div><div class="lex-r"><div class="lex-c">df_elem.iterrows()</div><div class="lex-d">앞 셀에서 고른 <code>df_elem</code>의 학교를 한 행씩 꺼냅니다.</div></div><div class="lex-r"><div class="lex-c">row[&#x27;위도&#x27;] / row[&#x27;경도&#x27;]</div><div class="lex-d">현재 행의 위도·경도에 마커를 찍습니다. 마우스를 올리면 학교명이 보입니다.</div></div><div class="lex-r"><div class="lex-c">.add_to(m) / 마지막 줄 m</div><div class="lex-d">마커를 지도에 붙이고, 완성된 지도를 셀 아래에 보여 줍니다.</div></div></div>
+      <div class="info"><strong>실행 후 확인</strong> 선택한 <strong>91개교</strong>가 지도에 표시됩니다. 같은 좌표의 마커는 겹칠 수 있으므로 학교 수는 앞 셀의 출력으로 확인하세요.</div>
+    </section><section class="b-cell" aria-labelledby="B-5-2c-title">
+      <h6 id="B-5-2c-title" class="b-cell-title"><span>B-5-2c</span> 셀 3 · 중학교 필터링과 확인</h6>
+      <p>셀 1에서 고른 고양시 표 <code>df</code>에서 <strong>중학교만</strong> 다시 고릅니다.</p>
+      <div class="code-block labeled"><span class="code-label">B-5-2c · 코랩 코드 셀</span><button class="copy-btn" aria-label="B-5-2c 코드 복사">copy</button>
+<pre>df_mid = df[df[<span class="str">&#x27;학교급구분&#x27;</span>] == <span class="str">&#x27;중학교&#x27;</span>]
 
-              <div class="warn"><strong>⚠️ 여기서부터는 함부로 말하면 안 됩니다</strong><br>
-              <code>설립형태</code> 칸 하나로는 <strong>알 수 없는 것</strong>이 많습니다.<br>
-              · 학비가 얼마인지 &nbsp;· 어떤 방식으로 입학하는지 &nbsp;· 어떤 학교 유형인지<br>
-              그래서 이런 말은 <strong>근거가 없습니다.</strong><br>
-              · <s>"사립이 많은 동네는 부유하다"</s> — 이 데이터에 소득 자료는 없습니다<br>
-              · <s>"사립이 있으면 선택권이 넓다"</s> — 가까운 학교를 <strong>자유롭게 고를 수 있는지</strong>는 따로 확인해야 합니다<br>
-              <strong>데이터가 말하지 않은 것을 말하지 않는 것 — 그게 오늘 배우는 태도입니다.</strong></div>
+print(len(df_mid), <span class="str">&#x27;개교&#x27;</span>)
+df_mid[[<span class="str">&#x27;학교명&#x27;</span>, <span class="str">&#x27;학교급구분&#x27;</span>, <span class="str">&#x27;소재지도로명주소&#x27;</span>]].head()</pre></div>
+      <div class="lex"><div class="lex-h">이 셀에서 하는 일</div><div class="lex-r"><div class="lex-c">df[&#x27;학교급구분&#x27;] == &#x27;중학교&#x27;</div><div class="lex-d">고양시 학교 중 학교급구분이 중학교인 행인지 확인합니다.</div></div><div class="lex-r"><div class="lex-c">df_mid = df[조건]</div><div class="lex-d">조건에 맞는 행을 <code>df_mid</code>에 저장합니다.</div></div><div class="lex-r"><div class="lex-c">len(df_mid) / head()</div><div class="lex-d">선택된 학교 수와 첫 다섯 행의 내용을 확인합니다.</div></div></div>
+      <div class="info"><strong>실행 후 확인</strong> 수업 파일에서는 <strong>45개교</strong>가 나옵니다.</div>
+    </section><section class="b-cell" aria-labelledby="B-5-2d-title">
+      <h6 id="B-5-2d-title" class="b-cell-title"><span>B-5-2d</span> 셀 4 · 중학교 지도</h6>
+      <p>앞 셀에서 고른 <code>df_mid</code>만 반복문으로 읽습니다. <strong>지도 중심과 확대 수준은 동일하게</strong> 유지합니다.</p>
+      <div class="code-block labeled"><span class="code-label">B-5-2d · 코랩 코드 셀</span><button class="copy-btn" aria-label="B-5-2d 코드 복사">copy</button>
+<pre>m = folium.Map(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>,
+               tiles=TILE_URL, attr=<span class="str">&#x27;Esri&#x27;</span>)
 
-              <div class="inq-l">✍️ 세 단계로 적어 보기</div>
-              <div class="tbl-scroll"><table class="fill">
-                <tr><th style="width:24%">단계</th><th>내가 적은 것</th></tr>
-                <tr><td><strong style="color:var(--teal)">① 본 것</strong></td><td class="blank">_________________________________</td></tr>
-                <tr><td><strong style="color:var(--orange)">② 왜 그럴까</strong></td><td class="blank">_________________________________</td></tr>
-                <tr><td><strong style="color:var(--purple)">③ 확인하려면</strong></td><td class="blank">_________________________________</td></tr>
-              </table></div>
-              <div class="tip"><strong>💡 ③단계 힌트</strong> <strong>학교 연혁</strong>(언제 세워졌나)과 <strong>지역 개발 자료</strong>(그때 그 동네는 어땠나)를 보면, 위치가 왜 그렇게 정해졌는지 실마리가 나옵니다. 사립학교는 <strong>공립보다 먼저 세워진 경우</strong>가 많습니다.</div>
-            </div>
-          </div>
+<span class="cm"># 선택한 표의 학교를 한 줄씩 꺼내 지도에 표시한다</span>
+<span class="kw">for</span> _, row <span class="kw">in</span> df_mid.iterrows():
+    folium.Marker(
+        location=[row[<span class="str">&#x27;위도&#x27;</span>], row[<span class="str">&#x27;경도&#x27;</span>]],
+        tooltip=row[<span class="str">&#x27;학교명&#x27;</span>]
+    ).add_to(m)
+
+m</pre></div>
+      <div class="lex"><div class="lex-h">이 셀에서 하는 일</div><div class="lex-r"><div class="lex-c">folium.Map(...)</div><div class="lex-d">고양시를 중심으로 새 지도를 만듭니다. 비교할 지도는 중심과 확대 수준을 같게 둡니다.</div></div><div class="lex-r"><div class="lex-c">df_mid.iterrows()</div><div class="lex-d">앞 셀에서 고른 <code>df_mid</code>의 학교를 한 행씩 꺼냅니다.</div></div><div class="lex-r"><div class="lex-c">row[&#x27;위도&#x27;] / row[&#x27;경도&#x27;]</div><div class="lex-d">현재 행의 위도·경도에 마커를 찍습니다. 마우스를 올리면 학교명이 보입니다.</div></div><div class="lex-r"><div class="lex-c">.add_to(m) / 마지막 줄 m</div><div class="lex-d">마커를 지도에 붙이고, 완성된 지도를 셀 아래에 보여 줍니다.</div></div></div>
+      <div class="info"><strong>실행 후 확인</strong> 선택한 <strong>45개교</strong>가 지도에 표시됩니다. 같은 좌표의 마커는 겹칠 수 있으므로 학교 수는 앞 셀의 출력으로 확인하세요.</div>
+    </section><section class="b-cell" aria-labelledby="B-5-2e-title">
+      <h6 id="B-5-2e-title" class="b-cell-title"><span>B-5-2e</span> 셀 5 · 고등학교 필터링과 확인</h6>
+      <p>셀 1에서 고른 고양시 표 <code>df</code>에서 <strong>고등학교만</strong> 다시 고릅니다.</p>
+      <div class="code-block labeled"><span class="code-label">B-5-2e · 코랩 코드 셀</span><button class="copy-btn" aria-label="B-5-2e 코드 복사">copy</button>
+<pre>df_high = df[df[<span class="str">&#x27;학교급구분&#x27;</span>] == <span class="str">&#x27;고등학교&#x27;</span>]
+
+print(len(df_high), <span class="str">&#x27;개교&#x27;</span>)
+df_high[[<span class="str">&#x27;학교명&#x27;</span>, <span class="str">&#x27;학교급구분&#x27;</span>, <span class="str">&#x27;소재지도로명주소&#x27;</span>]].head()</pre></div>
+      <div class="lex"><div class="lex-h">이 셀에서 하는 일</div><div class="lex-r"><div class="lex-c">df[&#x27;학교급구분&#x27;] == &#x27;고등학교&#x27;</div><div class="lex-d">고양시 학교 중 학교급구분이 고등학교인 행인지 확인합니다.</div></div><div class="lex-r"><div class="lex-c">df_high = df[조건]</div><div class="lex-d">조건에 맞는 행을 <code>df_high</code>에 저장합니다.</div></div><div class="lex-r"><div class="lex-c">len(df_high) / head()</div><div class="lex-d">선택된 학교 수와 첫 다섯 행의 내용을 확인합니다.</div></div></div>
+      <div class="info"><strong>실행 후 확인</strong> 수업 파일에서는 <strong>38개교</strong>가 나옵니다.</div>
+    </section><section class="b-cell" aria-labelledby="B-5-2f-title">
+      <h6 id="B-5-2f-title" class="b-cell-title"><span>B-5-2f</span> 셀 6 · 고등학교 지도</h6>
+      <p>앞 셀에서 고른 <code>df_high</code>만 반복문으로 읽습니다. <strong>지도 중심과 확대 수준은 동일하게</strong> 유지합니다.</p>
+      <div class="code-block labeled"><span class="code-label">B-5-2f · 코랩 코드 셀</span><button class="copy-btn" aria-label="B-5-2f 코드 복사">copy</button>
+<pre>m = folium.Map(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>,
+               tiles=TILE_URL, attr=<span class="str">&#x27;Esri&#x27;</span>)
+
+<span class="cm"># 선택한 표의 학교를 한 줄씩 꺼내 지도에 표시한다</span>
+<span class="kw">for</span> _, row <span class="kw">in</span> df_high.iterrows():
+    folium.Marker(
+        location=[row[<span class="str">&#x27;위도&#x27;</span>], row[<span class="str">&#x27;경도&#x27;</span>]],
+        tooltip=row[<span class="str">&#x27;학교명&#x27;</span>]
+    ).add_to(m)
+
+m</pre></div>
+      <div class="lex"><div class="lex-h">이 셀에서 하는 일</div><div class="lex-r"><div class="lex-c">folium.Map(...)</div><div class="lex-d">고양시를 중심으로 새 지도를 만듭니다. 비교할 지도는 중심과 확대 수준을 같게 둡니다.</div></div><div class="lex-r"><div class="lex-c">df_high.iterrows()</div><div class="lex-d">앞 셀에서 고른 <code>df_high</code>의 학교를 한 행씩 꺼냅니다.</div></div><div class="lex-r"><div class="lex-c">row[&#x27;위도&#x27;] / row[&#x27;경도&#x27;]</div><div class="lex-d">현재 행의 위도·경도에 마커를 찍습니다. 마우스를 올리면 학교명이 보입니다.</div></div><div class="lex-r"><div class="lex-c">.add_to(m) / 마지막 줄 m</div><div class="lex-d">마커를 지도에 붙이고, 완성된 지도를 셀 아래에 보여 줍니다.</div></div></div>
+      <div class="info"><strong>실행 후 확인</strong> 선택한 <strong>38개교</strong>가 지도에 표시됩니다. 같은 좌표의 마커는 겹칠 수 있으므로 학교 수는 앞 셀의 출력으로 확인하세요.</div>
+    </section><div class="ask"><strong>지도를 읽어 보기</strong><p>초등학교·중학교·고등학교 지도에서 학교가 어디에 있고 간격은 어떻게 다른가요? 고등학교가 드문 동네를 찾고 통학 여건에 관한 질문을 만들어 보세요. 실제 통학 거리·시간은 이 데이터에 없으므로, 학생 거주지·버스 노선·배차·보행 경로 중 필요한 자료를 생각해 보세요. 대안을 제안한다면 시행 전에 무엇을 확인해야 할까요?</p></div></div></article><article class="inq b-inquiry" id="b-inquiry-3" aria-labelledby="b-question-3"><div class="inq-h"><div class="inq-n">탐구 3 · 공립·사립의 위치와 구성</div><h5 class="inq-q" id="b-question-3">우리 지역에서 공립학교와 사립학교는 각각 어디에 있고, 교육을 어떻게 나누어 맡고 있을까?</h5></div><div class="inq-b"><div class="b-flow" aria-label="탐구 3 해결 순서"><div class="b-flow-title">문제 해결 순서</div><ol><li><span class="b-flow-num">1</span><div><strong>고양시 학교 선택</strong><p>전국 표에서 고양시 학교를 골라 비교할 지역을 정한다.</p></div><span class="b-flow-ref">셀 1</span></li><li><span class="b-flow-num">2</span><div><strong>공립학교 필터링 → 확인 → 지도 표시</strong><p>설립형태가 공립인 행만 골라 개수·학교급·목록을 확인하고 지도에 찍는다.</p></div><span class="b-flow-ref">셀 1·2</span></li><li><span class="b-flow-num">3</span><div><strong>사립학교 필터링 → 확인 → 지도 표시</strong><p>고양시 표에서 설립형태가 사립인 행만 골라 같은 과정을 반복한다.</p></div><span class="b-flow-ref">셀 3·4</span></li><li><span class="b-flow-num">4</span><div><strong>두 지도와 학교 목록 비교</strong><p>분포와 학교급 구성을 비교한다. 같은 주소의 학교는 목록에서 따로 확인한다.</p></div><span class="b-flow-ref">지도 읽기</span></li></ol></div><section class="b-cell" aria-labelledby="B-5-3a-title">
+      <h6 id="B-5-3a-title" class="b-cell-title"><span>B-5-3a</span> 셀 1 · 공립학교 필터링과 확인</h6>
+      <p>먼저 고양시를 고른 뒤 <strong>공립학교만</strong> 고릅니다. 전체 수와 학교급별 수, 학교 목록을 함께 읽어 보세요.</p>
+      <div class="code-block labeled"><span class="code-label">B-5-3a · 코랩 코드 셀</span><button class="copy-btn" aria-label="B-5-3a 코드 복사">copy</button>
+<pre>df = df_all[df_all[<span class="str">&#x27;교육지원청명&#x27;</span>] == <span class="str">&#x27;경기도고양교육지원청&#x27;</span>]
+
+df_public = df[df[<span class="str">&#x27;설립형태&#x27;</span>] == <span class="str">&#x27;공립&#x27;</span>]
+
+print(len(df_public), <span class="str">&#x27;개교&#x27;</span>)
+print(df_public[<span class="str">&#x27;학교급구분&#x27;</span>].value_counts())
+df_public[[<span class="str">&#x27;학교명&#x27;</span>, <span class="str">&#x27;학교급구분&#x27;</span>, <span class="str">&#x27;소재지도로명주소&#x27;</span>]]</pre></div>
+      <div class="lex"><div class="lex-h">이 셀에서 하는 일</div><div class="lex-r"><div class="lex-c">df[&#x27;설립형태&#x27;] == &#x27;공립&#x27;</div><div class="lex-d">설립형태가 공립인 행만 선택합니다.</div></div><div class="lex-r"><div class="lex-c">len / value_counts</div><div class="lex-d">선택된 전체 학교 수와 초·중·고별 수를 확인합니다.</div></div><div class="lex-r"><div class="lex-c">[[&#x27;학교명&#x27;, &#x27;학교급구분&#x27;, &#x27;소재지도로명주소&#x27;]]</div><div class="lex-d">선택한 학교의 이름·학교급·주소를 보여 줍니다. 같은 주소가 있는지 함께 살펴보세요.</div></div></div>
+      <div class="info"><strong>실행 후 확인</strong> 수업 파일은 <strong>168개교</strong>입니다. 초등학교 91·중학교 44·고등학교 33개교입니다.</div>
+    </section><section class="b-cell" aria-labelledby="B-5-3b-title">
+      <h6 id="B-5-3b-title" class="b-cell-title"><span>B-5-3b</span> 셀 2 · 공립학교 지도</h6>
+      <p>앞 셀에서 만든 <code>df_public</code>를 반복문에 넣어 <strong>공립학교만</strong> 표시합니다.</p>
+      <div class="code-block labeled"><span class="code-label">B-5-3b · 코랩 코드 셀</span><button class="copy-btn" aria-label="B-5-3b 코드 복사">copy</button>
+<pre>m = folium.Map(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>,
+               tiles=TILE_URL, attr=<span class="str">&#x27;Esri&#x27;</span>)
+
+<span class="cm"># 선택한 표의 학교를 한 줄씩 꺼내 지도에 표시한다</span>
+<span class="kw">for</span> _, row <span class="kw">in</span> df_public.iterrows():
+    folium.Marker(
+        location=[row[<span class="str">&#x27;위도&#x27;</span>], row[<span class="str">&#x27;경도&#x27;</span>]],
+        tooltip=row[<span class="str">&#x27;학교명&#x27;</span>]
+    ).add_to(m)
+
+m</pre></div>
+      <div class="lex"><div class="lex-h">이 셀에서 하는 일</div><div class="lex-r"><div class="lex-c">folium.Map(...)</div><div class="lex-d">고양시를 중심으로 새 지도를 만듭니다. 비교할 지도는 중심과 확대 수준을 같게 둡니다.</div></div><div class="lex-r"><div class="lex-c">df_public.iterrows()</div><div class="lex-d">앞 셀에서 고른 <code>df_public</code>의 학교를 한 행씩 꺼냅니다.</div></div><div class="lex-r"><div class="lex-c">row[&#x27;위도&#x27;] / row[&#x27;경도&#x27;]</div><div class="lex-d">현재 행의 위도·경도에 마커를 찍습니다. 마우스를 올리면 학교명이 보입니다.</div></div><div class="lex-r"><div class="lex-c">.add_to(m) / 마지막 줄 m</div><div class="lex-d">마커를 지도에 붙이고, 완성된 지도를 셀 아래에 보여 줍니다.</div></div></div>
+      <div class="info"><strong>실행 후 확인</strong> 선택한 <strong>168개교</strong>가 지도에 표시됩니다. 같은 좌표의 마커는 겹칠 수 있으므로 학교 수는 앞 셀의 출력으로 확인하세요.</div>
+    </section><section class="b-cell" aria-labelledby="B-5-3c-title">
+      <h6 id="B-5-3c-title" class="b-cell-title"><span>B-5-3c</span> 셀 3 · 사립학교 필터링과 확인</h6>
+      <p>고양시 전체 표 <code>df</code>에서 <strong>사립학교만</strong> 고릅니다. 전체 수와 학교급별 수, 학교 목록을 함께 읽어 보세요.</p>
+      <div class="code-block labeled"><span class="code-label">B-5-3c · 코랩 코드 셀</span><button class="copy-btn" aria-label="B-5-3c 코드 복사">copy</button>
+<pre>df_private = df[df[<span class="str">&#x27;설립형태&#x27;</span>] == <span class="str">&#x27;사립&#x27;</span>]
+
+print(len(df_private), <span class="str">&#x27;개교&#x27;</span>)
+print(df_private[<span class="str">&#x27;학교급구분&#x27;</span>].value_counts())
+df_private[[<span class="str">&#x27;학교명&#x27;</span>, <span class="str">&#x27;학교급구분&#x27;</span>, <span class="str">&#x27;소재지도로명주소&#x27;</span>]]</pre></div>
+      <div class="lex"><div class="lex-h">이 셀에서 하는 일</div><div class="lex-r"><div class="lex-c">df[&#x27;설립형태&#x27;] == &#x27;사립&#x27;</div><div class="lex-d">설립형태가 사립인 행만 선택합니다.</div></div><div class="lex-r"><div class="lex-c">len / value_counts</div><div class="lex-d">선택된 전체 학교 수와 초·중·고별 수를 확인합니다.</div></div><div class="lex-r"><div class="lex-c">[[&#x27;학교명&#x27;, &#x27;학교급구분&#x27;, &#x27;소재지도로명주소&#x27;]]</div><div class="lex-d">선택한 학교의 이름·학교급·주소를 보여 줍니다. 같은 주소가 있는지 함께 살펴보세요.</div></div></div>
+      <div class="info"><strong>실행 후 확인</strong> 수업 파일은 <strong>6개교</strong>입니다. 중학교 1·고등학교 5개교이며, 사립 초등학교 행은 없습니다.</div>
+    </section><section class="b-cell" aria-labelledby="B-5-3d-title">
+      <h6 id="B-5-3d-title" class="b-cell-title"><span>B-5-3d</span> 셀 4 · 사립학교 지도</h6>
+      <p>앞 셀에서 만든 <code>df_private</code>를 반복문에 넣어 <strong>사립학교만</strong> 표시합니다.</p>
+      <div class="code-block labeled"><span class="code-label">B-5-3d · 코랩 코드 셀</span><button class="copy-btn" aria-label="B-5-3d 코드 복사">copy</button>
+<pre>m = folium.Map(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>,
+               tiles=TILE_URL, attr=<span class="str">&#x27;Esri&#x27;</span>)
+
+<span class="cm"># 선택한 표의 학교를 한 줄씩 꺼내 지도에 표시한다</span>
+<span class="kw">for</span> _, row <span class="kw">in</span> df_private.iterrows():
+    folium.Marker(
+        location=[row[<span class="str">&#x27;위도&#x27;</span>], row[<span class="str">&#x27;경도&#x27;</span>]],
+        tooltip=row[<span class="str">&#x27;학교명&#x27;</span>]
+    ).add_to(m)
+
+m</pre></div>
+      <div class="lex"><div class="lex-h">이 셀에서 하는 일</div><div class="lex-r"><div class="lex-c">folium.Map(...)</div><div class="lex-d">고양시를 중심으로 새 지도를 만듭니다. 비교할 지도는 중심과 확대 수준을 같게 둡니다.</div></div><div class="lex-r"><div class="lex-c">df_private.iterrows()</div><div class="lex-d">앞 셀에서 고른 <code>df_private</code>의 학교를 한 행씩 꺼냅니다.</div></div><div class="lex-r"><div class="lex-c">row[&#x27;위도&#x27;] / row[&#x27;경도&#x27;]</div><div class="lex-d">현재 행의 위도·경도에 마커를 찍습니다. 마우스를 올리면 학교명이 보입니다.</div></div><div class="lex-r"><div class="lex-c">.add_to(m) / 마지막 줄 m</div><div class="lex-d">마커를 지도에 붙이고, 완성된 지도를 셀 아래에 보여 줍니다.</div></div></div>
+      <div class="info"><strong>실행 후 확인</strong> 선택한 <strong>6개교</strong>가 지도에 표시됩니다. 같은 좌표의 마커는 겹칠 수 있으므로 학교 수는 앞 셀의 출력으로 확인하세요.</div>
+    </section><div class="ask"><strong>지도를 읽어 보기</strong><p>공립·사립의 위치와 학교급 구성이 어떻게 다른가요? 같은 주소의 학교가 지도에서는 겹쳐 보이는지도 목록과 비교하세요. 위치·설립형태만으로 지역 소득·학비·입학 가능성을 판단할 수는 없습니다. 교육을 어떻게 나누어 맡는지 설명하려면 학생 수·학교 유형·정원 등 어떤 자료가 더 필요할까요?</p></div></div></article><a class="b-return" href="#b-goals">↑ 오늘의 세 가지 목표로 돌아가기</a>
 
           <details class="adv" style="margin-top:20px">
             <summary><span class="lvl ref">더 해 볼 주제</span> 시간이 남는다면 <span class="adv-why">같은 데이터 · 다른 질문</span></summary>
@@ -2538,19 +2629,49 @@ odd[[<span class="str">'학교명'</span>, <span class="str">'학교급구분'</
     }
   }
 
-  // 주소에 #data-b 가 있으면 그 탭으로 열기
-  (function () {
-    const m = location.hash.match(/^#data-([abc])$/);
-    if (m) showTab(m[1]);
-  })();
+  // 탭 주소와 B탭 탐구 바로가기를 모두 지원합니다.
+  function openHashTarget() {
+    const hash = location.hash;
+    const tab = hash.match(/^#data-([abc])$/);
+    if (tab) {
+      showTab(tab[1]);
+    } else if (/^#b-(goals|inquiry-[123])$/.test(hash)) {
+      showTab('b');
+      try { history.replaceState(null, '', hash); } catch (e) {}
+      requestAnimationFrame(() => {
+        const target = document.getElementById(hash.slice(1));
+        if (target) target.scrollIntoView();
+      });
+    }
+  }
+  openHashTarget();
+  window.addEventListener('hashchange', openHashTarget);
 
   document.querySelectorAll('.copy-btn').forEach(btn => {
-    btn.onclick = () => {
+    btn.onclick = async () => {
       const pre = btn.parentElement.querySelector('pre');
-      navigator.clipboard.writeText(pre.innerText);
-      btn.textContent = 'copied!';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1500);
+      const text = pre.textContent;
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const area = document.createElement('textarea');
+          area.value = text;
+          area.style.position = 'fixed';
+          area.style.opacity = '0';
+          document.body.appendChild(area);
+          area.select();
+          const copied = document.execCommand('copy');
+          area.remove();
+          btn.focus();
+          if (!copied) throw new Error('copy failed');
+        }
+        btn.textContent = 'copied!';
+        btn.classList.add('copied');
+      } catch (e) {
+        btn.textContent = '직접 선택해 복사';
+      }
+      setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1800);
     };
   });
 </script>
