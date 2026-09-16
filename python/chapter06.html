@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -103,6 +102,48 @@
   .handson::before, .handson::after { content: ''; flex: 1; height: 2px; background: var(--purple-border); }
   .handson span { font-size: 16.5px; font-weight: 900; color: var(--purple); white-space: nowrap; }
   .handson-sub { text-align: center; font-size: 13px; color: var(--text3); margin: 0 0 18px; }
+
+  /* ══════ 탐구 카드 ══════ */
+  .inq { border: 2px solid var(--primary-border); border-radius: 12px; margin: 20px 0 0; overflow: hidden; background: var(--surface); }
+  .inq-h { background: var(--primary-bg); padding: 13px 18px; border-bottom: 1px solid var(--primary-border); }
+  .inq-n { font-size: 11px; font-weight: 800; color: var(--primary); letter-spacing: .07em; }
+  .inq-q { font-size: 15.5px; font-weight: 700; color: var(--text); margin-top: 5px; line-height: 1.5; word-break: keep-all; }
+  .inq-b { padding: 4px 18px 18px; }
+  .inq-l { display: inline-block; font-size: 11px; font-weight: 800; color: var(--primary); background: var(--primary-bg); border: 1px solid var(--primary-border); border-radius: 20px; padding: 3px 11px; margin: 16px 0 8px; letter-spacing: .03em; }
+  .inq.warn-c { border-color: var(--orange-border); }
+  .inq.warn-c .inq-h { background: var(--orange-bg); border-bottom-color: var(--orange-border); }
+  .inq.warn-c .inq-n { color: var(--orange); }
+  .inq.warn-c .inq-l { color: var(--orange); background: var(--orange-bg); border-color: var(--orange-border); }
+  .three { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 14px 0 0; }
+  .three-c { border: 1.5px solid var(--border); border-radius: 10px; padding: 13px 15px; background: var(--surface); }
+  .three-n { font-size: 11px; font-weight: 800; letter-spacing: .04em; margin-bottom: 6px; }
+  .three-t { font-size: 13.5px; font-weight: 700; color: var(--text); line-height: 1.45; }
+  .three-d { font-size: 12px; color: var(--text3); line-height: 1.55; margin-top: 5px; }
+  .three-c.f1 { border-color: var(--teal-border); background: var(--teal-bg); }
+  .three-c.f1 .three-n { color: var(--teal); }
+  .three-c.f2 { border-color: var(--orange-border); background: var(--orange-bg); }
+  .three-c.f2 .three-n { color: var(--orange); }
+  .three-c.f3 { border-color: var(--purple-border); background: var(--purple-bg); }
+  .three-c.f3 .three-n { color: var(--purple); }
+
+  /* ══════ 코드 줄 해설 ══════ */
+  .lex { margin: 12px 0 0; border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--surface); }
+  .lex-h { font-size: 12px; font-weight: 800; color: var(--text3); letter-spacing: .03em; padding: 9px 15px; background: var(--bg); border-bottom: 1px solid var(--border); }
+  .lex-r { display: grid; grid-template-columns: 215px 1fr; gap: 14px; padding: 10px 15px; border-top: 1px dashed var(--border); align-items: baseline; }
+  .lex-r:first-of-type { border-top: none; }
+  .lex-c { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--purple); overflow-wrap: anywhere; line-height: 1.55; }
+  .lex-d { font-size: 13px; color: var(--text2); line-height: 1.65; overflow-wrap: anywhere; }
+  .lex-d strong { color: var(--text); }
+  .lex-r.key { background: var(--purple-bg); }
+  .lex-r.key .lex-d strong { color: var(--purple); }
+
+  /* ══════ 순서도 추가 변형 ══════ */
+  .flow .fb.start { border-color: var(--purple-border); background: var(--purple-bg); }
+  .flow .fb.start .ft { color: var(--purple); }
+
+  /* ══════ 참고 배지 ══════ */
+  .lvl.ref { background: var(--teal-bg); color: var(--teal); border-color: var(--teal-border); }
+  .h5c { font-size: 14.5px; font-weight: 700; margin: 26px 0 8px; color: var(--text); }
 
   /* ══════ 탭별 개념 파트 색 ══════ */
   .p-a .concept { border-left-color: var(--orange-border); }
@@ -339,6 +380,9 @@
     .cx-i { grid-template-columns: 92px 1fr; gap: 8px; }
     .clu-a { transform: rotate(90deg); }
     .concept { padding-left: 12px; }
+    .three { grid-template-columns: 1fr; }
+    .lex-r { grid-template-columns: 1fr; gap: 3px; }
+    .lex-c { font-size: 11.5px; }
     .mrow { grid-template-columns: 1fr; gap: 4px; }
     .mrow .ml { justify-self: start; margin-top: 0; }
     .mstep-body { padding: 12px 12px 16px; }
@@ -520,7 +564,7 @@
       <!-- ═══════════ 세 데이터 비교 ═══════════ -->
       <div class="section" id="compare">
         <h2 class="section-title">📊 오늘 다루는 세 가지 데이터</h2>
-        <p>모두 <strong>같은 다섯 단계</strong>를 밟습니다. 하지만 <strong>①·②단계에서 해야 할 일이 완전히 다릅니다.</strong> 그것이 오늘의 핵심입니다.</p>
+        <p>세 파일은 <strong>모두 같은 곳(공공데이터 포털)</strong>에서 받았습니다. 그런데 <strong>상태가 셋 다 다릅니다.</strong></p>
         <div class="tbl-scroll"><table class="compare">
           <tr>
             <th></th>
@@ -530,40 +574,99 @@
           </tr>
           <tr><td><strong>좌표가 있나?</strong></td>
             <td class="yes">있다 · <strong>원본 그대로</strong></td>
-            <td class="yes">있다 · <strong>정제해 둔 것</strong></td>
+            <td class="yes">있다 · <strong>처음부터 깨끗함</strong></td>
             <td class="no">아예 없다</td></tr>
           <tr><td><strong>데이터 크기</strong></td>
             <td><strong>639행</strong> × 29열</td>
-            <td><strong>174행</strong> × 6열<br>(원본 12,011행 × 20열)</td>
+            <td><strong>12,011행</strong> × 20열<br>→ 골라내서 고양시 174행</td>
             <td><strong>124행</strong> × 3열</td></tr>
-          <tr><td><strong>인코딩</strong></td>
-            <td><code>cp949</code></td>
-            <td><code>utf-8-sig</code></td>
-            <td><code>cp949</code></td></tr>
+          <tr><td><strong>파일 형식</strong></td>
+            <td>CSV · <code>cp949</code></td>
+            <td>엑셀(.xls)<br><span style="font-size:11.5px;color:var(--text3)">인코딩 필요 없음<br><strong>단 <code>header=1</code></strong></span></td>
+            <td>CSV · <code>cp949</code></td></tr>
+          <tr><td><strong>좌표 칸에<br>실제로 들어 있는 것</strong></td>
+            <td><code>'없음'</code> 23개<br><code>39.944070°</code> 7개<br><code>41.925.25.</code> 1개</td>
+            <td>전부 <code>37.609088</code> 같은<br><strong>제대로 된 숫자</strong></td>
+            <td>칸 자체가 없음<br>주소와 전화번호뿐</td></tr>
           <tr><td><strong>②단계에서 할 일</strong></td>
             <td><strong>정제</strong> — <code>'없음'</code> 23개·<code>°</code> 7개 지우고 숫자로<br>639행 → <strong>611행</strong></td>
-            <td><strong>확인</strong> — <code>shape</code>·<code>head()</code>로 훑어보기<br>(정제할 것이 없음)</td>
+            <td><strong>확인 · 골라내기</strong> — 좌표는 깨끗하니<br>전국에서 <strong>우리 지역만</strong> 추려낸다</td>
             <td><strong>생성</strong> — 주소를 좌표로 만들기</td></tr>
           <tr><td><strong>지도 그리는 법</strong></td>
-            <td><code>MarkerCluster</code></td>
+            <td><code>MarkerCluster</code><br>611개 · 세계 곳곳</td>
             <td><code>Marker</code> + <code>for문</code><br>174개는 이걸로 충분</td>
-            <td><code>MarkerCluster</code></td></tr>
+            <td><code>Marker</code> + <code>for문</code><br>124개 · B와 같은 코드</td></tr>
           <tr><td><strong>API 필요?</strong></td>
             <td class="no">아니오</td>
             <td class="no">아니오</td>
             <td class="yes">예 — 필수</td></tr>
           <tr><td><strong>배우는 핵심</strong></td>
             <td>지저분한 데이터 <strong>정제</strong></td>
-            <td><strong>필터링 · 지도 읽기</strong></td>
+            <td><strong>필터링 · 지도로 질문 만들기</strong></td>
             <td><strong>지오코딩</strong></td></tr>
         </table></div>
-        <div class="tip"><strong>💡 읽는 법</strong> 세 탭의 단계 번호(①~⑤)는 <strong>서로 짝이 맞습니다.</strong> A탭 ②단계와 B탭 ②단계를 번갈아 보면 "같은 자리에서 무엇이 달라지는지"가 한눈에 보입니다.</div>
+        <div class="vs-link"><strong>"공공데이터니까 지저분하다"도, "공공데이터니까 믿을 만하다"도 둘 다 틀렸습니다.</strong><br>
+        파일마다 다릅니다. <strong>열어 봐야 압니다.</strong></div>
+        <div class="tip"><strong>💡 읽는 법</strong> 세 탭의 단계 번호는 <strong>서로 짝이 맞습니다.</strong> A탭 ②단계와 B탭 ②단계를 번갈아 보면 "같은 자리에서 무엇이 달라지는지"가 한눈에 보입니다.</div>
+      </div>
+
+      <!-- ═══════════ 정제와 점검 (공통) ═══════════ -->
+      <div class="section" id="clean">
+        <h2 class="section-title">🧹 정제와 점검 — 오늘 계속 나올 두 단어</h2>
+        <p>세 탭 어디서든 쓰는 말이라 <strong>여기서 한 번만</strong> 정리하고 갑니다. 코드는 없습니다.</p>
+
+        <h3 class="sub-title">눈에는 멀쩡한데 컴퓨터는 못 읽는다</h3>
+        <p>엑셀로 열어 보면 아무 문제 없어 보이는 표가, 코드로 읽으면 에러를 냅니다.<br>
+        <strong>"사람이 보기 좋은 표"와 "계산할 수 있는 표"는 다르기 때문입니다.</strong></p>
+        <div class="tbl-scroll"><table>
+          <tr><th style="width:27%">위도 칸에 들어 있는 것</th><th style="width:30%">사람이 보면</th><th>컴퓨터에게는</th></tr>
+          <tr><td><code>37.5665</code></td><td>위도구나</td><td><span class="ok">숫자 ✅</span></td></tr>
+          <tr><td><code>37.5665&nbsp;&nbsp;</code><br><span style="font-size:11.5px;color:var(--text3)">뒤에 공백 한 칸</span></td><td>똑같아 보인다</td><td><span class="bad">글자 ❌</span></td></tr>
+          <tr><td><code>37,5665</code><br><span style="font-size:11.5px;color:var(--text3)">점 대신 쉼표</span></td><td>오타 같지만 읽힌다</td><td><span class="bad">글자 ❌</span></td></tr>
+          <tr><td><code>31.219272°</code></td><td>위도 맞네</td><td><span class="bad">글자 ❌</span> <span style="font-size:11.5px;color:var(--text3)">° 때문에</span></td></tr>
+          <tr><td><code>'없음'</code> · 빈칸</td><td>"자료가 없구나"</td><td><span class="bad">계산 불가 ❌</span></td></tr>
+          <tr><td><code>137.5665</code></td><td>좀 이상한데?</td><td><span class="ok">숫자 ✅</span> <strong>틀린 줄 모른다</strong></td></tr>
+        </table></div>
+        <div class="warn"><strong>⚠️ 맨 아랫줄이 오늘의 진짜 이야기입니다</strong><br>
+        컴퓨터는 <strong>형식이 틀린 것</strong>은 걸러 냅니다. 하지만 <strong>값이 틀린 것</strong>은 걸러 내지 못합니다.<br>
+        <code>137.5665</code>는 숫자로서 아무 문제가 없어서 <strong>에러 없이 통과</strong>하고, 지도에는 <strong>엉뚱한 나라</strong>에 점이 찍힙니다.<br>
+        <strong>그건 사람이 확인해야 합니다.</strong></div>
+
+        <h3 class="sub-title">정제와 점검은 다른 일입니다</h3>
+        <p>둘 다 "데이터를 손본다"는 말로 뭉뚱그려지지만, <strong>묻는 질문이 다릅니다.</strong></p>
+        <div class="vs">
+          <div class="vs-card vs-orange">
+            <div class="vs-ico">🧹</div>
+            <div class="vs-name">정제</div>
+            <div class="vs-one">컴퓨터가 <strong>읽을 수 있게</strong> 만든다</div>
+            <dl>
+              <dt>묻는 것</dt><dd>"이걸 <strong>계산할 수</strong> 있나?"</dd>
+              <dt>하는 일</dt><dd>글자 → 숫자<br>기호 지우기 · 빈칸 버리기</dd>
+              <dt>판단</dt><dd><strong>기계</strong>가 한다<br>(규칙대로)</dd>
+              <dt>안 하면</dt><dd><strong>에러가 난다</strong><br>→ 바로 안다</dd>
+            </dl>
+          </div>
+          <div class="vs-card vs-blue">
+            <div class="vs-ico">🔎</div>
+            <div class="vs-name">점검</div>
+            <div class="vs-one">값이 <strong>말이 되는지</strong> 본다</div>
+            <dl>
+              <dt>묻는 것</dt><dd>"이 값이 <strong>사실일</strong> 수 있나?"</dd>
+              <dt>하는 일</dt><dd>위도가 33~38.5 안인가<br>개수가 원래대로인가</dd>
+              <dt>판단</dt><dd><strong>사람</strong>이 한다<br>(아는 것에 비춰서)</dd>
+              <dt>안 하면</dt><dd><strong>에러는 안 난다</strong><br>→ 틀린 지도가 나온다</dd>
+            </dl>
+          </div>
+        </div>
+        <div class="vs-link"><strong>에러는 무섭지 않습니다. 에러 없이 틀린 지도가 무섭습니다.</strong><br>
+        정제는 지도를 <strong>그리게</strong> 해 주고, 점검은 그 지도를 <strong>믿게</strong> 해 줍니다.</div>
+        <div class="tip"><strong>💡 어느 탭에서 무엇을 하나</strong> <strong style="color:var(--orange)">A</strong>는 정제를 <strong>직접</strong> 합니다. <strong style="color:var(--primary)">B</strong>는 정제할 게 없어서 <strong>점검만</strong> 합니다. <strong style="color:var(--purple)">C</strong>는 좌표를 <strong>만든 뒤</strong> 둘 다 합니다.</div>
       </div>
 
       <!-- ═══════════ 기초 설정 (공통) ═══════════ -->
       <div class="section" id="setup">
         <h2 class="section-title">⚙️ 기초 설정 — 세 데이터 공통</h2>
-        <p>어떤 탭을 하든 <strong>이 셀은 딱 한 번만</strong> 실행하면 됩니다.</p>
+        <p>어떤 탭을 하든 <strong>이 셀은 딱 한 번만</strong> 실행하면 됩니다. 탭마다 <strong>더 필요한 도구가 있으면</strong> 그 탭의 첫 코드에 <code>!pip install ...</code> 로 적어 두었습니다.</p>
         <div class="code-block labeled">
           <span class="code-label">CELL 1 — 준비 (한 번만 실행)</span>
           <button class="copy-btn">copy</button>
@@ -595,12 +698,8 @@ drive.<span class="fn">mount</span>(<span class="str">'/content/drive'</span>)
 <pre>TILE_URL = (<span class="str">'https://server.arcgisonline.com/ArcGIS/rest/services/'</span>
             <span class="str">'World_Street_Map/MapServer/tile/{z}/{y}/{x}'</span>)</pre>
         </div>
-        <p>이제 지도를 만들 때마다 <strong>이 두 가지를 붙이기만</strong> 하면 됩니다.</p>
-        <div class="code-block">
-          <button class="copy-btn">copy</button>
-<pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>,
-               tiles=TILE_URL, attr=<span class="str">'Esri'</span>)</pre>
-        </div>
+        <p>지도를 만드는 코드는 <strong>각 탭에서</strong> 씁니다. 그때 <code>folium.Map(</code> 괄호 안에 <strong>이 두 가지만 덧붙이면</strong> 됩니다.</p>
+        <div class="vs-link" style="font-family:'JetBrains Mono',monospace;font-size:14.5px"><strong>tiles=TILE_URL</strong> &nbsp;,&nbsp; <strong>attr='Esri'</strong></div>
         <div class="warn"><strong>⚠️ <code>attr</code>을 빼면 오류가 납니다</strong> <strong>지도 출처를 밝히라</strong>는 규칙입니다. 안 쓰면 <code>You must provide an attribution</code> 오류가 납니다.</div>
         <p><strong>다른 지도를 쓰고 싶으면</strong> 주소에서 <code>World_Street_Map</code> 자리만 바꾸면 됩니다. 나머지 코드는 그대로입니다.</p>
         <div class="tbl-scroll"><table>
@@ -654,78 +753,8 @@ drive.<span class="fn">mount</span>(<span class="str">'/content/drive'</span>)
           <div class="concept">
           <div class="concept-label">📖 먼저 알아 둘 것 — 여기는 코드가 없습니다</div>
 
-          <h4 class="c-h">데이터 정제 — 눈에는 멀쩡한데 컴퓨터는 못 읽는다</h4>
-          <p>엑셀로 열어 보면 아무 문제 없어 보이는 표가, 코드로 읽으면 에러를 냅니다.<br>
-          <strong>"사람이 보기 좋은 표"와 "계산할 수 있는 표"는 다르기 때문입니다.</strong></p>
-          <div class="tbl-scroll"><table>
-            <tr><th style="width:27%">위도 칸에 들어 있는 것</th><th style="width:30%">사람이 보면</th><th>컴퓨터에게는</th></tr>
-            <tr><td><code>37.5665</code></td><td>위도구나</td><td><span class="ok">숫자 ✅</span></td></tr>
-            <tr><td><code>37.5665&nbsp;&nbsp;</code><br><span style="font-size:11.5px;color:var(--text3)">뒤에 공백 한 칸</span></td><td>똑같아 보인다</td><td><span class="bad">글자 ❌</span></td></tr>
-            <tr><td><code>37,5665</code><br><span style="font-size:11.5px;color:var(--text3)">점 대신 쉼표</span></td><td>오타 같지만 읽힌다</td><td><span class="bad">글자 ❌</span></td></tr>
-            <tr><td><code>31.219272°</code></td><td>위도 맞네</td><td><span class="bad">글자 ❌</span> <span style="font-size:11.5px;color:var(--text3)">° 때문에</span></td></tr>
-            <tr><td><code>'없음'</code> · 빈칸</td><td>"자료가 없구나"</td><td><span class="bad">계산 불가 ❌</span></td></tr>
-            <tr><td><code>137.5665</code></td><td>좀 이상한데?</td><td><span class="ok">숫자 ✅</span> <strong>틀린 줄 모른다</strong></td></tr>
-          </table></div>
-          <div class="warn"><strong>⚠️ 맨 아랫줄이 오늘의 진짜 이야기입니다</strong><br>
-          컴퓨터는 <strong>형식이 틀린 것</strong>은 걸러 냅니다. 하지만 <strong>값이 틀린 것</strong>은 걸러 내지 못합니다.<br>
-          <code>137.5665</code>는 숫자로서 아무 문제가 없어서 <strong>에러 없이 통과</strong>하고, 지도에는 <strong>엉뚱한 나라</strong>에 점이 찍힙니다.<br>
-          <strong>그건 사람이 확인해야 합니다.</strong></div>
-
-          <h4 class="c-h">정제와 점검은 다른 일입니다</h4>
-          <p>둘 다 "데이터를 손본다"는 말로 뭉뚱그려지지만, <strong>묻는 질문이 다릅니다.</strong></p>
-          <div class="vs">
-            <div class="vs-card vs-orange">
-              <div class="vs-ico">🧹</div>
-              <div class="vs-name">정제</div>
-              <div class="vs-one">컴퓨터가 <strong>읽을 수 있게</strong> 만든다</div>
-              <dl>
-                <dt>묻는 것</dt><dd>"이걸 <strong>계산할 수</strong> 있나?"</dd>
-                <dt>하는 일</dt><dd>글자 → 숫자<br>기호 지우기 · 빈칸 버리기</dd>
-                <dt>판단</dt><dd><strong>기계</strong>가 한다<br>(규칙대로)</dd>
-                <dt>안 하면</dt><dd><strong>에러가 난다</strong><br>→ 바로 안다</dd>
-              </dl>
-            </div>
-            <div class="vs-card vs-blue">
-              <div class="vs-ico">🔎</div>
-              <div class="vs-name">점검</div>
-              <div class="vs-one">값이 <strong>말이 되는지</strong> 본다</div>
-              <dl>
-                <dt>묻는 것</dt><dd>"이 값이 <strong>사실일</strong> 수 있나?"</dd>
-                <dt>하는 일</dt><dd>위도가 33~38.5 안인가<br>개수가 원래대로인가</dd>
-                <dt>판단</dt><dd><strong>사람</strong>이 한다<br>(아는 것에 비춰서)</dd>
-                <dt>안 하면</dt><dd><strong>에러는 안 난다</strong><br>→ 틀린 지도가 나온다</dd>
-              </dl>
-            </div>
-          </div>
-          <div class="vs-link"><strong>에러는 무섭지 않습니다. 에러 없이 틀린 지도가 무섭습니다.</strong><br>
-          정제는 지도를 <strong>그리게</strong> 해 주고, 점검은 그 지도를 <strong>믿게</strong> 해 줍니다.</div>
-
-          <h4 class="c-h">"공공데이터라서 지저분한 것"이 아닙니다</h4>
-          <p>오늘 쓰는 <strong>세 파일은 모두 같은 곳(공공데이터 포털)</strong>에서 받았습니다. 그런데 상태가 셋 다 다릅니다.</p>
-          <div class="tbl-scroll"><table>
-            <tr><th style="width:19%"></th>
-              <th style="color:var(--orange)">🗺️ A · 사적지</th>
-              <th style="color:var(--primary)">🏫 B · 학교</th>
-              <th style="color:var(--purple)">🔍 C · 동물병원</th></tr>
-            <tr><td><strong>크기</strong></td><td>639행 × 29열</td><td>12,011행 × 20열</td><td>124행 × 3열</td></tr>
-            <tr><td><strong>좌표 칸</strong></td>
-              <td><span class="bad">글자로 저장됨</span></td>
-              <td><span class="ok">숫자 · 결측 0개</span></td>
-              <td><span class="bad">칸 자체가 없음</span></td></tr>
-            <tr><td><strong>실제로 들어 있는 것</strong></td>
-              <td><code>'없음'</code> 23개<br><code>39.944070°</code> 7개<br><code>41.925.25.</code> 1개</td>
-              <td>전부 <code>37.609088</code> 같은<br>제대로 된 숫자</td>
-              <td>주소와 전화번호뿐</td></tr>
-            <tr><td><strong>그래서 할 일</strong></td>
-              <td><strong style="color:var(--orange)">정제</strong></td>
-              <td><strong style="color:var(--primary)">확인 · 골라내기</strong></td>
-              <td><strong style="color:var(--purple)">생성(지오코딩)</strong></td></tr>
-          </table></div>
-          <div class="vs-link"><strong>"공공데이터니까 지저분하다"도, "공공데이터니까 믿을 만하다"도 둘 다 틀렸습니다.</strong><br>
-          파일마다 다릅니다. <strong>열어 봐야 압니다.</strong></div>
-
-          <h4 class="c-h">A 파일은 왜 이런가</h4>
-          <p>A만 좌표가 글자로 되어 있습니다. 이유는 <strong>출처가 아니라 만들어진 방식</strong>에 있습니다.</p>
+          <h4 class="c-h">이 파일은 왜 이런가</h4>
+          <p>앞에서 본 <a href="#clean" style="color:var(--orange);font-weight:700">🧹 정제와 점검</a> 중에서, A는 <strong>정제를 직접 해야 하는 쪽</strong>입니다. 좌표가 <strong>글자로 저장되어 있기 때문</strong>이에요. 이유는 출처가 아니라 <strong>만들어진 방식</strong>에 있습니다.</p>
           <div class="tbl-scroll"><table>
             <tr><th style="width:36%">왜</th><th>이 파일에서 실제로</th></tr>
             <tr><td><strong>여러 사람이 손으로</strong> 입력했다</td><td>어떤 줄은 <code>31.219272</code>, 어떤 줄은 <code>39.944070°</code></td></tr>
@@ -735,25 +764,9 @@ drive.<span class="fn">mount</span>(<span class="str">'/content/drive'</span>)
           <div class="info"><strong>📊 정제하면 이렇게 됩니다</strong> 639행 → <strong>611행</strong> (28행은 좌표를 못 살려서 버림).<br>
           <strong>버린 28행도 데이터입니다.</strong> 지도에 안 보인다고 없는 게 아닙니다 — "이 사적지들은 왜 좌표가 없을까?"가 다음 질문입니다.</div>
 
-          <h4 class="c-h">그럼 B 파일은 아무 문제가 없나</h4>
-          <p>좌표는 정말 깨끗합니다. 12,011개 전부 숫자이고, 빈칸도 없고, 한국 범위를 벗어난 값도 없습니다. <strong>그런데 다른 칸에 오류가 있습니다.</strong></p>
-          <div class="tbl-scroll"><table>
-            <tr><th style="width:44%">전국 학교 원본 12,011줄 중</th><th>개수</th></tr>
-            <tr><td>좌표가 비어 있거나 범위 밖인 줄</td><td><span class="ok">0개</span></td></tr>
-            <tr><td><strong>도로명주소가 비어 있는</strong> 줄</td><td><span class="bad">12개</span></td></tr>
-            <tr><td><strong>이름과 학교급구분이 어긋나는</strong> 줄</td><td><span class="bad">1개</span></td></tr>
-            <tr><td>좌표가 다른 학교와 똑같은 줄 <span style="font-size:11.5px;color:var(--text3)">(같은 부지의 병설학교)</span></td><td>575개</td></tr>
-          </table></div>
-          <div class="warn"><strong>⚠️ 그 1개가 <code>인천신검단중학교</code>입니다</strong><br>
-          이름은 <strong>중</strong>학교인데 학교급구분 칸에는 <code>'초등학교'</code>라고 적혀 있습니다. 게다가 <strong>이 줄은 도로명주소도 비어 있습니다.</strong><br>
-          위도·경도는 멀쩡하고, 코드도 에러를 내지 않습니다. <strong>두 칸을 나란히 놓고 읽어 본 사람만</strong> 찾을 수 있습니다.<br>
-          → 앞에서 본 <strong>"에러는 안 나는데 값이 틀린 경우"</strong>가 정확히 이겁니다. <a href="#literacy" style="color:var(--red);font-weight:700">아래 🕵️ 데이터를 의심하기</a>에서 직접 찾아봅니다.</div>
-          <div class="note"><strong>📝 B탭 파일은 "정제한" 것이 아니라 "뽑아낸" 것입니다</strong> 선생님이 한 일은 <strong>12,011행 → 고양시 174행</strong>, <strong>20열 → 6열</strong>로 줄인 것뿐입니다. 좌표는 원본 그대로입니다.<br>
-          <strong>그래서 물어야 합니다 — 누가, 무엇을 기준으로 골라냈고, 무엇을 버렸나?</strong> (여기서는 "고양시가 아닌 학교 11,837개"와 "쓰지 않는 칸 14개"를 버렸습니다.)</div>
-
-          <div class="ask"><strong>🤔 그래서 이건 A탭만의 이야기가 아닙니다</strong><br>
-          지저분한 파일은 <strong>치우면</strong> 됩니다. 어려운 건 <strong>깨끗해 보이는 파일</strong>입니다 — B처럼 좌표가 완벽해도 옆 칸이 틀려 있을 수 있으니까요.<br>
-          그래서 오늘 <strong>한 줄짜리 코드를 네 개로 쪼개서</strong> 하나씩 봅니다 — 외우려는 게 아니라, <strong>다음에 다른 데이터에서 다시 알아보기 위해서</strong>입니다.</div>
+          <div class="ask"><strong>🤔 그래서 한 줄짜리 코드를 네 개로 쪼갭니다</strong><br>
+          정제는 원래 <code>pd.to_numeric(...)</code> 한 줄로도 됩니다. 그런데 그렇게 배우면 <strong>다른 데이터에서 다시 못 알아봅니다.</strong><br>
+          여러분이 나중에 <strong>어떤 데이터를 받아 와도</strong> 이 네 단계는 거의 그대로 필요합니다. <strong>외우려는 게 아니라, 다음에 알아보기 위해서</strong> 하나씩 봅니다.</div>
 
           </div><!-- /.concept -->
 
@@ -772,16 +785,25 @@ drive.<span class="fn">mount</span>(<span class="str">'/content/drive'</span>)
           <div class="code-block labeled">
             <span class="code-label">A-1</span>
             <button class="copy-btn">copy</button>
-<pre>files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/독립기념관_국외사적지_사적지관리.csv'</span>,
+<pre>files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/독립기념관_국외사적지_사적지관리*.csv'</span>,
                   recursive=<span class="bi">True</span>)
-<span class="fn">print</span>(files)        <span class="cm"># 파일을 찾았는지 먼저 확인!</span>
 
 df = pd.<span class="fn">read_csv</span>(files[<span class="num">0</span>], encoding=<span class="str">'cp949'</span>)
+
 <span class="fn">print</span>(df.shape)
 df.<span class="fn">head</span>(<span class="num">3</span>)</pre>
           </div>
-          <div class="tip"><strong>💡 팁</strong> <code>print(files)</code>가 <code>[]</code>(빈 목록)이면 파일을 못 찾은 것입니다. <strong>다음 줄로 넘어가지 말고 여기서 해결</strong>하세요.</div>
-          <div class="note"><strong>📝 왜 <code>cp949</code>?</strong> 예전에 한국에서 만든 CSV는 대부분 <code>cp949</code>(윈도우 한글) 방식입니다. B 탭의 학교 데이터는 <code>utf-8-sig</code>라서 <strong>여기를 반드시 바꿔야 합니다.</strong></div>
+          <div class="lex">
+            <div class="lex-h">이 코드, 한 줄씩 — 세 탭이 모두 같은 모양입니다</div>
+            <div class="lex-r"><div class="lex-c">glob.glob('…/**/…')</div><div class="lex-d">드라이브 안에서 <strong>이름이 맞는 파일을 찾아</strong> 목록으로 준다</div></div>
+            <div class="lex-r"><div class="lex-c">…사적지관리<strong>*</strong>.csv</div><div class="lex-d"><code>*</code>는 <strong>"여기는 뭐가 와도 좋다"</strong>는 뜻. 이름 뒤에 날짜나 <code>(1)</code>이 붙어 있어도 찾아 준다</div></div>
+            <div class="lex-r"><div class="lex-c">recursive=True</div><div class="lex-d"><strong>하위 폴더까지</strong> 뒤진다. 어느 폴더에 넣었는지 몰라도 된다</div></div>
+            <div class="lex-r key"><div class="lex-c">files[0]</div><div class="lex-d">찾은 목록의 <strong>첫 번째</strong> 파일. <code>[0]</code>은 "목록에서 첫 번째"라는 뜻 — 세 탭에서 계속 나온다</div></div>
+            <div class="lex-r"><div class="lex-c">encoding='cp949'</div><div class="lex-d">이 파일은 <strong>예전 방식</strong>으로 저장된 한글이라 이렇게 알려 줘야 한다</div></div>
+            <div class="lex-r"><div class="lex-c">df.shape / df.head(3)</div><div class="lex-d"><strong>(행 수, 열 수)</strong>와 <strong>앞 3줄</strong> — 내가 연 파일이 맞는지 확인</div></div>
+          </div>
+          <div class="tip"><strong>💡 <code>IndexError: list index out of range</code>가 나면</strong> 파일을 <strong>못 찾은 것</strong>입니다. <code>print(files)</code>를 한 번 찍어 보고 <code>[]</code>(빈 목록)이면 — 파일이 <strong>드라이브에 올라갔는지</strong>, <strong>이름이 맞는지</strong> 확인하세요. <strong>다음 줄로 넘어가지 말고 여기서 해결</strong>합니다.</div>
+          <div class="note"><strong>📝 왜 <code>cp949</code>?</strong> 예전에 한국에서 만든 CSV는 대부분 <code>cp949</code>(윈도우 한글) 방식입니다. C 탭의 동물병원 데이터도 <code>cp949</code>인데, <strong>파일마다 다를 수 있으니 매번 확인</strong>해야 합니다.</div>
 
           <h4 class="step-h"><span class="sn">2</span>정제 4단계 — 하나씩 뜯어봅니다</h4>
           <p>위도 칸을 들여다보면 <code>'없음'</code>이라는 <strong>글자</strong>와 <code>31.219272°</code>처럼 <strong>도(°) 기호</strong>가 섞여 있습니다. 이대로는 지도에 찍을 수 없습니다.</p>
@@ -1025,16 +1047,32 @@ cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>
         <div class="tab-panel p-b" id="panel-b" role="tabpanel">
           <div class="ds-head">
             <h3>🏫 B · 우리 지역 학교 지도</h3>
-            <p>선생님이 전국 12,011개교에서 <strong>고양시 174개교만 미리 뽑아 둔 파일</strong>입니다. 칸도 6개만 남겨서 바로 지도에 쓸 수 있어요. 오늘 여기서 할 일은 하나입니다 — <strong>우리 지역 학교를 지도에 찍고, 그 분포가 무엇을 말하는지 읽는 것.</strong></p>
-            <span class="ds-file">고양시_학교.csv · utf-8-sig · 174행 × 6열</span>
+            <p><strong>전국 12,011개 학교</strong>가 통째로 들어 있는 파일입니다. 여기서 <strong>우리 지역만 직접 골라내서</strong> 지도에 찍고, 그 지도로 <strong>우리 동네에 관한 질문을 만드는 것</strong>이 오늘 할 일입니다.</p>
+            <span class="ds-file">전국초중등학교위치표준데이터.xls · 12,011행 × 20열 → 고양시 174행</span>
           </div>
 
           <!-- ═════ 개념 ═════ -->
           <div class="concept">
           <div class="concept-label">📖 먼저 알아 둘 것 — 여기는 코드가 없습니다</div>
 
-          <div class="note"><strong>📝 이 파일은 A탭 데이터와 같은 곳(공공데이터 포털)에서 왔습니다</strong> 그런데 <strong>좌표는 원본부터 깨끗했습니다</strong> — 전국 12,011개 전부 숫자이고 빈칸이 없습니다. 선생님이 한 일은 정제가 아니라 <strong>고양시 174행만 뽑고, 20열을 6열로 줄인 것</strong>입니다.<br>
-          그래서 B탭은 <strong>"치우는 일"이 아니라 "읽는 일"</strong>에 시간을 다 씁니다. 다만 <strong>좌표가 깨끗하다고 파일 전체가 맞는 건 아닙니다</strong> — 원본에는 학교급구분이 틀린 줄이 하나 섞여 있습니다.</div>
+          <h4 class="c-h">이 파일은 좌표를 정제할 것이 없습니다 — 그런데</h4>
+          <p>A는 좌표가 글자여서 <strong>치워야</strong> 했습니다. B는 다릅니다. 전국 12,011개 좌표가 <strong>전부 숫자이고, 빈칸도 없고, 한국 범위를 벗어난 값도 없습니다.</strong></p>
+          <div class="info"><strong>📝 그래서 B탭에서 할 일은 "치우기"가 아니라 "고르기"입니다</strong><br>
+          12,011개를 그대로 지도에 찍을 수는 없으니 <strong>우리 지역만 골라내야</strong> 합니다. 그게 ③단계예요.<br>
+          그리고 <strong>고른다는 건 버린다는 뜻</strong>입니다 — 그 선택을 <strong>여러분이 직접</strong> 하게 됩니다.</div>
+          <p>그럼 좌표만 멀쩡하면 이 파일은 믿어도 될까요? <strong>아닙니다. 다른 칸에 오류가 있습니다.</strong></p>
+          <div class="tbl-scroll"><table>
+            <tr><th style="width:52%">전국 학교 원본 12,011줄 중</th><th>개수</th></tr>
+            <tr><td>좌표가 비어 있거나 범위 밖인 줄</td><td><span class="ok">0개</span></td></tr>
+            <tr><td><strong>도로명주소가 비어 있는</strong> 줄</td><td><span class="bad">12개</span></td></tr>
+            <tr><td><strong>이름과 학교급구분이 어긋나는</strong> 줄</td><td><span class="bad">1개</span></td></tr>
+            <tr><td>좌표가 다른 학교와 똑같은 줄 <span style="font-size:11.5px;color:var(--text3)">(같은 부지의 병설학교)</span></td><td>575개</td></tr>
+          </table></div>
+          <div class="warn"><strong>⚠️ 그 1개가 <code>인천신검단중학교</code>입니다</strong><br>
+          이름은 <strong>중</strong>학교인데 학교급구분 칸에는 <code>'초등학교'</code>라고 적혀 있습니다. 게다가 <strong>이 줄은 도로명주소도 비어 있습니다.</strong><br>
+          위도·경도는 멀쩡하고, 코드도 에러를 내지 않습니다. <strong>두 칸을 나란히 놓고 읽어 본 사람만</strong> 찾을 수 있습니다.<br>
+          → <a href="#clean" style="color:var(--red);font-weight:700">🧹 정제와 점검</a>에서 본 <strong>"에러는 안 나는데 값이 틀린 경우"</strong>가 정확히 이겁니다. <a href="#literacy" style="color:var(--red);font-weight:700">아래 🕵️ 데이터를 의심하기</a>에서 직접 찾아봅니다.</div>
+          <div class="tip"><strong>💡 그래서 B탭은 "치우는 일"이 아니라 "읽는 일"에 시간을 다 씁니다</strong> 정제 단계가 없는 대신, <strong>지도에서 무엇을 읽어 낼 것인가</strong>에 집중합니다.</div>
 
           <h4 class="c-h">지도는 두 겹입니다</h4>
           <p><a href="#setup" style="color:var(--primary);font-weight:700">⚙️ 기초 설정</a>에서 한 번 나왔지만, <strong>지도를 직접 그리기 전에 한 번만 더</strong> 확실히 해 둡니다. folium이 만드는 지도는 <strong>따로 만들어진 두 장이 겹쳐 있는 것</strong>입니다. 이걸 알면 화면이 이상할 때 <strong>어느 쪽을 고쳐야 하는지</strong> 알 수 있습니다.</p>
@@ -1068,7 +1106,7 @@ cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>
           </table></div>
           <div class="ask"><strong>🤔 지도에서 제일 중요한 건 점이 있는 곳이 아니라, 점이 없는 곳일 때가 많습니다.</strong><br>
           점이 빽빽한 곳은 누구나 봅니다. 그런데 <strong>"여기는 왜 비어 있지?"</strong>라고 묻는 순간부터 지도는 자료가 됩니다. 산인지, 논밭인지, 새로 지은 아파트 단지인지 — 답은 데이터 밖에 있습니다.</div>
-          <div class="tip"><strong>💡 그래서 오늘 ③단계(골라내기)가 ⑤단계(전부 찍기)보다 먼저 옵니다</strong> 무엇을 볼지 정하고 나서 그리는 것이 순서입니다.</div>
+          <div class="tip"><strong>💡 그래서 오늘 ③단계(골라내기)가 ④단계(전부 찍기)보다 먼저 옵니다</strong> 무엇을 볼지 정하고 나서 그리는 것이 순서입니다.</div>
 
           </div><!-- /.concept -->
 
@@ -1076,107 +1114,154 @@ cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>
           <div class="handson"><span>✋ 여기서부터 직접 해 봅니다</span></div>
           <p class="handson-sub">깨끗한 데이터를 불러와, 조건으로 고르고, 우리 지역 지도에 올려 읽어 봅니다.</p>
           <div class="ribbon">
-            <div class="rb"><div class="rn">STEP ①</div><div class="rt">불러오기</div><div class="rx">read_csv</div></div>
-            <div class="rb"><div class="rn">STEP ②</div><div class="rt">살펴보기</div><div class="rx">shape · head()</div></div>
-            <div class="rb"><div class="rn">STEP ③</div><div class="rt">골라내기</div><div class="rx">조건 필터링</div></div>
-            <div class="rb"><div class="rn">STEP ④</div><div class="rt">한 곳 찍기</div><div class="rx">Map + Marker</div></div>
-            <div class="rb"><div class="rn">STEP ⑤</div><div class="rt">전부 찍기</div><div class="rx">for 반복문</div></div>
-            <div class="rb"><div class="rn">STEP ⑥</div><div class="rt">읽어내기</div><div class="rx">분포 해석</div></div>
+            <div class="rb"><div class="rn">STEP ①</div><div class="rt">불러오기</div><div class="rx">header=1 함정</div></div>
+            <div class="rb"><div class="rn">STEP ②</div><div class="rt">살펴보기</div><div class="rx">전국 12,011곳</div></div>
+            <div class="rb"><div class="rn">STEP ③</div><div class="rt">골라내기</div><div class="rx">고양시 174곳</div></div>
+            <div class="rb"><div class="rn">STEP ④</div><div class="rt">전부 찍기</div><div class="rx">Map + for + Marker</div></div>
+            <div class="rb"><div class="rn">STEP ⑤</div><div class="rt">읽어내기</div><div class="rx">탐구 3주제</div></div>
           </div>
 
-          <div class="tip"><strong>💡 오늘 새로 배우는 것은 딱 두 개입니다</strong> <code>folium.Map()</code>으로 지도를 만들고, <code>folium.Marker()</code>로 점을 찍는 것. 나머지(<code>read_csv</code> · <code>head()</code> · 조건으로 고르기 · <code>for문</code>)는 <strong>1~5차시에서 이미 해 본 것</strong>입니다.</div>
+          <div class="tip"><strong>💡 오늘 새로 배우는 것은 딱 두 개입니다</strong> <code>folium.Map()</code>으로 지도를 만들고, <code>folium.Marker()</code>로 점을 찍는 것. 나머지(<code>read_excel</code> · <code>head()</code> · 조건으로 고르기 · <code>for문</code>)는 <strong>1~5차시에서 이미 해 본 것</strong>입니다.</div>
 
-          <h4 class="step-h"><span class="sn">1</span>데이터 불러오기</h4>
-          <p>파일을 코랩에 올리고 한 줄로 읽습니다. 왼쪽 <strong>📁 폴더 아이콘 → 업로드</strong>로 <code>고양시_학교.csv</code>를 올리세요.</p>
+          <h4 class="step-h"><span class="sn">1</span>데이터 불러오기 — 그리고 첫 번째 함정</h4>
+          <p><code>전국초중등학교위치표준데이터.xls</code>를 <strong>내 구글 드라이브</strong>에 저장해 두세요. A 탭과 <strong>똑같은 모양</strong>의 코드입니다.</p>
           <div class="note"><strong>📝 먼저</strong> 위 <a href="#setup" style="color:var(--orange);font-weight:700">⚙️ 기초 설정</a>의 <strong>CELL 1·2를 한 번씩 실행</strong>해 두세요. 런타임을 새로 켤 때마다 한 번만 하면 됩니다.</div>
           <div class="code-block labeled">
-            <span class="code-label">B-1</span>
+            <span class="code-label">B-1 · 일단 그냥 읽어 봅니다</span>
             <button class="copy-btn">copy</button>
-<pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
-<span class="kw">import</span> folium
+<pre>!pip install xlrd -q          <span class="cm"># 엑셀(.xls)을 읽는 도구 — B 탭에만 필요</span>
 
-df = pd.<span class="fn">read_csv</span>(<span class="str">'/content/고양시_학교.csv'</span>)
-df.<span class="fn">head</span>()</pre>
+files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/전국초중등학교위치표준데이터*.xls'</span>,
+                  recursive=<span class="bi">True</span>)
+
+df_all = pd.<span class="fn">read_excel</span>(files[<span class="num">0</span>])
+
+<span class="fn">print</span>(df_all.shape)
+df_all.<span class="fn">head</span>(<span class="num">3</span>)</pre>
           </div>
-          <div class="result"><span class="result-label">실행 결과</span>     학교명  학교급구분 설립형태            소재지도로명주소        위도         경도
-가람초등학교  초등학교   공립  경기도 고양시 덕양구 행신로311번길 78  37.623719  126.842224
-가좌초등학교  초등학교   공립     경기도 고양시 일산서구 가좌2로 31  37.688482  126.721364
-강선초등학교  초등학교   공립      경기도 고양시 일산서구 강선로 77  37.671228  126.764626
-고봉초등학교  초등학교   공립     경기도 고양시 일산동구 중산로 280  37.696139  126.782620</div>
-          <div class="warn"><strong>⚠️ 코랩은 껐다 켜면 올린 파일이 사라집니다.</strong> 다음 시간에 다시 올리면 됩니다. 매번 올리기 귀찮으면 구글 드라이브에 두고 <code>drive.mount</code>를 쓰는 방법도 있어요 (아래 심화 참고).</div>
+          <div class="result"><span class="result-label">실행 결과</span>(12012, 20)
+
+   Unnamed: 0   Unnamed: 1  Unnamed: 2  ...   Unnamed: 15   Unnamed: 16
+0        학교ID          학교명       학교급구분  ...           위도            경도
+1  B000002843      대구옥산초등학교        초등학교  ...    35.8808955   128.5978756
+2  B000008555       부곡여자중학교         중학교  ...   35.22332989   129.0953419</div>
+          <div class="warn"><strong>⚠️ 에러는 안 났습니다. 그런데 세 군데가 이상합니다</strong>
+          <div class="tbl-scroll" style="margin-top:8px"><table>
+            <tr><th style="width:40%">지금 이렇게 나왔다</th><th>정상이라면</th></tr>
+            <tr><td>칸 이름이 <code>Unnamed: 0</code>, <code>Unnamed: 1</code> …</td><td><code>학교ID</code>, <code>학교명</code> …</td></tr>
+            <tr><td><strong>0번 줄에 칸 이름이 들어가 있다</strong></td><td>0번 줄은 첫 번째 학교여야 한다</td></tr>
+            <tr><td>행이 <strong>12,012</strong>개</td><td>12,011개</td></tr>
+          </table></div>
+          <strong>세 개가 다 같은 원인입니다.</strong></div>
+
+          <h5 class="h5c">왜 이럴까 — 엑셀 1행이 비어 있습니다</h5>
+          <p>이 파일을 엑셀로 열어 보면 <strong>맨 윗줄이 통째로 비어</strong> 있습니다. 눈으로는 잘 안 보이지만 pandas는 <strong>맨 윗줄을 칸 이름으로 읽기 때문에</strong>, 빈 줄을 이름으로 가져가 버립니다.</p>
+          <div class="flow">
+            <div class="fb branch"><div class="ft">1행 &nbsp;[ &nbsp;비어 있음&nbsp; ]</div><div class="fd">← pandas가 <strong>여기를 칸 이름으로</strong> 읽었다 → <code>Unnamed: 0~19</code></div></div>
+            <div class="fa">↓</div>
+            <div class="fb"><div class="ft">2행 &nbsp;[ 학교ID · 학교명 · 학교급구분 … ]</div><div class="fd">← <strong>진짜 칸 이름.</strong> 데이터 0번 줄로 밀려났다</div></div>
+            <div class="fa">↓</div>
+            <div class="fb"><div class="ft">3행 &nbsp;[ B000002843 · 대구옥산초등학교 … ]</div><div class="fd">← 진짜 첫 번째 학교</div></div>
+          </div>
+          <div class="warn"><strong>⚠️ 그리고 더 무서운 일이 하나 더 일어났습니다</strong><br>
+          <code>'위도'</code>라는 <strong>글자</strong>가 위도 칸 안에 <strong>한 개</strong> 섞여 들어갔습니다. 그래서 —<br>
+          <strong>12,011개 숫자가 전부 글자가 됩니다.</strong> <a href="#clean" style="color:var(--red);font-weight:700">🧹 정제와 점검</a>에서 본 그 이야기예요. <strong>한 칸만 글자여도 칸 전체가 글자입니다.</strong><br>
+          이대로 지도를 그리면 <strong>아무것도 안 찍히거나 엉뚱하게 찍힙니다.</strong></div>
+
+          <h5 class="h5c">고치는 법 — 한 글자면 됩니다</h5>
+          <div class="code-block labeled">
+            <span class="code-label">B-1 고침 · <code>header=1</code> 한 군데만 추가</span>
+            <button class="copy-btn">copy</button>
+<pre>df_all = pd.<span class="fn">read_excel</span>(files[<span class="num">0</span>], <span class="hi">header=<span class="num">1</span></span>)
+
+<span class="fn">print</span>(df_all.shape)
+df_all.<span class="fn">head</span>(<span class="num">3</span>)</pre>
+          </div>
+          <div class="result"><span class="result-label">실행 결과</span>(12011, 20)
+
+         학교ID       학교명 학교급구분        설립일자 설립형태  ...         위도          경도
+0  B000002843  대구옥산초등학교  초등학교  1956-07-04   공립  ...  35.880896  128.597876
+1  B000008555   부곡여자중학교   중학교  1981-10-14   공립  ...  35.223330  129.095342
+2  B000009527   안성여자중학교   중학교  1943-04-30   공립  ...  37.008367  127.275693</div>
+          <div class="lex">
+            <div class="lex-h">이 한 글자</div>
+            <div class="lex-r key"><div class="lex-c">header=1</div><div class="lex-d"><strong>"칸 이름은 1번 줄에 있어"</strong>라고 알려 준다.<br>파이썬은 <strong>0번부터</strong> 세니까, <code>1</code>은 <strong>두 번째 줄</strong>이다</div></div>
+            <div class="lex-r"><div class="lex-c">header=0</div><div class="lex-d">기본값. 아무것도 안 쓰면 <strong>맨 윗줄</strong>을 칸 이름으로 쓴다</div></div>
+          </div>
+          <div class="info"><strong>🔑 이게 <code>print(df.shape)</code>와 <code>df.head(3)</code>을 매번 찍는 이유입니다</strong><br>
+          이 코드는 <strong>에러를 내지 않았습니다.</strong> 그냥 넘어갔으면 지도를 그릴 때가 돼서야 이상한 걸 알았을 거예요. 그때는 <strong>어디가 잘못됐는지 찾기 훨씬 어렵습니다.</strong><br>
+          <strong>불러온 직후에 두 줄로 확인하는 것 — 그게 점검입니다.</strong></div>
+          <div class="tip"><strong>💡 <code>IndexError: list index out of range</code>가 나면</strong> 파일을 <strong>못 찾은 것</strong>입니다. <code>print(files)</code>를 한 번 찍어 보고 <code>[]</code>(빈 목록)이면 — 파일이 <strong>드라이브에 올라갔는지</strong>, <strong>이름이 맞는지</strong> 확인하세요.</div>
 
           <h4 class="step-h"><span class="sn">2</span>어떤 데이터인지 살펴보기</h4>
-          <p>지도를 그리기 전에 <strong>무엇이 들어 있는지</strong> 먼저 봅니다. 두 줄이면 충분합니다.</p>
+          <p>제대로 읽었으니 <strong>무엇이 들어 있는지</strong> 봅니다. 12,011줄은 눈으로 다 못 보니까 <strong>요약해서</strong> 봐야 해요.</p>
           <div class="code-block labeled">
             <span class="code-label">B-2</span>
             <button class="copy-btn">copy</button>
-<pre><span class="fn">print</span>(df.shape)                        <span class="cm"># (행 수, 열 수)</span>
-<span class="fn">print</span>(df[<span class="str">'학교급구분'</span>].<span class="fn">value_counts</span>())     <span class="cm"># 초·중·고 몇 개씩?</span></pre>
+<pre><span class="fn">print</span>(<span class="fn">list</span>(df_all.columns))              <span class="cm"># 칸이 20개나 된다</span>
+<span class="fn">print</span>(df_all[<span class="str">'학교급구분'</span>].<span class="fn">value_counts</span>())   <span class="cm"># 초·중·고 몇 개씩?</span></pre>
           </div>
-          <div class="result"><span class="result-label">실행 결과</span>(174, 6)
+          <div class="result"><span class="result-label">실행 결과</span>['학교ID', '학교명', '학교급구분', '설립일자', '설립형태', '본교분교구분',
+ '운영상태', '소재지지번주소', '소재지도로명주소', '시도교육청코드', '시도교육청명',
+ '교육지원청코드', '교육지원청명', '생성일자', '변경일자', '위도', '경도',
+ '데이터기준일자', '제공기관코드', '제공기관명']
+
+초등학교    6303
+중학교      3312
+고등학교     2396</div>
+          <div class="lex">
+            <div class="lex-h">이 코드, 한 줄씩</div>
+            <div class="lex-r key"><div class="lex-c">list(df_all.columns)</div><div class="lex-d"><strong>칸 이름을 전부 본다.</strong> 앞으로 쓸 이름을 <strong>여기서 정확히 베껴</strong> 써야 한다 — 글자 하나만 달라도 오류가 난다</div></div>
+            <div class="lex-r"><div class="lex-c">df_all['학교급구분']</div><div class="lex-d">그 칸 <strong>하나만</strong> 꺼낸다</div></div>
+            <div class="lex-r"><div class="lex-c">.value_counts()</div><div class="lex-d">그 칸 안에 <strong>어떤 값이 몇 개씩</strong> 있는지 세어 준다</div></div>
+          </div>
+          <div class="ask"><strong>📝 먼저 생각해 보기</strong> 전국에 초등학교가 <strong>6,303개</strong>인데 고등학교는 <strong>2,396개</strong>입니다. 초등학교의 <strong>38%</strong>밖에 안 돼요.<br>
+          <strong>왜 절반도 안 될까요?</strong> 이유를 한 문장으로 적어 두고, ⑤단계에서 지도를 본 뒤 다시 확인합니다.</div>
+
+          <h4 class="step-h"><span class="sn">3</span>우리 지역만 골라내기</h4>
+          <p>12,011개를 전부 지도에 찍으면 <strong>아무것도 안 보입니다.</strong> 그리고 <code>for</code>문이 한참 걸려요. <strong>우리 지역만 골라냅니다.</strong></p>
+          <div class="code-block labeled">
+            <span class="code-label">B-3</span>
+            <button class="copy-btn">copy</button>
+<pre>df = df_all[df_all[<span class="str">'교육지원청명'</span>] == <span class="str">'경기도고양교육지원청'</span>]
+
+<span class="fn">print</span>(<span class="fn">len</span>(df), <span class="str">'개교'</span>)
+<span class="fn">print</span>(df[<span class="str">'학교급구분'</span>].<span class="fn">value_counts</span>())</pre>
+          </div>
+          <div class="result"><span class="result-label">실행 결과</span>174 개교
 
 초등학교    91
 중학교      45
 고등학교     38</div>
-          <div class="ask"><strong>📝 먼저 생각해 보기</strong> 지도를 그리기 <strong>전에</strong> 답해 보세요. 고양시에 초등학교가 91개인데 고등학교는 38개입니다. <strong>왜 절반도 안 될까요?</strong> 이유를 한 문장으로 적어 두고, ⑥단계에서 지도를 본 뒤 다시 확인합니다.</div>
-
-          <h4 class="step-h"><span class="sn">3</span>조건으로 골라내기</h4>
-          <p>174개를 다 찍어도 되지만, <strong>보고 싶은 것만 고르는 법</strong>을 먼저 익힙니다. 대괄호 안에 <strong>조건</strong>을 씁니다.</p>
-          <div class="code-block labeled">
-            <span class="code-label">B-3</span>
-            <button class="copy-btn">copy</button>
-<pre><span class="cm"># 고등학교만 고르기</span>
-high = df[df[<span class="str">'학교급구분'</span>] == <span class="str">'고등학교'</span>]
-
-<span class="fn">print</span>(<span class="fn">len</span>(high), <span class="str">'개교'</span>)
-high.<span class="fn">head</span>()</pre>
+          <div class="lex">
+            <div class="lex-h">이 한 줄, 세 부분으로 나눠 읽습니다</div>
+            <div class="lex-r"><div class="lex-c">df_all['교육지원청명']</div><div class="lex-d">교육지원청명 <strong>칸 전체</strong>를 꺼낸다</div></div>
+            <div class="lex-r"><div class="lex-c">== '경기도고양교육지원청'</div><div class="lex-d">12,011줄을 <strong>한 줄씩</strong> 보면서 <strong>맞나? 아닌가?</strong>를 따진다</div></div>
+            <div class="lex-r key"><div class="lex-c">df_all[ … ]</div><div class="lex-d"><strong>맞는 줄만 남긴 새 표</strong>를 만든다. 원래 <code>df_all</code>은 <strong>그대로</strong> 있다</div></div>
+            <div class="lex-r"><div class="lex-c">df = …</div><div class="lex-d">그 새 표에 <code>df</code>라는 이름을 붙인다. <strong>앞으로 <code>df</code>는 고양시 174곳</strong>이다</div></div>
           </div>
-          <div class="result"><span class="result-label">실행 결과</span>38 개교</div>
-          <table>
-            <tr><th style="width:34%">읽는 법</th><th>뜻</th></tr>
-            <tr><td><code>df['학교급구분']</code></td><td>학교급구분 <strong>칸 전체</strong>를 꺼낸다</td></tr>
-            <tr><td><code>== '고등학교'</code></td><td>한 줄씩 <strong>맞나? 아닌가?</strong>를 따진다</td></tr>
-            <tr><td><code>df[ ... ]</code></td><td><strong>맞는 줄만</strong> 남긴 새 표를 만든다</td></tr>
-          </table>
+          <div class="note"><strong>📝 왜 주소가 아니라 <code>교육지원청명</code>인가요?</strong> 주소로 골라도 됩니다 — <code>df_all[df_all['소재지도로명주소'].str.contains('고양시')]</code>. 이 데이터에서는 <strong>둘 다 174개</strong>로 같습니다.<br>
+          다만 <strong>주소는 비어 있는 줄이 12개</strong> 있어서 놓칠 수 있습니다. <strong>빈칸이 없는 칸으로 고르는 게 안전합니다.</strong></div>
+          <div class="ask"><strong>🔑 "고른다"는 건 "버린다"는 뜻입니다</strong><br>
+          방금 <strong>11,837개 학교를 버렸습니다.</strong> 그 학교들이 없어진 게 아니라, <strong>내가 만들 지도에서 빼기로 정한</strong> 것뿐이에요.<br>
+          <strong>모든 지도에는 이런 선택이 들어 있습니다.</strong> 그런데 완성된 지도만 보면 <strong>무엇이 빠졌는지 안 보입니다.</strong><br>
+          → 남에게 보여 줄 때 <strong>"무엇을 기준으로 골랐는지"</strong>를 같이 말해야 하는 이유입니다.</div>
           <div class="ask"><strong>📝 해보기</strong> 조건을 바꿔 실행해 보세요. 몇 개교가 나오나요?<br>
+          · 고등학교만 — <code>df[df['학교급구분'] == '고등학교']</code><br>
           · 사립학교만 — <code>df[df['설립형태'] == '사립']</code><br>
           · 일산서구만 — <code>df[df['소재지도로명주소'].str.contains('일산서구')]</code><br>
-          · 중학교만 — <code>df[df['학교급구분'] == '중학교']</code></div>
+          <strong>⑤단계에서 이 조건들을 다시 씁니다.</strong></div>
 
-          <h4 class="step-h"><span class="sn">4</span>학교 한 곳을 지도에 표시하기</h4>
-          <p>여기가 오늘의 <strong>첫 번째 새 개념</strong>입니다. 지도를 만들고, 그 위에 점을 하나 찍습니다.</p>
+          <h4 class="step-h"><span class="sn">4</span>지도에 174곳 전부 찍기</h4>
+          <p>여기가 오늘의 <strong>새 개념</strong>입니다. 지도를 만들고, <code>for</code>문으로 <strong>174바퀴를 돌면서</strong> 점을 찍습니다.</p>
           <div class="code-block labeled">
             <span class="code-label">B-4</span>
             <button class="copy-btn">copy</button>
 <pre><span class="cm"># 지도 만들기 — 고양시가 가운데 오도록</span>
-m = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>, tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
+m = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>,
+               tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
 
-<span class="cm"># 점 하나 찍기</span>
-folium.<span class="fn">Marker</span>(
-    location=[<span class="num">37.6846</span>, <span class="num">126.8086</span>],
-    tooltip=<span class="str">'고양국제고등학교'</span>
-).<span class="fn">add_to</span>(m)
-
-m</pre>
-          </div>
-          <table>
-            <tr><th style="width:32%">부분</th><th>하는 일</th></tr>
-            <tr><td><code>location=[lat, lon]</code></td><td>지도의 <strong>가운데</strong>. 순서는 <strong>항상 위도 먼저</strong></td></tr>
-            <tr><td><code>zoom_start</code></td><td>확대 정도. <strong>9</strong>=경기도 · <strong>12</strong>=고양시 · <strong>16</strong>=학교 건물</td></tr>
-            <tr><td><code>tooltip</code></td><td>마커에 <strong>마우스를 올렸을 때</strong> 뜨는 글</td></tr>
-            <tr><td><code>.add_to(m)</code></td><td>만든 마커를 <strong>지도에 붙이기.</strong> 빼먹으면 아무것도 안 보입니다</td></tr>
-            <tr><td>마지막 줄 <code>m</code></td><td>지도를 <strong>화면에 보여 준다.</strong> 이 줄이 없으면 아무 일도 안 일어납니다</td></tr>
-          </table>
-          <div class="tip"><strong>💡 <code>tiles=TILE_URL, attr='Esri'</code>는 왜 있나요?</strong> 이게 없으면 코랩에서 지도가 <strong>노란 "Access blocked" 줄무늬</strong>로 나옵니다. <code>TILE_URL</code>은 ①단계에서 적어 둔 <strong>배경 지도 주소</strong>이고, <code>attr</code>은 <strong>출처 표기</strong>입니다. 자세한 이유는 위 <a href="#setup" style="color:var(--green);font-weight:700">⚙️ 기초 설정</a>에 있습니다.</div>
-          <div class="ask"><strong>📝 해보기</strong> <code>zoom_start</code>를 9로, 다시 16으로 바꿔 실행해 보세요. 그리고 <code>location</code>과 <code>tooltip</code>을 <strong>우리 학교</strong>로 바꿔 보세요. 좌표는 ③단계에서 우리 학교를 골라내면 찾을 수 있습니다.</div>
-
-          <h4 class="step-h"><span class="sn">5</span>반복문으로 고양시 학교 전체 표시하기</h4>
-          <p>④단계를 174번 손으로 쓸 수는 없습니다. <strong><code>for문</code>이 대신 174번 해 줍니다.</strong></p>
-          <div class="code-block labeled">
-            <span class="code-label">B-5</span>
-            <button class="copy-btn">copy</button>
-<pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>, tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
-
+<span class="cm"># 174줄을 한 줄씩 꺼내면서 점을 찍는다</span>
 <span class="kw">for</span> _, row <span class="kw">in</span> df.<span class="fn">iterrows</span>():
     folium.<span class="fn">Marker</span>(
         location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
@@ -1185,13 +1270,45 @@ m</pre>
 
 m</pre>
           </div>
-          <div class="info"><strong>🤔 ④와 무엇이 달라졌나요?</strong> 딱 두 군데입니다.<br>
-          · 좌표를 직접 쓰던 자리에 → <code>row['위도']</code>, <code>row['경도']</code><br>
-          · 이름을 직접 쓰던 자리에 → <code>row['학교명']</code><br>
-          <strong><code>row</code>은 "지금 꺼낸 한 줄"이라는 뜻입니다.</strong> 첫 바퀴엔 가람초등학교, 다음 바퀴엔 가좌초등학교… 이렇게 174바퀴를 돕니다.</div>
+          <div class="lex">
+            <div class="lex-h">이 코드, 한 줄씩</div>
+            <div class="lex-r"><div class="lex-c">folium.Map( … )</div><div class="lex-d"><strong>빈 지도를 만든다.</strong> 아직 점은 하나도 없다</div></div>
+            <div class="lex-r"><div class="lex-c">location=[37.659, 126.811]</div><div class="lex-d">지도의 <strong>가운데</strong>. 순서는 <strong>항상 위도 먼저</strong></div></div>
+            <div class="lex-r"><div class="lex-c">zoom_start=12</div><div class="lex-d">확대 정도. <strong>9</strong>=경기도 · <strong>12</strong>=고양시 · <strong>16</strong>=학교 건물</div></div>
+            <div class="lex-r"><div class="lex-c">tiles=TILE_URL, attr='Esri'</div><div class="lex-d"><strong>배경 지도</strong>를 어디서 받아올지. 이게 없으면 노란 줄무늬가 깔린다</div></div>
+            <div class="lex-r key"><div class="lex-c">for _, row in df.iterrows():</div><div class="lex-d">표를 <strong>한 줄씩</strong> 꺼낸다. 174줄이니 <strong>174바퀴</strong>를 돈다<br><strong>언더바 <code>_</code>가 뭔지는 바로 아래에서 설명합니다</strong></div></div>
+            <div class="lex-r"><div class="lex-c">row['위도']</div><div class="lex-d"><code>row</code>는 <strong>"지금 꺼낸 한 줄"</strong>. 첫 바퀴엔 가람초등학교, 다음 바퀴엔 가좌초등학교…</div></div>
+            <div class="lex-r"><div class="lex-c">tooltip=row['학교명']</div><div class="lex-d">마커에 <strong>마우스를 올렸을 때</strong> 뜨는 글</div></div>
+            <div class="lex-r"><div class="lex-c">.add_to(m)</div><div class="lex-d">만든 마커를 <strong>지도에 붙인다.</strong> 빼먹으면 아무것도 안 보인다</div></div>
+            <div class="lex-r"><div class="lex-c">마지막 줄 m</div><div class="lex-d">지도를 <strong>화면에 보여 준다.</strong> 이 줄이 없으면 아무 일도 안 일어난다</div></div>
+          </div>
+
+          <h5 class="h5c">잠깐 — <code>for _, row</code> 에서 언더바는 뭔가요?</h5>
+          <p><code>df.iterrows()</code>는 한 바퀴마다 <strong>두 개</strong>를 건네줍니다.</p>
+          <div class="tbl-scroll"><table>
+            <tr><th style="width:26%">받는 것</th><th style="width:30%">무엇</th><th>우리가 쓰나?</th></tr>
+            <tr><td>첫 번째 <code>_</code></td><td><strong>줄 번호</strong> (0, 1, 2 …)</td><td><span class="bad">안 씁니다</span></td></tr>
+            <tr><td>두 번째 <code>row</code></td><td><strong>그 줄의 내용</strong></td><td><span class="ok">이게 필요합니다</span></td></tr>
+          </table></div>
+          <div class="info"><strong>🤔 <code>_</code>는 "받긴 받는데 안 쓸 값"이라는 표시입니다</strong><br>
+          <code>i</code>라고 써도 똑같이 돌아갑니다. 그런데 <code>_</code>라고 쓰면 <strong>읽는 사람에게 "이건 일부러 안 쓴다"고 알려 주는</strong> 거예요. 파이썬을 쓰는 사람들끼리의 약속입니다.</div>
+          <div class="code-block labeled">
+            <span class="code-label">확인해 보기 · 30초</span>
+            <button class="copy-btn">copy</button>
+<pre><span class="cm"># _ 자리에 i 라고 이름을 붙여서 직접 찍어 봅시다</span>
+<span class="kw">for</span> i, row <span class="kw">in</span> df.<span class="fn">head</span>(<span class="num">3</span>).<span class="fn">iterrows</span>():
+    <span class="fn">print</span>(i, <span class="str">'|'</span>, row[<span class="str">'학교명'</span>])</pre>
+          </div>
+          <div class="result"><span class="result-label">실행 결과</span>0 | 가람초등학교
+1 | 가좌초등학교
+2 | 강선초등학교</div>
+          <div class="tip"><strong>💡 앞의 숫자가 바로 그 "줄 번호"입니다</strong> 지도를 그릴 때는 이 번호가 필요 없죠. 그래서 <code>_</code>로 두고 버리는 겁니다.</div>
+
           <div class="warn"><strong>⚠️ 자주 나오는 실수 두 가지</strong><br>
-          · <code>.add_to(m)</code>를 빼먹음 → 빈 지도만 나옵니다<br>
-          · <code>for</code> 아래 줄의 <strong>들여쓰기</strong>가 없음 → <code>IndentationError</code></div>
+          · <code>.add_to(m)</code>를 빼먹음 → <strong>빈 지도</strong>만 나옵니다<br>
+          · <code>for</code> 아래 줄의 <strong>들여쓰기</strong>가 없음 → <code>IndentationError</code><br>
+          · <code>&lt;folium.map.Marker at 0x…&gt;</code> 같은 글씨만 나온다면 → <code>folium.Marker(...)</code> 부분만 <strong>따로 떼어 실행</strong>한 것입니다. <strong>셀 전체를 실행</strong>하세요</div>
+          <div class="tip"><strong>💡 <code>tiles=TILE_URL, attr='Esri'</code>는 왜 있나요?</strong> 이게 없으면 코랩에서 지도가 <strong>노란 "Access blocked" 줄무늬</strong>로 나옵니다. <code>TILE_URL</code>은 <a href="#setup" style="color:var(--primary);font-weight:700">⚙️ 기초 설정</a>의 CELL 2에서 적어 둔 <strong>배경 지도 주소</strong>이고, <code>attr</code>은 <strong>출처 표기</strong>입니다.</div>
 
           <h5 style="font-size:15px;font-weight:700;margin:26px 0 8px">바꿔 볼 것은 이 세 가지</h5>
           <p>코드 전체를 고칠 필요 없습니다. <strong>아래 세 군데만</strong> 바꾸면 완전히 다른 지도가 됩니다.</p>
@@ -1204,16 +1321,16 @@ m</pre>
             <div class="knob">
               <div class="kn">② 무엇을 보여 줄까</div>
               <div class="kt">표시할 학교 조건</div>
-              <div class="kc">학교[학교['학교급구분']<br>&nbsp;&nbsp;== '고등학교']</div>
+              <div class="kc">sel = df[df['학교급구분']<br>&nbsp;&nbsp;== '고등학교']</div>
             </div>
             <div class="knob">
               <div class="kn">③ 뭐라고 알려 줄까</div>
               <div class="kt">마커에 담을 정보</div>
-              <div class="kc">tooltip=행['학교명']<br>popup=행['소재지도로명주소']</div>
+              <div class="kc">tooltip=row['학교명']<br>popup=row['소재지도로명주소']</div>
             </div>
           </div>
           <div class="code-block labeled">
-            <span class="code-label">B-5 · 세 군데를 바꾼 예시 — 고양시 고등학교만</span>
+            <span class="code-label">B-4 · 세 군데를 바꾼 예시 — 고양시 고등학교만</span>
             <button class="copy-btn">copy</button>
 <pre><span class="cm"># ② 조건을 바꿨다</span>
 sel = df[df[<span class="str">'학교급구분'</span>] == <span class="str">'고등학교'</span>]
@@ -1231,56 +1348,218 @@ m = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>
 m</pre>
           </div>
 
-          <h4 class="step-h"><span class="sn">6</span>지도를 읽어내기 — 오늘의 진짜 목표</h4>
-          <p>지도를 <strong>만드는 것</strong>까지는 컴퓨터가 합니다. <strong>읽는 것</strong>은 사람만 할 수 있습니다. 아래 순서대로 지도를 켜 보고 답해 보세요.</p>
-          <div class="tbl-scroll"><table>
-            <tr><th style="width:16%">무엇을 켜고</th><th style="width:38%">무엇을 볼까</th><th>내가 본 것</th></tr>
-            <tr><td><strong>전체 174개</strong></td><td>점이 <strong>몰린 곳</strong>은 어디인가?</td><td class="blank">_______________</td></tr>
-            <tr><td><strong>전체 174개</strong></td><td>점이 <strong>거의 없는 곳</strong>은 어디인가?</td><td class="blank">_______________</td></tr>
-            <tr><td><strong>초등학교만</strong></td><td>91개가 어떻게 퍼져 있나?</td><td class="blank">_______________</td></tr>
-            <tr><td><strong>고등학교만</strong></td><td>38개뿐이다. 빈 동네가 생기나?</td><td class="blank">_______________</td></tr>
-            <tr><td><strong>우리 동네</strong></td><td>걸어갈 수 있는 학교는 몇 개?</td><td class="blank">_______________</td></tr>
-          </table></div>
-          <div class="info"><strong>🤔 함께 이야기해 볼 것</strong><br>
-          · 점이 <strong>몰린 곳</strong>은 어떤 동네인가요? 아파트 단지? 신도시? <strong>학교 수는 무엇을 따라갈까요?</strong><br>
-          · 점이 <strong>빈 곳</strong>은 왜 비었을까요? 산일까요, 논밭일까요, 아니면 사람이 살지만 학교가 없는 걸까요? — <strong>이 둘은 완전히 다른 이야기입니다.</strong><br>
-          · ②단계에서 적어 둔 답과 지금 생각이 같나요? <strong>초등 91 : 고등 38</strong>이라는 숫자가 지도에서는 어떻게 보이나요?<br>
-          · 초등학생은 걸어서 다니고 고등학생은 버스·지하철로 다닙니다. <strong>지도의 점 간격이 그 차이를 보여 주나요?</strong></div>
-          <div class="note"><strong>📝 꼭 덧붙일 한 줄</strong> 이 지도를 누군가에게 보여 줄 때는 <strong>"고양시 학교 지도"</strong>가 아니라 <strong>"2026년 3월 기준, 고양교육지원청 소속 174개교의 지도"</strong>라고 말해야 합니다. 대안학교·폐교·2026년 이후 개교한 학교는 <strong>이 지도에 없습니다.</strong> 지도에 없다고 존재하지 않는 게 아닙니다.</div>
+          <h5 class="h5c">🟠 점이 너무 많으면 — 클러스터로 묶기</h5>
+          <p>고양시 174곳은 <code>Marker</code>로 충분합니다. 그런데 <strong>전국 12,011곳</strong>을 이대로 찍으면 화면이 점으로 <strong>덮여서</strong> 아무것도 안 보여요.</p>
+          <p>그럴 때 <code>MarkerCluster</code>를 씁니다. 가까운 점끼리 <strong>숫자 뭉치</strong>로 묶어 주고, 확대하면 풀립니다. <a href="#concept" style="color:var(--primary);font-weight:700">📌 핵심 개념</a>에 그림으로 정리해 두었어요.</p>
+          <div class="info"><strong>🤔 코드는 두 군데만 바뀝니다</strong><br>
+          ① 뭉치를 담을 <strong>그릇</strong>을 지도에 먼저 붙인다<br>
+          ② 마커를 <code>m</code> 대신 <strong>그 그릇에</strong> 붙인다<br>
+          <strong>나머지는 한 글자도 안 바뀝니다.</strong></div>
+          <div class="code-block labeled">
+            <span class="code-label">B-4 · 클러스터로 바꾸기 — <span class="hi">노란 부분</span>만 다릅니다</span>
+            <button class="copy-btn">copy</button>
+<pre>m = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>,
+               tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
+
+<span class="hi">cluster = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(m)</span>      <span class="cm"># ① 뭉치 그릇을 지도에 붙인다</span>
+
+<span class="kw">for</span> _, row <span class="kw">in</span> df.<span class="fn">iterrows</span>():
+    folium.<span class="fn">Marker</span>(
+        location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
+        tooltip=row[<span class="str">'학교명'</span>]
+    ).<span class="fn">add_to</span>(<span class="hi">cluster</span>)                    <span class="cm"># ② m 이 아니라 cluster 에 붙인다</span>
+
+m</pre>
+          </div>
+          <div class="lex">
+            <div class="lex-h">바뀐 두 줄</div>
+            <div class="lex-r key"><div class="lex-c">MarkerCluster().add_to(m)</div><div class="lex-d"><strong>빈 뭉치 그릇</strong>을 만들어 지도에 붙인다. <code>MarkerCluster</code>는 <strong>CELL 1에서 이미 불러왔습니다</strong></div></div>
+            <div class="lex-r key"><div class="lex-c">.add_to(cluster)</div><div class="lex-d">마커를 <strong>지도에 직접</strong> 붙이지 않고 <strong>그릇에</strong> 넣는다. 그릇이 알아서 묶어 준다</div></div>
+          </div>
+          <div class="ask"><strong>📝 전국으로 해 보기</strong> <code>df</code> 자리에 <code>df_all</code>을 넣으면 <strong>전국 12,011곳</strong>이 찍힙니다. 클러스터 없이 한 번, 클러스터로 한 번 — <strong>둘을 비교해 보세요.</strong><br>
+          <span style="color:var(--red);font-weight:700">⚠️ 12,011개는 1~2분 걸립니다.</span> 그리고 <code>zoom_start</code>를 <strong>7</strong>로 바꿔야 전국이 보입니다.</div>
+          <div class="tip"><strong>💡 그럼 항상 클러스터를 쓰면 되지 않나요?</strong> 아닙니다. 묶으면 <strong>낱개가 안 보입니다.</strong> 174곳처럼 <strong>하나하나가 중요할 때</strong>는 그냥 <code>Marker</code>가 낫습니다.<br>
+          <strong>점의 개수가 기준입니다</strong> — 수백 개까지는 <code>Marker</code>, 수천 개부터 <code>MarkerCluster</code>.</div>
+
+          <h4 class="step-h"><span class="sn">5</span>지도를 읽어내기 — 오늘의 진짜 목표</h4>
+          <p>지도를 <strong>만드는 것</strong>까지는 컴퓨터가 합니다. <strong>읽는 것</strong>은 사람만 할 수 있습니다.<br>
+          그런데 "읽는다"는 게 <strong>그냥 보고 느낌을 말하는 것</strong>은 아닙니다. 순서가 있습니다.</p>
+
+          <div class="three">
+            <div class="three-c f1">
+              <div class="three-n">1단계 · 사실</div>
+              <div class="three-t">지도에서 본 것</div>
+              <div class="three-d">누가 봐도 <strong>똑같이 보이는 것</strong>만. "○○동 근처에 점이 빽빽하다"</div>
+            </div>
+            <div class="three-c f2">
+              <div class="three-n">2단계 · 추측</div>
+              <div class="three-t">왜 그럴까</div>
+              <div class="three-d"><strong>아직 사실이 아닙니다.</strong> "아파트가 많아서일 것이다"</div>
+            </div>
+            <div class="three-c f3">
+              <div class="three-n">3단계 · 확인</div>
+              <div class="three-t">확인하려면 뭐가 필요한가</div>
+              <div class="three-d">그 추측을 <strong>확인해 줄 자료</strong>. "인구 통계", "위성 사진"</div>
+            </div>
+          </div>
+          <div class="warn"><strong>⚠️ 2단계에서 멈추면 안 됩니다</strong> 2단계는 <strong>추측</strong>입니다. 그런데 사람들은 여기서 멈추고 <strong>사실인 것처럼 말합니다.</strong><br>
+          "저 동네는 학교가 적네 → <s>낙후된 동네구나</s>" — 이건 지도가 알려 준 게 아니라 <strong>내가 덧붙인 것</strong>입니다.<br>
+          <strong>3단계까지 가야 "그럼 확인해 보자"가 됩니다.</strong> 오늘 세 가지 주제를 이 틀로 해 봅니다.</div>
+
+          <!-- ══ 탐구 1 ══ -->
+          <div class="inq">
+            <div class="inq-h">
+              <div class="inq-n">탐구 1 · 학교가 모인 곳과 드문 곳</div>
+              <div class="inq-q">같은 고양시인데, 왜 어떤 동네에는 학교가 많고 어떤 동네에는 적을까?</div>
+            </div>
+            <div class="inq-b">
+              <div class="inq-l">🗺️ 지도에서 먼저 확인할 것</div>
+              <p>④단계에서 그린 <strong>고양시 174개 전체 지도</strong>를 켜 놓고, <strong>두 곳만</strong> 고르세요.</p>
+              <div class="tbl-scroll"><table class="fill">
+                <tr><th style="width:30%">고를 것</th><th style="width:34%">어디인가</th><th>주변에 무엇이 있나</th></tr>
+                <tr><td>점이 <strong>가장 빽빽한 곳</strong></td><td class="blank">___________</td><td class="blank">_______________</td></tr>
+                <tr><td>점이 <strong>거의 없는 곳</strong></td><td class="blank">___________</td><td class="blank">_______________</td></tr>
+              </table></div>
+              <div class="tip"><strong>💡 주변에 뭐가 있는지 모르겠으면</strong> 아래 심화의 <strong>위성 사진 배경</strong>으로 바꿔 보세요. 산인지, 논밭인지, 아파트 단지인지가 바로 보입니다. <strong>빈 곳이 왜 비었는지 확인하는 것 자체가 답입니다.</strong></div>
+
+              <div class="inq-l">✍️ 세 단계로 적어 보기</div>
+              <div class="tbl-scroll"><table class="fill">
+                <tr><th style="width:24%">단계</th><th>내가 적은 것</th></tr>
+                <tr><td><strong style="color:var(--teal)">① 본 것</strong><br><span style="font-size:11.5px;color:var(--text3)">사실만</span></td><td class="blank">_________________________________</td></tr>
+                <tr><td><strong style="color:var(--orange)">② 왜 그럴까</strong><br><span style="font-size:11.5px;color:var(--text3)">추측</span></td><td class="blank">_________________________________</td></tr>
+                <tr><td><strong style="color:var(--purple)">③ 확인하려면</strong><br><span style="font-size:11.5px;color:var(--text3)">필요한 자료</span></td><td class="blank">_________________________________</td></tr>
+              </table></div>
+
+              <div class="inq-l">🗣️ 한 걸음 더 — 같이 이야기해 봅시다</div>
+              <div class="ask"><strong>학교를 한 곳 더 세운다면 어디가 좋을까요? 무엇을 기준으로 정해야 할까요?</strong><br>
+              그리고 여기서 한 번 더 —<br>
+              · <strong>모든 동네에 똑같은 수</strong>로 있어야 공평한가?<br>
+              · 아니면 <strong>학생이 사는 곳과 이동 여건에 맞춰</strong> 있어야 공평한가?<br>
+              <strong>둘은 다른 답입니다.</strong> 어느 쪽이 맞는지가 아니라, <strong>왜 그렇게 생각하는지</strong>를 말해 보세요.</div>
+            </div>
+          </div>
+
+          <!-- ══ 탐구 2 ══ -->
+          <div class="inq">
+            <div class="inq-h">
+              <div class="inq-n">탐구 2 · 초 · 중 · 고 분포 비교</div>
+              <div class="inq-q">고등학교가 멀리 있는 동네의 학생들은 무엇이 더 필요할까?</div>
+            </div>
+            <div class="inq-b">
+              <div class="inq-l">🗺️ 지도에서 먼저 확인할 것</div>
+              <p>③단계에서 배운 <strong>조건으로 골라내기</strong>를 씁니다. 이번엔 <code>df</code>(고양시 174곳)에서 다시 한 번 골라내요. <code>sel = ...</code> 한 줄만 바꿔 가며 ④단계 지도를 <strong>세 번</strong> 그려 보세요.</p>
+              <div class="code-block">
+                <button class="copy-btn">copy</button>
+<pre><span class="cm"># ④단계 코드에서 이 줄만 바꿔 가며 세 번 실행</span>
+sel = df[df[<span class="str">'학교급구분'</span>] == <span class="str">'초등학교'</span>]    <span class="cm"># 91곳</span>
+sel = df[df[<span class="str">'학교급구분'</span>] == <span class="str">'중학교'</span>]      <span class="cm"># 45곳</span>
+sel = df[df[<span class="str">'학교급구분'</span>] == <span class="str">'고등학교'</span>]    <span class="cm"># 38곳</span></pre>
+              </div>
+              <div class="tbl-scroll"><table class="fill">
+                <tr><th style="width:22%">켠 것</th><th style="width:16%">개수</th><th>점 사이 간격이 어떤가 · 비는 동네가 있나</th></tr>
+                <tr><td>초등학교만</td><td><strong>91곳</strong></td><td class="blank">_______________________</td></tr>
+                <tr><td>중학교만</td><td><strong>45곳</strong></td><td class="blank">_______________________</td></tr>
+                <tr><td>고등학교만</td><td><strong>38곳</strong></td><td class="blank">_______________________</td></tr>
+              </table></div>
+              <div class="info"><strong>🤔 초등학교가 고등학교의 2.4배입니다</strong> ②단계에서 "왜 절반도 안 될까?"라고 물었던 그 숫자예요.<br>
+              초등학생은 <strong>걸어서</strong> 다니고, 고등학생은 <strong>버스·지하철로</strong> 다닙니다. <strong>지도의 점 간격이 그 차이를 보여 주나요?</strong></div>
+
+              <div class="inq-l">✍️ 세 단계로 적어 보기</div>
+              <div class="tbl-scroll"><table class="fill">
+                <tr><th style="width:24%">단계</th><th>내가 적은 것</th></tr>
+                <tr><td><strong style="color:var(--teal)">① 본 것</strong></td><td class="blank">고등학교가 드문 동네는 ____________________</td></tr>
+                <tr><td><strong style="color:var(--orange)">② 왜 그럴까</strong></td><td class="blank">_________________________________</td></tr>
+                <tr><td><strong style="color:var(--purple)">③ 확인하려면</strong></td><td class="blank">_________________________________</td></tr>
+              </table></div>
+
+              <div class="inq-l">🗣️ 한 걸음 더 — "멀다"에서 끝내지 않기</div>
+              <div class="ask"><strong>학교가 멀어도 버스가 잘 다니면 괜찮을까요? 그렇지 않은 지역은요?</strong><br>
+              <strong>같은 2km라도 부담이 다릅니다.</strong> 무엇에 따라 달라질까요?<br>
+              · 버스가 <strong>몇 분마다</strong> 오는지 &nbsp;· <strong>갈아타야</strong> 하는지 &nbsp;· 교통비 &nbsp;· 차로 데려다줄 사람이 있는지<br>
+              → <strong>차로 데려다줄 사람이 없어도 학교에 편하게 갈 수 있어야 하지 않을까요?</strong><br>
+              지도만으로는 여기까지 알 수 없습니다. <strong>③단계에 "버스 노선·배차 자료"라고 적으면 그게 답입니다.</strong></div>
+
+              <div class="inq-l">🛠️ 그래서 무엇을 하면 좋을까 — 대안 적어 보기</div>
+              <p>문제를 찾았으면 <strong>거기서 멈추지 않습니다.</strong> 무엇을 하면 나아질지 적어 보세요. <strong>정답은 없습니다.</strong></p>
+              <div class="tbl-scroll"><table class="fill">
+                <tr><th style="width:30%">대안</th><th style="width:34%">누가 할 수 있나</th><th>확인해야 할 것</th></tr>
+                <tr><td>통학버스를 운영한다</td><td class="blank">___________</td><td class="blank">비용은? 몇 명이 탈까?</td></tr>
+                <tr><td>버스 배차를 늘린다</td><td class="blank">___________</td><td class="blank">___________________</td></tr>
+                <tr><td class="blank">_______________</td><td class="blank">___________</td><td class="blank">___________________</td></tr>
+              </table></div>
+              <div class="tip"><strong>💡 대안에도 근거가 필요합니다</strong> "통학버스를 운영하자"는 말은 쉽습니다. 그런데 <strong>몇 명이 탈지, 비용이 얼마인지</strong> 모르면 제안이 아니라 바람일 뿐이에요.<br>
+              <strong>세 번째 칸이 그래서 있습니다.</strong></div>
+            </div>
+          </div>
+
+          <!-- ══ 탐구 3 ══ -->
+          <div class="inq warn-c">
+            <div class="inq-h">
+              <div class="inq-n">탐구 3 · 공립과 사립 &nbsp;— &nbsp;⚠️ 해석에 주의가 필요한 주제</div>
+              <div class="inq-q">우리 지역에서 공립학교와 사립학교는 각각 어디에 있고, 교육을 어떻게 나누어 맡고 있을까?</div>
+            </div>
+            <div class="inq-b">
+              <div class="inq-l">🗺️ 지도에서 먼저 확인할 것</div>
+              <div class="code-block">
+                <button class="copy-btn">copy</button>
+<pre>sel = df[df[<span class="str">'설립형태'</span>] == <span class="str">'사립'</span>]
+<span class="fn">print</span>(<span class="fn">len</span>(sel), <span class="str">'곳'</span>)
+sel[[<span class="str">'학교명'</span>, <span class="str">'학교급구분'</span>, <span class="str">'소재지도로명주소'</span>]]</pre>
+              </div>
+              <div class="result"><span class="result-label">실행 결과</span>6 곳</div>
+              <div class="ask"><strong>📝 174곳 중 6곳입니다. 목록을 보고 두 가지를 찾아보세요.</strong><br>
+              ① <strong>학교급이 어디에 쏠려 있나요?</strong> (초 · 중 · 고 중 어디에 몇 곳?)<br>
+              ② <strong>주소가 똑같은 학교 쌍</strong>이 보이나요? 왜 그럴까요?</div>
+              <div class="info"><strong>🤔 눈에 보이는 사실 두 가지</strong><br>
+              · 6곳 중 <strong>5곳이 고등학교</strong>, 1곳이 중학교입니다. <strong>사립 초등학교는 고양시에 한 곳도 없습니다.</strong><br>
+              · <code>통일로 820</code>에 두 곳, <code>덕이로172번길 4-39</code>에 두 곳 — <strong>같은 주소에 학교가 둘씩</strong> 있습니다.<br>
+              여기까지가 <strong>지도와 표가 알려 준 사실</strong>입니다.</div>
+
+              <div class="warn"><strong>⚠️ 여기서부터는 함부로 말하면 안 됩니다</strong><br>
+              <code>설립형태</code> 칸 하나로는 <strong>알 수 없는 것</strong>이 많습니다.<br>
+              · 학비가 얼마인지 &nbsp;· 어떤 방식으로 입학하는지 &nbsp;· 어떤 학교 유형인지<br>
+              그래서 이런 말은 <strong>근거가 없습니다.</strong><br>
+              · <s>"사립이 많은 동네는 부유하다"</s> — 이 데이터에 소득 자료는 없습니다<br>
+              · <s>"사립이 있으면 선택권이 넓다"</s> — 가까운 학교를 <strong>자유롭게 고를 수 있는지</strong>는 따로 확인해야 합니다<br>
+              <strong>데이터가 말하지 않은 것을 말하지 않는 것 — 그게 오늘 배우는 태도입니다.</strong></div>
+
+              <div class="inq-l">✍️ 세 단계로 적어 보기</div>
+              <div class="tbl-scroll"><table class="fill">
+                <tr><th style="width:24%">단계</th><th>내가 적은 것</th></tr>
+                <tr><td><strong style="color:var(--teal)">① 본 것</strong></td><td class="blank">_________________________________</td></tr>
+                <tr><td><strong style="color:var(--orange)">② 왜 그럴까</strong></td><td class="blank">_________________________________</td></tr>
+                <tr><td><strong style="color:var(--purple)">③ 확인하려면</strong></td><td class="blank">_________________________________</td></tr>
+              </table></div>
+              <div class="tip"><strong>💡 ③단계 힌트</strong> <strong>학교 연혁</strong>(언제 세워졌나)과 <strong>지역 개발 자료</strong>(그때 그 동네는 어땠나)를 보면, 위치가 왜 그렇게 정해졌는지 실마리가 나옵니다. 사립학교는 <strong>공립보다 먼저 세워진 경우</strong>가 많습니다.</div>
+            </div>
+          </div>
+
+          <details class="adv" style="margin-top:20px">
+            <summary><span class="lvl ref">더 해 볼 주제</span> 시간이 남는다면 <span class="adv-why">같은 데이터 · 다른 질문</span></summary>
+            <div class="adv-body">
+              <div class="tbl-scroll"><table>
+                <tr><th style="width:38%">질문</th><th>지도에서 확인할 것</th></tr>
+                <tr><td>사람들이 <strong>사는 곳</strong>과 학교가 있는 곳은 어떻게 연결될까?</td><td>학교가 밀집한 곳 주변에 주택·아파트가 있는지, 드문 곳에는 무엇이 있는지</td></tr>
+                <tr><td>같은 고양시에 살아도 <strong>학교에 가기 편한 정도</strong>는 다를까?</td><td>학교가 가까이 모인 지역과 넓게 떨어져 있는 지역을 나눠 보기</td></tr>
+                <tr><td>초등학교에서 고등학교로 올라가면 <strong>생활하는 범위</strong>도 넓어질까?</td><td>같은 지역에서 학교급에 따라 위치와 간격이 어떻게 달라지는지</td></tr>
+                <tr><td>구마다 학교 수가 다를까?</td><td><code>덕양구 79 · 일산서구 49 · 일산동구 46</code> — 왜 이렇게 차이가 날까?</td></tr>
+              </table></div>
+              <div class="tip"><strong>💡 어떤 질문이든 세 단계는 같습니다</strong> <strong>본 것 → 왜 그럴까 → 확인하려면.</strong> 이 틀만 지키면 됩니다.</div>
+            </div>
+          </details>
+
+          <div class="note" style="margin-top:22px"><strong>📝 꼭 덧붙일 한 줄</strong> 이 지도를 누군가에게 보여 줄 때는 <strong>"고양시 학교 지도"</strong>가 아니라 <strong>"2026년 3월 기준, 고양교육지원청 소속 174개교의 지도"</strong>라고 말해야 합니다. 대안학교·폐교·2026년 이후 개교한 학교는 <strong>이 지도에 없습니다.</strong> 지도에 없다고 존재하지 않는 게 아닙니다.</div>
 
           <!-- ══════════ 심화 · 접어 둠 ══════════ -->
           <div class="adv-wrap">
             <h4 style="font-size:17px;font-weight:700;margin-bottom:8px">📦 여기부터는 심화 — 오늘 수업에서는 열지 않습니다</h4>
             <p class="adv-lead">아래 내용은 <strong>선생님 시범</strong>이나 <strong>더 해 보고 싶은 학생</strong>을 위한 것입니다. 본 수업 6단계와 섞으면 한 차시에 소화할 수 없습니다. 필요할 때 하나씩 펼쳐 보세요.</p>
 
-            <details class="adv">
-              <summary><span class="lvl">심화</span> 전국 12,011개 파일을 직접 열어 보기 <span class="adv-why">glob · 인코딩 · 지역 필터링</span></summary>
-              <div class="adv-body">
-                <p>오늘 쓴 <code>고양시_학교.csv</code>는 선생님이 <strong>전국 파일에서 뽑아 만든 것</strong>입니다. 원본은 12,011행 × 18열입니다.</p>
-                <div class="warn"><strong>⚠️ 인코딩</strong> 이 파일은 <code>utf-8-sig</code>입니다. A 탭의 <code>cp949</code>를 그대로 쓰면 <code>UnicodeDecodeError</code>가 납니다.</div>
-                <div class="code-block">
-                  <button class="copy-btn">copy</button>
-<pre><span class="kw">import</span> glob
-
-files = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/한국교육시설안전원_초중등학교위치.csv'</span>,
-                  recursive=<span class="bi">True</span>)
-<span class="fn">print</span>(files)        <span class="cm"># [] 이면 파일을 못 찾은 것</span>
-
-df_all = pd.<span class="fn">read_csv</span>(files[<span class="num">0</span>], encoding=<span class="str">'utf-8-sig'</span>)
-<span class="fn">print</span>(df_all.shape)      <span class="cm"># (12011, 18)</span>
-
-<span class="cm"># 고양시만 뽑기 — 오늘 쓴 파일은 이렇게 만들었습니다</span>
-goyang = df_all[df_all[<span class="str">'교육지원청명'</span>] == <span class="str">'경기도고양교육지원청'</span>]
-<span class="fn">print</span>(<span class="fn">len</span>(goyang), <span class="str">'개교'</span>)     <span class="cm"># 174</span></pre>
-                </div>
-                <div class="tip"><strong>💡</strong> 지역을 고를 때는 주소를 뒤지는 것보다 <code>교육지원청명</code>이 훨씬 정확합니다. 전국 17개 시도교육청, 경기도만 25개 교육지원청이 있습니다.</div>
-              </div>
-            </details>
 
             <details class="adv">
               <summary><span class="lvl">심화</span> 데이터 점검 나머지 3단계 <span class="adv-why">결측 · 자료형 · 좌표 범위</span></summary>
               <div class="adv-body">
-                <p>오늘 쓴 파일은 선생님이 <strong>미리 점검해서</strong> 결측 0개, 좌표는 숫자형, 한국 밖 좌표 0개로 정리해 두었습니다. 하지만 <strong>여러분이 직접 데이터를 구해 올 때는 반드시 해야 하는 절차</strong>입니다. 전체 순서는 <a href="#reuse" style="color:var(--primary);font-weight:700">🧰 내 데이터로 할 때</a>에 정리해 두었습니다.</p>
+                <p>①단계에서 <code>header=1</code>로 고친 덕분에 <strong>이미 한 가지는 점검한 셈</strong>입니다. 나머지 세 가지도 <strong>직접 돌려서 확인</strong>해 봅시다. 전체 순서는 <a href="#reuse" style="color:var(--primary);font-weight:700">🧰 내 데이터로 할 때</a>에 정리해 두었습니다.</p>
                 <div class="code-block">
                   <button class="copy-btn">copy</button>
 <pre><span class="cm"># ② 결측 — 비어 있는 칸이 있는가</span>
@@ -1354,7 +1633,7 @@ m = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>
 folium.<span class="fn">LayerControl</span>(collapsed=<span class="bi">False</span>).<span class="fn">add_to</span>(m)
 m</pre>
                 </div>
-                <div class="tip"><strong>💡 수업에서 쓰는 법</strong> 학생에게 코드를 짜게 하지 말고, <strong>선생님이 미리 실행해 둔 지도를 보여 주며</strong> ⑥단계의 "고등학교만 켜 보기"를 함께 하는 용도로 쓰면 좋습니다.</div>
+                <div class="tip"><strong>💡 수업에서 쓰는 법</strong> 학생에게 코드를 짜게 하지 말고, <strong>선생님이 미리 실행해 둔 지도를 보여 주며</strong> ⑤단계의 "고등학교만 켜 보기"를 함께 하는 용도로 쓰면 좋습니다.</div>
               </div>
             </details>
 
@@ -1476,7 +1755,7 @@ m</pre>
         <div class="tab-panel p-c" id="panel-c" role="tabpanel">
           <div class="ds-head">
             <h3>🔍 C · 지오코딩 — 주소를 좌표로</h3>
-            <p>A·B는 좌표가 <strong>이미 있는</strong> 데이터였습니다. 하지만 <strong>세상 데이터 대부분은 주소만</strong> 갖고 있습니다. 여기서는 <strong>주소를 좌표로 바꾸는 법</strong>을 배웁니다. 오늘 쓰는 건 카카오지만, <strong>어떤 서비스를 만나도 똑같이 쓸 수 있는 순서</strong>를 익히는 게 목표입니다.</p>
+            <p>A·B는 좌표가 <strong>이미 있는</strong> 데이터였습니다. 하지만 <strong>세상 데이터 대부분은 주소만</strong> 갖고 있습니다. 오늘 할 일은 하나예요 — <strong>동물병원 124곳의 주소를 좌표로 만들어 지도에 찍는 것.</strong> 그 과정에서 <strong>어떤 서비스를 만나도 쓸 수 있는 순서</strong>가 남습니다.</p>
             <span class="ds-file">경기도_고양시_동물병원현황.csv · cp949 · 124행 × 3열 · 좌표 없음</span>
           </div>
 
@@ -1546,159 +1825,196 @@ m</pre>
 
           <!-- ═════ 실습 ═════ -->
           <div class="handson"><span>✋ 여기서부터 직접 해 봅니다</span></div>
-          <p class="handson-sub">주소 하나를 좌표로 바꾸는 것부터 시작해서, 데이터 전체에 적용하는 데까지 갑니다.</p>
-          <div class="ribbon">
-            <div class="rb"><div class="rn">STEP ①</div><div class="rt">한 건 해 보기</div><div class="rx">주소 하나 → 좌표 하나</div></div>
-            <div class="rb"><div class="rn">STEP ②</div><div class="rt">되짚어 보기</div><div class="rx">방금 한 게 8단계</div></div>
-            <div class="rb"><div class="rn">STEP ③</div><div class="rt">다른 서비스로</div><div class="rx">세 줄만 다르다</div></div>
-            <div class="rb"><div class="rn">STEP ④</div><div class="rt">문서 읽는 법</div><div class="rx">찾을 건 네 가지</div></div>
-            <div class="rb"><div class="rn">STEP ⑤</div><div class="rt">전체에 적용</div><div class="rx">반복 · 저장 · 지도</div></div>
+          <p class="handson-sub">코드를 한 줄씩 뜯어 가며, 동물병원 124곳을 지도에 올립니다.</p>
+
+          <!-- ═════ 순서도 ═════ -->
+          <div class="flow">
+            <div class="fb start">
+              <div class="ft">🎯 목표 — 동물병원 124곳을 지도에 찍는다</div>
+              <div class="fd">그런데 이 파일에는 <strong>주소만 있고 좌표가 없습니다.</strong> 그래서 아래 다섯 단계를 거칩니다.</div>
+            </div>
+            <div class="fa">↓</div>
+            <div class="fb">
+              <div class="ft">① 카카오 API 키 받기</div>
+              <div class="fd"><strong>왜?</strong> 남의 서버에 물어보는 일입니다. <strong>내가 누구인지 밝혀야</strong> 대답해 줍니다.</div>
+            </div>
+            <div class="fa">↓</div>
+            <div class="fb">
+              <div class="ft">② 데이터 열어 보기</div>
+              <div class="fd"><strong>왜?</strong> 좌표가 정말 없는지, <strong>주소가 담긴 칸 이름이 무엇인지</strong> 알아야 다음 줄을 쓸 수 있습니다.</div>
+            </div>
+            <div class="fa">↓</div>
+            <div class="fb">
+              <div class="ft">③ 중괄호 <code>{ }</code> 읽는 법 — 한 건만 받아 보기</div>
+              <div class="fd"><strong>왜?</strong> 답이 <strong>중괄호 덩어리</strong>로 옵니다. 거기서 위도·경도를 꺼내는 법을 먼저 익혀야 <strong>124번 반복</strong>할 수 있습니다.</div>
+            </div>
+            <div class="fa">↓</div>
+            <div class="fb">
+              <div class="ft">④ 124곳 전부 변환 → 파일로 저장</div>
+              <div class="fd"><strong>왜?</strong> 1~2분 걸립니다. 저장해 두면 <strong>다시는 안 물어봐도</strong> 됩니다.</div>
+            </div>
+            <div class="fa">↓</div>
+            <div class="fb goal">
+              <div class="ft">⑤ 지도에 찍기</div>
+              <div class="fd">저장한 파일만 있으면 <strong>API 없이</strong> 그려집니다. 여기서부터는 <strong>B 탭과 똑같은 코드</strong>입니다.</div>
+            </div>
           </div>
 
-          <h4 class="step-h"><span class="sn">1</span>주소 하나만 바꿔 보기</h4>
-          <p>설명을 더 듣기 전에 <strong>일단 한 번 돌려 봅시다.</strong> 무슨 일이 일어나는지 본 다음에 정리하는 게 빠릅니다.</p>
+          <!-- ═════ ① 키 ═════ -->
+          <h4 class="step-h"><span class="sn">1</span>카카오 API 키 — 받으면 무엇을 할 수 있나</h4>
+          <p><strong>API 키는 출입증입니다.</strong> 카카오 서버에 "이건 내 요청이야"라고 밝히는 번호예요. 무료로 받을 수 있고, 하루에 쓸 수 있는 횟수가 정해져 있습니다.</p>
+          <p>이 키 <strong>하나</strong>를 받으면 네 가지를 할 수 있습니다.</p>
           <div class="tbl-scroll"><table>
-            <tr><th style="width:30%">키 종류</th><th>어디에 쓰나</th></tr>
-            <tr><td><strong>REST API 키</strong></td><td>✅ 파이썬에서 주소·좌표 변환 — <strong>우리가 쓸 것</strong></td></tr>
-            <tr><td>JavaScript 키</td><td>웹페이지에 지도 띄울 때</td></tr>
-            <tr><td>Admin 키</td><td>관리자용 — 절대 코드에 넣지 않기</td></tr>
+            <tr><th style="width:30%">할 수 있는 일</th><th>예</th></tr>
+            <tr><td><strong style="color:var(--purple)">주소 → 좌표</strong></td>
+              <td><code>'위시티4로 112'</code> → <code>(37.68, 126.80)</code><br><strong style="color:var(--purple)">← 오늘 할 것</strong></td></tr>
+            <tr><td>좌표 → 주소</td><td>지도에서 찍은 점이 <strong>어디인지</strong> 되묻기</td></tr>
+            <tr><td>키워드로 장소 찾기</td><td><code>'고양시 동물병원'</code>으로 검색하면 <strong>목록</strong>이 온다</td></tr>
+            <tr><td>주변 카테고리로 찾기</td><td>우리 학교 <strong>반경 1km 안의 약국</strong>을 <strong>거리순</strong>으로</td></tr>
           </table></div>
-          <div class="warn"><strong>⚠️ 꼭 REST API 키</strong> JavaScript 키를 넣으면 <code>401 Unauthorized</code>가 납니다. 그리고 <strong>키를 깃허브나 카톡에 올리지 마세요.</strong> 남이 내 키로 요청을 보낼 수 있습니다.</div>
+          <div class="info"><strong>🤔 맨 아랫줄, 기억나나요?</strong> 앞에서 본 <strong>심야약국</strong> 이야기 — "우리 집에서 가장 가까운 약국"을 찾으려면 거리를 재야 한다고 했죠.<br>
+          <strong>카카오는 그 거리(m)까지 계산해서 줍니다.</strong> 키 하나로 여기까지 됩니다.</div>
+          <div class="tip"><strong>💡 네 가지 다 파이썬에서 됩니다</strong> HTML도 JavaScript도 필요 없어요. <strong>키도 이 하나</strong>를 그대로 씁니다. 바뀌는 건 <code>url</code> 한 줄과 <code>params</code> 한 줄뿐입니다. 나머지 세 가지 코드는 아래 <strong>📎 참고 1</strong>에 넣어 두었습니다.</div>
+          <div class="warn"><strong>⚠️ 받을 때 — 꼭 <u>REST API 키</u></strong> 카카오 개발자 사이트는 키를 여러 종류 줍니다. 파이썬에서 쓰는 건 <strong>REST API 키</strong>예요.<br>
+          · <strong>JavaScript 키</strong>(웹페이지에 지도 띄울 때 쓰는 것)를 넣으면 <code>401 Unauthorized</code>가 납니다<br>
+          · <strong>Admin 키</strong>는 관리자용입니다. 어디에도 쓰지 마세요<br>
+          그리고 <strong>발급받은 키를 깃허브·카톡·블로그에 올리지 마세요.</strong> 남이 내 키로 요청을 보내면 내 사용량이 사라집니다.</div>
+
+          <!-- ═════ ② 데이터 ═════ -->
+          <h4 class="step-h"><span class="sn">2</span>동물병원 데이터 열어 보기</h4>
+          <p><strong>A·B 탭과 똑같은 모양</strong>입니다. 파일 이름만 다릅니다.</p>
           <div class="code-block labeled">
-            <span class="code-label">C-1 · 딱 한 건</span>
+            <span class="code-label">C-1 · 데이터 열기</span>
+            <button class="copy-btn">copy</button>
+<pre>files2 = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/경기도_고양시_동물병원현황*.csv'</span>,
+                   recursive=<span class="bi">True</span>)
+
+df2 = pd.<span class="fn">read_csv</span>(files2[<span class="num">0</span>], encoding=<span class="str">'cp949'</span>)
+
+<span class="fn">print</span>(df2.shape)
+<span class="fn">print</span>(<span class="fn">list</span>(df2.columns))</pre>
+          </div>
+          <div class="result"><span class="result-label">실행 결과</span>(124, 3)
+['업소명', '사업장소재지(도로명)', '전화번호']</div>
+          <div class="lex">
+            <div class="lex-h">이 코드, 한 줄씩 — A·B 탭과 다른 곳은 <strong>파일 이름 하나</strong>뿐입니다</div>
+            <div class="lex-r"><div class="lex-c">glob.glob('…/**/…')</div><div class="lex-d">드라이브 안에서 <strong>이름이 맞는 파일을 찾아</strong> 목록으로 준다</div></div>
+            <div class="lex-r"><div class="lex-c">…현황<strong>*</strong>.csv</div><div class="lex-d"><code>*</code>는 <strong>"여기는 뭐가 와도 좋다"</strong>는 뜻. 이름 뒤에 날짜가 붙어 있어도 찾아 준다</div></div>
+            <div class="lex-r"><div class="lex-c">recursive=True</div><div class="lex-d"><strong>하위 폴더까지</strong> 뒤진다. 어느 폴더에 넣었는지 몰라도 된다</div></div>
+            <div class="lex-r key"><div class="lex-c">files2[0]</div><div class="lex-d">찾은 목록의 <strong>첫 번째</strong> 파일. <code>[0]</code>은 "목록에서 첫 번째"라는 뜻 — <strong>③단계에서 또 나옵니다</strong></div></div>
+            <div class="lex-r"><div class="lex-c">encoding='cp949'</div><div class="lex-d">이 파일은 <strong>예전 방식</strong>으로 저장된 한글이라 이렇게 알려 줘야 한다 <span style="color:var(--text3)">(A 탭과 같음)</span></div></div>
+            <div class="lex-r"><div class="lex-c">df2.shape</div><div class="lex-d"><strong>(행 수, 열 수)</strong> — 몇 줄에 몇 칸인지</div></div>
+            <div class="lex-r key"><div class="lex-c">list(df2.columns)</div><div class="lex-d"><strong>칸 이름을 전부 본다.</strong> 여기서 <strong>주소가 어느 칸에 있는지</strong> 확인해야 다음 단계를 쓸 수 있다</div></div>
+          </div>
+          <div class="note"><strong>📝 왜 <code>df2</code>인가요?</strong> B 탭에서 학교 데이터를 <code>df</code>에 담았죠. 여기서 또 <code>df</code>를 쓰면 <strong>학교 데이터가 지워집니다.</strong> 아래 심화에서 <strong>둘을 나란히 비교</strong>할 거라 이름을 달리 둡니다.</div>
+          <div class="tip"><strong>💡 <code>IndexError: list index out of range</code>가 나면</strong> 파일을 <strong>못 찾은 것</strong>입니다. <code>print(files2)</code>를 한 번 찍어 보고 <code>[]</code>(빈 목록)이면 — 파일이 <strong>드라이브에 올라갔는지</strong>, <strong>이름이 맞는지</strong> 확인하세요. <strong>다음 줄로 넘어가지 말고 여기서 해결</strong>합니다.</div>
+          <div class="ask"><strong>📝 세 가지를 확인하세요</strong><br>
+          ① 칸이 <strong>3개</strong>뿐입니다 — A는 29열, B(원본)는 20열이었습니다<br>
+          ② <code>'위도'</code>·<code>'경도'</code> 칸이 <strong>없습니다</strong><br>
+          ③ 대신 <code>'사업장소재지(도로명)'</code>이 있습니다 — <strong>이 이름을 그대로 기억하세요.</strong> ④단계에서 씁니다</div>
+          <div class="info"><strong>🤔 가진 것이 적을수록 만들 것이 많아집니다</strong> A는 좌표가 지저분해서 <strong>치웠고</strong>, B는 깨끗해서 <strong>바로 썼고</strong>, C는 아예 없어서 <strong>만들어야</strong> 합니다.</div>
+
+          <!-- ═════ ③ 중괄호 ═════ -->
+          <h4 class="step-h"><span class="sn">3</span>중괄호 <code>{ }</code> 읽는 법 — 한 건만 받아 봅니다</h4>
+          <p>여기서 <strong>오늘의 새 문법</strong>이 나옵니다. 어렵지 않아요. <strong>이미 하던 것과 같습니다.</strong></p>
+
+          <h5 class="h5c">3-1. 중괄호는 "이름표 붙은 쪽지"입니다</h5>
+          <div class="code-block labeled">
+            <span class="code-label">C-2 · 맛보기 (30초)</span>
+            <button class="copy-btn">copy</button>
+<pre>d = {<span class="str">'이름'</span>: <span class="str">'민동물병원'</span>, <span class="str">'전화'</span>: <span class="str">'031-966-3243'</span>}
+
+<span class="fn">print</span>(d[<span class="str">'이름'</span>])
+<span class="fn">print</span>(d[<span class="str">'전화'</span>])</pre>
+          </div>
+          <div class="result"><span class="result-label">실행 결과</span>민동물병원
+031-966-3243</div>
+          <div class="tbl-scroll"><table>
+            <tr><th style="width:34%">지금까지 쓴 것</th><th>오늘 쓸 것</th></tr>
+            <tr>
+              <td><code>df['위도']</code><br><span style="font-size:12px;color:var(--text3)">표에서 <strong>칸 하나</strong> 꺼내기</span></td>
+              <td><code>d['이름']</code><br><span style="font-size:12px;color:var(--text3)">쪽지에서 <strong>값 하나</strong> 꺼내기</span></td></tr>
+          </table></div>
+          <div class="info"><strong>🤔 꺼내는 방법이 똑같습니다</strong> <strong>대괄호 안에 이름을 넣는다.</strong> 표(<code>df</code>)냐 쪽지(<code>d</code>)냐만 다릅니다. 쪽지는 <strong>짝 하나짜리</strong>라서 더 간단해요.</div>
+
+          <h5 class="h5c">3-2. 카카오에 한 번 물어봅니다</h5>
+          <p>주소 하나를 보내고, 답이 어떻게 생겼는지 <strong>눈으로 봅니다.</strong> 이 한 번을 봐야 ④단계에서 124번 돌릴 수 있습니다.</p>
+          <div class="code-block labeled">
+            <span class="code-label">C-3 · 한 건만 물어보기</span>
             <button class="copy-btn">copy</button>
 <pre><span class="kw">import</span> requests
 
 KAKAO_API_KEY = <span class="str">'여기에_REST_API_키_입력'</span>
 
 url = <span class="str">'https://dapi.kakao.com/v2/local/search/address.json'</span>
-headers = {<span class="str">'Authorization'</span>: <span class="str">f'KakaoAK {KAKAO_API_KEY}'</span>}
+headers = {<span class="str">'Authorization'</span>: <span class="str">'KakaoAK '</span> + KAKAO_API_KEY}
 params = {<span class="str">'query'</span>: <span class="str">'경기도 고양시 일산동구 위시티4로 112'</span>}
 
 res = requests.<span class="fn">get</span>(url, headers=headers, params=params).<span class="fn">json</span>()
 res</pre>
           </div>
-          <div class="result"><span class="result-label">실행 결과 (일부)</span>{'documents': [{'address_name': '경기도 고양시 일산동구 위시티4로 112',
-                'x': '126.808645...',      ← 경도
-                'y': '37.684587...'},      ← 위도
-               ...],
+          <div class="lex">
+            <div class="lex-h">이 코드, 한 줄씩 — 여덟 줄이 전부입니다</div>
+            <div class="lex-r"><div class="lex-c">import requests</div><div class="lex-d">인터넷으로 <strong>무언가를 물어보는 도구</strong>를 가져온다</div></div>
+            <div class="lex-r"><div class="lex-c">KAKAO_API_KEY = '…'</div><div class="lex-d">내 <strong>출입증 번호</strong>. <strong>여기만</strong> 내 것으로 바꾸면 된다</div></div>
+            <div class="lex-r"><div class="lex-c">url = '…/search/address.json'</div><div class="lex-d"><strong>어디에</strong> 물어볼지. 카카오의 <strong>'주소 검색' 창구</strong> 주소다</div></div>
+            <div class="lex-r key"><div class="lex-c">headers = {'Authorization': …}</div><div class="lex-d"><strong>출입증을 보여 주는 칸</strong> — 중괄호다.<br><code>'KakaoAK '</code> 뒤에 <strong>한 칸 띄고</strong> 키를 붙인다 (카카오가 정한 규칙)</div></div>
+            <div class="lex-r key"><div class="lex-c">params = {'query': 주소}</div><div class="lex-d"><strong>물어볼 내용</strong> — 이것도 중괄호.<br>카카오는 <strong><code>'query'</code>라는 이름표</strong>에 주소를 담으라고 정해 두었다</div></div>
+            <div class="lex-r"><div class="lex-c">requests.get(url, …)</div><div class="lex-d">실제로 <strong>물어본다</strong>. 인터넷을 한 번 다녀온다</div></div>
+            <div class="lex-r key"><div class="lex-c">.json()</div><div class="lex-d">돌아온 <strong>글자</strong>를 <strong>파이썬 중괄호(딕셔너리)로 바꿔 준다</strong></div></div>
+            <div class="lex-r"><div class="lex-c">res</div><div class="lex-d">받은 답을 <strong>화면에 보여 준다</strong></div></div>
+          </div>
+          <div class="note"><strong>📝 JSON이 뭔가요 — 따로 공부 안 해도 됩니다</strong> 서버는 <strong>글자만</strong> 보낼 수 있습니다. 그래서 답을 <code>{"documents": [...]}</code> 같은 <strong>긴 글자 한 줄</strong>로 보내는데, 이 형식을 <strong>JSON</strong>이라고 부릅니다.<br>
+          <code>.json()</code>이 그 글자를 <strong>파이썬 딕셔너리로 바꿔 줍니다.</strong> 바뀌고 나면 <strong>방금 배운 중괄호</strong>일 뿐이에요. <strong>포장지는 몰라도 됩니다. 안에 든 것만 꺼내면 됩니다.</strong></div>
+
+          <h5 class="h5c">3-3. 받은 답에서 좌표 꺼내기</h5>
+          <div class="result"><span class="result-label">실행 결과 (줄여서 보여 준 것)</span>{'documents': [{'address_name': '경기도 고양시 일산동구 위시티4로 112',
+                'address_type': 'ROAD_ADDR',
+                'x': '126.8086...',          ← 경도
+                'y': '37.6845...',           ← 위도
+                'address': {...},
+                'road_address': {...}}],
  'meta': {'total_count': 1}}</div>
-          <div class="ask"><strong>📝 먼저 눈으로 찾아보기</strong> 이 덩어리 안에서 <strong>위도와 경도가 어디에 있는지</strong> 찾아보세요. 그리고 <strong><code>x</code>와 <code>y</code> 중 어느 것이 위도인지</strong> 확인하세요. 답은 바로 아래에 있습니다.</div>
-          <div class="warn"><strong>⚠️ 이 분야의 영원한 함정</strong> 거의 모든 지오코딩 API가 <strong><code>x</code> = 경도, <code>y</code> = 위도</strong>입니다. 그런데 folium은 <code>[위도, 경도]</code> 순서입니다. <strong>뒤집어 넣으면 오류도 안 나고 지도도 그려지는데 위치만 엉뚱합니다.</strong></div>
-
-          <h4 class="step-h"><span class="sn">2</span>방금 한 일이 사실 8단계였습니다</h4>
-          <p>어떤 지오코딩 서비스를 쓰든 <strong>순서는 똑같습니다.</strong> 그리고 <strong>여덟 중 바뀌는 건 세 개뿐</strong>입니다.</p>
+          <div class="ask"><strong>📝 먼저 눈으로 찾아보세요</strong> 이 덩어리 안에서 <strong>위도와 경도가 어디 있는지</strong> 찾아보세요. 그리고 <strong><code>x</code>와 <code>y</code> 중 어느 쪽이 위도인지</strong> 확인하세요.</div>
+          <p>이제 <strong>한 겹씩 벗겨</strong> 봅니다.</p>
           <div class="tbl-scroll"><table>
-            <tr><th style="width:8%"></th><th style="width:34%">단계</th><th style="width:30%">하는 일</th><th>서비스가 바뀌면</th></tr>
-            <tr><td>①</td><td>키를 발급받는다</td><td>서비스에 나를 등록</td><td>발급처만 다름</td></tr>
-            <tr><td>②</td><td><strong>요청 주소와 파라미터</strong></td><td>어디로, 뭐라고 물을지</td><td class="no"><strong>바뀜</strong></td></tr>
-            <tr><td>③</td><td><strong>키를 실어 보낸다</strong></td><td>헤더냐 파라미터냐</td><td class="no"><strong>바뀜</strong></td></tr>
-            <tr><td>④</td><td><strong>응답에서 좌표를 꺼낸다</strong></td><td>JSON 어디에 있나</td><td class="no"><strong>바뀜</strong></td></tr>
-            <tr><td>⑤</td><td>못 찾은 경우를 처리한다</td><td><code>None</code> 돌려주기</td><td class="yes">그대로</td></tr>
-            <tr><td>⑥</td><td>함수로 감싼다</td><td>한 건 처리</td><td class="yes">그대로</td></tr>
-            <tr><td>⑦</td><td>반복 + 속도 조절</td><td>전체에 적용</td><td class="yes">그대로</td></tr>
-            <tr><td>⑧</td><td>결과를 파일로 저장</td><td>다시 안 부르기</td><td class="yes">그대로</td></tr>
+            <tr><th style="width:40%">이렇게 쓰면</th><th>이게 나옵니다</th></tr>
+            <tr><td><code>res</code></td><td>서버가 준 답 <strong>전체</strong> (중괄호 덩어리)</td></tr>
+            <tr><td><code>res['documents']</code></td><td>검색 결과 칸을 꺼낸다 → <strong>목록</strong>이 나온다</td></tr>
+            <tr><td><code>res['documents'][0]</code></td><td>그 목록의 <strong>첫 번째</strong> = 가장 잘 맞는 결과</td></tr>
+            <tr><td><code>res['documents'][0]['y']</code></td><td>거기서 <code>y</code> 값 = <strong>위도</strong></td></tr>
           </table></div>
-          <p>①에서 한 것을 <strong>⑤⑥까지 넣어 함수로</strong> 만들면 이렇게 됩니다.</p>
+          <div class="ask"><strong>🤔 왜 <code>[0]</code>이 끼어 있나요?</strong> 주소를 검색하면 <strong>여러 개가 나올 수 있기 때문</strong>입니다. <code>'강남대로'</code>라고만 검색하면 수십 개가 나오겠죠.<br>
+          그래서 카카오는 <strong>항상 목록으로</strong> 답을 주고, 우리는 <strong>가장 잘 맞는 첫 번째</strong>를 씁니다. — A 탭에서 쓴 <code>files[0]</code>과 <strong>똑같은 <code>[0]</code></strong>입니다.</div>
+          <div class="note"><strong>📝 <code>float()</code>을 한 번 더 씌우는 이유</strong> 위 결과를 보면 <code>'37.6845...'</code>처럼 <strong>따옴표가 붙어 있습니다.</strong> 숫자가 아니라 <strong>글자</strong>로 왔다는 뜻이에요. 지도에 쓰려면 숫자여야 하니 <code>float( )</code>로 바꿉니다.<br>
+          <strong>A 탭에서 <code>'없음'</code>·<code>°</code>를 치우고 숫자로 바꿨던 일과 같은 이야기입니다.</strong></div>
+          <div class="warn"><strong>⚠️ 이 분야의 영원한 함정 — <code>x</code>와 <code>y</code></strong> 거의 모든 지오코딩 서비스가 <strong><code>x</code> = 경도, <code>y</code> = 위도</strong>입니다. 그런데 folium은 <code>[위도, 경도]</code> 순서예요.<br>
+          <strong>뒤집어 넣으면 오류도 안 나고 지도도 그려집니다. 위치만 엉뚱합니다.</strong> 우리나라 좌표를 뒤집으면 <strong>아프리카 앞바다</strong>가 나옵니다.</div>
+
+          <!-- ═════ ④ 전체 변환 ═════ -->
+          <h4 class="step-h"><span class="sn">4</span>124곳 전부 바꾸기 — 그리고 저장</h4>
+          <p>③단계에서 한 일을 <strong>124번 반복</strong>합니다. <code>for</code>문은 B 탭에서 이미 써 봤어요. <strong>달라지는 건 주소 한 줄뿐</strong>입니다.</p>
+          <div class="warn"><strong>⚠️ 반드시 <code>time.sleep()</code>을 넣으세요</strong> 주소 하나마다 <strong>인터넷 요청을 한 번씩</strong> 보냅니다. 쉬지 않고 124번을 두드리면 <strong>카카오가 차단</strong>할 수 있어요. 사이를 띄우는 것이 <strong>예의이자 규칙</strong>입니다.</div>
           <div class="code-block labeled">
-            <span class="code-label">C-2 · 함수로 감싸기 (카카오)</span>
-            <button class="copy-btn">copy</button>
-<pre><span class="kw">def</span> <span class="fn">address_to_coord</span>(addr):
-    url = <span class="str">'https://dapi.kakao.com/v2/local/search/address.json'</span>        <span class="cm"># ②</span>
-    headers = {<span class="str">'Authorization'</span>: <span class="str">f'KakaoAK {KAKAO_API_KEY}'</span>}             <span class="cm"># ③</span>
-    params = {<span class="str">'query'</span>: addr}                                        <span class="cm"># ②</span>
-
-    res = requests.<span class="fn">get</span>(url, headers=headers, params=params).<span class="fn">json</span>()
-
-    <span class="kw">if</span> res[<span class="str">'documents'</span>]:                                            <span class="cm"># ④ 찾았으면</span>
-        doc = res[<span class="str">'documents'</span>][<span class="num">0</span>]
-        <span class="kw">return</span> <span class="fn">float</span>(doc[<span class="str">'y'</span>]), <span class="fn">float</span>(doc[<span class="str">'x'</span>])                     <span class="cm"># y=위도, x=경도</span>
-    <span class="kw">return</span> <span class="bi">None</span>, <span class="bi">None</span>                                            <span class="cm"># ⑤ 못 찾았으면</span>
-
-
-<span class="fn">print</span>(<span class="fn">address_to_coord</span>(<span class="str">'경기도 고양시 일산동구 위시티4로 112'</span>))
-<span class="fn">print</span>(<span class="fn">address_to_coord</span>(<span class="str">'이런 주소는 없습니다 12345'</span>))</pre>
-          </div>
-          <div class="result"><span class="result-label">실행 결과</span>(37.684587..., 126.808645...)
-(None, None)      ← 못 찾아도 죽지 않는다</div>
-          <div class="info"><strong>🤔 ⑤단계가 왜 필수인가</strong> 어느 서비스를 써도 <strong>못 찾는 주소는 반드시 나옵니다.</strong> 괄호가 붙어 있거나, 옛 주소이거나, 띄어쓰기가 어긋나거나요. <code>return None, None</code> 이 없으면 <strong>주소 하나 때문에 전체가 멈춥니다.</strong></div>
-
-          <h4 class="step-h"><span class="sn">3</span>다른 서비스로 바꿔 보면 — 정말 세 줄만 다릅니다</h4>
-          <p><strong>VWorld</strong>(국토교통부 공간정보 오픈플랫폼)로 같은 함수를 만들어 보겠습니다. <span class="hi">노란 부분</span>이 달라진 곳입니다.</p>
-          <div class="code-block labeled">
-            <span class="code-label">C-3 · 같은 일, 다른 서비스 (VWorld)</span>
-            <button class="copy-btn">copy</button>
-<pre><span class="kw">def</span> <span class="fn">address_to_coord_vworld</span>(addr):
-    url = <span class="hi"><span class="str">'http://api.vworld.kr/req/address'</span></span>                        <span class="cm"># ② 다름</span>
-    params = <span class="hi">{<span class="str">'service'</span>: <span class="str">'address'</span>, <span class="str">'request'</span>: <span class="str">'getcoord'</span>,
-              <span class="str">'version'</span>: <span class="str">'2.0'</span>, <span class="str">'crs'</span>: <span class="str">'epsg:4326'</span>,
-              <span class="str">'address'</span>: addr, <span class="str">'type'</span>: <span class="str">'road'</span>,
-              <span class="str">'format'</span>: <span class="str">'json'</span>, <span class="str">'key'</span>: VWORLD_KEY}</span>              <span class="cm"># ②③ 키가 여기에</span>
-
-    res = requests.<span class="fn">get</span>(url, params=params).<span class="fn">json</span>()
-
-    <span class="kw">if</span> <span class="hi">res[<span class="str">'response'</span>][<span class="str">'status'</span>] == <span class="str">'OK'</span></span>:                         <span class="cm"># ④ 다름</span>
-        p = <span class="hi">res[<span class="str">'response'</span>][<span class="str">'result'</span>][<span class="str">'point'</span>]</span>
-        <span class="kw">return</span> <span class="fn">float</span>(p[<span class="str">'y'</span>]), <span class="fn">float</span>(p[<span class="str">'x'</span>])                       <span class="cm"># y=위도, x=경도 — 같다!</span>
-    <span class="kw">return</span> <span class="bi">None</span>, <span class="bi">None</span>                                            <span class="cm"># ⑤ 같다</span></pre>
-          </div>
-          <div class="tbl-scroll"><table>
-            <tr><th style="width:20%"></th><th style="width:40%">카카오</th><th>VWorld</th></tr>
-            <tr><td><strong>② 요청 주소</strong></td><td><code>dapi.kakao.com/...</code></td><td><code>api.vworld.kr/req/address</code></td></tr>
-            <tr><td><strong>③ 키 위치</strong></td><td><strong>헤더</strong>에 <code>Authorization</code></td><td><strong>파라미터</strong>에 <code>key</code></td></tr>
-            <tr><td><strong>③ 주소 칸 이름</strong></td><td><code>query</code></td><td><code>address</code> (+ <code>type</code> 필수)</td></tr>
-            <tr><td><strong>④ 좌표 경로</strong></td><td><code>documents[0]['y']</code></td><td><code>response.result.point['y']</code></td></tr>
-            <tr><td>⑤⑥⑦⑧</td><td colspan="2" class="yes">완전히 동일</td></tr>
-          </table></div>
-          <div class="info"><strong>🤔 무엇이 같고 무엇이 달랐나</strong> <strong>함수의 뼈대는 한 글자도 안 바뀌었습니다.</strong> 바뀐 건 <strong>어디로 보내고(②), 키를 어디 넣고(③), 답을 어디서 꺼내는지(④)</strong> 뿐입니다. 네이버든 구글이든 마찬가지입니다.</div>
-          <div class="note"><strong>📝 VWorld는 <code>type</code>을 직접 알려 줘야 합니다</strong> 도로명주소면 <code>'road'</code>, 지번주소면 <code>'parcel'</code>. 카카오는 알아서 구분하는데 VWorld는 미리 말해 줘야 합니다. <strong>서비스마다 요구하는 게 조금씩 다릅니다.</strong></div>
-
-          <h4 class="step-h"><span class="sn">4</span>새 서비스를 만나면 — 문서에서 찾을 건 네 가지</h4>
-          <p>이게 <strong>오늘 가져갈 진짜 능력</strong>입니다. 처음 보는 API 문서를 열어도 <strong>이 네 가지만 찾으면</strong> 코드를 쓸 수 있습니다.</p>
-          <div class="tbl-scroll"><table>
-            <tr><th style="width:8%"></th><th style="width:32%">찾을 것</th><th style="width:30%">문서에서 이렇게 생김</th><th>코드의 어디</th></tr>
-            <tr><td><strong>1</strong></td><td>요청 주소</td><td>요청 URL, Endpoint</td><td><code>url = ...</code></td></tr>
-            <tr><td><strong>2</strong></td><td>키를 어디에 넣나</td><td>인증, Authorization</td><td><code>headers</code> 또는 <code>params</code></td></tr>
-            <tr><td><strong>3</strong></td><td>주소를 담는 칸 이름</td><td>요청 파라미터</td><td><code>params</code> 안의 키 이름</td></tr>
-            <tr><td><strong>4</strong></td><td>응답에서 좌표 경로</td><td>응답 예시, Response</td><td><code>res[...][...]</code></td></tr>
-          </table></div>
-          <div class="ask"><strong>📝 해보기</strong> 네이버 지오코딩 문서를 열어서 <strong>위 네 가지를 찾아 표에 적어</strong> 보세요. 코드를 짜지 않아도 됩니다. <strong>찾을 수 있으면 짤 수 있습니다.</strong></div>
-          <div class="tip"><strong>💡 응답 구조를 모르겠으면</strong> ①단계처럼 <code>res</code>를 통째로 출력해서 <strong>눈으로 뒤지면</strong> 됩니다. 문서보다 실물이 빠를 때가 많습니다.</div>
-
-          <h4 class="step-h"><span class="sn">5</span>전체에 적용 — 반복 · 저장 · 지도</h4>
-          <p>이제 함수가 있으니 <strong>데이터 전체에 돌립니다.</strong> ⑦⑧단계입니다.</p>
-          <div class="code-block labeled">
-            <span class="code-label">C-5 · 데이터 불러오기</span>
-            <button class="copy-btn">copy</button>
-<pre><span class="kw">import</span> pandas <span class="kw">as</span> pd, glob
-
-files2 = glob.<span class="fn">glob</span>(<span class="str">'/content/drive/MyDrive/**/경기도_고양시_동물병원현황.csv'</span>,
-                   recursive=<span class="bi">True</span>)
-df2 = pd.<span class="fn">read_csv</span>(files2[<span class="num">0</span>], encoding=<span class="str">'cp949'</span>)
-
-<span class="fn">print</span>(df2.shape)
-<span class="fn">print</span>(<span class="fn">list</span>(df2.columns))    <span class="cm"># '위도'·'경도'가 없는 것을 확인</span></pre>
-          </div>
-          <div class="result"><span class="result-label">실행 결과</span>(124, 3)
-['업소명', '사업장소재지(도로명)', '전화번호']
-
-→ 칸이 3개뿐이고, '위도'·'경도' 가 없다.
-   대신 '사업장소재지(도로명)' 이 있다.</div>
-          <div class="ask"><strong>🤔 A·B와 비교해 보세요</strong> A는 29열, B(원본)는 20열이었는데 이 파일은 <strong>3열</strong>입니다. 가진 정보가 적을수록 <strong>내가 만들어야 할 것이 많아집니다.</strong></div>
-
-          <div class="warn"><strong>⚠️ ⑦단계 — 속도 조절</strong> 주소 하나마다 <strong>인터넷 요청을 한 번씩</strong> 보냅니다. 쉬지 않고 수백 번 두드리면 서비스 쪽에서 <strong>차단</strong>할 수 있습니다. <code>time.sleep()</code>으로 사이를 띄우는 것이 <strong>예의이자 규칙</strong>입니다.</div>
-          <div class="code-block labeled">
-            <span class="code-label">C-5 · 전체 변환 (1~2분 걸립니다)</span>
+            <span class="code-label">C-4 · 전체 변환 (1~2분 걸립니다)</span>
             <button class="copy-btn">copy</button>
 <pre><span class="kw">import</span> time
 
-lats, lons = [], []
+lats = []
+lons = []
 
 <span class="kw">for</span> addr <span class="kw">in</span> df2[<span class="str">'사업장소재지(도로명)'</span>]:
-    lat, lon = <span class="fn">address_to_coord</span>(addr)
-    lats.<span class="fn">append</span>(lat)
-    lons.<span class="fn">append</span>(lon)
-    time.<span class="fn">sleep</span>(<span class="num">0.1</span>)              <span class="cm"># ⑦ 0.1초 쉬어 준다</span>
+    params = {<span class="str">'query'</span>: addr}
+    res = requests.<span class="fn">get</span>(url, headers=headers, params=params).<span class="fn">json</span>()
+
+    <span class="kw">if</span> res[<span class="str">'documents'</span>]:
+        lats.<span class="fn">append</span>(<span class="fn">float</span>(res[<span class="str">'documents'</span>][<span class="num">0</span>][<span class="str">'y'</span>]))
+        lons.<span class="fn">append</span>(<span class="fn">float</span>(res[<span class="str">'documents'</span>][<span class="num">0</span>][<span class="str">'x'</span>]))
+    <span class="kw">else</span>:
+        lats.<span class="fn">append</span>(<span class="bi">None</span>)
+        lons.<span class="fn">append</span>(<span class="bi">None</span>)
+
+    time.<span class="fn">sleep</span>(<span class="num">0.1</span>)
 
 df2[<span class="str">'위도'</span>] = lats
 df2[<span class="str">'경도'</span>] = lons
@@ -1706,72 +2022,246 @@ df2[<span class="str">'경도'</span>] = lons
 <span class="fn">print</span>(<span class="str">'성공:'</span>, df2[<span class="str">'위도'</span>].<span class="fn">notna</span>().<span class="fn">sum</span>(), <span class="str">'건'</span>)
 <span class="fn">print</span>(<span class="str">'실패:'</span>, df2[<span class="str">'위도'</span>].<span class="fn">isna</span>().<span class="fn">sum</span>(), <span class="str">'건'</span>)</pre>
           </div>
+          <div class="lex">
+            <div class="lex-h">이 코드, 한 덩이씩</div>
+            <div class="lex-r"><div class="lex-c">lats = []<br>lons = []</div><div class="lex-d"><strong>빈 목록 두 개</strong>를 먼저 만들어 둔다. 여기에 결과를 하나씩 쌓을 것이다</div></div>
+            <div class="lex-r"><div class="lex-c">for addr in df2['사업장소재지(도로명)']:</div><div class="lex-d">주소 칸을 <strong>한 줄씩 꺼낸다.</strong> <code>addr</code>에 주소가 하나씩 들어온다 <span style="color:var(--text3)">(B 탭 <code>for</code>문과 같은 모양)</span></div></div>
+            <div class="lex-r key"><div class="lex-c">params = {'query': addr}</div><div class="lex-d">③단계와 <strong>똑같은 줄</strong>이다. 다만 주소가 <strong>매번 바뀐다</strong><br><code>url</code>과 <code>headers</code>는 <strong>안 바뀌니 다시 안 쓴다</strong></div></div>
+            <div class="lex-r"><div class="lex-c">if res['documents']:</div><div class="lex-d">목록이 <strong>비어 있지 않으면</strong> = <strong>찾았으면</strong></div></div>
+            <div class="lex-r"><div class="lex-c">lats.append( … )</div><div class="lex-d">목록 <strong>맨 뒤에 하나 붙인다.</strong> 124번 돌면 124개가 쌓인다</div></div>
+            <div class="lex-r key"><div class="lex-c">else:<br>&nbsp;&nbsp;&nbsp;&nbsp;lats.append(None)</div><div class="lex-d"><strong>못 찾아도 자리는 채운다.</strong> 안 채우면 목록이 124개가 안 돼서 <strong>표에 붙일 때 줄 수가 안 맞는다</strong></div></div>
+            <div class="lex-r"><div class="lex-c">time.sleep(0.1)</div><div class="lex-d">한 번 물어볼 때마다 <strong>0.1초 쉰다.</strong> 124번이면 약 12초</div></div>
+            <div class="lex-r"><div class="lex-c">df2['위도'] = lats</div><div class="lex-d">다 모은 목록을 <strong>표의 새 칸으로 붙인다.</strong> 없던 칸이 생긴다</div></div>
+            <div class="lex-r"><div class="lex-c">.notna().sum()</div><div class="lex-d">비어 있지 <strong>않은</strong> 칸의 개수 = <strong>성공한 건수</strong></div></div>
+          </div>
+          <div class="ask"><strong>📝 몇 건이 성공했나요?</strong> 적어 두세요. <strong>100%가 나오는 일은 거의 없습니다.</strong> 이 파일의 주소는 <strong>4곳 중 3곳에 괄호나 건물 이름이 붙어 있습니다</strong> — <code>(성사동)</code>, <code>백마프라자</code> 같은 것들이요. 카카오가 그걸 못 알아볼 수 있어요.<br>
+          왜 실패했는지는 아래 <strong>📦 심화</strong>에서 따져 봅니다.</div>
+
+          <h5 class="h5c">그리고 — 반드시 저장합니다</h5>
           <div class="code-block labeled">
-            <span class="code-label">C-5 · ⑧ 저장 — 이게 제일 중요합니다</span>
+            <span class="code-label">C-5 · 저장</span>
             <button class="copy-btn">copy</button>
 <pre>df2.<span class="fn">to_csv</span>(<span class="str">'/content/drive/MyDrive/동물병원_위도경도.csv'</span>,
            index=<span class="bi">False</span>, encoding=<span class="str">'utf-8-sig'</span>)
 <span class="fn">print</span>(<span class="str">'저장 완료'</span>)</pre>
           </div>
-          <div class="tip"><strong>💡 왜 ⑧단계가 중요한가</strong> 저장하지 않으면 <strong>노트북을 다시 켤 때마다 API를 또 불러야</strong> 합니다. 시간도 걸리고 호출 횟수도 낭비됩니다. <strong>한 번 변환했으면 파일로 남깁니다.</strong> 저장할 때는 <code>utf-8-sig</code> — 새로 만드는 파일은 UTF-8이 표준입니다.</div>
+          <div class="lex">
+            <div class="lex-h">이 코드, 한 줄씩</div>
+            <div class="lex-r"><div class="lex-c">df2.to_csv( … )</div><div class="lex-d">표를 <strong>CSV 파일로 내보낸다.</strong> <code>read_csv</code>의 <strong>반대</strong></div></div>
+            <div class="lex-r"><div class="lex-c">index=False</div><div class="lex-d">맨 왼쪽 <strong>번호 칸을 빼고</strong> 저장한다 (안 그러면 쓸데없는 칸이 하나 생긴다)</div></div>
+            <div class="lex-r"><div class="lex-c">encoding='utf-8-sig'</div><div class="lex-d"><strong>새로 만드는 파일은 <code>utf-8-sig</code></strong>가 표준. 엑셀에서 열어도 한글이 안 깨진다</div></div>
+          </div>
+          <div class="tip"><strong>💡 저장이 왜 중요한가</strong> 저장하지 않으면 <strong>코랩을 다시 켤 때마다 124번을 또 물어봐야</strong> 합니다. 시간도 걸리고 하루 사용량도 깎여요.<br>
+          <strong>한 번 받은 답은 파일로 남깁니다.</strong> 이게 ④단계의 진짜 목적입니다.</div>
 
+          <!-- ═════ ⑤ 지도 ═════ -->
+          <h4 class="step-h"><span class="sn">5</span>지도에 찍기</h4>
+          <p>여기서부터는 <strong>완전히 B 탭입니다.</strong> 좌표만 있으면 그리는 방법은 똑같아요. <strong>API도 키도 이제 필요 없습니다.</strong></p>
           <div class="code-block labeled">
-            <span class="code-label">C-5 · 지도 그리기 (이제 API 필요 없음)</span>
+            <span class="code-label">C-6 · 지도 그리기</span>
             <button class="copy-btn">copy</button>
-<pre>df2 = pd.<span class="fn">read_csv</span>(<span class="str">'/content/drive/MyDrive/동물병원_위도경도.csv'</span>,
-                  encoding=<span class="str">'utf-8-sig'</span>)
-
-df2 = df2.<span class="fn">dropna</span>(subset=[<span class="str">'위도'</span>, <span class="str">'경도'</span>])      <span class="cm"># 실패한 줄은 버린다</span>
+<pre><span class="cm"># 실패한 줄은 버린다 — A 탭 정제 ④단계와 같은 줄</span>
+df2 = df2.<span class="fn">dropna</span>(subset=[<span class="str">'위도'</span>, <span class="str">'경도'</span>])
 <span class="fn">print</span>(<span class="fn">len</span>(df2), <span class="str">'곳'</span>)
 
-m2 = folium.<span class="fn">Map</span>(location=[<span class="num">37.656</span>, <span class="num">126.835</span>], zoom_start=<span class="num">13</span>,
+m2 = folium.<span class="fn">Map</span>(location=[<span class="num">37.659</span>, <span class="num">126.811</span>], zoom_start=<span class="num">12</span>,
                 tiles=TILE_URL, attr=<span class="str">'Esri'</span>)
-cluster2 = <span class="fn">MarkerCluster</span>().<span class="fn">add_to</span>(m2)
 
 <span class="kw">for</span> _, row <span class="kw">in</span> df2.<span class="fn">iterrows</span>():
     folium.<span class="fn">Marker</span>(
         location=[row[<span class="str">'위도'</span>], row[<span class="str">'경도'</span>]],
-        tooltip=row[<span class="str">'업소명'</span>]
-    ).<span class="fn">add_to</span>(cluster2)
+        tooltip=row[<span class="str">'업소명'</span>],
+        popup=row[<span class="str">'전화번호'</span>]
+    ).<span class="fn">add_to</span>(m2)
 
 m2</pre>
           </div>
-          <div class="info"><strong>🤔 여기서 A 탭이 다시 나옵니다</strong> <code>dropna</code>로 실패한 줄을 버리는 것 — A 탭 정제 ④단계와 <strong>똑같은 코드</strong>입니다. 데이터가 달라도 <strong>쓰는 기술은 돌려 씁니다.</strong></div>
+          <div class="lex">
+            <div class="lex-h">이 코드, 한 줄씩 — 새로운 건 첫 줄 하나뿐입니다</div>
+            <div class="lex-r key"><div class="lex-c">df2.dropna(subset=['위도','경도'])</div><div class="lex-d">좌표가 <strong>비어 있는 줄을 버린다.</strong> <code>None</code>을 그대로 두면 지도가 그려지지 않는다<br><strong>A 탭 정제 ④단계와 똑같은 줄입니다</strong></div></div>
+            <div class="lex-r"><div class="lex-c">folium.Map( … )</div><div class="lex-d">고양시가 가운데 오는 지도 — <strong>B 탭 ④단계와 같은 숫자</strong></div></div>
+            <div class="lex-r"><div class="lex-c">for _, row in df2.iterrows():</div><div class="lex-d">한 줄씩 꺼낸다 — <strong>B 탭 ④단계와 같은 줄</strong></div></div>
+            <div class="lex-r"><div class="lex-c">tooltip / popup</div><div class="lex-d">마우스를 올리면 <strong>병원 이름</strong>, 클릭하면 <strong>전화번호</strong></div></div>
+          </div>
+          <div class="info"><strong>🤔 세 탭이 여기서 만납니다</strong><br>
+          · <code>dropna</code> — <strong>A 탭</strong>에서 지저분한 좌표를 버릴 때 쓴 줄<br>
+          · <code>Map</code> + <code>for</code> + <code>Marker</code> — <strong>B 탭</strong>에서 학교 174개를 찍은 줄<br>
+          · 그 사이에 <strong>C 탭이 한 일</strong>은 딱 하나 — <strong>없던 좌표를 만들어 낸 것</strong>입니다.</div>
+          <div class="ask"><strong>📝 지도를 읽어 보세요</strong><br>
+          ① 동물병원이 <strong>몰린 곳</strong>은 어디인가요? 그 동네는 어떤 곳인가요?<br>
+          ② <strong>비어 있는 곳</strong>은요? 사람이 안 사는 곳인가요, 아니면 다른 이유가 있나요?<br>
+          ③ B 탭의 <strong>학교 지도</strong>와 비교해 보세요. <strong>몰리는 자리가 같나요, 다른가요?</strong></div>
 
-          <!-- ═════ 심화 ═════ -->
+          <div class="warn"><strong>⚠️ 이 지도를 남에게 보여 줄 때</strong> "고양시 동물병원 지도"가 아니라 <strong>"공공데이터 124곳 중 좌표 변환에 성공한 ○○곳의 지도"</strong>입니다.<br>
+          <strong>변환에 실패한 병원은 문을 닫은 게 아닙니다. 주소 글자가 조금 달랐을 뿐입니다.</strong> 그런데 지도만 보면 그 차이가 안 보입니다.</div>
+
+          <!-- ═════ 📎 참고 1 ═════ -->
           <div class="adv-wrap">
-            <h4 style="font-size:17px;font-weight:700;margin-bottom:8px">📦 여기부터는 심화</h4>
-            <p class="adv-lead">본 수업은 ⑤단계까지입니다. 아래는 <strong>선생님 시범</strong>이나 <strong>더 해 보고 싶은 학생</strong>을 위한 것입니다.</p>
+            <h4 style="font-size:17px;font-weight:700;margin-bottom:8px">📎 참고 — 더 알고 싶다면</h4>
+            <p class="adv-lead">본 수업은 ⑤단계까지입니다. 아래는 <strong>궁금한 학생</strong>을 위한 것이니 필요할 때 펼쳐 보세요.</p>
 
             <details class="adv">
-              <summary><span class="lvl">심화</span> 실패한 주소는 왜 실패했나 <span class="adv-why">100% 성공은 없다</span></summary>
+              <summary><span class="lvl ref">참고 1</span> 같은 키로 할 수 있는 다른 일 <span class="adv-why">키 그대로 · URL만 교체</span></summary>
               <div class="adv-body">
+                <p>①단계에서 본 네 가지 중 <strong>나머지 세 가지</strong>입니다. <strong>키를 새로 받을 필요가 없습니다.</strong> 위에서 만든 <code>headers</code>를 그대로 쓰고, <strong><code>url</code>과 <code>params</code>만 바꿉니다.</strong></p>
+
+                <h5 class="h5c">① 좌표 → 주소 (역지오코딩)</h5>
+                <p>지도에서 찍은 점이 <strong>어디인지</strong> 되묻습니다. B 탭 전국 데이터에 <strong>주소가 비어 있는 학교가 12곳</strong> 있었는데, 이렇게 채울 수 있어요.</p>
+                <div class="code-block">
+                  <button class="copy-btn">copy</button>
+<pre>url2 = <span class="str">'https://dapi.kakao.com/v2/local/geo/coord2address.json'</span>
+params2 = {<span class="str">'x'</span>: <span class="num">126.808645</span>, <span class="str">'y'</span>: <span class="num">37.684587</span>}   <span class="cm"># x=경도, y=위도 — 순서 주의!</span>
+
+res2 = requests.<span class="fn">get</span>(url2, headers=headers, params=params2).<span class="fn">json</span>()
+<span class="fn">print</span>(res2[<span class="str">'documents'</span>][<span class="num">0</span>][<span class="str">'road_address'</span>][<span class="str">'address_name'</span>])</pre>
+                </div>
+                <div class="note"><strong>📝 중괄호가 한 겹 더 깊습니다</strong> <code>['road_address']</code>를 거쳐 <code>['address_name']</code>으로 들어갑니다. <strong>③단계에서 한 겹씩 벗긴 것과 같은 방법</strong>이에요. 모르겠으면 <code>res2</code>를 통째로 출력해서 눈으로 찾으면 됩니다.</div>
+
+                <h5 class="h5c">② 키워드로 장소 찾기</h5>
+                <p>CSV 파일 없이 <strong>검색으로</strong> 목록을 받아 옵니다.</p>
+                <div class="code-block">
+                  <button class="copy-btn">copy</button>
+<pre>url3 = <span class="str">'https://dapi.kakao.com/v2/local/search/keyword.json'</span>
+params3 = {<span class="str">'query'</span>: <span class="str">'고양시 동물병원'</span>, <span class="str">'size'</span>: <span class="num">15</span>}
+
+res3 = requests.<span class="fn">get</span>(url3, headers=headers, params=params3).<span class="fn">json</span>()
+
+<span class="kw">for</span> place <span class="kw">in</span> res3[<span class="str">'documents'</span>]:
+    <span class="fn">print</span>(place[<span class="str">'place_name'</span>], <span class="str">'|'</span>, place[<span class="str">'road_address_name'</span>])</pre>
+                </div>
+                <div class="ask"><strong>🤔 그럼 CSV 파일은 왜 받았나요?</strong> 좋은 질문입니다. <strong>결과가 다르기 때문</strong>입니다.<br>
+                · <strong>공공데이터 124곳</strong> — 고양시에 <strong>인허가를 받은</strong> 동물병원 전부<br>
+                · <strong>카카오 검색</strong> — <strong>카카오맵에 등록된</strong> 곳만<br>
+                <strong>둘 다 맞고, 둘 다 전부는 아닙니다.</strong> 그리고 검색은 <strong>한 번에 15개, 최대 675개</strong>까지만 나옵니다 — 다 긁어 올 수는 없어요.<br>
+                → <strong>"고양시 동물병원이 몇 곳인가?"라는 질문에 답이 두 개입니다. 어느 쪽을 쓸지는 사람이 정합니다.</strong></div>
+
+                <h5 class="h5c">③ 내 주변 카테고리로 찾기</h5>
+                <p>앞에서 본 <strong>심야약국</strong> 이야기가 여기서 실제로 됩니다.</p>
+                <div class="code-block">
+                  <button class="copy-btn">copy</button>
+<pre>url4 = <span class="str">'https://dapi.kakao.com/v2/local/search/category.json'</span>
+params4 = {<span class="str">'category_group_code'</span>: <span class="str">'PM9'</span>,      <span class="cm"># PM9 = 약국</span>
+           <span class="str">'x'</span>: <span class="num">126.808645</span>, <span class="str">'y'</span>: <span class="num">37.684587</span>,   <span class="cm"># 우리 학교</span>
+           <span class="str">'radius'</span>: <span class="num">1000</span>,                    <span class="cm"># 반경 1km (최대 20000)</span>
+           <span class="str">'sort'</span>: <span class="str">'distance'</span>}                <span class="cm"># 가까운 순서로</span>
+
+res4 = requests.<span class="fn">get</span>(url4, headers=headers, params=params4).<span class="fn">json</span>()
+
+<span class="kw">for</span> place <span class="kw">in</span> res4[<span class="str">'documents'</span>]:
+    <span class="fn">print</span>(place[<span class="str">'place_name'</span>], place[<span class="str">'distance'</span>], <span class="str">'m'</span>)</pre>
+                </div>
+                <div class="tbl-scroll"><table>
+                  <tr><th style="width:24%">코드</th><th>무엇</th><th style="width:24%">코드</th><th>무엇</th></tr>
+                  <tr><td><code>PM9</code></td><td>약국</td><td><code>HP8</code></td><td>병원</td></tr>
+                  <tr><td><code>CS2</code></td><td>편의점</td><td><code>FD6</code></td><td>음식점</td></tr>
+                  <tr><td><code>SW8</code></td><td>지하철역</td><td><code>BK9</code></td><td>은행</td></tr>
+                </table></div>
+                <div class="info"><strong>🔑 <code>distance</code>가 같이 옵니다</strong> 거리를 <strong>카카오가 미터 단위로 계산해서</strong> 줍니다. 개념 파트에서 본 <strong>심야약국 ③번 단계</strong>가 이 한 줄이에요.<br>
+                <strong>좌표가 있으니 거리를 잴 수 있었던 것</strong> — 그게 오늘 이야기의 전부입니다.</div>
+              </div>
+            </details>
+
+            <details class="adv">
+              <summary><span class="lvl">심화 1</span> 같은 코드가 두 번 나왔다면 — 함수로 묶기 <span class="adv-why">def · return</span></summary>
+              <div class="adv-body">
+                <p>③단계와 ④단계를 다시 보면 <strong>똑같은 세 줄</strong>이 두 번 나옵니다.</p>
+                <div class="code-block">
+                  <button class="copy-btn">copy</button>
+<pre>params = {<span class="str">'query'</span>: addr}
+res = requests.<span class="fn">get</span>(url, headers=headers, params=params).<span class="fn">json</span>()
+<span class="kw">if</span> res[<span class="str">'documents'</span>]: ...</pre>
+                </div>
+                <p><strong>같은 일을 여러 군데서 한다면 묶어 두면 됩니다.</strong> 그걸 <strong>함수</strong>라고 합니다.</p>
+                <div class="code-block">
+                  <button class="copy-btn">copy</button>
+<pre><span class="kw">def</span> <span class="fn">address_to_coord</span>(addr):
+    params = {<span class="str">'query'</span>: addr}
+    res = requests.<span class="fn">get</span>(url, headers=headers, params=params).<span class="fn">json</span>()
+
+    <span class="kw">if</span> res[<span class="str">'documents'</span>]:
+        doc = res[<span class="str">'documents'</span>][<span class="num">0</span>]
+        <span class="kw">return</span> <span class="fn">float</span>(doc[<span class="str">'y'</span>]), <span class="fn">float</span>(doc[<span class="str">'x'</span>])
+    <span class="kw">return</span> <span class="bi">None</span>, <span class="bi">None</span>
+
+
+<span class="fn">print</span>(<span class="fn">address_to_coord</span>(<span class="str">'경기도 고양시 일산동구 위시티4로 112'</span>))
+<span class="fn">print</span>(<span class="fn">address_to_coord</span>(<span class="str">'이런 주소는 없습니다 12345'</span>))</pre>
+                </div>
+                <div class="result"><span class="result-label">실행 결과</span>(37.6845..., 126.8086...)
+(None, None)      ← 못 찾아도 멈추지 않는다</div>
+                <div class="lex">
+                  <div class="lex-h">함수, 세 가지만 알면 됩니다</div>
+                  <div class="lex-r key"><div class="lex-c">def 이름(재료):</div><div class="lex-d"><strong>"이런 이름의 기계를 만든다"</strong> — 괄호 안은 <strong>넣을 재료</strong>. 여기서는 주소 하나</div></div>
+                  <div class="lex-r key"><div class="lex-c">return 결과</div><div class="lex-d"><strong>"이걸 돌려준다"</strong> — 기계에서 나오는 것. 여기서는 위도와 경도</div></div>
+                  <div class="lex-r"><div class="lex-c">address_to_coord('…')</div><div class="lex-d">만든 기계를 <strong>쓴다.</strong> 재료를 넣으면 결과가 나온다</div></div>
+                  <div class="lex-r"><div class="lex-c">return None, None</div><div class="lex-d">못 찾았을 때도 <strong>무언가는 돌려준다.</strong> 안 그러면 뒷줄이 멈춘다</div></div>
+                </div>
+                <p style="margin-top:14px">그러면 ④단계 <code>for</code>문이 이만큼 짧아집니다.</p>
+                <div class="code-block">
+                  <button class="copy-btn">copy</button>
+<pre>lats = []
+lons = []
+
+<span class="kw">for</span> addr <span class="kw">in</span> df2[<span class="str">'사업장소재지(도로명)'</span>]:
+    lat, lon = <span class="fn">address_to_coord</span>(addr)    <span class="cm"># ← 다섯 줄이 한 줄로</span>
+    lats.<span class="fn">append</span>(lat)
+    lons.<span class="fn">append</span>(lon)
+    time.<span class="fn">sleep</span>(<span class="num">0.1</span>)</pre>
+                </div>
+                <div class="info"><strong>🤔 함수를 왜 쓰나</strong> 짧아져서가 아닙니다. <strong>고칠 곳이 한 군데가 되기 때문</strong>입니다.<br>
+                카카오를 다른 서비스로 바꾼다면, 함수가 없을 때는 <strong>코드를 쓴 모든 자리를</strong> 찾아 고쳐야 합니다. 함수가 있으면 <strong>함수 안만</strong> 고치면 돼요.</div>
+              </div>
+            </details>
+
+            <details class="adv">
+              <summary><span class="lvl">심화 2</span> 실패한 주소는 왜 실패했나 <span class="adv-why">100% 성공은 없다</span></summary>
+              <div class="adv-body">
+                <p>먼저 <strong>누가 실패했는지</strong> 봅니다.</p>
                 <div class="code-block">
                   <button class="copy-btn">copy</button>
 <pre>failed = df2[df2[<span class="str">'위도'</span>].<span class="fn">isna</span>()]
 <span class="fn">print</span>(<span class="str">'실패'</span>, <span class="fn">len</span>(failed), <span class="str">'건'</span>)
 failed[[<span class="str">'업소명'</span>, <span class="str">'사업장소재지(도로명)'</span>]]</pre>
                 </div>
-                <div class="info"><strong>🤔 왜 실패할까</strong> 주소에 괄호나 층수가 붙어 있거나(<code>2층</code>, <code>101호</code>), 오래된 주소이거나, 띄어쓰기가 어긋나면 못 찾습니다.<br>
-                <strong>지도에서 사라진 동물병원은 문을 닫은 게 아니라, 주소 글자가 조금 달랐을 뿐입니다.</strong></div>
+                <div class="lex">
+                  <div class="lex-h">이 코드, 한 줄씩</div>
+                  <div class="lex-r"><div class="lex-c">df2['위도'].isna()</div><div class="lex-d">위도 칸이 <strong>비어 있나?</strong> 줄마다 예/아니오를 따진다</div></div>
+                  <div class="lex-r"><div class="lex-c">df2[ … ]</div><div class="lex-d"><strong>'예'인 줄만</strong> 남긴다 — B 탭 조건 필터링과 같은 줄</div></div>
+                </div>
+                <div class="info"><strong>🤔 왜 실패했을까</strong> 주소를 들여다보면 이유가 보입니다.<br>
+                · 괄호가 붙어 있다 — <code>대산로 126 (주엽동)</code><br>
+                · 건물 이름이 섞여 있다 — <code>강송로 180, 백마프라자</code><br>
+                · 층·호수가 붙어 있다 — <code>2층</code>, <code>101호</code><br>
+                <strong>이 파일은 4곳 중 3곳이 이런 모양입니다.</strong></div>
+                <p>그러면 <strong>괄호 앞부분만 떼어서</strong> 다시 물어보면 됩니다.</p>
                 <div class="code-block">
                   <button class="copy-btn">copy</button>
-<pre><span class="cm"># 괄호 앞부분만 떼어서 다시 시도</span>
+<pre><span class="cm"># 심화 1의 address_to_coord 함수가 있어야 합니다</span>
 <span class="kw">for</span> _, row <span class="kw">in</span> failed.<span class="fn">iterrows</span>():
     full_addr = <span class="fn">str</span>(row[<span class="str">'사업장소재지(도로명)'</span>])
     short_addr = full_addr.<span class="fn">split</span>(<span class="str">'('</span>)[<span class="num">0</span>].<span class="fn">strip</span>()
+
     <span class="fn">print</span>(row[<span class="str">'업소명'</span>], <span class="str">'|'</span>, short_addr, <span class="str">'→'</span>, <span class="fn">address_to_coord</span>(short_addr))</pre>
                 </div>
+                <div class="lex">
+                  <div class="lex-h">주소를 자르는 두 줄</div>
+                  <div class="lex-r"><div class="lex-c">full_addr.split('(')</div><div class="lex-d"><code>'('</code>를 <strong>기준으로 잘라</strong> 목록으로 만든다<br><code>'대산로 126 (주엽동)'</code> → <code>['대산로 126 ', '주엽동)']</code></div></div>
+                  <div class="lex-r"><div class="lex-c">[0]</div><div class="lex-d">그중 <strong>앞부분만</strong> 쓴다 — 또 <code>[0]</code>이다</div></div>
+                  <div class="lex-r"><div class="lex-c">.strip()</div><div class="lex-d">앞뒤 <strong>빈칸을 지운다.</strong> A 탭 정제 ②단계에서 쓴 것과 같은 줄</div></div>
+                </div>
+                <div class="ask"><strong>🔑 여기가 오늘의 마지막 이야기입니다</strong><br>
+                <strong>지도에서 사라진 동물병원은 문을 닫은 게 아닙니다. 주소 글자가 조금 달랐을 뿐입니다.</strong><br>
+                그런데 완성된 지도만 보면 <strong>그 차이가 보이지 않습니다.</strong> 지도를 만든 사람만 압니다.</div>
               </div>
             </details>
 
             <details class="adv">
-              <summary><span class="lvl">심화</span> 지오코딩은 얼마나 정확할까 <span class="adv-why">B 데이터로 검증</span></summary>
+              <summary><span class="lvl">심화 3</span> 지오코딩은 얼마나 정확할까 <span class="adv-why">B 데이터로 검증</span></summary>
               <div class="adv-body">
-                <p>B 탭의 학교 데이터는 <strong>정답(원본 좌표)을 이미 알고 있습니다.</strong> 주소로 좌표를 다시 구해 <strong>원본과 몇 미터 차이가 나는지</strong> 재 봅시다.</p>
+                <p>B 탭의 학교 데이터는 <strong>정답(원본 좌표)을 이미 알고 있습니다.</strong> 주소로 좌표를 다시 구해서 <strong>원본과 몇 미터 차이가 나는지</strong> 재 봅시다.</p>
                 <div class="code-block">
                   <button class="copy-btn">copy</button>
-<pre><span class="cm"># B 탭의 df (고양시 학교) 를 먼저 불러와 두어야 합니다</span>
+<pre><span class="cm"># B 탭의 df(고양시 학교)와 심화 1의 함수가 있어야 합니다</span>
 sample = df[df[<span class="str">'학교급구분'</span>] == <span class="str">'고등학교'</span>].<span class="fn">head</span>(<span class="num">10</span>)
 
 <span class="kw">for</span> _, row <span class="kw">in</span> sample.<span class="fn">iterrows</span>():
@@ -1784,40 +2274,51 @@ sample = df[df[<span class="str">'학교급구분'</span>] == <span class="str">
     dist_m = (((new_lat - row[<span class="str">'위도'</span>]) * <span class="num">111000</span>) ** <span class="num">2</span> +
               ((new_lon - row[<span class="str">'경도'</span>]) * <span class="num">88000</span>) ** <span class="num">2</span>) ** <span class="num">0.5</span>
 
-    <span class="fn">print</span>(<span class="str">f"{row['학교명']:16s} 차이 {dist_m:7.0f} m"</span>)</pre>
+    <span class="fn">print</span>(row[<span class="str">'학교명'</span>], <span class="str">'— 차이'</span>, <span class="fn">round</span>(dist_m), <span class="str">'m'</span>)</pre>
+                </div>
+                <div class="lex">
+                  <div class="lex-h">거리를 재는 줄</div>
+                  <div class="lex-r"><div class="lex-c">new_lat - row['위도']</div><div class="lex-d">두 위도의 <strong>차이</strong> — 개념 파트에서 본 <strong>"글자끼리는 뺄셈이 안 된다"</strong>의 그 뺄셈</div></div>
+                  <div class="lex-r"><div class="lex-c">* 111000</div><div class="lex-d"><strong>도 단위를 미터로</strong> 바꾼다. 위도 1도는 약 111km</div></div>
+                  <div class="lex-r"><div class="lex-c">( … ** 2 + … ** 2) ** 0.5</div><div class="lex-d">가로·세로로 얼마씩 떨어졌는지 알 때 <strong>직선거리</strong>를 구하는 식 (피타고라스)</div></div>
                 </div>
                 <div class="info"><strong>🔑 이 수업에서 가장 중요한 이야기</strong><br>
-                차이가 0이 아닐 겁니다. 보통 수십~수백 미터가 나옵니다. 왜 그럴까요?<br>
-                · 원본 좌표는 <strong>학교 건물</strong>, 카카오가 준 좌표는 <strong>도로명주소의 대표 지점</strong>일 수 있습니다.<br>
-                · 학교 부지가 넓으면 <strong>어디를 "학교 위치"로 볼지</strong> 기관마다 다릅니다.<br>
-                → 앞에서 본 <strong>소수점 6자리</strong>를 떠올려 보세요. <strong>11cm까지 적혀 있지만 실제로는 수백 미터가 다릅니다.</strong><br>
+                차이가 0이 아닐 겁니다. 보통 <strong>수십~수백 미터</strong>가 나옵니다. 왜 그럴까요?<br>
+                · 원본 좌표는 <strong>학교 건물</strong>, 카카오가 준 좌표는 <strong>도로명주소의 대표 지점</strong>일 수 있습니다<br>
+                · 학교 부지가 넓으면 <strong>어디를 "학교 위치"로 볼지</strong> 기관마다 다릅니다<br>
+                → 개념 파트에서 본 <strong>소수점 6자리</strong>를 떠올려 보세요. <strong>11cm까지 적혀 있지만 실제로는 수백 미터가 다릅니다.</strong><br>
                 → <strong>"지도 위의 점은 사실이 아니라, 누군가의 선택이다."</strong></div>
               </div>
             </details>
 
+            <!-- ═════ 📎 참고 2 — VWorld ═════ -->
             <details class="adv">
-              <summary><span class="lvl">심화</span> 반대 방향 — 좌표를 주소로 (역지오코딩) <span class="adv-why">coord2address</span></summary>
+              <summary><span class="lvl ref">참고 2</span> 카카오 말고 다른 서비스 — VWorld <span class="adv-why">세 줄만 다릅니다</span></summary>
               <div class="adv-body">
-                <p>좌표는 있는데 <strong>주소가 비어 있을 때</strong> 씁니다. B 탭 전국 데이터의 <code>소재지도로명주소</code>가 12건 비어 있는데, 이렇게 채웁니다.</p>
-                <div class="code-block">
-                  <button class="copy-btn">copy</button>
-<pre><span class="kw">def</span> <span class="fn">coord_to_address</span>(lat, lon):
-    url = <span class="str">'https://dapi.kakao.com/v2/local/geo/coord2address.json'</span>
-    headers = {<span class="str">'Authorization'</span>: <span class="str">f'KakaoAK {KAKAO_API_KEY}'</span>}
-    params = {<span class="str">'x'</span>: lon, <span class="str">'y'</span>: lat}          <span class="cm"># x=경도, y=위도 — 순서 주의!</span>
-
-    res = requests.<span class="fn">get</span>(url, headers=headers, params=params).<span class="fn">json</span>()
-    <span class="kw">if</span> res[<span class="str">'documents'</span>]:
-        doc = res[<span class="str">'documents'</span>][<span class="num">0</span>]
-        <span class="kw">if</span> doc[<span class="str">'road_address'</span>]:
-            <span class="kw">return</span> doc[<span class="str">'road_address'</span>][<span class="str">'address_name'</span>]
-        <span class="kw">return</span> doc[<span class="str">'address'</span>][<span class="str">'address_name'</span>]
-    <span class="kw">return</span> <span class="bi">None</span>
-
-
-<span class="fn">print</span>(<span class="fn">coord_to_address</span>(<span class="num">37.6846</span>, <span class="num">126.8086</span>))</pre>
-                </div>
-                <div class="tip"><strong>💡 8단계는 그대로입니다</strong> 요청 주소(②)와 파라미터 이름(③)만 바뀌었습니다. <strong>방향이 반대일 뿐 구조는 같습니다.</strong></div>
+                <p>지오코딩을 해 주는 곳은 카카오만이 아닙니다. <strong>VWorld</strong>는 국토교통부가 운영하는 공간정보 플랫폼이에요. 카카오가 막히거나, <strong>정부 공식 주소 체계</strong>가 필요할 때 씁니다.</p>
+                <div class="warn"><strong>⚠️ 키를 새로 받아야 합니다</strong> 카카오 키는 카카오에서만 통합니다. VWorld를 쓰려면 <code>vworld.kr</code>에 따로 가입해서 <strong>인증키를 새로 발급</strong>받아야 해요. <strong>그래서 오늘 수업에서는 쓰지 않습니다.</strong></div>
+                <p><strong>그런데 코드는 거의 같습니다.</strong> 우리가 쓴 여덟 줄 중 <strong>세 줄</strong>만 바뀝니다.</p>
+                <div class="tbl-scroll"><table>
+                  <tr><th style="width:22%">바뀌는 것</th><th style="width:36%">카카오</th><th>VWorld</th></tr>
+                  <tr><td><strong>① 물어볼 주소</strong><br><code>url</code></td>
+                    <td><code>dapi.kakao.com/v2/<br>local/search/address.json</code></td>
+                    <td><code>api.vworld.kr/req/address</code></td></tr>
+                  <tr><td><strong>② 키를 넣는 곳</strong></td>
+                    <td><code>headers</code>에<br><span style="font-size:12px;color:var(--text3)">출입증을 따로 보여 주는 방식</span></td>
+                    <td><code>params</code>에 <code>'key'</code>로<br><span style="font-size:12px;color:var(--text3)">물어볼 내용에 같이 담는 방식</span></td></tr>
+                  <tr><td><strong>③ 답에서 꺼내는 길</strong></td>
+                    <td><code>res['documents'][0]['y']</code></td>
+                    <td><code>res['response']['result']<br>['point']['y']</code></td></tr>
+                  <tr><td>나머지 전부</td><td colspan="2" style="color:var(--green);font-weight:700">똑같습니다 — <code>requests.get</code> · <code>.json()</code> · <code>for</code> · <code>append</code> · <code>float</code> · 저장 · 지도</td></tr>
+                </table></div>
+                <div class="info"><strong>🔑 오늘 가져갈 진짜 능력</strong><br>
+                처음 보는 서비스를 만나도 <strong>문서에서 이 세 가지만 찾으면</strong> 코드를 쓸 수 있습니다.<br>
+                ① <strong>어디로</strong> 물어보나 (요청 주소 · Endpoint)<br>
+                ② <strong>키를 어디에</strong> 넣나 (인증 · Authorization)<br>
+                ③ <strong>답의 어디에</strong> 좌표가 있나 (응답 예시 · Response)<br>
+                <strong>나머지는 오늘 쓴 코드를 그대로 복사하면 됩니다.</strong> 네이버든 구글이든 같습니다.</div>
+                <div class="tip"><strong>💡 응답 구조를 모르겠으면</strong> ③단계에서 한 것처럼 <strong><code>res</code>를 통째로 출력해서 눈으로 뒤지면</strong> 됩니다. 문서를 읽는 것보다 실물을 보는 게 빠를 때가 많아요.</div>
+                <div class="note"><strong>📝 VWorld는 <code>type</code>을 직접 알려 줘야 합니다</strong> 도로명주소면 <code>'road'</code>, 지번주소면 <code>'parcel'</code>. 카카오는 알아서 구분하는데 VWorld는 미리 말해 줘야 해요. <strong>서비스마다 요구하는 게 조금씩 다릅니다.</strong></div>
               </div>
             </details>
           </div>
@@ -1833,13 +2334,18 @@ sample = df[df[<span class="str">'학교급구분'</span>] == <span class="str">
             <th style="color:var(--orange)">A · 사적지</th>
             <th style="color:var(--primary)">B · 학교 위치</th>
             <th style="color:var(--purple)">C · 지오코딩</th></tr>
-          <tr><td><strong>① 불러오기</strong></td><td><code>cp949</code></td><td><code>utf-8-sig</code></td><td><code>cp949</code></td></tr>
-          <tr><td><strong>② 좌표 상태</strong></td><td><strong>정제</strong><br>글자·기호 치우기</td><td><strong>확인</strong><br>shape · head()</td><td><strong>생성</strong><br>주소로 만들기</td></tr>
-          <tr><td><strong>③ 첫 지도</strong></td><td>아시아 <code>zoom 3</code></td><td>고양시 <code>zoom 12</code></td><td>고양 <code>zoom 13</code></td></tr>
-          <tr><td><strong>④ 전체 지도</strong></td><td><code>MarkerCluster</code></td><td><code>Marker</code> + <code>for문</code><br>174개를 한 번에</td><td><code>MarkerCluster</code></td></tr>
-          <tr><td><strong>⑤ 심화</strong></td><td>아이콘·배경 바꾸기</td><td>지도 읽기 · (접어 둔 심화)</td><td>실패 주소 · 정확도 검증 · 역지오코딩</td></tr>
+          <tr><td><strong>① 불러오기</strong><br><span style="font-size:11.5px;color:var(--text3)">세 탭 모두<br><code>glob</code> → <code>files[0]</code></span></td>
+            <td><code>read_csv</code> · <code>cp949</code><br>639행 × 29열</td>
+            <td><code>read_excel</code> <span style="font-size:11.5px">(+xlrd · <code>header=1</code>)</span><br>12,011행 × 20열</td>
+            <td><code>read_csv</code> · <code>cp949</code><br>124행 × 3열</td></tr>
+          <tr><td><strong>② 좌표 상태</strong></td><td><strong>정제</strong><br>글자·기호 치우기</td><td><strong>확인 · 골라내기</strong><br>12,011 → 174</td><td><strong>생성</strong><br>API로 만들기</td></tr>
+          <tr><td><strong>③ 새로 배운 문법</strong></td><td><code>replace</code> · <code>to_numeric</code><br><code>dropna</code></td><td><code>header=</code> · 조건으로 고르기<br><code>value_counts</code></td><td><strong>중괄호 <code>{ }</code></strong><br><code>requests</code> · <code>.json()</code></td></tr>
+          <tr><td><strong>④ 전체 지도</strong></td><td><code>MarkerCluster</code><br>사적지 611곳</td><td><code>Marker</code> + <code>for문</code><br>학교 174곳 <span style="font-size:11.5px">(+클러스터 해보기)</span></td><td><code>Marker</code> + <code>for문</code><br>동물병원 124곳</td></tr>
+          <tr><td><strong>⑤ 심화 · 참고</strong></td><td>아이콘·배경 바꾸기</td><td>지도 읽기 · (접어 둔 심화)</td><td>함수(<code>def</code>) · 실패 주소<br>정확도 검증 · 다른 서비스</td></tr>
           <tr><td><strong>한 문장</strong></td><td>"지저분한 데이터는<br>치워야 쓸 수 있다"</td><td>"지도는 만드는 것보다<br>읽는 게 어렵다"</td><td>"없는 좌표는<br>만들 수 있다"</td></tr>
         </table></div>
+        <div class="info"><strong>🤔 불러오는 코드는 세 탭이 똑같았습니다</strong> <code>glob</code>으로 찾고 → <code>files[0]</code>으로 첫 번째를 집고 → 읽는다. <strong>달랐던 건 파일 이름과 읽는 함수뿐</strong>입니다.<br>
+        <strong>그래서 다음에 어떤 파일을 받아도 이 세 줄은 그대로 씁니다.</strong></div>
         <div class="tip"><strong>💡 오늘의 결론</strong> folium 코드는 세 탭이 거의 같았습니다. <strong>달랐던 것은 지도를 그리기 전까지의 준비 과정</strong>입니다. 실제 데이터 작업에서 시간이 가장 많이 드는 곳도 바로 거기입니다.</div>
       </div>
 
@@ -1903,7 +2409,7 @@ sample = df[df[<span class="str">'학교급구분'</span>] == <span class="str">
       <!-- ═══════════ 데이터 의심하기 ═══════════ -->
       <div class="section" id="literacy">
         <h2 class="section-title">🕵️ 데이터를 의심하기</h2>
-        <div class="note"><strong>📌 여기는 선생님 시범용입니다</strong> 전국 12,011개 파일이 필요하므로 <strong>B 탭의 심화 1</strong>을 먼저 실행해야 합니다. 학생이 코드를 칠 필요는 없고, <strong>결과를 함께 보며 이야기하는 자리</strong>입니다.</div>
+        <div class="note"><strong>📌 B 탭의 <code>df_all</code>(전국 12,011곳)이 있어야 합니다</strong> B 탭 ①단계를 실행해 두었다면 바로 쓸 수 있습니다. 학생이 꼭 코드를 칠 필요는 없고, <strong>결과를 함께 보며 이야기하는 자리</strong>입니다.</div>
         <p>공공기관이 공개한 데이터라도 <strong>틀린 값이 섞여 있습니다.</strong> 전국 학교 데이터로 찾아봅시다. 학교 이름에 "중학교"가 들어 있는데 학교급구분이 "초등학교"라면, 둘 중 하나는 틀린 것입니다.</p>
         <div class="code-block labeled">
           <span class="code-label">공통 CELL</span>
