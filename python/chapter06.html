@@ -145,6 +145,12 @@
   .lvl.ref { background: var(--teal-bg); color: var(--teal); border-color: var(--teal-border); }
   .h5c { font-size: 14.5px; font-weight: 700; margin: 26px 0 8px; color: var(--text); }
 
+  /* ══════ 곁가지 설명 상자 ══════ */
+  .side { border: 1.5px dashed var(--purple-border); border-left: 4px solid var(--purple-border); border-radius: 10px; background: var(--surface); padding: 14px 18px 0; margin: 22px 0; }
+  .side-l { display: inline-flex; align-items: center; gap: 6px; background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); border-radius: 20px; padding: 3px 11px; font-size: 11px; font-weight: 800; letter-spacing: .04em; }
+  .side > .h5c { margin: 9px 0 8px; }
+  .side-end { margin: 16px -18px 0; padding: 8px 18px; border-top: 1px dashed var(--purple-border); background: var(--bg); border-radius: 0 0 8px 8px; font-size: 12px; font-weight: 700; color: var(--text3); }
+
   /* ══════ 탭별 개념 파트 색 ══════ */
   .p-a .concept { border-left-color: var(--orange-border); }
   .p-a .concept-label { background: var(--orange-bg); color: var(--orange); border-color: var(--orange-border); }
@@ -1322,13 +1328,15 @@ m</pre>
             <div class="lex-r"><div class="lex-c">location=[37.659, 126.811]</div><div class="lex-d">지도의 <strong>가운데</strong>. 순서는 <strong>항상 위도 먼저</strong></div></div>
             <div class="lex-r"><div class="lex-c">zoom_start=12</div><div class="lex-d">확대 정도. <strong>9</strong>=경기도 · <strong>12</strong>=고양시 · <strong>16</strong>=학교 건물</div></div>
             <div class="lex-r"><div class="lex-c">tiles=TILE_URL, attr='Esri'</div><div class="lex-d"><strong>배경 지도</strong>를 어디서 받아올지. 이게 없으면 노란 줄무늬가 깔린다</div></div>
-            <div class="lex-r key"><div class="lex-c">for _, row in df.iterrows():</div><div class="lex-d">표를 <strong>한 줄씩</strong> 꺼낸다. 174줄이니 <strong>174바퀴</strong>를 돈다<br><strong>언더바 <code>_</code>가 뭔지는 바로 아래에서 설명합니다</strong></div></div>
+            <div class="lex-r key"><div class="lex-c">for _, row in df.iterrows():</div><div class="lex-d">표를 <strong>한 줄씩</strong> 꺼낸다. 174줄이니 <strong>174바퀴</strong>를 돈다<br><strong>언더바 <code>_</code>가 뭔지는 바로 아래 곁가지 상자에서 설명합니다</strong></div></div>
             <div class="lex-r"><div class="lex-c">row['위도']</div><div class="lex-d"><code>row</code>는 <strong>"지금 꺼낸 한 줄"</strong>. 첫 바퀴엔 가람초등학교, 다음 바퀴엔 가좌초등학교…</div></div>
             <div class="lex-r"><div class="lex-c">tooltip=row['학교명']</div><div class="lex-d">마커에 <strong>마우스를 올렸을 때</strong> 뜨는 글</div></div>
             <div class="lex-r"><div class="lex-c">.add_to(m)</div><div class="lex-d">만든 마커를 <strong>지도에 붙인다.</strong> 빼먹으면 아무것도 안 보인다</div></div>
             <div class="lex-r"><div class="lex-c">마지막 줄 m</div><div class="lex-d">지도를 <strong>화면에 보여 준다.</strong> 이 줄이 없으면 아무 일도 안 일어난다</div></div>
           </div>
 
+          <div class="side">
+          <span class="side-l">곁가지 · 오늘 코드와 별개로 알아 두기</span>
           <h5 class="h5c">잠깐 — <code>for _, row</code> 에서 언더바는 뭔가요?</h5>
           <p><code>df.iterrows()</code>는 한 바퀴마다 <strong>두 개</strong>를 건네줍니다.</p>
           <div class="tbl-scroll"><table>
@@ -1349,14 +1357,16 @@ m</pre>
 1 | 가좌초등학교
 2 | 강선초등학교</div>
           <div class="tip"><strong>💡 앞의 숫자가 바로 그 "줄 번호"입니다</strong> 지도를 그릴 때는 이 번호가 필요 없죠. 그래서 <code>_</code>로 두고 버리는 겁니다.</div>
+          <div class="side-end">↑ 여기까지가 언더바 이야기입니다. 아래부터는 다시 <strong>4단계 지도 코드</strong>로 돌아갑니다.</div>
+          </div>
 
-          <div class="warn"><strong>⚠️ 자주 나오는 실수 두 가지</strong><br>
+          <div class="warn"><strong>⚠️ 자주 나오는 실수 세 가지</strong><br>
           · <code>.add_to(m)</code>를 빼먹음 → <strong>빈 지도</strong>만 나옵니다<br>
           · <code>for</code> 아래 줄의 <strong>들여쓰기</strong>가 없음 → <code>IndentationError</code><br>
           · <code>&lt;folium.map.Marker at 0x…&gt;</code> 같은 글씨만 나온다면 → <code>folium.Marker(...)</code> 부분만 <strong>따로 떼어 실행</strong>한 것입니다. <strong>셀 전체를 실행</strong>하세요</div>
           <div class="tip"><strong>💡 <code>tiles=TILE_URL, attr='Esri'</code>는 왜 있나요?</strong> 이게 없으면 코랩에서 지도가 <strong>노란 "Access blocked" 줄무늬</strong>로 나옵니다. <code>TILE_URL</code>은 <a href="#setup" style="color:var(--primary);font-weight:700">⚙️ 기초 설정</a>의 CELL 2에서 적어 둔 <strong>배경 지도 주소</strong>이고, <code>attr</code>은 <strong>출처 표기</strong>입니다.</div>
 
-          <h5 style="font-size:15px;font-weight:700;margin:26px 0 8px">바꿔 볼 것은 이 세 가지</h5>
+          <h5 class="h5c">바꿔 볼 것은 이 세 가지</h5>
           <p>코드 전체를 고칠 필요 없습니다. <strong>아래 세 군데만</strong> 바꾸면 완전히 다른 지도가 됩니다.</p>
           <div class="knobs">
             <div class="knob">
