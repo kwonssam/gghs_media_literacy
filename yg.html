@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>고양시 약국 지도</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; font-family: Arial, "Noto Sans KR", sans-serif; }
+    body { background: #eaf8ff; color: #16324a; }
+    .app { display: flex; width: 100%; height: 100vh; overflow: hidden; }
+    .sidebar {
+      width: 340px; min-width: 300px; height: 100%;
+      background: #dff5ff; border-right: 1px solid #b7e4f7;
+      padding: 24px 18px; overflow-y: auto;
+    }
+    h1 { margin: 0 0 8px; font-size: 25px; }
+    .subtitle { margin: 0 0 20px; font-size: 14px; line-height: 1.5; color: #52748a; }
+    .search-row { display: flex; gap: 8px; }
+    #keyword {
+      flex: 1; min-width: 0; border: 1px solid #9ed8ef; border-radius: 10px;
+      padding: 12px; font-size: 14px; outline: none; background: white;
+    }
+    #keyword:focus { border-color: #56b9df; box-shadow: 0 0 0 3px rgba(86,185,223,.15); }
+    #searchBtn {
+      border: 0; border-radius: 10px; padding: 0 16px; cursor: pointer;
+      background: #ffd84d; color: #3d3300; font-weight: 700; font-size: 14px;
+    }
+    #searchBtn:hover { background: #ffcf22; }
+    .status { margin: 16px 2px 10px; font-size: 13px; color: #52748a; }
+    .result {
+      background: rgba(255,255,255,.88); border: 1px solid #c9eaf7;
+      border-radius: 12px; padding: 13px; margin-bottom: 9px; cursor: pointer;
+    }
+    .result:hover { border-color: #6dc5e7; transform: translateY(-1px); }
+    .name { font-weight: 700; font-size: 15px; margin-bottom: 5px; color: #173f59; }
+    .addr, .phone { font-size: 12px; line-height: 1.45; color: #627d8e; }
+    #map { flex: 1; height: 100%; min-width: 0; }
+    .info { padding: 8px 10px; min-width: 160px; line-height: 1.4; }
+    .info strong { font-size: 14px; color: #16324a; }
+    .info div { margin-top: 3px; font-size: 11px; color: #667; }
+    @media (max-width: 700px) {
+      .app { flex-direction: column; }
+      .sidebar { width: 100%; min-width: 0; height: 42%; border-right: 0; border-bottom: 1px solid #b7e4f7; padding: 16px; }
+      #map { height: 58%; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <h1>💊 고양시 약국 지도</h1>
+    <p class="subtitle">약국 이름에 포함된 단어를 입력해 검색하세요.<br>예: 일산, 온누리, 중앙</p>
+    <div class="search-row">
+      <input id="keyword" type="text" placeholder="약국 이름 검색" autocomplete="off" />
+      <button id="searchBtn" type="button">검색</button>
+    </div>
+    <div id="status" class="status">고양시 약국을 불러오는 중입니다.</div>
+    <div id="results"></div>
+  </aside>
+  <main id="map"></main>
+</div>
+
+<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0284f30d15a21cd8c8d334026cc26d3b&libraries=services"></script>
+<script>
+  const GOYANG_CENTER = new kakao.maps.LatLng(37.6584, 126.8320);
+  const map = new kakao.maps.Map(document.getElementById("map"), {
+    center: GOYANG_CENTER,
+    level: 8
+  });
+
+  const places = new kakao.maps.services.Places();
+  const infowindow = new kakao.maps.InfoWindow({ zIndex: 5 });
+  const statusEl = document.getElementById("status");
+  const resultsEl = document.getElementById("results");
+  const keywordEl = document.getElementById("keyword");
+
+  let pharmacies = [];
+  let markers = [];
+
+  function isGoyang(place) {
+    const address = (place.road_address_name || "") + " " + (place.address_name || "");
+    return address.includes("고양시");
+  }
+
+  function clearMarkers() {
+    markers.forEach(marker => marker.setMap(null));
+    markers = [];
+    infowindow.close();
+  }
+
+  function escapeHtml(value) {
+    return String(value || "").replace(/[&<>"']/g, ch => ({
+      "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
+    }[ch]));
+  }
+
+  function showPlaces(list) {
+    clearMarkers();
+    resultsEl.innerHTML = "";
+
+    if (!list.length) {
+      statusEl.textContent = "검색 조건에 맞는 고양시 약국이 없습니다.";
+      return;
+    }
+
+    statusEl.textContent = `${list.length}개의 약국이 표시되었습니다.`;
+    const bounds = new kakao.maps.LatLngBounds();
+
+    list.forEach(place => {
+      const position = new kakao.maps.LatLng(Number(place.y), Number(place.x));
+      const marker = new kakao.maps.Marker({ map, position });
+      markers.push(marker);
+      bounds.extend(position);
+
+      const address = place.road_address_name || place.address_name || "주소 정보 없음";
+      const infoHtml =
+        `<div class="info"><strong>${escapeHtml(place.place_name)}</strong>` +
+        `<div>${escapeHtml(address)}</div></div>`;
+
+      kakao.maps.event.addListener(marker, "click", () => {
+        infowindow.setContent(infoHtml);
+        infowindow.open(map, marker);
+      });
+
+      const item = document.createElement("div");
+      item.className = "result";
+      item.innerHTML =
+        `<div class="name">${escapeHtml(place.place_name)}</div>` +
+        `<div class="addr">${escapeHtml(address)}</div>` +
+        (place.phone ? `<div class="phone">${escapeHtml(place.phone)}</div>` : "");
+
+      item.addEventListener("click", () => {
+        map.panTo(position);
+        map.setLevel(3);
+        infowindow.setContent(infoHtml);
+        infowindow.open(map, marker);
+      });
+      resultsEl.appendChild(item);
+    });
+
+    map.setBounds(bounds);
+  }
+
+  // PM9 = 카카오 장소 카테고리의 '약국'
+  // 고양시 전체를 얻기 위해 페이지를 순차적으로 수집한 뒤 주소가 고양시인 결과만 남깁니다.
+  function loadGoyangPharmacies() {
+    pharmacies = [];
+    statusEl.textContent = "고양시 약국을 불러오는 중입니다.";
+
+    function callback(data, status, pagination) {
+      if (status === kakao.maps.services.Status.OK) {
+        pharmacies.push(...data.filter(isGoyang));
+
+        if (pagination.hasNextPage) {
+          pagination.nextPage();
+        } else {
+          // 같은 장소가 중복될 가능성에 대비해 id 기준으로 제거
+          const unique = new Map();
+          pharmacies.forEach(p => unique.set(p.id || `${p.place_name}-${p.x}-${p.y}`, p));
+          pharmacies = [...unique.values()];
+          showPlaces(pharmacies);
+        }
+      } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+        statusEl.textContent = "고양시 약국을 찾지 못했습니다.";
+      } else {
+        statusEl.textContent = "약국 정보를 불러오지 못했습니다. 카카오 개발자 콘솔의 Web 도메인 등록을 확인하세요.";
+      }
+    }
+
+    // 지도 중심과 충분히 큰 반경으로 고양시 주변 약국을 검색하고 주소로 다시 고양시만 필터링
+    places.categorySearch("PM9", callback, {
+      location: GOYANG_CENTER,
+      radius: 20000,
+      size: 15,
+      sort: kakao.maps.services.SortBy.DISTANCE
+    });
+  }
+
+  function searchByName() {
+    const keyword = keywordEl.value.trim().toLowerCase();
+    if (!keyword) {
+      showPlaces(pharmacies);
+      return;
+    }
+    const filtered = pharmacies.filter(p =>
+      (p.place_name || "").toLowerCase().includes(keyword)
+    );
+    showPlaces(filtered);
+  }
+
+  document.getElementById("searchBtn").addEventListener("click", searchByName);
+  keywordEl.addEventListener("keydown", e => {
+    if (e.key === "Enter") searchByName();
+  });
+
+  loadGoyangPharmacies();
+</script>
+</body>
+</html>
