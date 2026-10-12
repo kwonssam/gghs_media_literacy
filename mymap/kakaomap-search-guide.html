@@ -569,6 +569,66 @@
     .cmp-table th, .cmp-table td { padding:8px 6px; word-break:keep-all; }
     .cmp-table td:first-child { width:64px !important; white-space:normal !important; }
   }
+  /* ── 활동 순서 ── */
+  .order { background:var(--surface); border:2px solid var(--text); border-radius:16px; padding:22px; margin-bottom:28px; }
+  .order-title { font-size:22px; font-weight:900; margin-bottom:4px; }
+  .order-desc { font-size:15px; color:var(--text2); margin-bottom:16px; }
+  .loop { display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; background:var(--orange-bg); border:2px solid var(--orange-border); border-radius:12px; padding:14px; margin-bottom:18px; }
+  .loop-step { background:#fff; border:2px solid var(--orange); border-radius:999px; padding:8px 16px; text-align:center; font-weight:900; font-size:16px; color:var(--text); line-height:1.3; }
+  .loop-step small { display:block; font-weight:500; font-size:12.5px; color:var(--text2); }
+  .loop-arrow { font-size:22px; font-weight:900; color:var(--orange); }
+  .loop-note { flex-basis:100%; text-align:center; font-size:14.5px; color:#92400e; font-weight:700; margin-top:4px; }
+  .order-group { display:grid; grid-template-columns:120px 1fr; gap:12px; padding:12px 0; border-top:1px dashed var(--border); }
+  .order-group:first-of-type { border-top:none; }
+  .og-label { font-weight:900; font-size:15px; padding-top:6px; }
+  .og-steps { display:flex; flex-direction:column; gap:6px; }
+  .og-step { display:flex; gap:10px; align-items:flex-start; font-size:15.5px; color:var(--text); line-height:1.6; }
+  .og-num { flex:0 0 28px; height:28px; border-radius:50%; background:var(--text); color:#fff; font-weight:900; font-size:14px; display:flex; align-items:center; justify-content:center; }
+  .og-step.up .og-num { background:var(--orange); }
+  .og-step a { color:var(--primary); font-size:14px; white-space:nowrap; }
+  .og-step .tag { font-size:12.5px; font-weight:700; color:#92400e; background:var(--orange-bg); border:1px solid var(--orange-border); border-radius:8px; padding:0 6px; margin-left:4px; white-space:nowrap; }
+  /* ── 열쇠 그림 ── */
+  .keybox { background:var(--surface); border:2px solid var(--kakao-border); border-radius:16px; padding:20px; margin-bottom:28px; }
+  .keybox-title { font-size:20px; font-weight:900; margin-bottom:6px; }
+  .keybox-desc { font-size:15.5px; color:var(--text2); margin-bottom:14px; }
+  .keyreg { display:flex; align-items:center; gap:10px; background:var(--kakao-bg); border-radius:10px; padding:10px 14px; margin-bottom:12px; font-size:15px; flex-wrap:wrap; }
+  .keyreg code { font-size:14.5px; }
+  .keycase { display:grid; grid-template-columns:1.3fr auto 1fr; gap:10px; align-items:center; padding:10px 12px; border-radius:10px; margin-bottom:8px; font-size:15px; }
+  .keycase.no { background:var(--red-bg); border:1.5px solid var(--red-border); }
+  .keycase.ok { background:var(--green-bg); border:1.5px solid var(--green-border); }
+  .keycase .where b { display:block; font-size:15px; }
+  .keycase .where code { font-size:13px; word-break:break-all; }
+  .keycase .arrow { font-weight:900; color:var(--text3); }
+  .keycase .res { font-weight:900; font-size:16px; }
+  .keycase.no .res { color:var(--red); } .keycase.ok .res { color:var(--green); }
+  .keycase .res small { display:block; font-weight:500; font-size:13px; color:var(--text2); }
+  /* ── GitHub 단계 ── */
+  .gh-steps { list-style:none; display:flex; flex-direction:column; gap:10px; margin:6px 0 4px; }
+  .gh-steps li { display:grid; grid-template-columns:30px 1fr; gap:10px; align-items:start; font-size:15.5px; color:var(--text); line-height:1.7; }
+  .gh-steps .n { width:30px; height:30px; border-radius:8px; background:#24292f; color:#fff; font-weight:900; display:flex; align-items:center; justify-content:center; font-size:14px; }
+  .gh-steps .sub { display:block; font-size:14px; color:var(--text2); }
+  .btnlike { display:inline-block; font-size:13.5px; font-weight:700; background:#f6f8fa; border:1px solid #d0d7de; border-radius:6px; padding:0 8px; color:#24292f; white-space:nowrap; }
+  .btnlike.green { background:#1f883d; color:#fff; border-color:#1a7f37; }
+  .gh-h { font-size:16px; font-weight:900; margin:16px 0 4px; display:flex; align-items:center; gap:8px; }
+  .gh-h .pill { font-size:12.5px; background:#24292f; color:#fff; border-radius:999px; padding:1px 10px; }
+  .gh-h .pill.o { background:var(--orange); }
+  /* ── 탭 규칙 ── */
+  .tabrule { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:8px 0; }
+  .tabrule div { border-radius:10px; padding:10px 12px; font-size:15px; line-height:1.6; }
+  .tabrule .c { background:var(--kakao-bg); border:1.5px solid var(--kakao-border); }
+  .tabrule .k { background:var(--orange-bg); border:1.5px solid var(--orange-border); }
+  .tabrule b { display:block; font-size:15.5px; }
+  @media (max-width:760px){
+    .order-group { grid-template-columns:1fr; gap:4px; }
+    .keycase { grid-template-columns:1fr; gap:2px; }
+    .keycase .arrow { display:none; }
+    .tabrule { grid-template-columns:1fr; }
+  }
+  .stepC .step-card-head, .stepD .step-card-head { display:none; }
+  .step-card.stepC { border:3px solid var(--purple-border); margin-top:28px; }
+  .step-card.stepD { border:3px solid var(--green-border); margin-top:40px; }
+  .step-band.c { background:var(--purple); } .step-band.d { background:var(--green); }
+  .goal.d { background:var(--green-bg); border-color:var(--green-border); }
 </style>
 </head>
 <body>
@@ -605,10 +665,12 @@
       <div style="background:var(--teal-bg); border:1px solid var(--teal-border); border-radius:8px; padding:12px; font-size:12px; color:var(--text2);">
         <strong style="color:var(--teal);">📑 이 페이지 목차</strong>
         <div style="margin-top:8px; display:flex; flex-direction:column; gap:4px;">
+          <a href="#sec-0" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">📋 활동 순서</a>
           <a href="#sec-1" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">API 핵심 개념 요약</a>
           <a href="#sec-2" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">실습 준비 — 카카오 API 키 발급</a>
-          <a href="#sec-3" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">실습 순서 — 2단계로 완성</a>
-          <a href="#sec-4" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">🏆 도전 — 나만의 지도 설계하고 만들기</a>
+          <a href="#sec-gh" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">실습 준비 — GitHub에 올리기</a>
+          <a href="#sec-3" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">STEP 1 — 지도 띄우기</a>
+          <a href="#sec-4" style="display:block; color:var(--text3); text-decoration:none; padding:2px 0; font-size:11px;">STEP 2, 3 — 나만의 지도</a>
         </div>
       </div>
     </div>
@@ -651,8 +713,8 @@
         </ul>
         <div class="ladder">
           <div>같이 쓰기<small>STEP 1</small></div><span>›</span>
-          <div>빈칸 채우기<small>STEP 2</small></div><span>›</span>
-          <div>직접 쓰기<small>도전 2</small></div>
+          <div>기획하기<small>STEP 2</small></div><span>›</span>
+          <div>직접 쓰기<small>STEP 3</small></div>
         </div>
         <p style="margin-bottom:0;">뒤로 갈수록 <strong>내가 맡는 부분이 늘어나요.</strong> 마지막에는 GitHub에 올려 누구나 쓸 수 있는 지도로 완성해요.</p>
       </div>
@@ -668,72 +730,65 @@
     </div>
   </div>
 
-  <!-- ══════ 전체 과정 도식 ══════ -->
-  <div class="process-wrap">
-    <div class="process-title">4차시 전체 흐름</div>
+  <!-- ══════ 활동 순서 ══════ -->
+  <div class="order" id="sec-0">
+    <div class="order-title">📋 활동 순서</div>
+    <div class="order-desc">이 순서대로 하면 돼요. 헷갈리면 이 상자로 돌아와요.</div>
 
-    <div class="process-flow">
-      <!-- 1차시 -->
-      <div class="proc-step key">
-        <div class="proc-num key">1차시</div>
-        <div class="proc-icon">🔑</div>
-        <div class="proc-label">개념 + 키 발급</div>
-        <div class="proc-sub">API 개념 정리<br>카카오 키 발급<br>STEP 1 시범 실습</div>
-      </div>
-      <div class="proc-arrow">→</div>
-
-      <!-- 2차시 -->
-      <div class="proc-step s1">
-        <div class="proc-num s1">2차시</div>
-        <div class="proc-icon">🔍</div>
-        <div class="proc-label">검색 기능 추가</div>
-        <div class="proc-sub">STEP 2 빈칸 채우기<br>마커·리스트·팝업<br>도전 1 탐색 시작</div>
-      </div>
-      <div class="proc-arrow">→</div>
-
-      <!-- 3차시 -->
-      <div class="proc-step s3">
-        <div class="proc-num s3">3차시</div>
-        <div class="proc-icon">✏️</div>
-        <div class="proc-label">기획 + 설계</div>
-        <div class="proc-sub">기능 카탈로그 탐색<br>기획서 앞면 작성<br>도전 2 시작</div>
-      </div>
-      <div class="proc-arrow">→</div>
-
-      <!-- 4차시 -->
-      <div class="proc-step done">
-        <div class="proc-num done">4차시</div>
-        <div class="proc-icon">🎉</div>
-        <div class="proc-label">완성 + 배포</div>
-        <div class="proc-sub">도전 2 마무리<br>GitHub 배포<br>기획서 뒷면 작성·제출</div>
-      </div>
+    <div class="loop">
+      <div class="loop-step">① 고친다<small>AI에게 코드 받기</small></div><div class="loop-arrow">→</div>
+      <div class="loop-step">② 올린다<small>GitHub에 index.html 올리기</small></div><div class="loop-arrow">→</div>
+      <div class="loop-step">③ 확인한다<small>내 주소에서 새로고침</small></div><div class="loop-arrow">↺</div>
+      <div class="loop-note">코드를 받을 때마다 이 세 가지를 반복해요. 내 컴퓨터에서 파일을 열면 지도가 안 떠요.</div>
     </div>
 
-    <!-- 차시별 핵심 -->
-    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:16px;">
-      <div style="background:var(--kakao-bg); border:1px solid var(--kakao-border); border-radius:8px; padding:10px 12px; font-size:12px;">
-        <div style="font-weight:700; color:var(--kakao); margin-bottom:4px;">1차시</div>
-        <div style="color:var(--text2); line-height:1.6;">API·JSON·SDK 개념<br>카카오 JS 키 발급<br>시범 실습 따라하기</div>
-      </div>
-      <div style="background:var(--surface2); border:1px solid var(--kakao-border); border-radius:8px; padding:10px 12px; font-size:12px;">
-        <div style="font-weight:700; color:var(--kakao); margin-bottom:4px;">2차시</div>
-        <div style="color:var(--text2); line-height:1.6;">STEP 2 빈칸 채우기<br>검색·마커·팝업 추가<br>기능 카탈로그 탐색</div>
-      </div>
-      <div style="background:var(--purple-bg); border:1px solid var(--purple-border); border-radius:8px; padding:10px 12px; font-size:12px;">
-        <div style="font-weight:700; color:var(--purple); margin-bottom:4px;">3차시</div>
-        <div style="color:var(--text2); line-height:1.6;">기획서 앞면(1~5번) 작성<br>도전 2 프롬프트 작성<br>구현 시작</div>
-      </div>
-      <div style="background:var(--green-bg); border:1px solid var(--green-border); border-radius:8px; padding:10px 12px; font-size:12px;">
-        <div style="font-weight:700; color:var(--green); margin-bottom:4px;">4차시</div>
-        <div style="color:var(--text2); line-height:1.6;">도전 2 마무리<br>GitHub Pages 배포<br>기획서 뒷면(6~8번) 쓰고 PDF 제출</div>
+    <div class="order-group">
+      <div class="og-label">처음 한 번</div>
+      <div class="og-steps">
+        <div class="og-step"><span class="og-num">1</span><div>카카오 키 발급하고 내 GitHub 주소 등록하기 <a href="#sec-2">→ 방법 보기</a></div></div>
+        <div class="og-step"><span class="og-num">2</span><div>GitHub에 <code>mymap</code> 저장소 만들고 Pages 켜기 <a href="#sec-gh">→ 방법 보기</a></div></div>
       </div>
     </div>
-
-    <div class="tip" style="margin-top:16px; margin-bottom:0;">
-      <strong>프롬프트 공통 규칙:</strong> ① 내가 뭘 만드는지 → ② 현재 코드 붙여넣기 → ③ 원하는 기능 구체적으로 — 이 순서를 지켜야 AI가 정확한 코드를 줘요.
+    <div class="order-group">
+      <div class="og-label">STEP 1<br><small style="font-weight:500;">지도 띄우기</small></div>
+      <div class="og-steps">
+        <div class="og-step"><span class="og-num">3</span><div>선생님과 같이 프롬프트 써서 index.html 받기 <a href="#sec-3">→ STEP 1</a></div></div>
+        <div class="og-step up"><span class="og-num">4</span><div>GitHub에 올리고 내 주소에서 지도가 뜨는지 확인 <span class="tag">올리고 확인</span></div></div>
+      </div>
+    </div>
+    <div class="order-group">
+      <div class="og-label">STEP 2<br><small style="font-weight:500;">내 지도 기획하기</small></div>
+      <div class="og-steps">
+        <div class="og-step"><span class="og-num">5</span><div>기능 목록을 보고 <a href="kakaomap-planning-sheet.html" target="_blank" style="font-size:inherit;">기획서</a> 앞면(1~5번) 쓰기 <a href="#sec-4">→ STEP 2</a></div></div>
+      </div>
+    </div>
+    <div class="order-group">
+      <div class="og-label">STEP 3<br><small style="font-weight:500;">내 지도 만들기</small></div>
+      <div class="og-steps">
+        <div class="og-step"><span class="og-num">6</span><div>기획서를 보고 프롬프트 빈칸 채워서 코드 받기 <a href="#ch2">→ STEP 3</a></div></div>
+        <div class="og-step up"><span class="og-num">7</span><div>다시 올리고 기획대로 됐는지 확인 <span class="tag">올리고 확인</span></div></div>
+      </div>
+    </div>
+    <div class="order-group">
+      <div class="og-label">마무리</div>
+      <div class="og-steps">
+        <div class="og-step"><span class="og-num">8</span><div>기획서 뒷면(6~8번) 쓰고 PDF로 클래스룸에 제출</div></div>
+      </div>
     </div>
   </div>
 
+  <!-- ══════ 왜 GitHub에 올려야 하나 ══════ -->
+  <div class="keybox">
+    <div class="keybox-title">🔑 왜 GitHub에 올려야 지도가 뜨나요?</div>
+    <div class="keybox-desc">카카오 JavaScript 키는 <strong>등록해 둔 주소에서만 열리는 열쇠</strong>예요. 카카오는 지도를 보여 주기 전에 "이 페이지가 등록된 주소에서 열렸나?"를 확인해요.</div>
+    <div class="keyreg">🗝️ 내 키에 등록한 주소 <code class="mono">https://내아이디.github.io</code></div>
+    <div class="keycase no"><div class="where"><b>💻 내 컴퓨터에서 파일 열기</b><code>file:///C:/Users/.../index.html</code></div><div class="arrow">→</div><div class="res">✕ 지도 안 뜸<small>등록 안 된 곳이에요</small></div></div>
+    <div class="keycase ok"><div class="where"><b>🌐 GitHub에 올린 내 주소</b><code>https://내아이디.github.io/mymap/</code></div><div class="arrow">→</div><div class="res">○ 지도 뜸<small>등록한 주소예요</small></div></div>
+    <div class="keycase no"><div class="where"><b>👥 친구 주소에 내 키를 넣기</b><code>https://친구아이디.github.io/mymap/</code></div><div class="arrow">→</div><div class="res">✕ 지도 안 뜸<small>내 키에 등록된 주소가 아니에요</small></div></div>
+    <div class="tip" style="margin-bottom:0;"><strong>그래서</strong> 코드를 고칠 때마다 GitHub에 다시 올리고, 내 주소에서 확인해요. 지도가 안 뜨면 먼저 ① 주소창이 <code>https://내아이디.github.io/mymap/</code>인지 ② 카카오에 등록한 주소에 오타가 없는지 ③ 코드에 넣은 키가 JavaScript 키인지 확인해요.</div>
+  </div>
+
+  <!-- ══════ 전체 과정 도식 ══════ -->
   <!-- API 개념 요약 -->
   <div class="part">
     <div class="sec-title" id="sec-1">API 핵심 개념 요약</div>
@@ -792,29 +847,59 @@
     </div>
   </div>
 
+  <!-- GitHub 올리기 -->
+  <div class="part">
+    <div class="sec-title" id="sec-gh">실습 준비 — GitHub에 올리기</div>
+    <p class="desc">GitHub Pages는 내 파일을 <strong>인터넷 주소가 있는 웹페이지</strong>로 만들어 줘요. 처음 한 번만 저장소를 만들고, 그다음부터는 파일만 바꿔 올리면 돼요.</p>
+
+    <div class="step-card">
+      <div class="step-card-head" style="background:#f6f8fa;">
+        <div class="step-num" style="background:#24292f;">🐙</div>
+        <div>
+          <div class="step-card-title">GitHub 저장소 만들고 Pages 켜기</div>
+          <div class="step-card-sub">github.com — STEP 1에서 index.html을 받은 뒤에 해요</div>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <div class="gh-h"><span class="pill">처음 한 번</span> 저장소 만들기</div>
+        <ul class="gh-steps">
+          <li><span class="n">1</span><div><code>github.com</code>에 로그인해요.</div></li>
+          <li><span class="n">2</span><div>오른쪽 위 <span class="btnlike">+</span> → <span class="btnlike">New repository</span>를 눌러요.</div></li>
+          <li><span class="n">3</span><div><strong>Repository name</strong>에 <code>mymap</code>을 써요.<span class="sub">소문자로, 띄어쓰기 없이 써요. 이 이름이 주소 끝(/mymap/)이 돼요.</span></div></li>
+          <li><span class="n">4</span><div><strong>Public</strong>이 선택되어 있는지 보고 <span class="btnlike green">Create repository</span>를 눌러요.</div></li>
+        </ul>
+
+        <div class="gh-h"><span class="pill">처음 한 번</span> 파일 올리기</div>
+        <ul class="gh-steps">
+          <li><span class="n">5</span><div>새 저장소 화면에서 <span class="btnlike">uploading an existing file</span> 글자를 눌러요.<span class="sub">안 보이면 <span class="btnlike">Add file</span> → <span class="btnlike">Upload files</span>를 눌러요.</span></div></li>
+          <li><span class="n">6</span><div>내 <code>index.html</code> 파일을 화면에 끌어다 놓아요.<span class="sub">파일 이름은 꼭 <code>index.html</code>(소문자)이어야 해요. 폴더째 올리지 말고 파일만 올려요.</span></div></li>
+          <li><span class="n">7</span><div>아래쪽 <span class="btnlike green">Commit changes</span>를 눌러요.</div></li>
+        </ul>
+
+        <div class="gh-h"><span class="pill">처음 한 번</span> Pages 켜기</div>
+        <ul class="gh-steps">
+          <li><span class="n">8</span><div>저장소 위쪽 메뉴에서 <span class="btnlike">⚙ Settings</span>를 눌러요.</div></li>
+          <li><span class="n">9</span><div>왼쪽 메뉴에서 <span class="btnlike">Pages</span>를 눌러요.</div></li>
+          <li><span class="n">10</span><div><strong>Branch</strong>에서 <span class="btnlike">main</span>과 <span class="btnlike">/ (root)</span>를 고르고 <span class="btnlike">Save</span>를 눌러요.</div></li>
+          <li><span class="n">11</span><div>1~2분 기다린 뒤 새로고침하면 위쪽에 <strong>Your site is live at …</strong>이 나와요. 그 주소가 내 지도 주소예요.<span class="sub"><code>https://내아이디.github.io/mymap/</code> — 기획서 5번에 이 주소를 적어요.</span></div></li>
+        </ul>
+
+        <div class="gh-h"><span class="pill o">고칠 때마다</span> 다시 올리기</div>
+        <ul class="gh-steps">
+          <li><span class="n">1</span><div>내 <code>mymap</code> 저장소에서 <span class="btnlike">Add file</span> → <span class="btnlike">Upload files</span>를 눌러요.</div></li>
+          <li><span class="n">2</span><div>새로 받은 <code>index.html</code>을 끌어다 놓고 <span class="btnlike green">Commit changes</span>를 눌러요.<span class="sub">이름이 같으면 예전 파일이 새 파일로 바뀌어요.</span></div></li>
+          <li><span class="n">3</span><div>1~2분 기다린 뒤 내 주소에서 <strong>Ctrl + Shift + R</strong>로 새로고침해요.<span class="sub">그래도 예전 화면이면 저장소의 <span class="btnlike">Actions</span> 탭에서 초록색 체크가 뜰 때까지 기다려요.</span></div></li>
+        </ul>
+
+        <div class="warn" style="margin-top:14px; margin-bottom:0;"><strong>지도가 안 뜨면?</strong> 카카오에 등록한 주소(<code>https://내아이디.github.io</code>)와 지금 주소창의 아이디가 같은지 먼저 봐요. 그다음 F12 → Console 탭의 빨간 오류를 복사해서 AI에게 현재 코드와 함께 물어봐요.</div>
+      </div>
+    </div>
+  </div>
+
   <!-- 실습 순서 -->
   <div class="part">
-    <div class="sec-title" id="sec-3">실습 순서 — 2단계로 완성</div>
-    <p class="desc">한 번에 다 만들지 않음. 아래 순서대로 하나씩 추가하며 완성. <strong>각 단계에서 프롬프트를 작성해서 AI에게 코드를 받아요.</strong></p>
-
-    <!-- STEP 1, 2 비교 -->
-    <div class="cmp-wrap">
-      <div class="cmp-title">STEP 1과 STEP 2는 무엇이 다른가요?</div>
-      <div class="cmp-screens">
-        <div class="cmp-col a"><div class="cmp-label">STEP 1 · 지도 띄우기</div><div class="scr"><div class="scr-left"><div class="scr-empty">아직 비어 있음</div></div><div class="scr-map new"><span class="scr-tag">🗺️ 카카오 지도</span></div></div></div>
-        <div class="cmp-arrow">→</div>
-        <div class="cmp-col b"><div class="cmp-label">STEP 2 · 검색 기능 붙이기</div><div class="scr"><div class="scr-left"><div class="scr-search new">🔍 검색창 <b>버튼</b></div><div class="scr-list new"><i></i><i></i><i></i><span>결과 리스트</span></div></div><div class="scr-map"><span class="scr-tag">🗺️ 카카오 지도</span><span class="pin new" style="left:30%;top:40%">📍</span><span class="pin new" style="left:55%;top:58%">📍</span><span class="pin new" style="left:70%;top:30%">📍</span><span class="pop new" style="left:44%;top:12%">장소 이름<br>주소</span></div></div></div>
-      </div>
-      <div class="cmp-legend"><span class="new-dot"></span> 색칠된 부분이 그 단계에서 새로 생기는 것</div>
-      <table class="cmp-table">
-        <tr><th></th><th class="a">STEP 1 · 지도 띄우기</th><th class="b">STEP 2 · 검색 기능 붙이기</th></tr>
-        <tr><td>끝나면 화면</td><td>지도만 뜸</td><td>검색창, 리스트, 마커, 팝업이 생김</td></tr>
-        <tr><td>프롬프트</td><td>선생님과 <strong>같이 쓰기</strong></td><td>내가 <strong>빈칸 채우기</strong></td></tr>
-        <tr><td>새로 배우는 것</td><td>프롬프트 4칸 구조 (① 페르소나 ② 맥락 ③ 지시 ④ 출력)</td><td><strong>내 코드를 붙여넣고 이어서 고치기</strong> (도전 2에서도 그대로 써요)</td></tr>
-        <tr><td>완성 기준</td><td>지도가 뜨면 끝</td><td>검색하면 마커와 팝업이 나오면 끝</td></tr>
-      </table>
-      <div class="cmp-why"><strong>왜 나눠서 하나요?</strong> 한 번에 다 만들면 오류가 났을 때 어디서 났는지 찾기 어려워요. 지도가 뜨는 것부터 확인하고, 그 위에 기능을 하나씩 더해요.</div>
-    </div>
+    <div class="sec-title" id="sec-3">STEP 1 — 지도 띄우기</div>
+    <p class="desc">먼저 <strong>지도가 뜨는 것까지만</strong> 만들어요. 한 번에 다 만들면 오류가 났을 때 어디서 났는지 찾기 어려워요.</p>
 
     <!-- STEP 1 -->
     <div class="step-card stepA">
@@ -869,7 +954,7 @@
 - 페이지가 열리면 위치 권한을 허용 받아서 현재 위치를 중심으로 지도에 표시
 - 지도가 제대로 로드된 후에 실행되도록 해줘 (로딩 오류 방지)
 - 지도 확대 레벨은 5
-- 카카오 JavaScript 키: <span class="ph">[선생님 JS 키]</span>
+- 카카오 JavaScript 키: <span class="ph">[내 JavaScript 키]</span>
 
 <span class="pc4">④ 출력 형식</span>
 HTML, CSS, JS를 하나의 index.html 파일로 합쳐서 보여줘.
@@ -892,8 +977,8 @@ HTML, CSS, JS를 하나의 index.html 파일로 합쳐서 보여줘.
             <div style="display:flex; align-items:center; padding:0 6px; color:var(--text3); font-size:16px;">→</div>
             <div style="flex:1; background:var(--green-bg); border-radius:0 10px 10px 0; border:1.5px solid var(--green-border); border-left:none; padding:12px 14px; text-align:center;">
               <div style="font-size:20px; margin-bottom:6px;">🗺️</div>
-              <div style="font-size:12px; font-weight:700; color:var(--green); margin-bottom:4px;">지도 확인!</div>
-              <div style="font-size:11.5px; color:var(--text3); line-height:1.6;">index.html 브라우저로<br>열어서 지도가 뜨면 완성</div>
+              <div style="font-size:12px; font-weight:700; color:var(--green); margin-bottom:4px;">GitHub에 올려 확인!</div>
+              <div style="font-size:11.5px; color:var(--text3); line-height:1.6;">내 주소에서 열어<br>지도가 뜨면 완성</div>
             </div>
           </div>
         </div>
@@ -901,220 +986,24 @@ HTML, CSS, JS를 하나의 index.html 파일로 합쳐서 보여줘.
         <p style="font-weight:700; margin-bottom:8px; color:var(--text3); font-size:13px;">✅ 완성 기준</p>
         <ul class="check-list">
           <li>index.html 파일 하나로 완성됨</li>
-          <li>index.html을 브라우저로 열면 카카오 지도가 화면에 뜸</li>
+          <li>GitHub에 올리고 내 주소(<code>https://내아이디.github.io/mymap/</code>)에서 열면 카카오 지도가 뜸 <a href="#sec-gh">→ 올리는 방법</a></li>
         </ul>
-      </div>
-    </div>
-
-    <!-- STEP 2 -->
-    <div class="step-card stepB">
-      <div class="step-band b">STEP 2 · 검색 기능 붙이기 <small>빈칸 채우기</small></div>
-      <div class="step-card-head js">
-        <div class="step-num js">2</div>
-        <div>
-          <div class="step-card-title js">검색, 마커, 리스트, 팝업 더하기</div>
-          <div class="step-card-sub">키워드 입력 → 마커 표시 + 결과 리스트 + 클릭 팝업까지 한 번에</div>
-        </div>
-      </div>
-      <div class="step-card-body">
-
-        <div class="goal b"><div class="goal-h">🎯 이 단계가 끝나면</div><div class="goal-body"><div class="scr"><div class="scr-left"><div class="scr-search new">🔍 검색창 <b>버튼</b></div><div class="scr-list new"><i></i><i></i><i></i><span>결과 리스트</span></div></div><div class="scr-map"><span class="scr-tag">🗺️ 카카오 지도</span><span class="pin new" style="left:30%;top:40%">📍</span><span class="pin new" style="left:55%;top:58%">📍</span><span class="pin new" style="left:70%;top:30%">📍</span><span class="pop new" style="left:44%;top:12%">장소 이름<br>주소</span></div></div><div class="goal-text">키워드를 입력하면 <strong>지도에 마커, 왼쪽에 결과 리스트, 클릭하면 팝업</strong>이 나와요.<br>STEP 1에서 만든 화면 위에 더하는 거예요.</div></div></div>
-    <div class="pmap">
-      <div class="pmap-title">🧭 이 프롬프트의 각 줄이 무엇이 되나요?</div>
-      <div class="pmap-desc">핵심 줄만 골랐어요. 내가 채운 말이 그대로 화면의 기능이 돼요.</div>
-      <div class="pmap-head"><span>프롬프트에 쓰는 것</span><span>화면에 생기는 것</span><span>내가 확인할 것</span></div>
-      <div class="pmap-row r2 key"><span class="pm-p"><i>②</i>현재 index.html 전체 <span class="pm-badge">가장 중요</span></span><span class="pm-r">STEP 1 코드에 이어서 고쳐 줌</span><span class="pm-c">2분할 화면과 지도가 그대로 있나?</span></div>
-      <div class="pmap-row r3"><span class="pm-p"><i>③</i>검색창에 ___ 입력</span><span class="pm-r">검색창과 버튼</span><span class="pm-c">버튼을 누르면 반응하나?</span></div>
-      <div class="pmap-row r3"><span class="pm-p"><i>③</i>지도에 ___로 표시</span><span class="pm-r">지도 위 마커</span><span class="pm-c">검색한 곳 근처에 찍히나?</span></div>
-      <div class="pmap-row r3"><span class="pm-p"><i>③</i>___ 클릭 시 ___ 팝업</span><span class="pm-r">클릭하면 뜨는 말풍선</span><span class="pm-c">팝업 내용이 내가 말한 것과 같나?</span></div>
-      <div class="pmap-row r3"><span class="pm-p"><i>③</i>기존 ___ 지우기</span><span class="pm-r">새로 검색하면 이전 결과가 사라짐</span><span class="pm-c">두 번 검색해도 마커가 쌓이지 않나?</span></div>
-      <div class="pmap-foot">② 현재 코드를 빼면 AI는 STEP 1을 모른 채 새 코드를 처음부터 다시 써요. 그러면 앞에서 만든 화면이 사라질 수 있어요.</div>
-    </div>
-
-        <!-- STEP 2 프롬프트 -->
-        <div class="prompt-section">
-          <div class="prompt-tab-bar">
-            <div class="prompt-tab active">📋 STEP 2 프롬프트 — 직접 작성해봐요</div>
-            <div class="prompt-tab">현재 코드를 반드시 같이 붙여넣어요</div>
-          </div>
-          <div class="prompt-label-bar">🟥 빈칸을 채워서 완성해요 — 아래 예시 보기를 참고하되 그대로 복붙 금지!</div>
-          <div class="prompt-box"><span class="pc1">① 페르소나</span>
-나는 카카오맵 <span class="ph">__________</span> 서비스를 만들고 있는 고등학생이야.
-
-<span class="pc2">② 맥락 + 현재 코드</span>
-아래는 내 현재 index.html 전체야:
-<span class="ph">[내 코드 직접 붙여넣기 — 이게 없으면 AI가 엉뚱한 코드를 줘요!]</span>
-
-<span class="pc3">③ 구체적 지시</span>
-<span class="ph">__________</span> 기능을 추가해줘:
-- 검색창에 <span class="ph">__________</span> 입력 후 버튼 클릭
-- 카카오 <span class="ph">__________</span> API로 주변 장소 검색
-- 검색 결과를 지도에 <span class="ph">__________</span>로 표시
-- 왼쪽 리스트에 <span class="ph">__________</span>과 <span class="ph">__________</span> 나열
-- <span class="ph">__________</span> 클릭 시 <span class="ph">__________</span> 팝업 표시
-- 새로 검색할 때 기존 <span class="ph">__________</span>는 지우기
-
-<span class="pc4">④ 출력 형식</span>
-전체 index.html을 다시 보여줘.
-변수명은 영어로, 주석은 한국어로.</div>
-        </div>
-
-
-        <details class="more"><summary>💡 빈칸 예시 보기</summary>
-        <!-- 빈칸 예시 -->
-        <div style="border:1.5px solid var(--border); border-radius:10px; overflow:hidden; margin-top:10px; margin-bottom:14px;">
-          <div style="background:var(--surface2); padding:10px 16px; font-size:11px; font-weight:700; color:var(--text3); letter-spacing:.08em; text-transform:uppercase;">
-            💡 빈칸 예시 — 아래는 가능한 것 중 일부일 뿐이에요. 내 지도 주제에 맞게 다르게 써봐요!
-          </div>
-          <table style="width:100%; border-collapse:collapse; font-size:13px;">
-            <thead>
-              <tr style="background:var(--surface2); border-bottom:1px solid var(--border);">
-                <th style="padding:9px 14px; text-align:left; color:var(--text3); font-weight:700; width:38%;">빈칸</th>
-                <th style="padding:9px 14px; text-align:left; color:var(--text3); font-weight:700;">예시 (이 외에도 얼마든지 가능해요)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="border-bottom:1px dashed var(--border);">
-                <td style="padding:9px 14px; color:var(--kakao); font-weight:700;">① 서비스 이름</td>
-                <td style="padding:9px 14px; color:var(--text2);">장소 검색 / 맛집 탐색 / 동네 안전 정보 / <span style="color:var(--text3); font-style:italic;">내가 만들 서비스 이름은?</span></td>
-              </tr>
-              <tr style="border-bottom:1px dashed var(--border);">
-                <td style="padding:9px 14px; color:var(--kakao); font-weight:700;">③ 기능 이름</td>
-                <td style="padding:9px 14px; color:var(--text2);">장소 검색 / 키워드 검색 / 주변 카페 검색 / <span style="color:var(--text3); font-style:italic;">내가 추가할 기능은?</span></td>
-              </tr>
-              <tr style="border-bottom:1px dashed var(--border);">
-                <td style="padding:9px 14px; color:var(--kakao); font-weight:700;">검색창에 __ 입력</td>
-                <td style="padding:9px 14px; color:var(--text2);">키워드 / 장소 이름 / 음식 종류 / 동네 이름 / <span style="color:var(--text3); font-style:italic;">사용자가 뭘 검색하면 좋을까?</span></td>
-              </tr>
-              <tr style="border-bottom:1px dashed var(--border);">
-                <td style="padding:9px 14px; color:var(--kakao); font-weight:700;">카카오 __ API</td>
-                <td style="padding:9px 14px; color:var(--text2);">장소 검색 / 키워드 검색 (keywordSearch)</td>
-              </tr>
-              <tr style="border-bottom:1px dashed var(--border);">
-                <td style="padding:9px 14px; color:var(--kakao); font-weight:700;">지도에 __로 표시</td>
-                <td style="padding:9px 14px; color:var(--text2);">마커 / 색깔 다른 마커 / 이모지 마커 / <span style="color:var(--text3); font-style:italic;">어떻게 표시하면 더 잘 보일까?</span></td>
-              </tr>
-              <tr style="border-bottom:1px dashed var(--border);">
-                <td style="padding:9px 14px; color:var(--kakao); font-weight:700;">리스트에 __과 __ 나열</td>
-                <td style="padding:9px 14px; color:var(--text2);">이름과 주소 / 상호명과 전화번호 / 이름과 영업시간 / <span style="color:var(--text3); font-style:italic;">사용자에게 어떤 정보가 필요할까?</span></td>
-              </tr>
-              <tr style="border-bottom:1px dashed var(--border);">
-                <td style="padding:9px 14px; color:var(--kakao); font-weight:700;">__ 클릭 시 __ 팝업</td>
-                <td style="padding:9px 14px; color:var(--text2);">마커 클릭 시 이름·주소 팝업 / 마커 클릭 시 전화번호·링크 팝업 / <span style="color:var(--text3); font-style:italic;">팝업에 뭘 보여주면 유용할까?</span></td>
-              </tr>
-              <tr>
-                <td style="padding:9px 14px; color:var(--kakao); font-weight:700;">기존 __는 지우기</td>
-                <td style="padding:9px 14px; color:var(--text2);">마커 / 검색 결과 / 리스트 내용</td>
-              </tr>
-            </tbody>
-          </table>
-          <div style="padding:10px 16px; background:var(--js-bg); border-top:1px solid var(--js-border); font-size:12.5px; color:var(--text2); line-height:1.7;">
-            💬 <strong>생각해봐요:</strong> 내가 만드는 지도는 누가 쓸까요? 그 사람에게 가장 필요한 정보가 뭔지 생각하면 빈칸이 채워져요.
-          </div>
-        </div>
-
-        </details>
-
-        <p style="font-weight:700; margin-bottom:8px; color:var(--text3); font-size:13px;">✅ 완성 기준</p>
-        <ul class="check-list" style="margin-bottom:14px;">
-          <li>키워드 검색 시 지도에 마커 표시됨</li>
-          <li>왼쪽 리스트에 장소 이름 나열됨</li>
-          <li>마커 클릭 시 장소 이름·주소 팝업 표시</li>
-        </ul>
-
-        <div class="tip-green" style="margin-bottom:0;">
-          <strong>오류 발생 시:</strong> F12 → Console 탭 → 빨간 오류 메시지 복사 → AI에게 현재 코드와 함께 붙여넣고 수정 요청.
-        </div>
-
-        <details class="more"><summary>🔎 더 알아보기: 동작 흐름, JSON 데이터, 핵심 코드</summary>
-        <div class="tip" style="margin-bottom:14px;">
-          <strong>전체 동작 흐름</strong><br><br>
-          <div style="display:flex; flex-direction:column; gap:6px; font-size:14px;">
-            <div style="display:flex; align-items:center; gap:10px;">
-              <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:10px; flex-shrink:0;">1</span>
-              <span>검색 버튼 클릭</span>
-            </div>
-            <div style="padding-left:14px; color:var(--text3); font-size:13px;">↓</div>
-            <div style="display:flex; align-items:center; gap:10px;">
-              <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:10px; flex-shrink:0;">2</span>
-              <span>JS가 카카오 서버에 <strong>"이 키워드로 주변 장소 알려줘"</strong> 요청</span>
-            </div>
-            <div style="padding-left:14px; color:var(--text3); font-size:13px;">↓</div>
-            <div style="display:flex; align-items:center; gap:10px;">
-              <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:10px; flex-shrink:0;">3</span>
-              <span>카카오 서버가 <strong>JSON</strong>으로 장소 목록 배달</span>
-            </div>
-            <div style="padding-left:14px; color:var(--text3); font-size:13px;">↓</div>
-            <div style="display:flex; align-items:flex-start; gap:10px;">
-              <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:10px; flex-shrink:0; margin-top:2px;">4</span>
-              <div>
-                JS가 데이터 받아서 동시에 표시<br>
-                <span style="display:inline-flex; align-items:center; gap:5px; margin-top:5px; font-size:13px; color:var(--text2);">
-                  <span style="background:var(--kakao-bg); border:1px solid var(--kakao-border); color:var(--kakao); padding:2px 8px; border-radius:6px; font-weight:700;">① 지도에 마커</span>
-                  <span style="background:var(--kakao-bg); border:1px solid var(--kakao-border); color:var(--kakao); padding:2px 8px; border-radius:6px; font-weight:700;">② 왼쪽 리스트</span>
-                  <span style="background:var(--kakao-bg); border:1px solid var(--kakao-border); color:var(--kakao); padding:2px 8px; border-radius:6px; font-weight:700;">③ 클릭 팝업</span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <p style="font-weight:700; margin-bottom:8px; color:var(--text3); font-size:13px; margin-top:14px;">📦 카카오가 보내주는 JSON 데이터 구조</p>
-        <div class="code-wrap" style="margin-bottom:14px;">
-          <pre><span class="cm">// data[0] — 첫 번째 검색 결과 예시</span>
-{
-  <span class="str">"place_name"</span>: <span class="str">"스타벅스 경기고양삼송점"</span>,     <span class="cm">// 장소 이름</span>
-  <span class="str">"road_address_name"</span>: <span class="str">"경기 고양시 덕양구..."</span>,  <span class="cm">// 도로명 주소</span>
-  <span class="str">"x"</span>: <span class="str">"126.8345"</span>,                          <span class="cm">// 경도 (지도 위치)</span>
-  <span class="str">"y"</span>: <span class="str">"37.6612"</span>,                          <span class="cm">// 위도 (지도 위치)</span>
-  <span class="str">"phone"</span>: <span class="str">"031-000-0000"</span>,                  <span class="cm">// 전화번호</span>
-  <span class="str">"place_url"</span>: <span class="str">"http://place.map.kakao.com/..."</span>  <span class="cm">// 카카오맵 링크</span>
-}</pre>
-        </div>
-
-        <p style="font-weight:700; margin-bottom:6px; color:var(--text3); font-size:13px;">핵심 코드 — AI가 이런 코드를 넣어줄 거예요</p>
-        <div class="code-wrap" style="margin-bottom:14px;">
-          <pre><span class="kw">var</span> ps = <span class="kw">new</span> kakao.maps.services.<span class="fn">Places</span>();
-<span class="kw">var</span> infowindow = <span class="kw">new</span> kakao.maps.<span class="fn">InfoWindow</span>({ zIndex: <span class="num">1</span> });
-
-ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</span>(data, status) {
-  <span class="kw">if</span> (status === kakao.maps.services.Status.<span class="fn">OK</span>) {
-    data.<span class="fn">forEach</span>(<span class="kw">function</span>(place) {
-      <span class="cm">// ① 마커 찍기</span>
-      <span class="kw">var</span> pos = <span class="kw">new</span> kakao.maps.<span class="fn">LatLng</span>(place.y, place.x);
-      <span class="kw">var</span> marker = <span class="kw">new</span> kakao.maps.<span class="fn">Marker</span>({ map: map, position: pos });
-
-      <span class="cm">// ② 리스트에 이름 추가</span>
-      <span class="kw">var</span> item = document.<span class="fn">createElement</span>(<span class="str">'div'</span>);
-      item.textContent = place.place_name;
-      document.<span class="fn">getElementById</span>(<span class="str">'result-list'</span>).<span class="fn">appendChild</span>(item);
-
-      <span class="cm">// ③ 마커 클릭 시 팝업</span>
-      kakao.maps.event.<span class="fn">addListener</span>(marker, <span class="str">'click'</span>, <span class="kw">function</span>() {
-        infowindow.<span class="fn">setContent</span>(<span class="str">'&lt;div style="padding:8px"&gt;&lt;b&gt;'</span> + place.place_name + <span class="str">'&lt;/b&gt;&lt;br&gt;'</span> + place.road_address_name + <span class="str">'&lt;/div&gt;'</span>);
-        infowindow.<span class="fn">open</span>(map, marker);
-      });
-    });
-  }
-});</pre>
-        </div>
-
-        </details>
       </div>
     </div>
   </div>
 
-  <!-- 도전 -->
+  <!-- 나만의 지도 -->
   <div class="part">
-    <div class="sec-title" id="sec-4">🏆 도전 — 나만의 지도 설계하고 만들기</div>
-    <p class="desc">STEP 2까지 완성됐으면 이제 <strong>내가 원하는 지도를 직접 설계하고 만들어봐요.</strong> 카카오맵 샘플 페이지를 탐색하면서 쓰고 싶은 기능을 골라요.</p>
+    <div class="sec-title" id="sec-4">STEP 2, 3 — 나만의 지도 기획하고 만들기</div>
+    <p class="desc">STEP 1에서 내 주소에 지도가 떴으면, 이제 <strong>내가 원하는 지도를 기획하고(STEP 2) 직접 만들어요(STEP 3).</strong></p>
 
-    <!-- 도전 1: 기획 -->
-    <div class="step-card">
+    <!-- STEP 2: 기획 -->
+    <div class="step-card stepC">
+      <div class="step-band c">STEP 2 · 내 지도 기획하기 <small>기능 목록 보고 기획서 앞면 쓰기</small></div>
       <div class="step-card-head purple">
         <div class="step-num purple">1</div>
         <div>
-          <div class="step-card-title purple">도전 1 — 추가할 수 있는 기능 탐색 + 내 지도 설계</div>
+          <div class="step-card-title purple">추가할 수 있는 기능 탐색 + 내 지도 설계</div>
           <div class="step-card-sub">기능 목록에서 고르기 → 아이디어 설계하기</div>
         </div>
       </div>
@@ -1314,14 +1203,14 @@ ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</spa
 
             <div>
               <div style="font-size:13px; font-weight:700; color:var(--text); margin-bottom:4px;">③ 검색 카테고리 구성 — 어떤 탭으로 나눌 건지</div>
-              <div style="font-size:12px; color:var(--text3); font-style:italic; margin-bottom:8px;">예) 탭1: 맛집(FD6) / 탭2: 카페(CE7) &nbsp;|&nbsp; 탭1: 병원(HP8) / 탭2: 약국(PM9)</div>
+              <div style="font-size:12px; color:var(--text3); font-style:italic; margin-bottom:8px;">예) 탭1: 맛집(FD6) / 탭2: 카페(CE7) &nbsp;|&nbsp; 탭1: 약국(PM9) / 탭2: 공원(검색어 '공원')</div>
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                 <div>
                   <div style="font-size:12px; color:var(--text3); margin-bottom:4px;">탭 1 이름</div>
                   <div style="height:28px; border-bottom:1.5px solid var(--border2);"></div>
                 </div>
                 <div>
-                  <div style="font-size:12px; color:var(--text3); margin-bottom:4px;">탭 1 카테고리 코드</div>
+                  <div style="font-size:12px; color:var(--text3); margin-bottom:4px;">탭 1 코드 또는 검색어</div>
                   <div style="height:28px; border-bottom:1.5px solid var(--border2);"></div>
                 </div>
                 <div>
@@ -1329,11 +1218,15 @@ ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</spa
                   <div style="height:28px; border-bottom:1.5px solid var(--border2);"></div>
                 </div>
                 <div>
-                  <div style="font-size:12px; color:var(--text3); margin-bottom:4px;">탭 2 카테고리 코드</div>
+                  <div style="font-size:12px; color:var(--text3); margin-bottom:4px;">탭 2 코드 또는 검색어</div>
                   <div style="height:28px; border-bottom:1.5px solid var(--border2);"></div>
                 </div>
               </div>
-              <div style="font-size:12px; color:var(--text3); font-style:italic; margin-top:8px;">코드는 <a href="kakaomap-planning-sheet.html" target="_blank" style="color:var(--purple);">기획서</a> 3번의 카테고리 코드 표에서 골라요.</div>
+              <div class="tabrule">
+                <div class="c"><b>🔵 코드 표에 있는 장소 → 코드</b>예) 음식점 → <code>FD6</code>, 약국 → <code>PM9</code></div>
+                <div class="k"><b>🟠 코드 표에 없는 장소 → 검색어</b>예) 공원 → '공원', 화장실 → '화장실'</div>
+              </div>
+              <div style="font-size:12px; color:var(--text3); margin-top:4px;">코드 표는 <a href="kakaomap-planning-sheet.html" target="_blank" style="color:var(--purple);">기획서</a> 3번에 있어요. 탭마다 둘 중 하나만 정하면 돼요.</div>
             </div>
 
             <div>
@@ -1347,65 +1240,35 @@ ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</spa
       </div>
     </div>
 
-    <!-- 도전 2: 구현 -->
-    <div class="step-card">
+    <!-- STEP 3: 구현 -->
+    <div class="step-card stepD">
+      <div class="step-band d" id="ch2">STEP 3 · 내 지도 만들기 <small>기획서 보고 프롬프트 직접 쓰기</small></div>
       <div class="step-card-head green">
         <div class="step-num green">2</div>
         <div>
-          <div class="step-card-title green">도전 2 — 기획서 바탕으로 직접 만들기</div>
+          <div class="step-card-title green">기획서 바탕으로 직접 만들기</div>
           <div class="step-card-sub">기획서에 쓴 내용으로 프롬프트 직접 작성 → 구현</div>
         </div>
       </div>
       <div class="step-card-body">
-        <p style="margin-bottom:14px;">기획서를 완성했으면 <strong>처음부터 끝까지 프롬프트를 직접 써서</strong> AI에게 요청해봐요.<br>기획서에 쓴 내용을 빈칸에 그대로 옮기면 돼요.</p>
+        <div class="goal d"><div class="goal-h">🎯 이 단계가 끝나면</div><div class="goal-body"><div class="scr"><div class="scr-left"><div class="scr-search new" style="justify-content:flex-start;gap:4px;"><b style="background:#059669;">탭 1</b><b>탭 2</b></div><div class="scr-list new"><i></i><i></i><i></i><span>결과 리스트</span></div></div><div class="scr-map"><span class="scr-tag">🗺️ 카카오 지도</span><span class="pin new" style="left:30%;top:40%">📍</span><span class="pin new" style="left:55%;top:58%">📍</span><span class="pin new" style="left:70%;top:30%">📍</span><span class="pop new" style="left:44%;top:12%">장소 이름<br>주소</span></div></div><div class="goal-text">STEP 1 지도 위에 <strong>내가 기획한 탭 2개와 기능</strong>이 생겨요. 탭을 누르면 지도에 마커, 왼쪽에 결과 리스트가 나오고, 마커를 누르면 팝업이 떠요.<br>기획서에 쓴 내용을 아래 빈칸에 그대로 옮기면 돼요.</div></div></div>
 
     <div class="pmap four">
       <div class="pmap-title">🧭 기획서가 어떻게 프롬프트와 지도가 되나요?</div>
-      <div class="pmap-desc">기획서 앞면에 쓴 내용이 프롬프트의 어느 줄로 들어가고, 다 만든 뒤 기획서 뒷면의 어디에 적는지 먼저 봐요.</div>
+      <div class="pmap-desc">기획서 앞면이 프롬프트의 어느 줄로 들어가고, 다 만든 뒤 기획서 뒷면의 어디에 적는지 먼저 봐요.</div>
       <div class="pmap-head"><span>기획서</span><span>프롬프트에 쓰는 것</span><span>화면에 생기는 것</span><span>확인하고 적을 곳</span></div>
       <div class="pmap-row r1"><span class="pm-plan">1번 주제</span><span class="pm-p"><i>①</i>카카오맵 ___ 서비스</span><span class="pm-r">내 주제에 맞는 제목과 문구</span><span class="pm-c">주제와 다르면 → 7번</span></div>
-      <div class="pmap-row r2 key"><span class="pm-none">기획서에 없음</span><span class="pm-p"><i>②</i>현재 index.html 전체 <span class="pm-badge">가장 중요</span></span><span class="pm-r">STEP 2 코드에 이어서 추가됨</span><span class="pm-c">검색, 마커, 팝업이 그대로 있나?</span></div>
-      <div class="pmap-row r3"><span class="pm-plan">2번 기능</span><span class="pm-p"><i>③</i>기능 줄</span><span class="pm-r">내가 고른 기능</span><span class="pm-c">기능마다 → 6번에 표시</span></div>
-      <div class="pmap-row r3"><span class="pm-plan">3번 탭 1</span><span class="pm-p"><i>③</i>탭 1 이름과 코드</span><span class="pm-r">탭 1을 누르면 그 종류 장소</span><span class="pm-c">6번에 표시, 다르면 → 7번</span></div>
-      <div class="pmap-row r3"><span class="pm-plan">3번 탭 2</span><span class="pm-p"><i>③</i>탭 2 이름과 코드</span><span class="pm-r">탭 2를 누르면 그 종류 장소</span><span class="pm-c">6번에 표시, 다르면 → 7번</span></div>
-      <div class="pmap-row r3"><span class="pm-none">기획서에 없음</span><span class="pm-p"><i>③</i>탭 전환 시 기존 마커 지우기</span><span class="pm-r">탭을 바꾸면 새 결과만 보임</span><span class="pm-c">두 탭 결과가 똑같으면 → 7번</span></div>
+      <div class="pmap-row r2 key"><span class="pm-none">기획서에 없음</span><span class="pm-p"><i>②</i>STEP 1 index.html 전체 <span class="pm-badge">가장 중요</span></span><span class="pm-r">STEP 1 지도 위에 이어서 만듦</span><span class="pm-c">지도가 그대로 뜨나?</span></div>
+      <div class="pmap-row r3"><span class="pm-plan">3번 탭 1, 2</span><span class="pm-p"><i>③</i>탭 이름, 코드 또는 검색어</span><span class="pm-r">탭마다 그 종류 장소</span><span class="pm-c">6번에 표시, 다르면 → 7번</span></div>
+      <div class="pmap-row r3"><span class="pm-none">기획서에 없음</span><span class="pm-p"><i>③</i>탭을 누르면 (기본 줄)</span><span class="pm-r">마커, 왼쪽 리스트, 팝업</span><span class="pm-c">두 탭 결과가 똑같으면 → 7번</span></div>
+      <div class="pmap-row r3"><span class="pm-plan">2번 기능</span><span class="pm-p"><i>③</i>추가 기능 줄</span><span class="pm-r">내가 고른 기능</span><span class="pm-c">기능마다 → 6번에 표시</span></div>
       <div class="pmap-row r4"><span class="pm-plan">5번 완성 목표</span><span class="pm-p"><i>④</i>전체 index.html</span><span class="pm-r">GitHub에 올릴 파일</span><span class="pm-c">올린 뒤 실제 주소 → 5번</span></div>
       <div class="pmap-foot">초록 칸이 기획서 뒷면이에요. 6번은 기획한 것마다 구현함, 바꿔서 구현함, 못 함 중 하나를 고르고, 7번은 AI가 내 생각과 다르게 만든 순간을 캡처해요.</div>
     </div>
 
-        <!-- 도전 2 완성 예시 -->
-        <div style="background:var(--green-bg); border:1.5px solid var(--green-border); border-radius:8px; padding:12px 16px; margin-bottom:14px;">
-          <div style="font-size:11px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:.08em; margin-bottom:8px;">✅ 예시 하나 — 노란색 부분이 기획서에서 가져온 내용이에요</div>
-          <div class="prompt-box" style="margin:0; font-size:12px; line-height:1.8;"><span class="pc1">① 페르소나</span>
-나는 카카오맵 <span style="color:#ffd700;">야간 안전</span> 서비스를 만들고 있는 고등학생이야.
-
-<span class="pc2">② 맥락 + 현재 코드</span>
-아래는 내 현재 index.html 전체야:
-<span class="ph">[index.html 붙여넣기]</span>
-
-<span class="pc3">③ 구체적 지시</span>
-아래 기능을 추가해줘:
-- <span style="color:#ffd700;">카테고리별로 마커 색을 다르게 (편의점은 파랑, 병원은 빨강)</span>
-- <span style="color:#ffd700;">마커 클릭 시 장소 이름·전화번호·카카오맵 링크를 커스텀 말풍선으로 표시</span>
-- <span style="color:#ffd700;">내 현재 위치를 지도에 파란 점으로 표시</span>
-
-탭을 <span style="color:#ffd700;">2</span>개로 나눠서:
-  탭 1 (<span style="color:#ffd700;">편의점</span>): 카테고리 코드 <span style="color:#ffd700;">CS2</span>로 검색
-  탭 2 (<span style="color:#ffd700;">병원</span>): 카테고리 코드 <span style="color:#ffd700;">HP8</span>으로 검색
-탭 전환 시 기존 마커는 지우고 새 결과만 표시해줘.
-
-<span class="pc4">④ 출력 형식</span>
-전체 index.html을 다시 보여줘.
-변수명은 영어로, 주석은 한국어로.</div>
-          <div style="margin-top:10px; padding-top:10px; border-top:1px dashed var(--green-border); font-size:12.5px; color:var(--text2); line-height:1.7;">
-            💬 <strong>내 기획서로 바꾸면?</strong> 노란색 부분만 내 기획서 ①~③④에 쓴 내용으로 교체하면 돼요.<br>
-            어떤 주제를 골랐느냐에 따라 완전히 다른 지도가 만들어져요 — <strong style="color:var(--green);">정해진 정답은 없어요!</strong>
-          </div>
-        </div>
-
         <div class="prompt-section">
           <div class="prompt-tab-bar">
-            <div class="prompt-tab active">📋 도전 프롬프트 — 기획서 보고 직접 채워요</div>
+            <div class="prompt-tab active">📋 STEP 3 프롬프트 — 기획서 보고 직접 채워요</div>
             <div class="prompt-tab">노란색 자리에 기획서 내용 넣기</div>
           </div>
           <div class="prompt-label-bar">🟥 빈칸을 기획서에 쓴 내용으로 채워요</div>
@@ -1413,24 +1276,141 @@ ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</spa
 나는 카카오맵 <span class="ph">__________</span> 서비스를 만들고 있는 고등학생이야.
 
 <span class="pc2">② 맥락 + 현재 코드</span>
-아래는 내 현재 index.html 전체야:
-<span class="ph">[index.html 전체 붙여넣기]</span>
+아래는 STEP 1에서 만든 내 index.html 전체야:
+<span class="ph">[STEP 1 index.html 전체 붙여넣기 — 이게 없으면 AI가 처음부터 다시 만들어요!]</span>
 
 <span class="pc3">③ 구체적 지시</span>
-아래 기능을 추가해줘:
-- <span class="ph">__________  ← 기획서 기능 1</span>
-- <span class="ph">__________  ← 기획서 기능 2 (선택)</span>
-- <span class="ph">__________  ← 기획서 기능 3 (선택)</span>
+왼쪽에 탭 버튼 2개를 만들어줘:
+  탭 1 (<span class="ph">__________</span>): <span class="ph">__________</span>(으)로 검색
+  탭 2 (<span class="ph">__________</span>): <span class="ph">__________</span>(으)로 검색
+<span style="color:#9fb3c8;">  ↑ 기획서 3번에 쓴 것을 넣어요.
+    코드면 "카테고리 코드 FD6", 검색어면 "검색어 '공원'"처럼 써요.</span>
 
-탭을 <span class="ph">__</span>개로 나눠서:
-  탭 1 (<span class="ph">__________</span>): 카테고리 코드 <span class="ph">___</span>으로 검색
-  탭 2 (<span class="ph">__________</span>): 카테고리 코드 <span class="ph">___</span>으로 검색
-탭 전환 시 기존 마커는 지우고 새 결과만 표시해줘.
+탭을 누르면:
+- 내 위치 주변 장소를 찾아 지도에 마커로 표시
+- 왼쪽 리스트에 장소 이름 나열
+- 마커를 누르면 장소 이름과 주소를 팝업으로 표시
+- 탭을 바꾸면 기존 마커와 리스트는 지우고 새 결과만 표시
+
+그리고 아래 기능도 추가해줘:
+- <span class="ph">__________  ← 기획서 2번 기능 1</span>
+- <span class="ph">__________  ← 기획서 2번 기능 2 (선택)</span>
 
 <span class="pc4">④ 출력 형식</span>
 전체 index.html을 다시 보여줘.
 변수명은 영어로, 주석은 한국어로.</div>
         </div>
+
+        <details class="more"><summary>✅ 다 채운 예시 보기 (야간 안전 지도)</summary>
+        <div style="background:var(--green-bg); border:1.5px solid var(--green-border); border-radius:8px; padding:12px 16px; margin-bottom:14px;">
+          <div style="font-size:11px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:.08em; margin-bottom:8px;">✅ 예시 하나 — 노란색 부분이 기획서에서 가져온 내용이에요</div>
+          <div class="prompt-box" style="margin:0; font-size:12px; line-height:1.8;"><span class="pc1">① 페르소나</span>
+나는 카카오맵 <span style="color:#ffd700;">야간 안전</span> 서비스를 만들고 있는 고등학생이야.
+
+<span class="pc2">② 맥락 + 현재 코드</span>
+아래는 STEP 1에서 만든 내 index.html 전체야:
+<span class="ph">[STEP 1 index.html 전체 붙여넣기]</span>
+
+<span class="pc3">③ 구체적 지시</span>
+왼쪽에 탭 버튼 2개를 만들어줘:
+  탭 1 (<span style="color:#ffd700;">편의점</span>): 카테고리 코드 <span style="color:#ffd700;">CS2</span>로 검색
+  탭 2 (<span style="color:#ffd700;">파출소</span>): 검색어 <span style="color:#ffd700;">'파출소'</span>로 검색
+
+탭을 누르면:
+- 내 위치 주변 장소를 찾아 지도에 마커로 표시
+- 왼쪽 리스트에 장소 이름 나열
+- 마커를 누르면 장소 이름과 주소를 팝업으로 표시
+- 탭을 바꾸면 기존 마커와 리스트는 지우고 새 결과만 표시
+
+그리고 아래 기능도 추가해줘:
+- <span style="color:#ffd700;">탭마다 마커 색을 다르게 (편의점은 파랑, 파출소는 빨강)</span>
+- <span style="color:#ffd700;">내 현재 위치를 지도에 파란 점으로 표시</span>
+
+<span class="pc4">④ 출력 형식</span>
+전체 index.html을 다시 보여줘.
+변수명은 영어로, 주석은 한국어로.</div>
+          <div style="margin-top:10px; padding-top:10px; border-top:1px dashed var(--green-border); font-size:12.5px; color:var(--text2); line-height:1.7;">
+            💬 <strong>내 기획서로 바꾸면?</strong> 노란색 부분만 내 기획서에 쓴 내용으로 바꾸면 돼요. 탭 1은 코드, 탭 2는 검색어를 쓴 예시예요.<br>
+            어떤 주제를 골랐느냐에 따라 완전히 다른 지도가 만들어져요 — <strong style="color:var(--green);">정해진 정답은 없어요!</strong>
+          </div>
+        </div>
+
+        </details>
+
+        <details class="more"><summary>🔎 더 알아보기: 지도가 장소를 찾는 원리 (JSON, 핵심 코드)</summary>
+        <div class="tip" style="margin-bottom:14px;">
+          <strong>전체 동작 흐름</strong><br><br>
+          <div style="display:flex; flex-direction:column; gap:6px; font-size:14px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:10px; flex-shrink:0;">1</span>
+              <span>탭 버튼 클릭</span>
+            </div>
+            <div style="padding-left:14px; color:var(--text3); font-size:13px;">↓</div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:10px; flex-shrink:0;">2</span>
+              <span>JS가 카카오 서버에 <strong>"이 코드(또는 검색어)로 주변 장소 알려줘"</strong> 요청</span>
+            </div>
+            <div style="padding-left:14px; color:var(--text3); font-size:13px;">↓</div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:10px; flex-shrink:0;">3</span>
+              <span>카카오 서버가 <strong>JSON</strong>으로 장소 목록 배달</span>
+            </div>
+            <div style="padding-left:14px; color:var(--text3); font-size:13px;">↓</div>
+            <div style="display:flex; align-items:flex-start; gap:10px;">
+              <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:10px; flex-shrink:0; margin-top:2px;">4</span>
+              <div>
+                JS가 데이터 받아서 동시에 표시<br>
+                <span style="display:inline-flex; align-items:center; gap:5px; margin-top:5px; font-size:13px; color:var(--text2);">
+                  <span style="background:var(--kakao-bg); border:1px solid var(--kakao-border); color:var(--kakao); padding:2px 8px; border-radius:6px; font-weight:700;">① 지도에 마커</span>
+                  <span style="background:var(--kakao-bg); border:1px solid var(--kakao-border); color:var(--kakao); padding:2px 8px; border-radius:6px; font-weight:700;">② 왼쪽 리스트</span>
+                  <span style="background:var(--kakao-bg); border:1px solid var(--kakao-border); color:var(--kakao); padding:2px 8px; border-radius:6px; font-weight:700;">③ 클릭 팝업</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-weight:700; margin-bottom:8px; color:var(--text3); font-size:13px; margin-top:14px;">📦 카카오가 보내주는 JSON 데이터 구조</p>
+        <div class="code-wrap" style="margin-bottom:14px;">
+          <pre><span class="cm">// data[0] — 첫 번째 검색 결과 예시</span>
+{
+  <span class="str">"place_name"</span>: <span class="str">"스타벅스 경기고양삼송점"</span>,     <span class="cm">// 장소 이름</span>
+  <span class="str">"road_address_name"</span>: <span class="str">"경기 고양시 덕양구..."</span>,  <span class="cm">// 도로명 주소</span>
+  <span class="str">"x"</span>: <span class="str">"126.8345"</span>,                          <span class="cm">// 경도 (지도 위치)</span>
+  <span class="str">"y"</span>: <span class="str">"37.6612"</span>,                          <span class="cm">// 위도 (지도 위치)</span>
+  <span class="str">"phone"</span>: <span class="str">"031-000-0000"</span>,                  <span class="cm">// 전화번호</span>
+  <span class="str">"place_url"</span>: <span class="str">"http://place.map.kakao.com/..."</span>  <span class="cm">// 카카오맵 링크</span>
+}</pre>
+        </div>
+
+        <p style="font-weight:700; margin-bottom:6px; color:var(--text3); font-size:13px;">핵심 코드 — AI가 이런 코드를 넣어줄 거예요 (검색어 탭은 <code>keywordSearch</code>, 코드 탭은 <code>categorySearch</code>를 써요)</p>
+        <div class="code-wrap" style="margin-bottom:14px;">
+          <pre><span class="kw">var</span> ps = <span class="kw">new</span> kakao.maps.services.<span class="fn">Places</span>();
+<span class="kw">var</span> infowindow = <span class="kw">new</span> kakao.maps.<span class="fn">InfoWindow</span>({ zIndex: <span class="num">1</span> });
+
+ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</span>(data, status) {
+  <span class="kw">if</span> (status === kakao.maps.services.Status.<span class="fn">OK</span>) {
+    data.<span class="fn">forEach</span>(<span class="kw">function</span>(place) {
+      <span class="cm">// ① 마커 찍기</span>
+      <span class="kw">var</span> pos = <span class="kw">new</span> kakao.maps.<span class="fn">LatLng</span>(place.y, place.x);
+      <span class="kw">var</span> marker = <span class="kw">new</span> kakao.maps.<span class="fn">Marker</span>({ map: map, position: pos });
+
+      <span class="cm">// ② 리스트에 이름 추가</span>
+      <span class="kw">var</span> item = document.<span class="fn">createElement</span>(<span class="str">'div'</span>);
+      item.textContent = place.place_name;
+      document.<span class="fn">getElementById</span>(<span class="str">'result-list'</span>).<span class="fn">appendChild</span>(item);
+
+      <span class="cm">// ③ 마커 클릭 시 팝업</span>
+      kakao.maps.event.<span class="fn">addListener</span>(marker, <span class="str">'click'</span>, <span class="kw">function</span>() {
+        infowindow.<span class="fn">setContent</span>(<span class="str">'&lt;div style="padding:8px"&gt;&lt;b&gt;'</span> + place.place_name + <span class="str">'&lt;/b&gt;&lt;br&gt;'</span> + place.road_address_name + <span class="str">'&lt;/div&gt;'</span>);
+        infowindow.<span class="fn">open</span>(map, marker);
+      });
+    });
+  }
+});</pre>
+        </div>
+
+        </details>
 
         <div class="tip-green" style="margin-top:12px; margin-bottom:0;">
           <strong>막히면?</strong> F12 → Console 탭 → 빨간 오류 메시지 복사 → AI에게 현재 코드와 함께 붙여넣어요.
@@ -1450,8 +1430,7 @@ ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</spa
       <li>GitHub Pages 도메인 등록 완료</li>
       <li>카카오맵 사용 설정 활성화 (ON) 확인</li>
       <li>2분할 레이아웃 + 지도 정상 표시 확인</li>
-      <li>키워드 검색 시 F12 콘솔에 JSON 데이터 출력 확인</li>
-      <li>지도 위 마커 + 왼쪽 리스트 정상 표시 확인</li>
+      <li>탭을 누르면 지도에 마커, 왼쪽에 리스트 표시 확인</li>
       <li>마커 클릭 시 장소 정보 팝업 표시 확인</li>
       <li>GitHub Pages에 업로드 후 실제 주소에서 작동 확인</li>
       <li>기획서 뒷면(6~8번) 작성 후 PDF로 클래스룸 제출</li>
