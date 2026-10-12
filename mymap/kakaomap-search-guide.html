@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -423,6 +422,89 @@
     .sec-title { font-size: 18px; }
   }
 
+/* ═══════════ 가독성 보강 ═══════════ */
+  :root { --text2:#334155; --text3:#64748b; }
+  body { font-size:16px; line-height:1.85; }
+  .content { max-width:900px; }
+  .part { margin-bottom:68px; }
+  .sec-title { font-size:22px; }
+  .header p { font-size:16px; }
+  .step-card-title { font-size:17px; }
+  .step-card-sub { font-size:13.5px; color:var(--text2); }
+  .step-card-body { font-size:16px; }
+  .process-title { font-size:14px; color:var(--text2); }
+  .proc-label { font-size:14.5px; }
+  .proc-sub { font-size:13px; line-height:1.6; color:var(--text2); }
+  .prompt-tab { font-size:12.5px; }
+  .prompt-box { font-size:14px; line-height:2; }
+  .check-list li { font-size:15px; }
+  .tip, .warn, .note { font-size:15px; line-height:1.75; }
+  /* 본문 곳곳의 작은 글씨를 한 단계씩 키움 */
+  [style*="font-size:10px"], [style*="font-size:11px"], [style*="font-size:11.5px"] { font-size:13px !important; }
+  [style*="font-size:12px"], [style*="font-size:12.5px"] { font-size:14px !important; }
+  [style*="font-size:13px"] { font-size:14.5px !important; }
+  [style*="font-size:13.5px"] { font-size:15px !important; }
+  [style*="font-size:14px"] { font-size:15.5px !important; }
+  [style*="text-transform:uppercase"] { letter-spacing:.02em !important; }
+
+  /* ── 왜 하나요 ── */
+  .why-wrap { margin:-12px 0 48px; }
+  .why-title { text-align:center; font-size:14px; font-weight:700; color:var(--text2); margin-bottom:14px; }
+  .why-grid { display:grid; grid-template-columns:1fr 1.25fr 1fr; gap:14px; }
+  .why-card { border-radius:14px; padding:20px 20px 16px; border:2px solid; background:var(--surface); }
+  .why-card p { font-size:15px; color:var(--text2); line-height:1.75; margin-bottom:10px; }
+  .why-card ul { margin:0 0 10px 18px; font-size:15px; color:var(--text2); line-height:1.8; }
+  .why-a { border-color:var(--kakao-border); background:var(--kakao-bg); }
+  .why-b { border-color:var(--purple-border); background:var(--purple-bg); }
+  .why-c { border-color:var(--green-border); background:var(--green-bg); }
+  .why-icon { font-size:26px; line-height:1; margin-bottom:8px; }
+  .why-h { font-size:18px; font-weight:900; margin-bottom:10px; }
+  .why-a .why-h { color:var(--kakao); } .why-b .why-h { color:var(--purple); } .why-c .why-h { color:var(--green); }
+  .ladder { display:flex; align-items:stretch; gap:4px; margin:4px 0 10px; }
+  .ladder div { flex:1; word-break:keep-all; background:#fff; border:1.5px solid var(--purple-border); border-radius:8px; padding:6px 4px; text-align:center; font-size:13.5px; line-height:1.4; color:var(--text); font-weight:700; }
+  .ladder div small { display:block; font-weight:400; color:var(--text2); font-size:12.5px; }
+  .ladder div:nth-child(3) { background:var(--purple-border); }
+  .ladder div:nth-child(5) { background:var(--purple); color:#fff; } .ladder div:nth-child(5) small { color:#ede9fe; }
+  .ladder span { display:flex; align-items:center; color:var(--purple); font-weight:900; flex:0 0 auto; }
+  .why-out { list-style:none; margin:0 !important; }
+  .why-out li { background:#fff; border:1.5px solid var(--green-border); border-radius:8px; padding:8px 12px; margin-bottom:8px; font-weight:500; color:var(--text); }
+
+  /* ── 프롬프트 지도 ── */
+  .pmap { background:var(--surface); border:2px solid var(--border); border-radius:12px; padding:16px 16px 10px; margin:0 0 16px; }
+  .pmap-title { font-size:16px; font-weight:900; color:var(--text); margin-bottom:4px; }
+  .pmap-desc { font-size:14.5px; color:var(--text2); margin-bottom:12px; }
+  .pmap-head, .pmap-row { display:grid; grid-template-columns:1.15fr 1fr 1fr; gap:22px; align-items:center; }
+  .pmap.four .pmap-head, .pmap.four .pmap-row { grid-template-columns:.8fr 1.1fr 1fr 1fr; }
+  .pmap-head span { font-size:13px; font-weight:700; color:var(--text2); padding:0 10px 6px; }
+  .pmap-row { margin-bottom:8px; }
+  .pmap-row > span { position:relative; background:var(--bg); border-radius:8px; padding:8px 10px; font-size:14.5px; line-height:1.5; color:var(--text); min-height:100%; display:flex; align-items:center; }
+  .pmap-row > span:not(:last-child)::after { content:'→'; position:absolute; right:-18px; top:50%; transform:translateY(-50%); color:var(--text3); font-weight:900; }
+  .pmap-row > span.pm-c { background:var(--green-bg); color:#065f46; }
+  .pmap-row > span.pm-p { border-left:4px solid; font-weight:700; }
+  .pmap-row > span.pm-plan { background:var(--purple-bg); color:#5b21b6; font-weight:700; }
+  .pmap-row > span.pm-none { background:transparent; color:var(--text3); justify-content:center; }
+  .pmap-row.r1 > span.pm-p { border-left-color:#dc2626; } .pmap-row.r2 > span.pm-p { border-left-color:#0369a1; } .pmap-row.r3 > span.pm-p { border-left-color:#b45309; } .pmap-row.r4 > span.pm-p { border-left-color:#059669; }
+  .pm-p i { font-style:normal; display:inline-block; font-size:12px; font-weight:700; border-radius:10px; padding:0 7px; margin-right:6px; color:#fff; flex-shrink:0; }
+  .r1 .pm-p i { background:#dc2626; } .r2 .pm-p i { background:#0369a1; } .r3 .pm-p i { background:#b45309; } .r4 .pm-p i { background:#059669; }
+  .pmap-row.key > span.pm-p { background:#fff7ed; outline:2px solid #fb923c; }
+  .pmap-row > span { word-break:keep-all; }
+  .pm-badge { white-space:nowrap; display:inline-block; font-size:12px; font-weight:700; background:#fb923c; color:#fff; border-radius:10px; padding:0 8px; margin-left:6px; }
+  .pmap-foot { font-size:14px; color:var(--text2); border-top:1px dashed var(--border); padding-top:8px; margin-top:4px; }
+
+  @media (max-width: 760px) {
+    .why-grid { grid-template-columns:1fr; }
+    .process-flow { flex-direction:column; gap:6px; }
+    .proc-arrow { transform:rotate(90deg); padding:0; }
+    [style*="repeat(4,1fr)"] { grid-template-columns:1fr 1fr !important; }
+    .pmap-head { display:none; }
+    .pmap-row, .pmap.four .pmap-row { grid-template-columns:1fr; gap:4px; border:1px solid var(--border); border-radius:10px; padding:6px; }
+    .pmap-row > span:not(:last-child)::after { content:'↓'; right:auto; left:50%; top:auto; bottom:-14px; transform:translateX(-50%); z-index:1; }
+    .pmap-row > span { margin-bottom:6px; }
+    .pmap-row > span.pm-none { display:none; }
+  }
+  @media (max-width: 640px) {
+    [style*="grid-template-columns:1fr 1fr"] { grid-template-columns:1fr !important; }
+  }
 </style>
 </head>
 <body>
@@ -484,6 +566,44 @@
     </div>
   </div>
 
+  <!-- ══════ 왜 이 활동을 하나요 ══════ -->
+  <div class="why-wrap">
+    <div class="why-title">시작하기 전에 꼭 읽어요</div>
+    <div class="why-grid">
+      <div class="why-card why-a">
+        <div class="why-icon">🎯</div>
+        <div class="why-h">왜 하나요?</div>
+        <p>AI가 코드를 써 줘도 <strong>무엇을 만들지</strong>와 <strong>제대로 만들어졌는지</strong>는 내가 정하고 확인해야 해요.</p>
+        <p>이번 활동에서는 내 지도를 직접 기획하고, AI가 만든 결과가 기획대로 나왔는지 확인하고 고쳐요.</p>
+      </div>
+      <div class="why-card why-b">
+        <div class="why-icon">🧩</div>
+        <div class="why-h">왜 마지막에 하나요?</div>
+        <p>앞에서 배운 걸 한 번에 써요.</p>
+        <ul>
+          <li>웹 화면 만들기 (HTML, CSS, JS)</li>
+          <li>API로 데이터 받기 (NASA 실습)</li>
+          <li>AI에게 프롬프트 쓰기</li>
+        </ul>
+        <div class="ladder">
+          <div>같이 쓰기<small>STEP 1</small></div><span>›</span>
+          <div>빈칸 채우기<small>STEP 2</small></div><span>›</span>
+          <div>직접 쓰기<small>도전 2</small></div>
+        </div>
+        <p style="margin-bottom:0;">뒤로 갈수록 <strong>내가 맡는 부분이 늘어나요.</strong> 마지막에는 GitHub에 올려 누구나 쓸 수 있는 지도로 완성해요.</p>
+      </div>
+      <div class="why-card why-c">
+        <div class="why-icon">📦</div>
+        <div class="why-h">끝나면 남는 것</div>
+        <ul class="why-out">
+          <li>📝 내 기획서</li>
+          <li>🗺️ 실제로 작동하는 내 지도 링크</li>
+          <li>🔍 기획과 결과를 비교한 기록 (기획서 뒷면)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
   <!-- ══════ 전체 과정 도식 ══════ -->
   <div class="process-wrap">
     <div class="process-title">4차시 전체 흐름</div>
@@ -512,7 +632,7 @@
         <div class="proc-num s3">3차시</div>
         <div class="proc-icon">✏️</div>
         <div class="proc-label">기획 + 설계</div>
-        <div class="proc-sub">기능 카탈로그 탐색<br>기획서 작성·제출<br>도전 2 시작</div>
+        <div class="proc-sub">기능 카탈로그 탐색<br>기획서 앞면 작성<br>도전 2 시작</div>
       </div>
       <div class="proc-arrow">→</div>
 
@@ -521,7 +641,7 @@
         <div class="proc-num done">4차시</div>
         <div class="proc-icon">🎉</div>
         <div class="proc-label">완성 + 배포</div>
-        <div class="proc-sub">도전 2 마무리<br>GitHub 배포<br>링크 제출</div>
+        <div class="proc-sub">도전 2 마무리<br>GitHub 배포<br>기획서 뒷면 작성·제출</div>
       </div>
     </div>
 
@@ -537,11 +657,11 @@
       </div>
       <div style="background:var(--purple-bg); border:1px solid var(--purple-border); border-radius:8px; padding:10px 12px; font-size:12px;">
         <div style="font-weight:700; color:var(--purple); margin-bottom:4px;">3차시</div>
-        <div style="color:var(--text2); line-height:1.6;">기획서 작성 + 제출<br>도전 2 프롬프트 작성<br>구현 시작</div>
+        <div style="color:var(--text2); line-height:1.6;">기획서 앞면(1~5번) 작성<br>도전 2 프롬프트 작성<br>구현 시작</div>
       </div>
       <div style="background:var(--green-bg); border:1px solid var(--green-border); border-radius:8px; padding:10px 12px; font-size:12px;">
         <div style="font-weight:700; color:var(--green); margin-bottom:4px;">4차시</div>
-        <div style="color:var(--text2); line-height:1.6;">도전 2 마무리<br>GitHub Pages 배포<br>링크 클래스룸 제출</div>
+        <div style="color:var(--text2); line-height:1.6;">도전 2 마무리<br>GitHub Pages 배포<br>기획서 뒷면(6~8번) 쓰고 PDF 제출</div>
       </div>
     </div>
 
@@ -635,6 +755,20 @@
             선생님이 LLM에 프롬프트를 입력하는 과정을 보여줄게요.<br>
             <strong>같이 써보고, 코드 받아서, 지도가 뜨는 것</strong>을 확인하면 STEP 1 완성이에요.
           </p>
+
+          <div class="pmap">
+            <div class="pmap-title">🧭 이 프롬프트의 각 줄이 무엇이 되나요?</div>
+            <div class="pmap-desc">프롬프트를 쓰기 전에 먼저 봐요. 줄마다 화면에 무엇이 생기는지, 받은 뒤 무엇을 확인할지 알 수 있어요.</div>
+            <div class="pmap-head"><span>프롬프트에 쓰는 것</span><span>화면에 생기는 것</span><span>내가 확인할 것</span></div>
+            <div class="pmap-row r1"><span class="pm-p"><i>①</i>처음 배우는 고등학생</span><span class="pm-r">쉬운 코드와 한국어 주석</span><span class="pm-c">주석을 읽으면 이해되나?</span></div>
+            <div class="pmap-row r2"><span class="pm-p"><i>②</i>카카오 SDK로 지도 표시</span><span class="pm-r">AI가 카카오 도구로 지도를 만듦</span><span class="pm-c">코드에 카카오 스크립트가 있나?</span></div>
+            <div class="pmap-row r3"><span class="pm-p"><i>③</i>왼쪽, 오른쪽 2분할</span><span class="pm-r">왼쪽 검색창과 리스트, 오른쪽 지도</span><span class="pm-c">화면이 둘로 나뉘었나?</span></div>
+            <div class="pmap-row r3"><span class="pm-p"><i>③</i>현재 위치를 중심으로</span><span class="pm-r">내 위치에서 지도가 시작됨</span><span class="pm-c">엉뚱한 곳에서 시작하지 않나?</span></div>
+            <div class="pmap-row r3"><span class="pm-p"><i>③</i>로드된 후에 실행</span><span class="pm-r">지도가 안 뜨는 오류를 막음</span><span class="pm-c">새로고침해도 지도가 뜨나?</span></div>
+            <div class="pmap-row r3"><span class="pm-p"><i>③</i>확대 레벨 5</span><span class="pm-r">동네가 한눈에 보이는 크기</span><span class="pm-c">너무 크거나 작지 않나?</span></div>
+            <div class="pmap-row r3"><span class="pm-p"><i>③</i>카카오 JavaScript 키</span><span class="pm-r">카카오가 지도 사용을 허락함</span><span class="pm-c">내 키가 들어갔나?</span></div>
+            <div class="pmap-row r4"><span class="pm-p"><i>④</i>index.html 하나로</span><span class="pm-r">파일 하나에 붙여넣기만 하면 됨</span><span class="pm-c">파일이 하나인가?</span></div>
+          </div>
 
           <!-- 시범 프롬프트 -->
           <div class="prompt-section" style="margin-bottom:14px;">
@@ -734,6 +868,22 @@ HTML, CSS, JS를 하나의 index.html 파일로 합쳐서 보여줘.
             </div>
           </div>
         </div>
+
+    <div class="pmap">
+      <div class="pmap-title">🧭 이 프롬프트의 각 줄이 무엇이 되나요?</div>
+      <div class="pmap-desc">빈칸을 채우기 전에 먼저 봐요. 내가 채운 말이 그대로 화면의 기능이 돼요.</div>
+      <div class="pmap-head"><span>프롬프트에 쓰는 것</span><span>화면에 생기는 것</span><span>내가 확인할 것</span></div>
+      <div class="pmap-row r1"><span class="pm-p"><i>①</i>카카오맵 ___ 서비스</span><span class="pm-r">내 서비스 목적에 맞는 화면</span><span class="pm-c">제목과 문구가 내 서비스에 맞나?</span></div>
+      <div class="pmap-row r2 key"><span class="pm-p"><i>②</i>현재 index.html 전체 <span class="pm-badge">가장 중요</span></span><span class="pm-r">STEP 1 코드에 이어서 고쳐 줌</span><span class="pm-c">2분할 화면과 지도가 그대로 있나?</span></div>
+      <div class="pmap-row r3"><span class="pm-p"><i>③</i>검색창에 ___ 입력</span><span class="pm-r">검색창과 버튼</span><span class="pm-c">버튼을 누르면 반응하나?</span></div>
+      <div class="pmap-row r3"><span class="pm-p"><i>③</i>카카오 ___ API로 검색</span><span class="pm-r">카카오 서버가 장소 목록(JSON)을 보내 줌</span><span class="pm-c">F12 콘솔에 JSON이 찍히나?</span></div>
+      <div class="pmap-row r3"><span class="pm-p"><i>③</i>지도에 ___로 표시</span><span class="pm-r">지도 위 마커</span><span class="pm-c">검색한 곳 근처에 찍히나?</span></div>
+      <div class="pmap-row r3"><span class="pm-p"><i>③</i>리스트에 ___과 ___</span><span class="pm-r">왼쪽 결과 목록</span><span class="pm-c">내가 말한 두 정보가 다 나오나?</span></div>
+      <div class="pmap-row r3"><span class="pm-p"><i>③</i>___ 클릭 시 ___ 팝업</span><span class="pm-r">클릭하면 뜨는 말풍선</span><span class="pm-c">팝업 내용이 내가 말한 것과 같나?</span></div>
+      <div class="pmap-row r3"><span class="pm-p"><i>③</i>기존 ___ 지우기</span><span class="pm-r">새로 검색하면 이전 결과가 사라짐</span><span class="pm-c">두 번 검색해도 마커가 쌓이지 않나?</span></div>
+      <div class="pmap-row r4"><span class="pm-p"><i>④</i>전체 index.html</span><span class="pm-r">통째로 바꿔 붙여넣으면 됨</span><span class="pm-c">코드가 중간에 끊기지 않았나?</span></div>
+      <div class="pmap-foot">② 현재 코드를 빼면 AI는 STEP 1을 모른 채 새 코드를 처음부터 다시 써요. 그러면 앞에서 만든 화면이 사라질 수 있어요.</div>
+    </div>
 
         <!-- STEP 2 프롬프트 -->
         <div class="prompt-section">
@@ -1030,6 +1180,7 @@ ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</spa
         <!-- 아이디어 설계 -->
         <div style="background:var(--surface2); border:2px dashed var(--kakao-border); border-radius:10px; padding:18px 20px;">
           <div style="font-size:12px; font-weight:700; color:var(--kakao); text-transform:uppercase; letter-spacing:.06em; margin-bottom:14px;">💡 내 지도 아이디어 설계하기</div>
+          <div class="tip" style="margin-bottom:16px;">📝 <strong>기획서는 여기서 써요 → <a href="kakaomap-planning-sheet.html" target="_blank">나만의 카카오맵 기획서</a></strong><br>아래 ①~④는 기획서 앞면 1~4번과 같아요. 기능 목록과 예시를 보면서 기획서 앞면을 채워요.</div>
 
           <!-- 완성 예시 -->
           <div style="background:var(--green-bg); border:1.5px solid var(--green-border); border-radius:8px; padding:12px 16px; margin-bottom:16px; font-size:13px; color:var(--text2); line-height:1.8;">
@@ -1039,7 +1190,7 @@ ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</spa
               <span style="color:var(--text3); font-weight:700;">기능 1</span><span>카테고리별 다른 마커 색 (편의점 파랑, 병원 빨강)</span>
               <span style="color:var(--text3); font-weight:700;">기능 2</span><span>마커 클릭 시 전화번호 + 영업시간 팝업</span>
               <span style="color:var(--text3); font-weight:700;">기능 3</span><span>내 현재 위치 표시</span>
-              <span style="color:var(--text3); font-weight:700;">탭 1</span><span>편의점 (CV)</span>
+              <span style="color:var(--text3); font-weight:700;">탭 1</span><span>편의점 (CS2)</span>
               <span style="color:var(--text3); font-weight:700;">탭 2</span><span>병원 (HP8)</span>
               <span style="color:var(--text3); font-weight:700;">한 줄 소개</span><span>야간 귀가 시 주변 편의점·병원을 빠르게 찾아 안전에 도움을 줘요</span>
             </div>
@@ -1058,7 +1209,7 @@ ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</spa
             </div>
 
             <div>
-              <div style="font-size:13px; font-weight:700; color:var(--text); margin-bottom:4px;">② 위 목록에서 넣고 싶은 기능 — 최소 2개 이상 골라요</div>
+              <div style="font-size:13px; font-weight:700; color:var(--text); margin-bottom:4px;">② 위 목록에서 넣고 싶은 기능 — 최소 1개 이상 골라요</div>
               <div style="font-size:12px; color:var(--text3); font-style:italic; margin-bottom:6px;">예) 마커 이미지 바꾸기 / 클릭 시 커스텀 말풍선 / 내 현재 위치 표시 / 교통정보 표시</div>
               <div style="display:flex; flex-direction:column; gap:8px;">
                 <div style="display:flex; align-items:center; gap:8px; font-size:13px;">
@@ -1066,7 +1217,7 @@ ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</spa
                   <div style="flex:1; border-bottom:1.5px solid var(--border2); height:24px;"></div>
                 </div>
                 <div style="display:flex; align-items:center; gap:8px; font-size:13px;">
-                  <span style="color:var(--text3); flex-shrink:0;">기능 2:</span>
+                  <span style="color:var(--text3); flex-shrink:0;">기능 2 (선택):</span>
                   <div style="flex:1; border-bottom:1.5px solid var(--border2); height:24px;"></div>
                 </div>
                 <div style="display:flex; align-items:center; gap:8px; font-size:13px;">
@@ -1097,7 +1248,7 @@ ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</spa
                   <div style="height:28px; border-bottom:1.5px solid var(--border2);"></div>
                 </div>
               </div>
-              <div style="font-size:12px; color:var(--text3); font-style:italic; margin-top:8px;">코드를 모르면 LLM에게 "카카오맵 카테고리 코드 목록 알려줘" 라고 물어봐요.</div>
+              <div style="font-size:12px; color:var(--text3); font-style:italic; margin-top:8px;">코드는 <a href="kakaomap-planning-sheet.html" target="_blank" style="color:var(--purple);">기획서</a> 3번의 카테고리 코드 표에서 골라요.</div>
             </div>
 
             <div>
@@ -1123,6 +1274,20 @@ ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</spa
       <div class="step-card-body">
         <p style="margin-bottom:14px;">기획서를 완성했으면 <strong>처음부터 끝까지 프롬프트를 직접 써서</strong> AI에게 요청해봐요.<br>기획서에 쓴 내용을 빈칸에 그대로 옮기면 돼요.</p>
 
+    <div class="pmap four">
+      <div class="pmap-title">🧭 기획서가 어떻게 프롬프트와 지도가 되나요?</div>
+      <div class="pmap-desc">기획서 앞면에 쓴 내용이 프롬프트의 어느 줄로 들어가고, 다 만든 뒤 기획서 뒷면의 어디에 적는지 먼저 봐요.</div>
+      <div class="pmap-head"><span>기획서</span><span>프롬프트에 쓰는 것</span><span>화면에 생기는 것</span><span>확인하고 적을 곳</span></div>
+      <div class="pmap-row r1"><span class="pm-plan">1번 주제</span><span class="pm-p"><i>①</i>카카오맵 ___ 서비스</span><span class="pm-r">내 주제에 맞는 제목과 문구</span><span class="pm-c">주제와 다르면 → 7번</span></div>
+      <div class="pmap-row r2 key"><span class="pm-none">기획서에 없음</span><span class="pm-p"><i>②</i>현재 index.html 전체 <span class="pm-badge">가장 중요</span></span><span class="pm-r">STEP 2 코드에 이어서 추가됨</span><span class="pm-c">검색, 마커, 팝업이 그대로 있나?</span></div>
+      <div class="pmap-row r3"><span class="pm-plan">2번 기능</span><span class="pm-p"><i>③</i>기능 줄</span><span class="pm-r">내가 고른 기능</span><span class="pm-c">기능마다 → 6번에 표시</span></div>
+      <div class="pmap-row r3"><span class="pm-plan">3번 탭 1</span><span class="pm-p"><i>③</i>탭 1 이름과 코드</span><span class="pm-r">탭 1을 누르면 그 종류 장소</span><span class="pm-c">6번에 표시, 다르면 → 7번</span></div>
+      <div class="pmap-row r3"><span class="pm-plan">3번 탭 2</span><span class="pm-p"><i>③</i>탭 2 이름과 코드</span><span class="pm-r">탭 2를 누르면 그 종류 장소</span><span class="pm-c">6번에 표시, 다르면 → 7번</span></div>
+      <div class="pmap-row r3"><span class="pm-none">기획서에 없음</span><span class="pm-p"><i>③</i>탭 전환 시 기존 마커 지우기</span><span class="pm-r">탭을 바꾸면 새 결과만 보임</span><span class="pm-c">두 탭 결과가 똑같으면 → 7번</span></div>
+      <div class="pmap-row r4"><span class="pm-plan">5번 완성 목표</span><span class="pm-p"><i>④</i>전체 index.html</span><span class="pm-r">GitHub에 올릴 파일</span><span class="pm-c">올린 뒤 실제 주소 → 5번</span></div>
+      <div class="pmap-foot">초록 칸이 기획서 뒷면이에요. 6번은 기획한 것마다 구현함, 바꿔서 구현함, 못 함 중 하나를 고르고, 7번은 AI가 내 생각과 다르게 만든 순간을 캡처해요.</div>
+    </div>
+
         <!-- 도전 2 완성 예시 -->
         <div style="background:var(--green-bg); border:1.5px solid var(--green-border); border-radius:8px; padding:12px 16px; margin-bottom:14px;">
           <div style="font-size:11px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:.08em; margin-bottom:8px;">✅ 예시 하나 — 노란색 부분이 기획서에서 가져온 내용이에요</div>
@@ -1140,7 +1305,7 @@ ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</spa
 - <span style="color:#ffd700;">내 현재 위치를 지도에 파란 점으로 표시</span>
 
 탭을 <span style="color:#ffd700;">2</span>개로 나눠서:
-  탭 1 (<span style="color:#ffd700;">편의점</span>): 카테고리 코드 <span style="color:#ffd700;">CV</span>으로 검색
+  탭 1 (<span style="color:#ffd700;">편의점</span>): 카테고리 코드 <span style="color:#ffd700;">CS2</span>로 검색
   탭 2 (<span style="color:#ffd700;">병원</span>): 카테고리 코드 <span style="color:#ffd700;">HP8</span>으로 검색
 탭 전환 시 기존 마커는 지우고 새 결과만 표시해줘.
 
@@ -1169,7 +1334,7 @@ ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</spa
 <span class="pc3">③ 구체적 지시</span>
 아래 기능을 추가해줘:
 - <span class="ph">__________  ← 기획서 기능 1</span>
-- <span class="ph">__________  ← 기획서 기능 2</span>
+- <span class="ph">__________  ← 기획서 기능 2 (선택)</span>
 - <span class="ph">__________  ← 기획서 기능 3 (선택)</span>
 
 탭을 <span class="ph">__</span>개로 나눠서:
@@ -1184,6 +1349,9 @@ ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</spa
 
         <div class="tip-green" style="margin-top:12px; margin-bottom:0;">
           <strong>막히면?</strong> F12 → Console 탭 → 빨간 오류 메시지 복사 → AI에게 현재 코드와 함께 붙여넣어요.
+        </div>
+        <div class="tip" style="margin-top:10px; margin-bottom:0;">
+          <strong>AI가 내 생각과 다르게 만들었다면?</strong> 그 실행 화면이나 AI 대화를 캡처해 두세요. 다 만든 뒤 <a href="kakaomap-planning-sheet.html" target="_blank">기획서</a> 뒷면(6~8번)을 쓰고 PDF로 제출해요.
         </div>
       </div>
     </div>
@@ -1201,6 +1369,7 @@ ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</spa
       <li>지도 위 마커 + 왼쪽 리스트 정상 표시 확인</li>
       <li>마커 클릭 시 장소 정보 팝업 표시 확인</li>
       <li>GitHub Pages에 업로드 후 실제 주소에서 작동 확인</li>
+      <li>기획서 뒷면(6~8번) 작성 후 PDF로 클래스룸 제출</li>
     </ul>
   </div>
 
