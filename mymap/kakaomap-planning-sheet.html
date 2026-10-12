@@ -1,535 +1,326 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>카카오맵 나만의 지도 기획서</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>나만의 카카오맵 기획서</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@600;700&family=DM+Mono:wght@400;500&display=swap');
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #f7f4ee;
-    --surface: #ffffff;
-    --surface2: #f0ece2;
-    --border: #ddd8c8;
-    --border2: #c8c0ae;
-    --text: #252018;
-    --text2: #665c4a;
-    --text3: #a09888;
-    --kakao: #0369a1;
-    --kakao-bg: #e0f2fe;
-    --kakao-border: #7dd3fc;
-    --green: #2d7050;
-    --green-bg: #eaf6f0;
-    --green-border: #9dd4be;
-    --purple: #7c3aed;
-    --purple-bg: #f5f3ff;
-    --purple-border: #c4b5fd;
-    --red: #c03040;
+  :root{
+    --ink:#1f2328; --sub:#59636e; --line:#d0d7de; --bg:#f6f8fa; --paper:#fff;
+    --accent:#2f6fde; --accent-soft:#eaf1fd; --warn-soft:#fff7e0; --warn:#9a6700;
   }
-
-  @media print {
-    body { background: white; }
-    .no-print { display: none; }
-    .page { box-shadow: none; padding: 20px; }
-    .print-btn { display: none; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif;font-size:15px;line-height:1.6}
+  .page{max-width:820px;margin:24px auto;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:32px 36px}
+  h1{font-size:24px;margin:0 0 4px}
+  .lead{color:var(--sub);margin:0 0 18px}
+  .who{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+  .who label{font-size:13px;color:var(--sub);display:block}
+  input[type=text],input[type=url],input[type=date]{width:100%;border:1px solid var(--line);border-radius:6px;padding:7px 9px;font:inherit}
+  .edit{border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-height:42px;white-space:pre-wrap}
+  .edit:empty:before{content:attr(data-ph);color:#9aa4ae}
+  .edit:focus,input:focus{outline:2px solid var(--accent);outline-offset:-1px}
+  .part{display:flex;align-items:center;gap:10px;margin:8px 0 14px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-weight:700}
+  .part small{font-weight:400;color:var(--sub)}
+  .q{margin:0 0 22px}
+  .q h2{font-size:16px;margin:0 0 6px}
+  .q .hint{font-size:13px;color:var(--sub);margin:0 0 8px}
+  .checks{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 12px}
+  .checks label{font-size:14px}
+  .tabs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .tabbox{border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+  .tabbox b{display:block;margin-bottom:6px}
+  .tabbox label{font-size:13px;color:var(--sub);display:block;margin-top:6px}
+  table{border-collapse:collapse;width:100%;font-size:13.5px}
+  th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+  th{background:var(--bg);font-weight:500}
+  .codes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+  .codes td:first-child{font-family:ui-monospace,Consolas,monospace;width:56px}
+  details{margin-top:10px}
+  summary{cursor:pointer;color:var(--accent);font-size:14px}
+  .ex{font-size:13.5px;margin:8px 0 0;padding-left:18px}
+  .guide{background:var(--accent-soft);border-radius:8px;padding:10px 12px;margin:0 0 12px;font-size:14px}
+  .guide a{color:var(--accent)}
+  .notice{background:var(--warn-soft);color:var(--warn);border-radius:8px;padding:10px 12px;margin:0 0 18px;font-weight:500}
+  .radios{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:14px}
+  .shot{border:1px dashed var(--line);border-radius:8px;padding:10px;text-align:center;color:var(--sub);font-size:13px;min-height:90px}
+  .shot img{max-width:100%;max-height:360px;display:block;margin:0 auto}
+  .exbox{background:var(--bg);border-radius:8px;padding:8px 12px;margin:0 0 10px;font-size:13.5px}
+  .exbox ul{margin:4px 0 0;padding-left:18px}
+  .row-none{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+  .submit{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:8px;padding:12px;background:var(--bg);border-radius:8px;font-size:14px}
+  button{font:inherit;background:var(--accent);color:#fff;border:0;border-radius:8px;padding:9px 16px;cursor:pointer}
+  .small{font-size:12.5px;color:var(--sub)}
+  .break{height:0}
+  @media (max-width:640px){
+    .page{margin:0;border-radius:0;border-left:0;border-right:0;padding:20px 16px}
+    .who,.tabs,.codes{grid-template-columns:1fr}
+    .checks{grid-template-columns:1fr 1fr}
+    .submit{flex-direction:column;align-items:flex-start}
   }
-
-  body {
-    background: var(--bg);
-    font-family: 'Noto Sans KR', sans-serif;
-    color: var(--text);
-    line-height: 1.7;
-  }
-
-  .page {
-    max-width: 780px;
-    margin: 32px auto;
-    background: var(--surface);
-    border-radius: 16px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-    padding: 48px 52px 56px;
-  }
-
-  /* ── 헤더 ── */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding-bottom: 24px;
-    margin-bottom: 32px;
-    border-bottom: 2.5px solid var(--text);
-  }
-  .header-left {}
-  .sheet-label {
-    display: inline-block;
-    background: var(--kakao);
-    color: white;
-    font-size: 10px; font-weight: 700;
-    letter-spacing: .12em; text-transform: uppercase;
-    padding: 4px 12px; border-radius: 20px;
-    margin-bottom: 8px;
-  }
-  .sheet-title {
-    font-family: 'Noto Serif KR', serif;
-    font-size: 22px; font-weight: 700;
-    color: var(--text); line-height: 1.3;
-    margin-bottom: 4px;
-  }
-  .sheet-title em { color: var(--kakao); font-style: normal; }
-  .sheet-sub { font-size: 13px; color: var(--text3); }
-
-  .meta-fields {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    text-align: right;
-  }
-  .meta-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    justify-content: flex-end;
-    font-size: 13px; color: var(--text2);
-  }
-  .meta-line {
-    width: 100px;
-    border-bottom: 1.5px solid var(--border2);
-    height: 20px;
-  }
-
-  /* ── 섹션 ── */
-  .section { margin-bottom: 28px; }
-  .section-head {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1.5px solid var(--border);
-  }
-  .section-num {
-    width: 26px; height: 26px;
-    background: var(--text);
-    color: var(--bg);
-    border-radius: 50%;
-    font-size: 13px; font-weight: 700;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .section-num.kakao  { background: var(--kakao); }
-  .section-num.purple { background: var(--purple); }
-  .section-num.green  { background: var(--green); }
-  .section-title { font-size: 15px; font-weight: 700; color: var(--text); }
-  .section-title span { font-size: 12px; font-weight: 400; color: var(--text3); margin-left: 6px; }
-
-  /* ── 입력 필드 ── */
-  .field { margin-bottom: 14px; }
-  .field-label {
-    font-size: 12px; font-weight: 700;
-    color: var(--text2); margin-bottom: 5px;
-    display: block;
-  }
-  .field-hint {
-    font-size: 11.5px; color: var(--text3);
-    font-style: italic; margin-bottom:6px;
-    display: block; line-height: 1.6;
-  }
-  .write-line {
-    width: 100%;
-    border-bottom: 1.5px solid var(--border2);
-    height: 28px;
-    display: block;
-  }
-  .write-area {
-    width: 100%;
-    border-bottom: 1.5px solid var(--border2);
-    height: 52px;
-    display: block;
-  }
-
-  /* ── 기능 선택 그리드 ── */
-  .feature-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    margin-bottom: 12px;
-  }
-  .feature-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-size: 13px; color: var(--text2);
-    cursor: pointer;
-    transition: all .15s;
-  }
-  .feature-item input[type="checkbox"] {
-    width: 16px; height: 16px;
-    accent-color: var(--kakao);
-    flex-shrink: 0;
-  }
-  .feature-item:has(input:checked) {
-    background: var(--kakao-bg);
-    border-color: var(--kakao-border);
-    color: var(--kakao);
-  }
-  .feature-tag {
-    font-size: 10px; font-weight: 700;
-    color: var(--text3); margin-left: auto;
-    flex-shrink: 0;
-  }
-
-  /* ── 탭 구성 ── */
-  .tab-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-  .tab-card {
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  .tab-card-head {
-    background: var(--surface2);
-    padding: 8px 14px;
-    font-size: 12px; font-weight: 700;
-    color: var(--text3);
-    border-bottom: 1px solid var(--border);
-  }
-  .tab-card-body { padding: 12px 14px; }
-  .tab-field {
-    margin-bottom: 8px;
-  }
-  .tab-field:last-child { margin-bottom: 0; }
-  .tab-label { font-size: 11px; color: var(--text3); margin-bottom: 3px; display: block; }
-  .tab-line { border-bottom: 1.5px solid var(--border2); height: 22px; width: 100%; display: block; }
-
-  /* ── 완성 목표 ── */
-  .goal-box {
-    background: var(--green-bg);
-    border: 1.5px solid var(--green-border);
-    border-radius: 10px;
-    padding: 16px 18px;
-  }
-  .goal-label {
-    font-size: 11px; font-weight: 700;
-    color: var(--green); text-transform: uppercase;
-    letter-spacing: .08em; margin-bottom: 10px;
-  }
-  .goal-write { border-bottom: 1.5px solid var(--green-border); height: 28px; display: block; width: 100%; margin-bottom: 8px; }
-
-  /* ── 제출 안내 ── */
-  .submit-box {
-    background: var(--surface2);
-    border: 1.5px dashed var(--border2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    margin-top: 32px;
-    font-size: 13px; color: var(--text2);
-    display: flex; align-items: flex-start; gap: 12px;
-  }
-  .submit-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
-  .submit-title { font-weight: 700; color: var(--text); margin-bottom: 4px; }
-
-  /* ── 인쇄/출력 버튼 ── */
-  .print-btn {
-    display: block;
-    text-align: center;
-    margin: 20px auto 0;
-    max-width: 780px;
-  }
-  .print-btn button {
-    background: var(--text);
-    color: var(--bg);
-    border: none;
-    padding: 10px 28px;
-    border-radius: 8px;
-    font-size: 14px; font-weight: 700;
-    font-family: 'Noto Sans KR', sans-serif;
-    cursor: pointer;
-    letter-spacing: .04em;
-  }
-  .print-btn button:hover { background: #3a3020; }
-
-  /* ── contenteditable 스타일 ── */
-  [contenteditable] {
-    outline: none;
-    cursor: text;
-    transition: background .15s, border-color .15s;
-  }
-  [contenteditable]:hover {
-    background: #fffef8;
-  }
-  [contenteditable]:focus {
-    background: #fffef0;
-    border-color: var(--kakao) !important;
-    border-bottom-width: 2px !important;
-  }
-  [contenteditable]:empty::before {
-    content: attr(data-placeholder);
-    color: var(--text3);
-    font-style: italic;
-    pointer-events: none;
-  }
-
-  /* ── 저장 버튼 영역 ── */
-  .save-bar {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    background: var(--text);
-    padding: 14px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    z-index: 100;
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-  }
-  .save-bar p {
-    color: rgba(255,255,255,0.7);
-    font-size: 13px;
-  }
-  .save-bar button {
-    background: var(--kakao);
-    color: white;
-    border: none;
-    padding: 10px 28px;
-    border-radius: 8px;
-    font-size: 14px; font-weight: 700;
-    font-family: 'Noto Sans KR', sans-serif;
-    cursor: pointer;
-    letter-spacing: .04em;
-  }
-  .save-bar button:hover { background: #025a8e; }
-
-  /* 저장 바 공간 확보 */
-  body { padding-bottom: 70px; }
-
-  @media print {
-    .save-bar { display: none; }
-    body { padding-bottom: 0; }
-    [contenteditable]:focus { border-color: var(--border2) !important; border-bottom-width: 1.5px !important; background: transparent; }
+  @media print{
+    @page{size:A4;margin:12mm}
+    body{background:#fff;font-size:12.5px}
+    .page{border:0;margin:0;padding:0;max-width:none}
+    .noprint,details summary{display:none}
+    details{display:none}
+    .break{page-break-before:always}
+    .edit,input{border-color:#999}
+    .q{break-inside:avoid;margin-bottom:12px}
+    body{font-size:11.5px;line-height:1.45}
+    h1{font-size:19px}
+    .lead{margin-bottom:10px}
+    .who{margin-bottom:10px}
+    .q h2{font-size:13.5px;margin-bottom:3px}
+    .q .hint{font-size:11px;margin-bottom:4px}
+    .exbox{display:none}
+    .edit{min-height:30px;padding:5px 8px}
+    input[type=text],input[type=url],input[type=date]{padding:4px 7px}
+    .tabbox{padding:6px 10px}
+    .part{margin:4px 0 8px;padding:5px 10px}
+    .shot{min-height:70px}
+    .shot img{max-height:250px}
   }
 </style>
 </head>
 <body>
-
 <div class="page">
 
-  <!-- 헤더 -->
-  <div class="header">
-    <div class="header-left">
-      <div class="sheet-label">3차시 과제 · 클래스룸 제출</div>
-      <div class="sheet-title">🗺️ 나만의 <em>카카오맵</em> 기획서</div>
-      <div class="sheet-sub">도전 2에서 만들 지도를 미리 설계해봐요</div>
-    </div>
-    <div class="meta-fields">
-      <div class="meta-row">이름 <div class="meta-line" contenteditable="true" spellcheck="false" data-placeholder="이름"></div></div>
-      <div class="meta-row">반·번호 <div class="meta-line" contenteditable="true" spellcheck="false" data-placeholder="반·번호"></div></div>
-      <div class="meta-row">날짜 <div class="meta-line" contenteditable="true" spellcheck="false" data-placeholder="날짜"></div></div>
+  <h1>🗺️ 나만의 카카오맵 기획서</h1>
+  <p class="lead">오늘 만들 지도를 먼저 설계하고, 만든 뒤에는 어떻게 되었는지 있는 그대로 적어요.</p>
+
+  <div class="who">
+    <div><label>학번 (4자리)</label><input type="text" inputmode="numeric" pattern="[0-9]{4}" placeholder="예: 2315" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,4)"></div>
+    <div><label>이름</label><input type="text"></div>
+    <div><label>날짜</label><input type="date" id="today"></div>
+  </div>
+
+  <div class="guide noprint">
+    📘 <b>만드는 방법은 가이드를 보세요</b> → <a href="kakaomap-search-guide.html" target="_blank">카카오맵 장소 검색 가이드</a><br>
+    <span class="small">기능 목록은 가이드의 '도전 1', AI에게 요청할 프롬프트는 '도전 2'에 있어요.</span>
+  </div>
+  <div class="guide noprint">
+    🌟 <b>이런 지도를 만든 친구도 있어요</b><br>
+    <a href="https://kkthc.github.io/kakao/" target="_blank">타임 세이버: 여행 시간을 아껴 주는 지도</a> ·
+    <a href="https://what-a-yeon.github.io/Map/" target="_blank">스포트라이트: 성지순례 지도</a>
+  </div>
+
+  <!-- 앞면 -->
+  <div class="part">앞면 <small>만들기 전에 써요</small></div>
+
+  <div class="q">
+    <h2>1. 내 지도 주제</h2>
+    <p class="hint">한 줄로 써요. 예: 학교 주변 야간 안전 지도</p>
+    <div class="edit" contenteditable="true" data-ph="내 지도 주제"></div>
+  </div>
+
+  <div class="q">
+    <h2>2. 추가할 기능 (최소 1개)</h2>
+    <p class="hint">기능이 실제로 어떻게 움직이는지는 <a href="kakaomap-search-guide.html#sec-4" target="_blank">가이드 '도전 1' 기능 목록</a>에서 눌러 볼 수 있어요.</p>
+    <div class="checks" id="feats">
+      <label><input type="checkbox" value="교통정보"> 교통정보</label>
+      <label><input type="checkbox" value="현재 위치"> 현재 위치</label>
+      <label><input type="checkbox" value="마커 이미지"> 마커 이미지</label>
+      <label><input type="checkbox" value="카테고리별 다른 마커"> 카테고리별 다른 마커</label>
+      <label><input type="checkbox" value="마커 클릭 상세 팝업"> 마커 클릭 상세 팝업</label>
+      <label><input type="checkbox" value="커스텀 말풍선"> 커스텀 말풍선</label>
+      <label><input type="checkbox" value="카테고리로 검색"> 카테고리로 검색</label>
+      <label><input type="checkbox" value="검색 결과 페이지 나누기"> 검색 결과 페이지 나누기</label>
+      <label><input type="checkbox" value="원·선·다각형"> 원·선·다각형</label>
+      <label><input type="checkbox" value="로드뷰"> 로드뷰</label>
+      <label><input type="checkbox" value="마커 군집화"> 마커 군집화</label>
+      <label><input type="checkbox" id="etcChk" value="기타"> 기타 <input type="text" id="etcTxt" style="width:110px;padding:2px 6px"></label>
     </div>
   </div>
 
-  <!-- ① 주제 -->
-  <div class="section">
-    <div class="section-head">
-      <div class="section-num kakao">1</div>
-      <div class="section-title">내 지도 주제 <span>어떤 지도를 만들 건지 한 줄로 써요</span></div>
-    </div>
-    <div class="field">
-      <span class="field-hint">예) 학교 주변 야간 안전 지도 / 고양시 반려동물 동반 카페 지도 / 등하굣길 편의시설 지도 / 우리 동네 스터디카페 비교 지도</span>
-      <span class="write-area" contenteditable="true" spellcheck="false"></span>
-    </div>
-  </div>
-
-  <!-- ② 기능 선택 -->
-  <div class="section">
-    <div class="section-head">
-      <div class="section-num kakao">2</div>
-      <div class="section-title">추가할 기능 선택 <span>최소 2개 이상 체크해요</span></div>
-    </div>
-
-    <div class="feature-grid">
-      <label class="feature-item">
-        <input type="checkbox">
-        <span>🗺️ 교통정보 표시하기</span>
-        <span class="feature-tag">지도</span>
-      </label>
-      <label class="feature-item">
-        <input type="checkbox">
-        <span>📍 내 현재 위치 표시</span>
-        <span class="feature-tag">지도</span>
-      </label>
-      <label class="feature-item">
-        <input type="checkbox">
-        <span>🖼️ 마커 이미지 바꾸기</span>
-        <span class="feature-tag">마커</span>
-      </label>
-      <label class="feature-item">
-        <input type="checkbox">
-        <span>🎨 카테고리별 다른 마커</span>
-        <span class="feature-tag">마커</span>
-      </label>
-      <label class="feature-item">
-        <input type="checkbox">
-        <span>💬 마커 클릭 시 상세 팝업</span>
-        <span class="feature-tag">마커</span>
-      </label>
-      <label class="feature-item">
-        <input type="checkbox">
-        <span>✨ 커스텀 말풍선 디자인</span>
-        <span class="feature-tag">마커</span>
-      </label>
-      <label class="feature-item">
-        <input type="checkbox">
-        <span>🔍 카테고리로 검색하기</span>
-        <span class="feature-tag">검색</span>
-      </label>
-      <label class="feature-item">
-        <input type="checkbox">
-        <span>📑 검색 결과 페이지 나누기</span>
-        <span class="feature-tag">검색</span>
-      </label>
-      <label class="feature-item">
-        <input type="checkbox">
-        <span>🔵 원·선·다각형 그리기</span>
-        <span class="feature-tag">기타</span>
-      </label>
-      <label class="feature-item">
-        <input type="checkbox">
-        <span>🚶 로드뷰 연동하기</span>
-        <span class="feature-tag">기타</span>
-      </label>
-      <label class="feature-item">
-        <input type="checkbox">
-        <span>🔢 마커 군집화 (클러스터링)</span>
-        <span class="feature-tag">기타</span>
-      </label>
-      <label class="feature-item" style="border-style:dashed;">
-        <input type="checkbox">
-        <span>기타: <span style="border-bottom:1px solid var(--border2); display:inline-block; width:100px; height:18px; vertical-align:bottom;"></span></span>
-      </label>
-    </div>
-  </div>
-
-  <!-- ③ 탭 구성 -->
-  <div class="section">
-    <div class="section-head">
-      <div class="section-num purple">3</div>
-      <div class="section-title">탭 구성 <span>어떤 카테고리를 탭으로 나눌 건지</span></div>
-    </div>
-    <div class="tab-grid">
-      <div class="tab-card">
-        <div class="tab-card-head">탭 1</div>
-        <div class="tab-card-body">
-          <div class="tab-field">
-            <span class="tab-label">탭 이름</span>
-            <span class="tab-line" contenteditable="true" spellcheck="false"></span>
-          </div>
-          <div class="tab-field">
-            <span class="tab-label">카테고리 코드</span>
-            <span class="tab-line" contenteditable="true" spellcheck="false"></span>
-          </div>
-          <div class="tab-field">
-            <span class="tab-label">어떤 장소를 보여줄 건지</span>
-            <span class="tab-line" contenteditable="true" spellcheck="false"></span>
-          </div>
-        </div>
+  <div class="q">
+    <h2>3. 탭 구성</h2>
+    <p class="hint">탭마다 이름, 카테고리 코드, 보여줄 장소를 써요. 코드는 아래 표에서 골라요. 다 쓰면 <a href="kakaomap-search-guide.html#sec-4" target="_blank">가이드 '도전 2'</a> 프롬프트 빈칸에 옮겨 써요.</p>
+    <div class="tabs">
+      <div class="tabbox"><b>탭 1</b>
+        <label>탭 이름</label><input type="text" id="tab1" placeholder="예: 주차장">
+        <label>카테고리 코드</label><input type="text" placeholder="예: PK6">
+        <label>보여줄 장소</label><input type="text" placeholder="예: 학교 근처 주차장">
       </div>
-      <div class="tab-card">
-        <div class="tab-card-head">탭 2</div>
-        <div class="tab-card-body">
-          <div class="tab-field">
-            <span class="tab-label">탭 이름</span>
-            <span class="tab-line" contenteditable="true" spellcheck="false"></span>
-          </div>
-          <div class="tab-field">
-            <span class="tab-label">카테고리 코드</span>
-            <span class="tab-line" contenteditable="true" spellcheck="false"></span>
-          </div>
-          <div class="tab-field">
-            <span class="tab-label">어떤 장소를 보여줄 건지</span>
-            <span class="tab-line" contenteditable="true" spellcheck="false"></span>
-          </div>
-        </div>
+      <div class="tabbox"><b>탭 2</b>
+        <label>탭 이름</label><input type="text" id="tab2" placeholder="예: 지하철역">
+        <label>카테고리 코드</label><input type="text" placeholder="예: SW8">
+        <label>보여줄 장소</label><input type="text" placeholder="예: 가까운 지하철역">
       </div>
     </div>
-    <div style="font-size:12px; color:var(--text3); font-style:italic; margin-top:8px;">
-      카테고리 코드를 모르면 LLM에게 "카카오맵 카테고리 코드 목록 알려줘" 라고 물어봐요.
-    </div>
-  </div>
 
-  <!-- ④ 한 줄 소개 -->
-  <div class="section">
-    <div class="section-head">
-      <div class="section-num purple">4</div>
-      <div class="section-title">한 줄 소개 <span>이 지도가 왜 필요한지</span></div>
-    </div>
-    <div class="field">
-      <span class="field-hint">예) "야간 귀가 시 주변 편의점·약국을 빠르게 찾아 안전에 도움이 돼요" / "고양시 반려동물 동반 가능 카페를 한눈에 볼 수 있어요"</span>
-      <span class="write-area" contenteditable="true" spellcheck="false"></span>
-    </div>
-  </div>
-
-  <!-- ⑤ 완성 목표 -->
-  <div class="section">
-    <div class="section-head">
-      <div class="section-num green">5</div>
-      <div class="section-title">완성 목표 <span>4차시에 GitHub에 올릴 내 지도 링크 예정</span></div>
-    </div>
-    <div class="goal-box">
-      <div class="goal-label">📎 4차시 제출 예정 링크</div>
-      <div class="field">
-        <span class="field-label">GitHub Pages 예정 주소</span>
-        <span class="goal-write" contenteditable="true" spellcheck="false" data-placeholder="https://내아이디.github.io/mymap/index.html"></span>
+    <details open>
+      <summary>카카오맵 카테고리 코드 표</summary>
+      <div class="codes">
+        <table>
+          <tr><th>코드</th><th>카테고리</th></tr>
+          <tr><td>MT1</td><td>대형마트</td></tr>
+          <tr><td>CS2</td><td>편의점</td></tr>
+          <tr><td>PS3</td><td>어린이집·유치원</td></tr>
+          <tr><td>SC4</td><td>학교</td></tr>
+          <tr><td>AC5</td><td>학원</td></tr>
+          <tr><td>PK6</td><td>주차장</td></tr>
+          <tr><td>OL7</td><td>주유소·충전소</td></tr>
+          <tr><td>SW8</td><td>지하철역</td></tr>
+          <tr><td>BK9</td><td>은행</td></tr>
+          <tr><td>CT1</td><td>문화시설</td></tr>
+        </table>
+        <table>
+          <tr><th>코드</th><th>카테고리</th></tr>
+          <tr><td>AG2</td><td>중개업소</td></tr>
+          <tr><td>PO3</td><td>공공기관</td></tr>
+          <tr><td>AT4</td><td>관광명소</td></tr>
+          <tr><td>AD5</td><td>숙박</td></tr>
+          <tr><td>FD6</td><td>음식점</td></tr>
+          <tr><td>CE7</td><td>카페</td></tr>
+          <tr><td>HP8</td><td>병원</td></tr>
+          <tr><td>PM9</td><td>약국</td></tr>
+        </table>
       </div>
-      <div style="font-size:12px; color:var(--text3);">예) https://내아이디.github.io/mymap/index.html</div>
+      <ul class="ex">
+        <li><b>안전 지도</b>: PK6(주차장) + SW8(지하철역) + PO3(공공기관)</li>
+        <li><b>먹자 지도</b>: FD6(음식점) + CE7(카페)</li>
+        <li><b>생활 편의 지도</b>: CS2(편의점) + BK9(은행) + PM9(약국)</li>
+        <li><b>교육 지도</b>: SC4(학교) + AC5(학원) + PS3(어린이집)</li>
+      </ul>
+    </details>
+  </div>
+
+  <div class="q">
+    <h2>4. 한 줄 소개</h2>
+    <p class="hint">이 지도가 왜 필요한지 써요.</p>
+    <div class="edit" contenteditable="true" data-ph="이 지도가 필요한 이유"></div>
+  </div>
+
+  <div class="q">
+    <h2>5. 완성 목표</h2>
+    <p class="hint">다 만든 뒤 올릴 주소예요. 올리고 나서 실제 주소를 적어요.</p>
+    <input type="url" placeholder="https://내아이디.github.io/mymap/index.html">
+  </div>
+
+  <!-- 뒷면 -->
+  <div class="break"></div>
+  <div class="part">뒷면 <small>다 만든 뒤에 써요</small></div>
+  <p class="notice">있었던 그대로 써요.</p>
+
+  <div class="q">
+    <h2>6. 기획과 완성 비교</h2>
+    <p class="hint">앞면에서 고른 탭과 기능마다 하나를 고르고, 이유를 한 줄 써요.</p>
+    <table id="cmp">
+      <thead><tr><th style="width:28%">탭·기능</th><th style="width:34%">결과</th><th>이유</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <p class="small noprint">앞면에서 탭 이름을 쓰거나 기능을 고르면 표에 줄이 생겨요.</p>
+  </div>
+
+  <div class="q">
+    <h2>7. AI가 내 생각과 다르게 만든 순간</h2>
+    <p class="hint" style="color:var(--ink)">내가 AI에게 부탁한 것과 실제 화면이 다르게 나온 때예요. 오류가 나서 화면이 안 뜬 경우도 들어가요.</p>
+    <div class="exbox">
+      <b>예를 들면</b>
+      <ul>
+        <li>탭 1과 탭 2를 눌렀는데 똑같은 장소가 나와요</li>
+        <li>기획서에 쓴 카테고리 코드와 다른 코드가 코드에 들어가 있어요</li>
+        <li>팝업에 전화번호를 넣어 달라고 했는데 이름만 나와요</li>
+        <li>마커 색을 나눠 달라고 했는데 모두 같은 색이에요</li>
+        <li>내 위치가 아니라 엉뚱한 곳에서 지도가 시작돼요</li>
+        <li>페이지 제목이 내 주제와 다르게 나와요</li>
+      </ul>
+    </div>
+    <p class="hint">그런 순간 하나를 골라, 실행 화면이나 AI 대화 가운데 그 순간이 가장 잘 보이는 것을 캡처해 넣어요. (칸을 눌러 파일을 고르거나, 캡처한 뒤 칸을 누르고 Ctrl+V)</p>
+    <div class="shot" id="shot" tabindex="0">여기를 눌러 캡처 이미지 넣기</div>
+    <input type="file" id="shotFile" accept="image/*" hidden>
+    <p class="hint" style="margin-top:10px">그때 어떻게 했나요?</p>
+    <div class="radios">
+      <label><input type="radio" name="act"> 그대로 둠</label>
+      <label><input type="radio" name="act"> 다시 요청</label>
+      <label><input type="radio" name="act"> 직접 고침</label>
+      <label><input type="radio" name="act"> 포기</label>
+    </div>
+    <div class="edit" contenteditable="true" style="margin-top:8px" data-ph="무엇이 달랐고, 어떻게 했는지 한 줄로 써요"></div>
+
+    <div class="row-none">
+      <label><input type="checkbox"> 그런 순간이 없었음</label>
+      <div class="edit" contenteditable="true" style="margin-top:6px" data-ph="없었다면, 내 생각대로 만들어졌는지 어떻게 확인했나요?"></div>
     </div>
   </div>
 
-  <!-- 제출 안내 -->
-  <div class="submit-box">
-    <div class="submit-icon">📋</div>
-    <div>
-      <div class="submit-title">제출 방법</div>
-      <div style="display:flex; flex-direction:column; gap:8px; margin-top:8px;">
-        <div style="display:flex; align-items:flex-start; gap:10px; font-size:13px; color:var(--text2);">
-          <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px; flex-shrink:0; margin-top:1px;">1</span>
-          <span>빈칸을 클릭해서 내용 입력, 체크박스 선택 완료</span>
-        </div>
-        <div style="display:flex; align-items:flex-start; gap:10px; font-size:13px; color:var(--text2);">
-          <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px; flex-shrink:0; margin-top:1px;">2</span>
-          <span>아래 <strong style="color:var(--kakao);">"PDF로 저장 → 클래스룸 제출"</strong> 버튼 클릭</span>
-        </div>
-        <div style="display:flex; align-items:flex-start; gap:10px; font-size:13px; color:var(--text2);">
-          <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px; flex-shrink:0; margin-top:1px;">3</span>
-          <div>
-            브라우저 인쇄 창이 열리면<br>
-            <span style="display:inline-flex; align-items:center; gap:6px; margin-top:4px; font-size:12.5px; background:var(--surface2); border-radius:6px; padding:4px 10px; border:1px solid var(--border);">
-              대상(목적지) → <strong>PDF로 저장</strong> 선택 → 저장 클릭
-            </span>
-          </div>
-        </div>
-        <div style="display:flex; align-items:flex-start; gap:10px; font-size:13px; color:var(--text2);">
-          <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px; flex-shrink:0; margin-top:1px;">4</span>
-          <span>저장된 PDF를 <strong>클래스룸 3차시 과제</strong>에 업로드해서 제출</span>
-        </div>
-      </div>
-    </div>
+  <div class="q">
+    <h2>8. AI 대화 링크</h2>
+    <p class="hint">오늘 지도를 만들며 쓴 AI 대화의 공유 링크를 붙여요. 여러 개면 모두 붙여요.</p>
+    <div class="edit" contenteditable="true" data-ph="https://..."></div>
   </div>
 
+  <div class="submit noprint">
+    <div><b>제출</b>: 아래 버튼 → 대상을 'PDF로 저장' → 클래스룸 과제에 제출<br>
+      <span class="small">새로고침하거나 창을 닫으면 쓴 내용이 지워져요. 제출 전까지 창을 닫지 마세요.</span></div>
+    <button onclick="window.print()">PDF로 저장</button>
+  </div>
 </div>
 
-<div class="save-bar no-print">
-  <p>✏️ 빈칸을 클릭해서 직접 입력하고, 완성되면 PDF로 저장해요</p>
-  <button onclick="window.print()">📄 PDF로 저장 → 클래스룸 제출</button>
-</div>
+<script>
+  // 오늘 날짜
+  const d = new Date();
+  document.getElementById('today').value =
+    d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 
+  // 6번 비교표: 앞면 탭·기능에서 줄 만들기 (이미 쓴 내용은 유지)
+  const tbody = document.querySelector('#cmp tbody');
+  const kept = {};
+  function rowsFrom(){
+    const items = [];
+    const t1 = document.getElementById('tab1').value.trim();
+    const t2 = document.getElementById('tab2').value.trim();
+    items.push('탭 1' + (t1 ? ': '+t1 : ''));
+    items.push('탭 2' + (t2 ? ': '+t2 : ''));
+    document.querySelectorAll('#feats input[type=checkbox]:checked').forEach(c=>{
+      let v = c.value;
+      if (c.id==='etcChk'){ const e=document.getElementById('etcTxt').value.trim(); v = '기타' + (e?': '+e:''); }
+      items.push(v);
+    });
+    return items;
+  }
+  function keyOf(label){ return label.split(':')[0]; }
+  function render(){
+    tbody.querySelectorAll('tr').forEach(tr=>{ kept[tr.dataset.k] = tr; });
+    tbody.innerHTML = '';
+    rowsFrom().forEach((label,i)=>{
+      const k = keyOf(label);
+      let tr = kept[k];
+      if (!tr){
+        tr = document.createElement('tr');
+        tr.dataset.k = k;
+        const name = 'r'+Math.random().toString(36).slice(2);
+        tr.innerHTML = '<td class="lab"></td>'+
+          '<td><div class="radios">'+
+          '<label><input type="radio" name="'+name+'"> 구현함</label>'+
+          '<label><input type="radio" name="'+name+'"> 바꿔서 구현함</label>'+
+          '<label><input type="radio" name="'+name+'"> 못 함</label></div></td>'+
+          '<td><div class="edit" contenteditable="true" data-ph="이유 한 줄"></div></td>';
+      }
+      tr.querySelector('.lab').textContent = label;
+      tbody.appendChild(tr);
+    });
+  }
+  ['tab1','tab2','etcTxt'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+  document.querySelectorAll('#feats input[type=checkbox]').forEach(c=>c.addEventListener('change',render));
+  render();
+
+  // 7번 캡처 넣기
+  const shot = document.getElementById('shot'), file = document.getElementById('shotFile');
+  function show(f){
+    if(!f || !f.type.startsWith('image/')) return;
+    const r = new FileReader();
+    r.onload = e => { shot.innerHTML = '<img alt="AI가 다르게 만든 장면">'; shot.querySelector('img').src = e.target.result; };
+    r.readAsDataURL(f);
+  }
+  shot.addEventListener('click',()=>file.click());
+  file.addEventListener('change',()=>show(file.files[0]));
+  shot.addEventListener('paste',e=>{
+    for (const it of e.clipboardData.items){ if(it.type.startsWith('image/')){ show(it.getAsFile()); e.preventDefault(); break; } }
+  });
+</script>
 </body>
 </html>
