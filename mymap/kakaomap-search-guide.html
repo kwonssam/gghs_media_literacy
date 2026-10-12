@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -505,6 +506,69 @@
   @media (max-width: 640px) {
     [style*="grid-template-columns:1fr 1fr"] { grid-template-columns:1fr !important; }
   }
+  /* ── STEP 1, 2 구분 ── */
+  .cmp-wrap { background:var(--surface); border:2px solid var(--border); border-radius:14px; padding:20px; margin:4px 0 28px; }
+  .cmp-title { font-size:18px; font-weight:900; margin-bottom:14px; }
+  .cmp-screens { display:flex; gap:10px; align-items:stretch; }
+  .cmp-col { flex:1; border-radius:12px; padding:10px; border:2px solid; }
+  .cmp-col.a { border-color:var(--kakao-border); background:var(--kakao-bg); }
+  .cmp-col.b { border-color:var(--js-border); background:var(--js-bg); }
+  .cmp-label { font-weight:900; font-size:15px; margin-bottom:8px; }
+  .cmp-col.a .cmp-label { color:var(--kakao); } .cmp-col.b .cmp-label { color:#7a5f00; }
+  .cmp-arrow { display:flex; align-items:center; font-size:22px; font-weight:900; color:var(--text3); }
+  .cmp-legend { font-size:13.5px; color:var(--text2); margin:8px 0 12px; display:flex; align-items:center; gap:6px; }
+  .new-dot { width:14px; height:14px; border-radius:4px; background:#fde047; border:2px solid #f59e0b; display:inline-block; }
+  .cmp-table { margin:0 0 12px; font-size:15px; }
+  .cmp-table th.a { color:var(--kakao); background:var(--kakao-bg); } .cmp-table th.b { color:#7a5f00; background:var(--js-bg); }
+  .cmp-table td:first-child { font-weight:700; color:var(--text); white-space:nowrap; width:110px; }
+  .cmp-why { background:var(--bg); border-radius:8px; padding:10px 14px; font-size:15px; color:var(--text2); }
+  .scr { display:grid; grid-template-columns:1fr 1.6fr; gap:6px; height:150px; background:#fff; border:1.5px solid var(--border); border-radius:8px; padding:6px; }
+  .scr-left { display:flex; flex-direction:column; gap:6px; background:var(--bg); border-radius:6px; padding:6px; }
+  .scr-empty { margin:auto; font-size:12.5px; color:var(--text3); text-align:center; }
+  .scr-search { font-size:12.5px; background:#fff; border:1px solid var(--border); border-radius:5px; padding:3px 6px; display:flex; justify-content:space-between; }
+  .scr-search b { font-size:11.5px; background:var(--text2); color:#fff; border-radius:4px; padding:0 5px; }
+  .scr-list { flex:1; display:flex; flex-direction:column; gap:4px; border-radius:5px; padding:4px; }
+  .scr-list i { display:block; height:9px; background:#cbd5e1; border-radius:3px; }
+  .scr-list span { font-size:12px; color:var(--text2); margin-top:auto; }
+  .scr-map { position:relative; border-radius:6px; background:repeating-linear-gradient(45deg,#e0f2fe 0 12px,#eef7fd 12px 24px); border:1px solid var(--kakao-border); }
+  .scr-tag { position:absolute; left:6px; bottom:4px; font-size:12px; color:var(--kakao); font-weight:700; }
+  .pin { position:absolute; font-size:16px; line-height:1; }
+  .pop { position:absolute; font-size:11px; line-height:1.3; background:#fff; border:1px solid var(--border); border-radius:5px; padding:2px 6px; }
+  .scr .new { outline:2.5px solid #f59e0b; outline-offset:1px; background-color:#fef9c3; border-radius:5px; }
+  .scr-map.new { background:repeating-linear-gradient(45deg,#fef9c3 0 12px,#fefce8 12px 24px); }
+  .scr .pin.new { background:none; outline:none; filter:drop-shadow(0 0 3px #f59e0b); }
+  .step-card.stepA { border:3px solid var(--kakao-border); margin-top:28px; }
+  .step-card.stepB { border:3px solid var(--js-border); margin-top:40px; }
+  .step-band { font-size:20px; font-weight:900; padding:12px 22px; color:#fff; }
+  .step-band small { font-size:14px; font-weight:500; margin-left:8px; opacity:.9; }
+  .step-band.a { background:var(--kakao); } .step-band.b { background:var(--js); color:#1a1200; }
+  .goal { border-radius:10px; padding:12px 14px; margin-bottom:16px; border:1.5px solid; }
+  .goal.a { background:var(--kakao-bg); border-color:var(--kakao-border); } .goal.b { background:var(--js-bg); border-color:var(--js-border); }
+  .goal-h { font-weight:900; font-size:15px; margin-bottom:8px; color:var(--text); }
+  .goal-body { display:grid; grid-template-columns:260px 1fr; gap:14px; align-items:center; }
+  .goal-text { font-size:15.5px; color:var(--text2); line-height:1.8; }
+  details.more { border:1.5px solid var(--border); border-radius:10px; margin:14px 0; background:var(--surface); }
+  details.more > summary { cursor:pointer; padding:10px 14px; font-weight:700; font-size:15px; color:var(--text); list-style:none; }
+  details.more > summary::-webkit-details-marker { display:none; }
+  details.more > summary::before { content:'▸ '; color:var(--text3); }
+  details.more[open] > summary::before { content:'▾ '; }
+  details.more[open] > summary { border-bottom:1px solid var(--border); }
+  details.more > *:not(summary) { margin-left:14px !important; margin-right:14px !important; }
+  @media (max-width:760px){
+    .cmp-screens { flex-direction:column; } .cmp-arrow { justify-content:center; transform:rotate(90deg); }
+    .goal-body { grid-template-columns:1fr; }
+    .step-band { font-size:17px; padding:10px 16px; }
+    .cmp-table td:first-child { white-space:normal; width:auto; }
+  }
+  .stepA .step-card-head, .stepB .step-card-head { display:none; }
+  @media (min-width:761px){ .goal-body { grid-template-columns:320px 1fr; } }
+  .scr-search { white-space:nowrap; gap:4px; }
+  .prompt-label-bar { font-size:13px !important; color:#a5b4c8 !important; }
+  @media (max-width:640px){
+    table.cmp-table { display:table; white-space:normal; font-size:14px; }
+    .cmp-table th, .cmp-table td { padding:8px 6px; word-break:keep-all; }
+    .cmp-table td:first-child { width:64px !important; white-space:normal !important; }
+  }
 </style>
 </head>
 <body>
@@ -733,17 +797,37 @@
     <div class="sec-title" id="sec-3">실습 순서 — 2단계로 완성</div>
     <p class="desc">한 번에 다 만들지 않음. 아래 순서대로 하나씩 추가하며 완성. <strong>각 단계에서 프롬프트를 작성해서 AI에게 코드를 받아요.</strong></p>
 
+    <!-- STEP 1, 2 비교 -->
+    <div class="cmp-wrap">
+      <div class="cmp-title">STEP 1과 STEP 2는 무엇이 다른가요?</div>
+      <div class="cmp-screens">
+        <div class="cmp-col a"><div class="cmp-label">STEP 1 · 지도 띄우기</div><div class="scr"><div class="scr-left"><div class="scr-empty">아직 비어 있음</div></div><div class="scr-map new"><span class="scr-tag">🗺️ 카카오 지도</span></div></div></div>
+        <div class="cmp-arrow">→</div>
+        <div class="cmp-col b"><div class="cmp-label">STEP 2 · 검색 기능 붙이기</div><div class="scr"><div class="scr-left"><div class="scr-search new">🔍 검색창 <b>버튼</b></div><div class="scr-list new"><i></i><i></i><i></i><span>결과 리스트</span></div></div><div class="scr-map"><span class="scr-tag">🗺️ 카카오 지도</span><span class="pin new" style="left:30%;top:40%">📍</span><span class="pin new" style="left:55%;top:58%">📍</span><span class="pin new" style="left:70%;top:30%">📍</span><span class="pop new" style="left:44%;top:12%">장소 이름<br>주소</span></div></div></div>
+      </div>
+      <div class="cmp-legend"><span class="new-dot"></span> 색칠된 부분이 그 단계에서 새로 생기는 것</div>
+      <table class="cmp-table">
+        <tr><th></th><th class="a">STEP 1 · 지도 띄우기</th><th class="b">STEP 2 · 검색 기능 붙이기</th></tr>
+        <tr><td>끝나면 화면</td><td>지도만 뜸</td><td>검색창, 리스트, 마커, 팝업이 생김</td></tr>
+        <tr><td>프롬프트</td><td>선생님과 <strong>같이 쓰기</strong></td><td>내가 <strong>빈칸 채우기</strong></td></tr>
+        <tr><td>새로 배우는 것</td><td>프롬프트 4칸 구조 (① 페르소나 ② 맥락 ③ 지시 ④ 출력)</td><td><strong>내 코드를 붙여넣고 이어서 고치기</strong> (도전 2에서도 그대로 써요)</td></tr>
+        <tr><td>완성 기준</td><td>지도가 뜨면 끝</td><td>검색하면 마커와 팝업이 나오면 끝</td></tr>
+      </table>
+      <div class="cmp-why"><strong>왜 나눠서 하나요?</strong> 한 번에 다 만들면 오류가 났을 때 어디서 났는지 찾기 어려워요. 지도가 뜨는 것부터 확인하고, 그 위에 기능을 하나씩 더해요.</div>
+    </div>
+
     <!-- STEP 1 -->
-    <div class="step-card">
+    <div class="step-card stepA">
+      <div class="step-band a">STEP 1 · 지도 띄우기 <small>선생님과 같이 쓰기</small></div>
       <div class="step-card-head kakao">
         <div class="step-num kakao">1</div>
         <div>
-          <div class="step-card-title kakao">뼈대 + 지도 띄우기</div>
+          <div class="step-card-title kakao">뼈대 만들고 지도 띄우기</div>
           <div class="step-card-sub">2분할 레이아웃 + 카카오 지도 화면에 표시</div>
         </div>
       </div>
       <div class="step-card-body">
-        <p style="margin-bottom:14px;">왼쪽 검색창·결과 리스트, 오른쪽 지도 — <strong>2분할 화면 구조</strong> 만들기.<br>카카오 지도가 학교 위치를 중심으로 뜨면 1단계 완성.</p>
+        <div class="goal a"><div class="goal-h">🎯 이 단계가 끝나면</div><div class="goal-body"><div class="scr"><div class="scr-left"><div class="scr-empty">아직 비어 있음</div></div><div class="scr-map new"><span class="scr-tag">🗺️ 카카오 지도</span></div></div><div class="goal-text">왼쪽 검색창·결과 리스트, 오른쪽 지도 — <strong>2분할 화면 구조</strong> 만들기.<br>카카오 지도가 학교 위치를 중심으로 뜨면 1단계 완성.</div></div></div>
 
         <!-- 시범 실습 -->
         <div style="background:var(--surface2); border:2px solid var(--kakao-border); border-radius:10px; padding:16px 18px; margin-bottom:16px;">
@@ -758,14 +842,10 @@
 
           <div class="pmap">
             <div class="pmap-title">🧭 이 프롬프트의 각 줄이 무엇이 되나요?</div>
-            <div class="pmap-desc">프롬프트를 쓰기 전에 먼저 봐요. 줄마다 화면에 무엇이 생기는지, 받은 뒤 무엇을 확인할지 알 수 있어요.</div>
+            <div class="pmap-desc">핵심 줄만 골랐어요. 줄마다 화면에 무엇이 생기는지, 받은 뒤 무엇을 확인할지 먼저 봐요.</div>
             <div class="pmap-head"><span>프롬프트에 쓰는 것</span><span>화면에 생기는 것</span><span>내가 확인할 것</span></div>
-            <div class="pmap-row r1"><span class="pm-p"><i>①</i>처음 배우는 고등학생</span><span class="pm-r">쉬운 코드와 한국어 주석</span><span class="pm-c">주석을 읽으면 이해되나?</span></div>
-            <div class="pmap-row r2"><span class="pm-p"><i>②</i>카카오 SDK로 지도 표시</span><span class="pm-r">AI가 카카오 도구로 지도를 만듦</span><span class="pm-c">코드에 카카오 스크립트가 있나?</span></div>
             <div class="pmap-row r3"><span class="pm-p"><i>③</i>왼쪽, 오른쪽 2분할</span><span class="pm-r">왼쪽 검색창과 리스트, 오른쪽 지도</span><span class="pm-c">화면이 둘로 나뉘었나?</span></div>
             <div class="pmap-row r3"><span class="pm-p"><i>③</i>현재 위치를 중심으로</span><span class="pm-r">내 위치에서 지도가 시작됨</span><span class="pm-c">엉뚱한 곳에서 시작하지 않나?</span></div>
-            <div class="pmap-row r3"><span class="pm-p"><i>③</i>로드된 후에 실행</span><span class="pm-r">지도가 안 뜨는 오류를 막음</span><span class="pm-c">새로고침해도 지도가 뜨나?</span></div>
-            <div class="pmap-row r3"><span class="pm-p"><i>③</i>확대 레벨 5</span><span class="pm-r">동네가 한눈에 보이는 크기</span><span class="pm-c">너무 크거나 작지 않나?</span></div>
             <div class="pmap-row r3"><span class="pm-p"><i>③</i>카카오 JavaScript 키</span><span class="pm-r">카카오가 지도 사용을 허락함</span><span class="pm-c">내 키가 들어갔나?</span></div>
             <div class="pmap-row r4"><span class="pm-p"><i>④</i>index.html 하나로</span><span class="pm-r">파일 하나에 붙여넣기만 하면 됨</span><span class="pm-c">파일이 하나인가?</span></div>
           </div>
@@ -827,61 +907,27 @@ HTML, CSS, JS를 하나의 index.html 파일로 합쳐서 보여줘.
     </div>
 
     <!-- STEP 2 -->
-    <div class="step-card">
+    <div class="step-card stepB">
+      <div class="step-band b">STEP 2 · 검색 기능 붙이기 <small>빈칸 채우기</small></div>
       <div class="step-card-head js">
         <div class="step-num js">2</div>
         <div>
-          <div class="step-card-title js">검색 + 마커 + 리스트 + 팝업</div>
+          <div class="step-card-title js">검색, 마커, 리스트, 팝업 더하기</div>
           <div class="step-card-sub">키워드 입력 → 마커 표시 + 결과 리스트 + 클릭 팝업까지 한 번에</div>
         </div>
       </div>
       <div class="step-card-body">
 
-        <div class="tip" style="margin-bottom:14px;">
-          <strong>전체 동작 흐름</strong><br><br>
-          <div style="display:flex; flex-direction:column; gap:6px; font-size:14px;">
-            <div style="display:flex; align-items:center; gap:10px;">
-              <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:10px; flex-shrink:0;">1</span>
-              <span>검색 버튼 클릭</span>
-            </div>
-            <div style="padding-left:14px; color:var(--text3); font-size:13px;">↓</div>
-            <div style="display:flex; align-items:center; gap:10px;">
-              <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:10px; flex-shrink:0;">2</span>
-              <span>JS가 카카오 서버에 <strong>"이 키워드로 주변 장소 알려줘"</strong> 요청</span>
-            </div>
-            <div style="padding-left:14px; color:var(--text3); font-size:13px;">↓</div>
-            <div style="display:flex; align-items:center; gap:10px;">
-              <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:10px; flex-shrink:0;">3</span>
-              <span>카카오 서버가 <strong>JSON</strong>으로 장소 목록 배달</span>
-            </div>
-            <div style="padding-left:14px; color:var(--text3); font-size:13px;">↓</div>
-            <div style="display:flex; align-items:flex-start; gap:10px;">
-              <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:10px; flex-shrink:0; margin-top:2px;">4</span>
-              <div>
-                JS가 데이터 받아서 동시에 표시<br>
-                <span style="display:inline-flex; align-items:center; gap:5px; margin-top:5px; font-size:13px; color:var(--text2);">
-                  <span style="background:var(--kakao-bg); border:1px solid var(--kakao-border); color:var(--kakao); padding:2px 8px; border-radius:6px; font-weight:700;">① 지도에 마커</span>
-                  <span style="background:var(--kakao-bg); border:1px solid var(--kakao-border); color:var(--kakao); padding:2px 8px; border-radius:6px; font-weight:700;">② 왼쪽 리스트</span>
-                  <span style="background:var(--kakao-bg); border:1px solid var(--kakao-border); color:var(--kakao); padding:2px 8px; border-radius:6px; font-weight:700;">③ 클릭 팝업</span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        <div class="goal b"><div class="goal-h">🎯 이 단계가 끝나면</div><div class="goal-body"><div class="scr"><div class="scr-left"><div class="scr-search new">🔍 검색창 <b>버튼</b></div><div class="scr-list new"><i></i><i></i><i></i><span>결과 리스트</span></div></div><div class="scr-map"><span class="scr-tag">🗺️ 카카오 지도</span><span class="pin new" style="left:30%;top:40%">📍</span><span class="pin new" style="left:55%;top:58%">📍</span><span class="pin new" style="left:70%;top:30%">📍</span><span class="pop new" style="left:44%;top:12%">장소 이름<br>주소</span></div></div><div class="goal-text">키워드를 입력하면 <strong>지도에 마커, 왼쪽에 결과 리스트, 클릭하면 팝업</strong>이 나와요.<br>STEP 1에서 만든 화면 위에 더하는 거예요.</div></div></div>
     <div class="pmap">
       <div class="pmap-title">🧭 이 프롬프트의 각 줄이 무엇이 되나요?</div>
-      <div class="pmap-desc">빈칸을 채우기 전에 먼저 봐요. 내가 채운 말이 그대로 화면의 기능이 돼요.</div>
+      <div class="pmap-desc">핵심 줄만 골랐어요. 내가 채운 말이 그대로 화면의 기능이 돼요.</div>
       <div class="pmap-head"><span>프롬프트에 쓰는 것</span><span>화면에 생기는 것</span><span>내가 확인할 것</span></div>
-      <div class="pmap-row r1"><span class="pm-p"><i>①</i>카카오맵 ___ 서비스</span><span class="pm-r">내 서비스 목적에 맞는 화면</span><span class="pm-c">제목과 문구가 내 서비스에 맞나?</span></div>
       <div class="pmap-row r2 key"><span class="pm-p"><i>②</i>현재 index.html 전체 <span class="pm-badge">가장 중요</span></span><span class="pm-r">STEP 1 코드에 이어서 고쳐 줌</span><span class="pm-c">2분할 화면과 지도가 그대로 있나?</span></div>
       <div class="pmap-row r3"><span class="pm-p"><i>③</i>검색창에 ___ 입력</span><span class="pm-r">검색창과 버튼</span><span class="pm-c">버튼을 누르면 반응하나?</span></div>
-      <div class="pmap-row r3"><span class="pm-p"><i>③</i>카카오 ___ API로 검색</span><span class="pm-r">카카오 서버가 장소 목록(JSON)을 보내 줌</span><span class="pm-c">F12 콘솔에 JSON이 찍히나?</span></div>
       <div class="pmap-row r3"><span class="pm-p"><i>③</i>지도에 ___로 표시</span><span class="pm-r">지도 위 마커</span><span class="pm-c">검색한 곳 근처에 찍히나?</span></div>
-      <div class="pmap-row r3"><span class="pm-p"><i>③</i>리스트에 ___과 ___</span><span class="pm-r">왼쪽 결과 목록</span><span class="pm-c">내가 말한 두 정보가 다 나오나?</span></div>
       <div class="pmap-row r3"><span class="pm-p"><i>③</i>___ 클릭 시 ___ 팝업</span><span class="pm-r">클릭하면 뜨는 말풍선</span><span class="pm-c">팝업 내용이 내가 말한 것과 같나?</span></div>
       <div class="pmap-row r3"><span class="pm-p"><i>③</i>기존 ___ 지우기</span><span class="pm-r">새로 검색하면 이전 결과가 사라짐</span><span class="pm-c">두 번 검색해도 마커가 쌓이지 않나?</span></div>
-      <div class="pmap-row r4"><span class="pm-p"><i>④</i>전체 index.html</span><span class="pm-r">통째로 바꿔 붙여넣으면 됨</span><span class="pm-c">코드가 중간에 끊기지 않았나?</span></div>
       <div class="pmap-foot">② 현재 코드를 빼면 AI는 STEP 1을 모른 채 새 코드를 처음부터 다시 써요. 그러면 앞에서 만든 화면이 사라질 수 있어요.</div>
     </div>
 
@@ -913,6 +959,8 @@ HTML, CSS, JS를 하나의 index.html 파일로 합쳐서 보여줘.
 변수명은 영어로, 주석은 한국어로.</div>
         </div>
 
+
+        <details class="more"><summary>💡 빈칸 예시 보기</summary>
         <!-- 빈칸 예시 -->
         <div style="border:1.5px solid var(--border); border-radius:10px; overflow:hidden; margin-top:10px; margin-bottom:14px;">
           <div style="background:var(--surface2); padding:10px 16px; font-size:11px; font-weight:700; color:var(--text3); letter-spacing:.08em; text-transform:uppercase;">
@@ -965,6 +1013,52 @@ HTML, CSS, JS를 하나의 index.html 파일로 합쳐서 보여줘.
           </div>
         </div>
 
+        </details>
+
+        <p style="font-weight:700; margin-bottom:8px; color:var(--text3); font-size:13px;">✅ 완성 기준</p>
+        <ul class="check-list" style="margin-bottom:14px;">
+          <li>키워드 검색 시 지도에 마커 표시됨</li>
+          <li>왼쪽 리스트에 장소 이름 나열됨</li>
+          <li>마커 클릭 시 장소 이름·주소 팝업 표시</li>
+        </ul>
+
+        <div class="tip-green" style="margin-bottom:0;">
+          <strong>오류 발생 시:</strong> F12 → Console 탭 → 빨간 오류 메시지 복사 → AI에게 현재 코드와 함께 붙여넣고 수정 요청.
+        </div>
+
+        <details class="more"><summary>🔎 더 알아보기: 동작 흐름, JSON 데이터, 핵심 코드</summary>
+        <div class="tip" style="margin-bottom:14px;">
+          <strong>전체 동작 흐름</strong><br><br>
+          <div style="display:flex; flex-direction:column; gap:6px; font-size:14px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:10px; flex-shrink:0;">1</span>
+              <span>검색 버튼 클릭</span>
+            </div>
+            <div style="padding-left:14px; color:var(--text3); font-size:13px;">↓</div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:10px; flex-shrink:0;">2</span>
+              <span>JS가 카카오 서버에 <strong>"이 키워드로 주변 장소 알려줘"</strong> 요청</span>
+            </div>
+            <div style="padding-left:14px; color:var(--text3); font-size:13px;">↓</div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:10px; flex-shrink:0;">3</span>
+              <span>카카오 서버가 <strong>JSON</strong>으로 장소 목록 배달</span>
+            </div>
+            <div style="padding-left:14px; color:var(--text3); font-size:13px;">↓</div>
+            <div style="display:flex; align-items:flex-start; gap:10px;">
+              <span style="background:var(--kakao); color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:10px; flex-shrink:0; margin-top:2px;">4</span>
+              <div>
+                JS가 데이터 받아서 동시에 표시<br>
+                <span style="display:inline-flex; align-items:center; gap:5px; margin-top:5px; font-size:13px; color:var(--text2);">
+                  <span style="background:var(--kakao-bg); border:1px solid var(--kakao-border); color:var(--kakao); padding:2px 8px; border-radius:6px; font-weight:700;">① 지도에 마커</span>
+                  <span style="background:var(--kakao-bg); border:1px solid var(--kakao-border); color:var(--kakao); padding:2px 8px; border-radius:6px; font-weight:700;">② 왼쪽 리스트</span>
+                  <span style="background:var(--kakao-bg); border:1px solid var(--kakao-border); color:var(--kakao); padding:2px 8px; border-radius:6px; font-weight:700;">③ 클릭 팝업</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <p style="font-weight:700; margin-bottom:8px; color:var(--text3); font-size:13px; margin-top:14px;">📦 카카오가 보내주는 JSON 데이터 구조</p>
         <div class="code-wrap" style="margin-bottom:14px;">
           <pre><span class="cm">// data[0] — 첫 번째 검색 결과 예시</span>
@@ -1005,16 +1099,7 @@ ps.<span class="fn">keywordSearch</span>(keyword, <span class="kw">function</spa
 });</pre>
         </div>
 
-        <p style="font-weight:700; margin-bottom:8px; color:var(--text3); font-size:13px;">✅ 완성 기준</p>
-        <ul class="check-list" style="margin-bottom:14px;">
-          <li>키워드 검색 시 지도에 마커 표시됨</li>
-          <li>왼쪽 리스트에 장소 이름 나열됨</li>
-          <li>마커 클릭 시 장소 이름·주소 팝업 표시</li>
-        </ul>
-
-        <div class="tip-green" style="margin-bottom:0;">
-          <strong>오류 발생 시:</strong> F12 → Console 탭 → 빨간 오류 메시지 복사 → AI에게 현재 코드와 함께 붙여넣고 수정 요청.
-        </div>
+        </details>
       </div>
     </div>
   </div>
