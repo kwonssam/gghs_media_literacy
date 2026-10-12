@@ -43,6 +43,13 @@
   .ex{font-size:13.5px;margin:8px 0 0;padding-left:18px}
   .guide{background:var(--accent-soft);border-radius:8px;padding:10px 12px;margin:0 0 12px;font-size:14px}
   .guide a{color:var(--accent)}
+  .exsites{list-style:none;margin:6px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:4px 14px}
+  .exsites span{display:block;font-size:12.5px;color:var(--sub)}
+  .rule{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 10px}
+  .rule div{border-radius:8px;padding:8px 10px;font-size:13.5px;background:var(--accent-soft)}
+  .rule div.k{background:var(--warn-soft)}
+  .rule b{display:block}
+  @media (max-width:640px){.exsites,.rule{grid-template-columns:1fr}}
   .notice{background:var(--warn-soft);color:var(--warn);border-radius:8px;padding:10px 12px;margin:0 0 18px;font-weight:500}
   .radios{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:14px}
   .shot{border:1px dashed var(--line);border-radius:8px;padding:10px;text-align:center;color:var(--sub);font-size:13px;min-height:90px}
@@ -99,12 +106,18 @@
 
   <div class="guide noprint">
     📘 <b>만드는 방법은 가이드를 보세요</b> → <a href="kakaomap-search-guide.html" target="_blank">카카오맵 장소 검색 가이드</a><br>
-    <span class="small">기능 목록은 가이드의 '도전 1', AI에게 요청할 프롬프트는 '도전 2'에 있어요.</span>
+    <span class="small">무엇부터 할지는 가이드 맨 위 <a href="kakaomap-search-guide.html#sec-0" target="_blank">'활동 순서'</a>, 기능 목록은 'STEP 2', 프롬프트는 'STEP 3'에 있어요.</span>
   </div>
   <div class="guide noprint">
-    🌟 <b>이런 지도를 만든 친구도 있어요</b><br>
-    <a href="https://kkthc.github.io/kakao/" target="_blank">타임 세이버: 여행 시간을 아껴 주는 지도</a> ·
-    <a href="https://what-a-yeon.github.io/Map/" target="_blank">스포트라이트: 성지순례 지도</a>
+    🌟 <b>이런 지도를 만든 친구도 있어요</b> <span class="small">(눌러서 열어 봐요)</span>
+    <ul class="exsites">
+      <li><a href="https://251421nam.github.io/wleh/" target="_blank">급똥구조대: 안심 화장실 지도</a><span>화장실 · 스타벅스 · 개방 상가</span></li>
+      <li><a href="https://251409-pixel.github.io/mykakaomap/" target="_blank">지구랑 썸타기: 친환경 거점 찾기</a><span>제로웨이스트 샵 · 전기차 충전소</span></li>
+      <li><a href="https://answns157.github.io/kakaomymap/" target="_blank">나만의 등산 탐험 지도</a><span>명산 · 베이스캠프 숙소</span></li>
+      <li><a href="https://251426-garden.github.io/mapforus/" target="_blank">종합 만남 서비스</a><span>두 지점 중간에서 만나기 · 먹기</span></li>
+      <li><a href="https://kkthc.github.io/kakao/" target="_blank">타임 세이버: 여행 시간 절약 지도</a><span>관광명소 · 숙박 · 맛집</span></li>
+      <li><a href="https://what-a-yeon.github.io/Map/" target="_blank">스포트라이트: 성지순례 지도</a><span>아이돌 뮤비 · 드라마/영화</span></li>
+    </ul>
   </div>
 
   <!-- 앞면 -->
@@ -118,7 +131,7 @@
 
   <div class="q">
     <h2>2. 추가할 기능 (최소 1개)</h2>
-    <p class="hint">기능이 실제로 어떻게 움직이는지는 <a href="kakaomap-search-guide.html#sec-4" target="_blank">가이드 '도전 1' 기능 목록</a>에서 눌러 볼 수 있어요.</p>
+    <p class="hint">기능이 실제로 어떻게 움직이는지는 <a href="kakaomap-search-guide.html#sec-4" target="_blank">가이드 'STEP 2' 기능 목록</a>에서 눌러 볼 수 있어요.</p>
     <div class="checks" id="feats">
       <label><input type="checkbox" value="교통정보"> 교통정보</label>
       <label><input type="checkbox" value="현재 위치"> 현재 위치</label>
@@ -137,17 +150,21 @@
 
   <div class="q">
     <h2>3. 탭 구성</h2>
-    <p class="hint">탭마다 이름, 카테고리 코드, 보여줄 장소를 써요. 코드는 아래 표에서 골라요. 다 쓰면 <a href="kakaomap-search-guide.html#sec-4" target="_blank">가이드 '도전 2'</a> 프롬프트 빈칸에 옮겨 써요.</p>
+    <p class="hint">탭마다 이름, 코드 또는 검색어, 보여줄 장소를 써요. 다 쓰면 <a href="kakaomap-search-guide.html#ch2" target="_blank">가이드 'STEP 3'</a> 프롬프트 빈칸에 옮겨 써요.</p>
+    <div class="rule">
+      <div><b>🔵 아래 코드 표에 있는 장소 → 코드</b>예) 음식점 → FD6</div>
+      <div class="k"><b>🟠 코드 표에 없는 장소 → 검색어</b>예) 공원 → '공원'</div>
+    </div>
     <div class="tabs">
       <div class="tabbox"><b>탭 1</b>
         <label>탭 이름</label><input type="text" id="tab1" placeholder="예: 주차장">
-        <label>카테고리 코드</label><input type="text" placeholder="예: PK6">
+        <label>코드 또는 검색어</label><input type="text" placeholder="예: PK6">
         <label>보여줄 장소</label><input type="text" placeholder="예: 학교 근처 주차장">
       </div>
       <div class="tabbox"><b>탭 2</b>
-        <label>탭 이름</label><input type="text" id="tab2" placeholder="예: 지하철역">
-        <label>카테고리 코드</label><input type="text" placeholder="예: SW8">
-        <label>보여줄 장소</label><input type="text" placeholder="예: 가까운 지하철역">
+        <label>탭 이름</label><input type="text" id="tab2" placeholder="예: 공원">
+        <label>코드 또는 검색어</label><input type="text" placeholder="예: 검색어 '공원'">
+        <label>보여줄 장소</label><input type="text" placeholder="예: 학교 근처 공원">
       </div>
     </div>
 
