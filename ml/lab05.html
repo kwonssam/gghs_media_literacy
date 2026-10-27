@@ -289,9 +289,9 @@ body{padding-left:var(--gs-side)}
 .gs-sub{font-size:12px;color:#8a96a8;margin-top:12px}
 .gs-navtitle{font-size:11.5px;font-weight:700;color:#8a96a8;letter-spacing:.06em;padding:4px 20px 6px}
 .gs-nav{list-style:none;margin:0;padding:0}
-.gs-nav a{display:flex;align-items:center;gap:10px;padding:7px 20px 7px 18px;font-size:13.5px;color:#4a5568;text-decoration:none;border-left:3px solid transparent;line-height:1.45}
+.gs-nav a{display:flex;align-items:flex-start;gap:10px;padding:7px 20px 7px 18px;font-size:13.5px;color:#4a5568;text-decoration:none;border-left:3px solid transparent;line-height:1.45}
 .gs-nav a:hover{color:#2563eb;background:#eff6ff}
-.gs-nav .n{flex:none;width:22px;height:22px;border-radius:50%;background:#f0f4ff;color:#4a5568;font-size:11.5px;font-weight:700;display:grid;place-items:center}
+.gs-nav .n{flex:none;margin-top:1px;width:22px;height:22px;border-radius:50%;background:#f0f4ff;color:#4a5568;font-size:11.5px;font-weight:700;display:grid;place-items:center}
 .gs-nav .k{font-size:10.5px;font-weight:700;border-radius:4px;padding:0 5px;margin-left:auto;flex:none}
 .gs-nav .k.c{background:#eff6ff;color:#2563eb}
 .gs-nav .k.l{background:#fffbeb;color:#d97706}
@@ -319,6 +319,56 @@ body{padding-left:var(--gs-side)}
   .gs-mbar span{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 }
 @media print{.gs-side,.gs-mbar,.gs-backdrop{display:none}body{padding-left:0}}
+
+/* ═══════ 모델 지도 · 수업 칩 · PART 탭 색 ═══════ */
+.mm-chip{display:inline-block;font-size:10.5px;font-weight:700;border-radius:4px;padding:0 5px;line-height:1.6}
+.mm-reg{background:#e0ecff;color:#1d4ed8}.mm-cls{background:#ffedd5;color:#c2410c}.mm-clu{background:#f3e8ff;color:#7e22ce}
+.navchips{display:block;margin-top:2px}.navchips .mm-chip{margin-right:3px}
+.mmap{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:14px 16px;margin:18px 0 14px;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;line-height:1.5}
+.mmap-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-bottom:10px}
+.mmap-h b{font-size:15px;color:#1e293b}.mmap-h span{font-size:13px;color:#4a5568}
+.mmap-row{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:center;padding:7px 0;border-top:1px dashed #e2e8f0}
+.mmap-row:first-of-type{border-top:none}
+.mmap-type b{display:block;font-size:13.5px}.mmap-type small{font-size:12px;color:#64748b}
+.mmap-row.reg .mmap-type b{color:#1d4ed8}.mmap-row.cls .mmap-type b{color:#c2410c}.mmap-row.clu .mmap-type b{color:#7e22ce}
+.mmap-models{display:flex;flex-wrap:wrap;gap:6px}
+.mmap-m{display:inline-flex;align-items:center;gap:6px;border:1.5px solid #e2e8f0;border-radius:999px;padding:3px 10px 3px 12px;font-size:13px;color:#94a3b8;text-decoration:none;background:#f8fafc}
+.mmap-m i{font-style:normal;font-size:11px;font-weight:700;background:#e2e8f0;color:#64748b;border-radius:999px;padding:0 6px}
+.mmap-row.reg .mmap-m.on{border-color:#3b82f6;background:#eff6ff;color:#1e3a8a;font-weight:700}
+.mmap-row.cls .mmap-m.on{border-color:#f97316;background:#fff7ed;color:#7c2d12;font-weight:700}
+.mmap-row.clu .mmap-m.on{border-color:#a855f7;background:#faf5ff;color:#581c87;font-weight:700}
+.mmap-m.on i{background:#1e293b;color:#fff}
+.mmap-legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;padding-top:10px;border-top:1px solid #e2e8f0;font-size:12.5px;color:#4a5568}
+.mmap-legend em{font-style:normal;display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:4px}
+.mmap-legend .lt{font-weight:700;color:#1e293b}
+/* 사이드바 미니 지도 */
+.mmini{margin:14px 16px 0;border:1px solid #e2e8f0;border-radius:10px;padding:10px 12px;background:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+.mmini-t{font-size:12.5px;font-weight:700;color:#1e293b;margin-bottom:4px}
+.mmini-r{display:flex;flex-wrap:wrap;align-items:center;gap:3px;padding:4px 0;border-top:1px dashed #edf2f7;font-size:11.5px}
+.mmini-r:first-of-type{border-top:none}
+.mmini-r>span{width:100%;font-weight:700;font-size:11px}
+.mmini-r.reg>span{color:#1d4ed8}.mmini-r.cls>span{color:#c2410c}.mmini-r.clu>span{color:#7e22ce}
+.mmini a{color:#94a3b8;text-decoration:none;border-radius:4px;padding:0 4px;background:#f8fafc;border:1px solid #edf2f7}
+.mmini a sup{font-size:9px;margin-left:1px}
+.mmini-r.reg a.on{color:#1e3a8a;background:#dbeafe;border-color:#93c5fd;font-weight:700}
+.mmini-r.cls a.on{color:#7c2d12;background:#ffedd5;border-color:#fdba74;font-weight:700}
+.mmini-r.clu a.on{color:#581c87;background:#f3e8ff;border-color:#d8b4fe;font-weight:700}
+/* PART 탭 종류 색 */
+[data-kind]{position:relative}
+[data-kind]::before{content:'';position:absolute;left:10px;right:10px;top:0;height:4px;border-radius:0 0 4px 4px}
+[data-kind="concept"]::before{background:#a855f7}[data-kind="data"]::before{background:#94a3b8}
+[data-kind="model"]::before{background:#3b82f6}[data-kind="score"]::before{background:#10b981}
+[data-kind="predict"]::before{background:#f97316}[data-kind="wrap"]::before{background:#1e293b}
+[data-kind] small::after,[data-kind] .pt-label::after{margin-left:4px;font-weight:700}
+[data-kind="concept"] small::after,[data-kind="concept"] .pt-label::after{content:'· 개념';color:#9333ea}
+[data-kind="data"] small::after,[data-kind="data"] .pt-label::after{content:'· 데이터';color:#64748b}
+[data-kind="model"] small::after,[data-kind="model"] .pt-label::after{content:'· 모델 원리';color:#2563eb}
+[data-kind="score"] small::after,[data-kind="score"] .pt-label::after{content:'· 성적표';color:#059669}
+[data-kind="predict"] small::after,[data-kind="predict"] .pt-label::after{content:'· 예측';color:#ea580c}
+[data-kind="wrap"] small::after,[data-kind="wrap"] .pt-label::after{content:'· 정리';color:#475569}
+[data-kind] small,[data-kind] .pt-label{white-space:nowrap}
+.part-tab[data-kind]{flex:1 0 auto}
+@media (max-width:640px){.mmap-row{grid-template-columns:1fr;gap:4px}}
 </style>
 </head>
 <body>
@@ -333,16 +383,26 @@ body{padding-left:var(--gs-side)}
     <div class="gs-sub">GGHS 미디어정보리터러시</div>
   </div>
   <div class="gs-navtitle">수업 목록</div>
-  <ul class="gs-nav"><li><a href="chapter02.html"><span class="n">1</span>머신러닝 개념<span class="k c">개념</span></a></li><li><a href="chapter04.html"><span class="n">2</span>데이터<span class="k c">개념</span></a></li><li><a href="lab01.html"><span class="n">3</span>전복 무게 예측 (회귀)<span class="k l">실습</span></a></li><li><a href="chapter05.html"><span class="n">4</span>모델의 동작 원리와 성적표<span class="k c">개념</span></a></li><li><a href="lab02.html"><span class="n">5</span>결정 트리와 랜덤 포레스트<span class="k l">실습</span></a></li><li><a href="lab03.html"><span class="n">6</span>kNN — 가까운 이웃<span class="k l">실습</span></a></li><li><a href="lab04.html"><span class="n">7</span>모델 대결과 성적표 해독<span class="k l">실습</span></a></li><li><a href="chapter03.html"><span class="n">8</span>비지도학습과 딥러닝<span class="k c">개념</span></a></li><li><a href="lab05.html" class="cur" aria-current="page"><span class="n">9</span>나만의 데이터로 프로젝트<span class="k l">실습</span></a></li></ul>
+  <ul class="gs-nav"><li><a href="chapter02.html"><span class="n">1</span><span style="flex:1;min-width:0">머신러닝 개념</span><span class="k c">개념</span></a></li>
+    <li><a href="chapter04.html"><span class="n">2</span><span style="flex:1;min-width:0">데이터</span><span class="k c">개념</span></a></li>
+    <li><a href="lab01.html"><span class="n">3</span><span style="flex:1;min-width:0">회귀 첫걸음 — 전복 무게<span class="navchips"><span class="mm-chip mm-reg">회귀</span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="chapter05.html"><span class="n">4</span><span style="flex:1;min-width:0">모델 원리 — 선형 회귀 · kNN<span class="navchips"><span class="mm-chip mm-reg">회귀</span></span></span><span class="k c">개념</span></a></li>
+    <li><a href="chapter05b.html"><span class="n">5</span><span style="flex:1;min-width:0">성적표 읽기 — Test and Score<span class="navchips"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-cls">분류</span></span></span><span class="k c">개념</span></a></li>
+    <li><a href="lab02.html"><span class="n">6</span><span style="flex:1;min-width:0">결정 트리 · 랜덤 포레스트<span class="navchips"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-cls">분류</span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab03.html"><span class="n">7</span><span style="flex:1;min-width:0">kNN 분류 — 펭귄<span class="navchips"><span class="mm-chip mm-cls">분류</span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab04.html"><span class="n">8</span><span style="flex:1;min-width:0">분류 성적표 깊이 읽기 · 모델 대결<span class="navchips"><span class="mm-chip mm-cls">분류</span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="chapter03.html"><span class="n">9</span><span style="flex:1;min-width:0">비지도학습 · 딥러닝<span class="navchips"><span class="mm-chip mm-clu">군집</span></span></span><span class="k c">개념</span></a></li>
+    <li><a href="lab05.html" class="cur" aria-current="page"><span class="n">10</span><span style="flex:1;min-width:0">나만의 데이터로 프로젝트</span><span class="k l">실습</span></a></li></ul>
+  <div class="mmini"><div class="mmini-t">🧭 모델 지도 <span style="font-weight:400;color:#64748b">(숫자 = 배우는 수업)</span></div><div class="mmini-r reg"><span>지도학습 · 회귀</span><a href="chapter05.html" class="on" title="수업 4에서 배워요">선형 회귀<sup>4</sup></a><a href="chapter05.html" class="on" title="수업 4에서 배워요">kNN<sup>4</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">결정 트리<sup>6</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">랜덤 포레스트<sup>6</sup></a></div><div class="mmini-r cls"><span>지도학습 · 분류</span><a href="lab04.html" class="on" title="수업 8에서 배워요">로지스틱 회귀<sup>8</sup></a><a href="lab03.html" class="on" title="수업 7에서 배워요">kNN<sup>7</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">결정 트리<sup>6</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">랜덤 포레스트<sup>6</sup></a></div><div class="mmini-r clu"><span>비지도학습 · 군집</span><a href="chapter03.html" class="on" title="수업 9에서 배워요">k-평균<sup>9</sup></a></div></div>
   <div class="gs-toc" id="gsToc"><div class="gs-toc-title">📌 이 페이지</div></div>
   <a class="gs-next" href="../python/chapter01.html">🍀 다음 과정: 파이썬 데이터 시각화 →</a>
 </nav>
 <div class="gs-backdrop" data-gs-toggle></div>
-<header class="gs-mbar"><button data-gs-toggle aria-label="수업 목록 열기">☰</button><span>9 · 나만의 데이터로 프로젝트</span></header>
+<header class="gs-mbar"><button data-gs-toggle aria-label="수업 목록 열기">☰</button><span>10 · 나만의 데이터로 프로젝트</span></header>
 
 <main class="wrap">
 <section class="hero">
-  <span class="pill lab">수업 9 · 프로젝트 · 실습 5</span>
+  <span class="pill lab">수업 10 · 프로젝트 · 실습 5</span>
   <h1>🚀 나만의 데이터로<br>인공지능 프로젝트</h1>
   <p class="lead">지금까지 회귀, 분류, 군집을 하나씩 만나며 「왜 이 방법인가」를 따져 왔습니다. 이제 <b>내가 고른 문제</b>와 <b>내가 찾은 데이터</b>로 처음부터 끝까지 모델을 만들고, 그 과정을 보고서 여덟 문항으로 정리합니다.</p>
   <div class="goals">
@@ -372,13 +432,14 @@ body{padding-left:var(--gs-side)}
   </div>
 </section>
 
+<div class="mmap"><div class="mmap-h"><b>🧭 모델 지도 — 진하게 칠한 모델이 이번 수업의 주인공</b><span>지금까지 배운 모든 모델 중에서 내 문제에 맞는 것을 고릅니다.</span></div><div class="mmap-row reg"><div class="mmap-type"><b>지도학습 · 회귀</b><small>숫자 맞히기</small></div><div class="mmap-models"><a class="mmap-m on" href="chapter05.html">선형 회귀<i>수업 4</i></a><a class="mmap-m on" href="chapter05.html">kNN<i>수업 4</i></a><a class="mmap-m on" href="lab02.html">결정 트리<i>수업 6</i></a><a class="mmap-m on" href="lab02.html">랜덤 포레스트<i>수업 6</i></a></div></div><div class="mmap-row cls"><div class="mmap-type"><b>지도학습 · 분류</b><small>이름표 맞히기</small></div><div class="mmap-models"><a class="mmap-m on" href="lab04.html">로지스틱 회귀<i>수업 8</i></a><a class="mmap-m on" href="lab03.html">kNN<i>수업 7</i></a><a class="mmap-m on" href="lab02.html">결정 트리<i>수업 6</i></a><a class="mmap-m on" href="lab02.html">랜덤 포레스트<i>수업 6</i></a></div></div><div class="mmap-row clu"><div class="mmap-type"><b>비지도학습 · 군집</b><small>비슷한 것끼리 묶기</small></div><div class="mmap-models"><a class="mmap-m on" href="chapter03.html">k-평균<i>수업 9</i></a></div></div><div class="mmap-legend"><span class="lt">아래 PART 탭 색</span><span><em style="background:#94a3b8"></em>🗂 문제 · 데이터</span><span><em style="background:#3b82f6"></em>🧠 모델 원리</span><span><em style="background:#1e293b"></em>✅ 정리</span></div></div>
 <div class="parttabs">
   <div class="row" role="tablist">
-    <button data-part="A" role="tab"><small>PART A</small><span>주제 찾기</span></button>
-    <button data-part="B" role="tab"><small>PART B</small><span>데이터 찾기 · 설계도</span></button>
-    <button data-part="C" role="tab"><small>PART C</small><span>유형과 도구</span></button>
-    <button data-part="D" role="tab"><small>PART D</small><span>보고서 8문항</span></button>
-    <button data-part="E" role="tab"><small>PART E</small><span>평가 기준 · 제출</span></button>
+    <button data-part="A" role="tab" data-kind="data"><small>PART A</small><span>주제 찾기</span></button>
+    <button data-part="B" role="tab" data-kind="data"><small>PART B</small><span>데이터 찾기 · 설계도</span></button>
+    <button data-part="C" role="tab" data-kind="model"><small>PART C</small><span>유형과 도구</span></button>
+    <button data-part="D" role="tab" data-kind="wrap"><small>PART D</small><span>보고서 8문항</span></button>
+    <button data-part="E" role="tab" data-kind="wrap"><small>PART E</small><span>평가 기준 · 제출</span></button>
   </div>
   <nav class="partnav" id="partnav" aria-label="이 PART의 섹션"></nav>
 </div>
