@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>모델의 동작 원리와 성적표 읽기</title>
+<title>모델 원리 — 선형 회귀 · kNN</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
@@ -289,9 +289,9 @@ body{padding-left:var(--gs-side)}
 .gs-sub{font-size:12px;color:#8a96a8;margin-top:12px}
 .gs-navtitle{font-size:11.5px;font-weight:700;color:#8a96a8;letter-spacing:.06em;padding:4px 20px 6px}
 .gs-nav{list-style:none;margin:0;padding:0}
-.gs-nav a{display:flex;align-items:center;gap:10px;padding:7px 20px 7px 18px;font-size:13.5px;color:#4a5568;text-decoration:none;border-left:3px solid transparent;line-height:1.45}
+.gs-nav a{display:flex;align-items:flex-start;gap:10px;padding:7px 20px 7px 18px;font-size:13.5px;color:#4a5568;text-decoration:none;border-left:3px solid transparent;line-height:1.45}
 .gs-nav a:hover{color:#2563eb;background:#eff6ff}
-.gs-nav .n{flex:none;width:22px;height:22px;border-radius:50%;background:#f0f4ff;color:#4a5568;font-size:11.5px;font-weight:700;display:grid;place-items:center}
+.gs-nav .n{flex:none;margin-top:1px;width:22px;height:22px;border-radius:50%;background:#f0f4ff;color:#4a5568;font-size:11.5px;font-weight:700;display:grid;place-items:center}
 .gs-nav .k{font-size:10.5px;font-weight:700;border-radius:4px;padding:0 5px;margin-left:auto;flex:none}
 .gs-nav .k.c{background:#eff6ff;color:#2563eb}
 .gs-nav .k.l{background:#fffbeb;color:#d97706}
@@ -319,6 +319,56 @@ body{padding-left:var(--gs-side)}
   .gs-mbar span{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 }
 @media print{.gs-side,.gs-mbar,.gs-backdrop{display:none}body{padding-left:0}}
+
+/* ═══════ 모델 지도 · 수업 칩 · PART 탭 색 ═══════ */
+.mm-chip{display:inline-block;font-size:10.5px;font-weight:700;border-radius:4px;padding:0 5px;line-height:1.6}
+.mm-reg{background:#e0ecff;color:#1d4ed8}.mm-cls{background:#ffedd5;color:#c2410c}.mm-clu{background:#f3e8ff;color:#7e22ce}
+.navchips{display:block;margin-top:2px}.navchips .mm-chip{margin-right:3px}
+.mmap{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:14px 16px;margin:18px 0 14px;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;line-height:1.5}
+.mmap-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-bottom:10px}
+.mmap-h b{font-size:15px;color:#1e293b}.mmap-h span{font-size:13px;color:#4a5568}
+.mmap-row{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:center;padding:7px 0;border-top:1px dashed #e2e8f0}
+.mmap-row:first-of-type{border-top:none}
+.mmap-type b{display:block;font-size:13.5px}.mmap-type small{font-size:12px;color:#64748b}
+.mmap-row.reg .mmap-type b{color:#1d4ed8}.mmap-row.cls .mmap-type b{color:#c2410c}.mmap-row.clu .mmap-type b{color:#7e22ce}
+.mmap-models{display:flex;flex-wrap:wrap;gap:6px}
+.mmap-m{display:inline-flex;align-items:center;gap:6px;border:1.5px solid #e2e8f0;border-radius:999px;padding:3px 10px 3px 12px;font-size:13px;color:#94a3b8;text-decoration:none;background:#f8fafc}
+.mmap-m i{font-style:normal;font-size:11px;font-weight:700;background:#e2e8f0;color:#64748b;border-radius:999px;padding:0 6px}
+.mmap-row.reg .mmap-m.on{border-color:#3b82f6;background:#eff6ff;color:#1e3a8a;font-weight:700}
+.mmap-row.cls .mmap-m.on{border-color:#f97316;background:#fff7ed;color:#7c2d12;font-weight:700}
+.mmap-row.clu .mmap-m.on{border-color:#a855f7;background:#faf5ff;color:#581c87;font-weight:700}
+.mmap-m.on i{background:#1e293b;color:#fff}
+.mmap-legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;padding-top:10px;border-top:1px solid #e2e8f0;font-size:12.5px;color:#4a5568}
+.mmap-legend em{font-style:normal;display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:4px}
+.mmap-legend .lt{font-weight:700;color:#1e293b}
+/* 사이드바 미니 지도 */
+.mmini{margin:14px 16px 0;border:1px solid #e2e8f0;border-radius:10px;padding:10px 12px;background:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+.mmini-t{font-size:12.5px;font-weight:700;color:#1e293b;margin-bottom:4px}
+.mmini-r{display:flex;flex-wrap:wrap;align-items:center;gap:3px;padding:4px 0;border-top:1px dashed #edf2f7;font-size:11.5px}
+.mmini-r:first-of-type{border-top:none}
+.mmini-r>span{width:100%;font-weight:700;font-size:11px}
+.mmini-r.reg>span{color:#1d4ed8}.mmini-r.cls>span{color:#c2410c}.mmini-r.clu>span{color:#7e22ce}
+.mmini a{color:#94a3b8;text-decoration:none;border-radius:4px;padding:0 4px;background:#f8fafc;border:1px solid #edf2f7}
+.mmini a sup{font-size:9px;margin-left:1px}
+.mmini-r.reg a.on{color:#1e3a8a;background:#dbeafe;border-color:#93c5fd;font-weight:700}
+.mmini-r.cls a.on{color:#7c2d12;background:#ffedd5;border-color:#fdba74;font-weight:700}
+.mmini-r.clu a.on{color:#581c87;background:#f3e8ff;border-color:#d8b4fe;font-weight:700}
+/* PART 탭 종류 색 */
+[data-kind]{position:relative}
+[data-kind]::before{content:'';position:absolute;left:10px;right:10px;top:0;height:4px;border-radius:0 0 4px 4px}
+[data-kind="concept"]::before{background:#a855f7}[data-kind="data"]::before{background:#94a3b8}
+[data-kind="model"]::before{background:#3b82f6}[data-kind="score"]::before{background:#10b981}
+[data-kind="predict"]::before{background:#f97316}[data-kind="wrap"]::before{background:#1e293b}
+[data-kind] small::after,[data-kind] .pt-label::after{margin-left:4px;font-weight:700}
+[data-kind="concept"] small::after,[data-kind="concept"] .pt-label::after{content:'· 개념';color:#9333ea}
+[data-kind="data"] small::after,[data-kind="data"] .pt-label::after{content:'· 데이터';color:#64748b}
+[data-kind="model"] small::after,[data-kind="model"] .pt-label::after{content:'· 모델 원리';color:#2563eb}
+[data-kind="score"] small::after,[data-kind="score"] .pt-label::after{content:'· 성적표';color:#059669}
+[data-kind="predict"] small::after,[data-kind="predict"] .pt-label::after{content:'· 예측';color:#ea580c}
+[data-kind="wrap"] small::after,[data-kind="wrap"] .pt-label::after{content:'· 정리';color:#475569}
+[data-kind] small,[data-kind] .pt-label{white-space:nowrap}
+.part-tab[data-kind]{flex:1 0 auto}
+@media (max-width:640px){.mmap-row{grid-template-columns:1fr;gap:4px}}
 </style>
 </head>
 <body>
@@ -333,18 +383,28 @@ body{padding-left:var(--gs-side)}
     <div class="gs-sub">GGHS 미디어정보리터러시</div>
   </div>
   <div class="gs-navtitle">수업 목록</div>
-  <ul class="gs-nav"><li><a href="chapter02.html"><span class="n">1</span>머신러닝 개념<span class="k c">개념</span></a></li><li><a href="chapter04.html"><span class="n">2</span>데이터<span class="k c">개념</span></a></li><li><a href="lab01.html"><span class="n">3</span>전복 무게 예측 (회귀)<span class="k l">실습</span></a></li><li><a href="chapter05.html" class="cur" aria-current="page"><span class="n">4</span>모델의 동작 원리와 성적표<span class="k c">개념</span></a></li><li><a href="lab02.html"><span class="n">5</span>결정 트리와 랜덤 포레스트<span class="k l">실습</span></a></li><li><a href="lab03.html"><span class="n">6</span>kNN — 가까운 이웃<span class="k l">실습</span></a></li><li><a href="lab04.html"><span class="n">7</span>모델 대결과 성적표 해독<span class="k l">실습</span></a></li><li><a href="chapter03.html"><span class="n">8</span>비지도학습과 딥러닝<span class="k c">개념</span></a></li><li><a href="lab05.html"><span class="n">9</span>나만의 데이터로 프로젝트<span class="k l">실습</span></a></li></ul>
+  <ul class="gs-nav"><li><a href="chapter02.html"><span class="n">1</span><span style="flex:1;min-width:0">머신러닝 개념</span><span class="k c">개념</span></a></li>
+    <li><a href="chapter04.html"><span class="n">2</span><span style="flex:1;min-width:0">데이터</span><span class="k c">개념</span></a></li>
+    <li><a href="lab01.html"><span class="n">3</span><span style="flex:1;min-width:0">회귀 첫걸음 — 전복 무게<span class="navchips"><span class="mm-chip mm-reg">회귀</span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="chapter05.html" class="cur" aria-current="page"><span class="n">4</span><span style="flex:1;min-width:0">모델 원리 — 선형 회귀 · kNN<span class="navchips"><span class="mm-chip mm-reg">회귀</span></span></span><span class="k c">개념</span></a></li>
+    <li><a href="chapter05b.html"><span class="n">5</span><span style="flex:1;min-width:0">성적표 읽기 — Test and Score<span class="navchips"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-cls">분류</span></span></span><span class="k c">개념</span></a></li>
+    <li><a href="lab02.html"><span class="n">6</span><span style="flex:1;min-width:0">결정 트리 · 랜덤 포레스트<span class="navchips"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-cls">분류</span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab03.html"><span class="n">7</span><span style="flex:1;min-width:0">kNN 분류 — 펭귄<span class="navchips"><span class="mm-chip mm-cls">분류</span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab04.html"><span class="n">8</span><span style="flex:1;min-width:0">분류 성적표 깊이 읽기 · 모델 대결<span class="navchips"><span class="mm-chip mm-cls">분류</span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="chapter03.html"><span class="n">9</span><span style="flex:1;min-width:0">비지도학습 · 딥러닝<span class="navchips"><span class="mm-chip mm-clu">군집</span></span></span><span class="k c">개념</span></a></li>
+    <li><a href="lab05.html"><span class="n">10</span><span style="flex:1;min-width:0">나만의 데이터로 프로젝트</span><span class="k l">실습</span></a></li></ul>
+  <div class="mmini"><div class="mmini-t">🧭 모델 지도 <span style="font-weight:400;color:#64748b">(숫자 = 배우는 수업)</span></div><div class="mmini-r reg"><span>지도학습 · 회귀</span><a href="chapter05.html" class="on" title="수업 4에서 배워요">선형 회귀<sup>4</sup></a><a href="chapter05.html" class="on" title="수업 4에서 배워요">kNN<sup>4</sup></a><a href="lab02.html" class="" title="수업 6에서 배워요">결정 트리<sup>6</sup></a><a href="lab02.html" class="" title="수업 6에서 배워요">랜덤 포레스트<sup>6</sup></a></div><div class="mmini-r cls"><span>지도학습 · 분류</span><a href="lab04.html" class="" title="수업 8에서 배워요">로지스틱 회귀<sup>8</sup></a><a href="lab03.html" class="" title="수업 7에서 배워요">kNN<sup>7</sup></a><a href="lab02.html" class="" title="수업 6에서 배워요">결정 트리<sup>6</sup></a><a href="lab02.html" class="" title="수업 6에서 배워요">랜덤 포레스트<sup>6</sup></a></div><div class="mmini-r clu"><span>비지도학습 · 군집</span><a href="chapter03.html" class="" title="수업 9에서 배워요">k-평균<sup>9</sup></a></div></div>
   <div class="gs-toc" id="gsToc"><div class="gs-toc-title">📌 이 페이지</div></div>
   <a class="gs-next" href="../python/chapter01.html">🍀 다음 과정: 파이썬 데이터 시각화 →</a>
 </nav>
 <div class="gs-backdrop" data-gs-toggle></div>
-<header class="gs-mbar"><button data-gs-toggle aria-label="수업 목록 열기">☰</button><span>4 · 모델의 동작 원리와 성적표</span></header>
+<header class="gs-mbar"><button data-gs-toggle aria-label="수업 목록 열기">☰</button><span>4 · 모델 원리 — 선형 회귀 · kNN</span></header>
 
 <main class="wrap">
 <section class="hero">
   <span class="pill">수업 4 · 개념 · 전복 실습 다음 시간</span>
   <h1>⚙️ 전복 실습의 모델은<br>어떻게 답을 냈을까?</h1>
-  <p class="lead">지난 시간 Linear Regression과 kNN으로 전복의 순살 무게를 맞혔습니다. 오늘은 두 모델이 <b>안에서 어떻게 답을 냈는지</b> 원리를 보고, Test and Score의 <b>R²</b>가 무엇을 잰 숫자인지, 그리고 <b>Rank · Test and Score · Predictions</b>가 각각 언제 쓰는 위젯인지 정리합니다.</p>
+  <p class="lead">지난 시간 전복 실습에서 Linear Regression과 kNN으로 순살 무게를 맞혔습니다. 오늘은 두 모델이 <b>안에서 어떻게 답을 냈는지</b>, 같은 전복 데이터로 원리를 봅니다. 성적표(Test and Score)의 숫자를 읽는 법은 다음 수업 「성적표 읽기」에서 다룹니다.</p>
   <div class="goals">
     <div class="box">
       <h2>🎯 이 장에서 배우는 것</h2>
@@ -352,26 +412,24 @@ body{padding-left:var(--gs-side)}
         <li>전복 데이터에서 독립변수 x와 종속변수 y를 구분하고, 알고리즘과 모델의 차이를 말할 수 있다</li>
         <li>Linear Regression이 오차(MSE)가 가장 작은 직선을 찾는 원리를 설명할 수 있다</li>
         <li>kNN이 가장 비슷한 데이터 K개의 평균으로 답하는 원리를 설명할 수 있다</li>
-        <li>Test and Score의 MAE · MSE · RMSE · R²를 읽고, R²의 뜻을 설명할 수 있다</li>
-        <li>Rank · Test and Score · Predictions의 쓰임을 구별할 수 있다</li>
+        <li>같은 kNN이 회귀(평균)와 분류(다수결)를 모두 할 수 있다는 것을 설명할 수 있다</li>
       </ul>
     </div>
     <div class="box">
       <h2>🗺️ 오늘의 흐름</h2>
-      <div class="flowmini"><span>전복 실습 다시 보기</span><i>→</i><span>Linear Regression 원리</span><i>→</i><span>kNN 원리</span><i>→</i><span>성적표 읽기</span><i>→</i><span>세 위젯 구별</span></div>
-      <p class="small muted" style="margin:12px 0 0">분량이 많으면 PART A~C(모델의 원리)와 PART D~F(성적표와 위젯)를 두 시간에 나눠 진행합니다.</p>
+      <div class="flowmini"><span>전복 실습 다시 보기</span><i>→</i><span>선형 회귀 원리</span><i>→</i><span>kNN 원리</span><i>→</i><span>정리</span></div>
+      <p class="small muted" style="margin:12px 0 0">다음 수업: 성적표 읽기 — Test and Score와 Predictions</p>
     </div>
   </div>
 </section>
 
+<div class="mmap"><div class="mmap-h"><b>🧭 모델 지도 — 진하게 칠한 모델이 이번 수업의 주인공</b><span>전복 실습에서 쓴 회귀 모델 중 선형 회귀와 kNN의 원리를 봅니다. kNN은 분류도 할 수 있어 수업 7에서 다시 만납니다.</span></div><div class="mmap-row reg"><div class="mmap-type"><b>지도학습 · 회귀</b><small>숫자 맞히기</small></div><div class="mmap-models"><a class="mmap-m on" href="chapter05.html">선형 회귀<i>수업 4</i></a><a class="mmap-m on" href="chapter05.html">kNN<i>수업 4</i></a><a class="mmap-m" href="lab02.html">결정 트리<i>수업 6</i></a><a class="mmap-m" href="lab02.html">랜덤 포레스트<i>수업 6</i></a></div></div><div class="mmap-row cls"><div class="mmap-type"><b>지도학습 · 분류</b><small>이름표 맞히기</small></div><div class="mmap-models"><a class="mmap-m" href="lab04.html">로지스틱 회귀<i>수업 8</i></a><a class="mmap-m" href="lab03.html">kNN<i>수업 7</i></a><a class="mmap-m" href="lab02.html">결정 트리<i>수업 6</i></a><a class="mmap-m" href="lab02.html">랜덤 포레스트<i>수업 6</i></a></div></div><div class="mmap-row clu"><div class="mmap-type"><b>비지도학습 · 군집</b><small>비슷한 것끼리 묶기</small></div><div class="mmap-models"><a class="mmap-m" href="chapter03.html">k-평균<i>수업 9</i></a></div></div><div class="mmap-legend"><span class="lt">아래 PART 탭 색</span><span><em style="background:#94a3b8"></em>🗂 문제 · 데이터</span><span><em style="background:#3b82f6"></em>🧠 모델 원리</span><span><em style="background:#1e293b"></em>✅ 정리</span></div></div>
 <div class="parttabs">
   <div class="row" role="tablist">
-    <button data-part="A" role="tab"><small>PART A</small><span>전복 실습 다시 보기</span></button>
-    <button data-part="B" role="tab"><small>PART B</small><span>Linear Regression 원리</span></button>
-    <button data-part="C" role="tab"><small>PART C</small><span>kNN 원리</span></button>
-    <button data-part="D" role="tab"><small>PART D</small><span>성적표 읽기 · R²</span></button>
-    <button data-part="E" role="tab"><small>PART E</small><span>세 위젯 구별하기</span></button>
-    <button data-part="F" role="tab"><small>PART F</small><span>정리 · 다음 실습</span></button>
+    <button data-part="A" role="tab" data-kind="data"><small>PART A</small><span>전복 실습 다시 보기</span></button>
+    <button data-part="B" role="tab" data-kind="model"><small>PART B</small><span>Linear Regression 원리</span></button>
+    <button data-part="C" role="tab" data-kind="model"><small>PART C</small><span>kNN 원리</span></button>
+    <button data-part="D" role="tab" data-kind="wrap"><small>정리</small><span>정리 · 다음 수업</span></button>
   </div>
   <nav class="partnav" id="partnav" aria-label="이 PART의 섹션"></nav>
 </div>
@@ -391,7 +449,7 @@ body{padding-left:var(--gs-side)}
     </table>
     </div>
     <p class="cap">전복 실습에서 선생님이 미리 해 본 R² 값입니다(10겹 교차 검증). 굵은 숫자가 그 실험의 1등입니다.</p>
-    <div class="key"><b>오늘의 질문 두 개</b> ① 실험 ②에서는 Linear Regression이, ③에서는 kNN이 이겼습니다. 두 모델은 <b>규칙을 찾는 방법</b>이 어떻게 다를까요? ② 표의 0.939, 0.870 같은 R²는 <b>무엇을 잰 숫자</b>일까요?</div>
+    <div class="key"><b>오늘의 질문 두 개</b> ① 실험 ②에서는 Linear Regression이, ③에서는 kNN이 이겼습니다. 두 모델은 <b>규칙을 찾는 방법</b>이 어떻게 다를까요? ② 표의 0.939, 0.870 같은 R²는 <b>무엇을 잰 숫자</b>일까요? — ①은 오늘, ②는 다음 수업 「성적표 읽기」에서 답합니다.</div>
   </section>
 
   <section class="sec" id="a-xy">
@@ -425,24 +483,24 @@ body{padding-left:var(--gs-side)}
       <div class="arr">→</div>
       <div class="b" style="border-color:var(--primary);background:var(--primary-bg)"><small style="color:var(--primary)">모델 (Model)</small><div class="v">전복 순살 무게 모델</div></div>
     </div>
-    <p class="io-cap">같은 알고리즘이라도 카페 데이터로 학습하면 카페 모델, 전복 데이터로 학습하면 전복 모델이 됩니다. 지난 시간에는 <b>알고리즘 4개</b>로 같은 전복 데이터에서 <b>모델 4개</b>를 만든 것입니다.</p>
+    <p class="io-cap">같은 알고리즘이라도 펭귄 데이터로 학습하면 펭귄 모델, 전복 데이터로 학습하면 전복 모델이 됩니다. 지난 시간에는 <b>알고리즘 4개</b>로 같은 전복 데이터에서 <b>모델 4개</b>를 만든 것입니다.</p>
     <div class="g2">
       <div class="card"><h4>모델 안에 남는 것은 알고리즘마다 다르다</h4><p><b>Linear Regression</b>: 각 x에 곱할 숫자(계수)와 절편. 실습의 「기계가 만든 식 엿보기」에서 본 Coefficients가 바로 이것입니다.<br><b>kNN</b>: 학습 데이터 전체. 미리 규칙을 정리해 두지 않고, 질문이 오면 그때 비슷한 데이터를 찾습니다.</p></div>
-      <div class="card c-orange"><h4>위젯 연결의 열쇠</h4><p>Linear Regression 위젯은 <b>Learner</b>(방법)와 <b>Model</b>(학습을 마친 결과)을 따로 내보냅니다. 어느 쪽을 어디에 연결하느냐가 Test and Score와 Predictions의 차이입니다. PART E에서 자세히 봅니다.</p></div>
+      <div class="card c-orange"><h4>위젯 연결의 열쇠</h4><p>Linear Regression 위젯은 <b>Learner</b>(방법)와 <b>Model</b>(학습을 마친 결과)을 따로 내보냅니다. 어느 쪽을 어디에 연결하느냐가 Test and Score와 Predictions의 차이입니다. 다음 수업 「성적표 읽기」에서 자세히 봅니다.</p></div>
     </div>
   </section>
 </div>
 
 <!-- ═════════════ PART B ═════════════ -->
 <div class="part" data-part="B">
-  <p class="part-intro">Linear Regression은 x와 y의 관계를 <b>직선 하나</b>로 나타내는 알고리즘입니다. 그 직선을 어떻게 찾는지 카페 데이터로 먼저 보고, 전복으로 넓힙니다.</p>
+  <p class="part-intro">Linear Regression은 x와 y의 관계를 <b>직선 하나</b>로 나타내는 알고리즘입니다. 전복 실습의 「기계가 만든 식 엿보기」에서 본 <b>순살무게 = 0.44 × 전체무게</b>, 이 직선을 기계가 어떻게 찾았는지 전복 데이터로 따라갑니다.</p>
 
   <section class="sec" id="b-line">
     <h2 data-short="직선 y = a × x + b">📈 규칙을 직선으로: y = a × x + b</h2>
-    <p class="ask">기계는 「판매량 = 온도 × 2」라는 규칙을 어떻게 찾아냈을까?</p>
+    <p class="ask">기계는 「순살무게 = 0.44 × 전체무게」라는 규칙을 어떻게 찾아냈을까?</p>
     <div class="g2">
-      <div class="card c-orange"><h4>기울기 a</h4><p>x가 1 늘 때 y가 평균적으로 얼마나 변하는지. 「온도가 1도 오르면 판매량이 몇 잔 늘어나나」입니다.</p></div>
-      <div class="card c-blue"><h4>절편 b</h4><p>직선 전체의 높이를 위아래로 맞추는 값입니다.</p></div>
+      <div class="card c-orange"><h4>기울기 a</h4><p>x가 1 늘 때 y가 평균적으로 얼마나 변하는지. 「전체무게가 1g 늘면 순살이 몇 g 늘어나나」입니다. 전복은 약 <b>0.44g</b>, 다시 말해 무게의 44%쯤이 순살입니다.</p></div>
+      <div class="card c-blue"><h4>절편 b</h4><p>직선 전체의 높이를 위아래로 맞추는 값입니다. 전복은 거의 0입니다.</p></div>
     </div>
     <p>Linear Regression의 학습은 데이터를 가장 잘 설명하는 <b>a와 b를 찾는 일</b>입니다. 기계는 처음부터 정답 직선을 아는 것이 아니라, 아래 4단계를 반복하며 직선을 조금씩 고쳐 나갑니다.</p>
     <div class="g4">
@@ -468,16 +526,16 @@ body{padding-left:var(--gs-side)}
 
   <section class="sec" id="b-sim">
     <h2 data-short="선형 회귀 시뮬레이터">🎮 선형 회귀 시뮬레이터</h2>
-    <p class="askd">① 슬라이더로 직접 직선을 움직여 MSE를 최대한 줄여 보세요. 빨간 점선이 오차입니다. ② <b>▶ 기계에게 학습시키기</b>를 눌러, 기계가 직선을 고쳐 가는 과정을 지켜보세요. ③ 그래프를 누르면 점(기록)이 추가됩니다. 이상한 점을 하나 찍어 보면 직선이 어떻게 변할까요?</p>
+    <p class="askd">점 하나가 실제 전복 한 마리입니다(가로: 전체무게, 세로: 순살무게). ① 슬라이더로 직접 직선을 움직여 MSE를 최대한 줄여 보세요. 빨간 점선이 오차입니다. ② <b>▶ 기계에게 학습시키기</b>를 눌러, 기계가 직선을 고쳐 가는 과정을 지켜보세요. 기울기가 0.44 근처에 멈추나요? ③ 그래프를 누르면 점이 추가됩니다. 「무거운데 순살이 거의 없는」 이상한 전복을 하나 찍어 보면 직선이 어떻게 변할까요?</p>
     <div class="sim">
       <div class="ctrl">
-        <button class="btn on" data-lr="cafe">☕ 카페 데이터 (20~24도)</button>
-        <button class="btn" data-lr="noisy">📋 들쭉날쭉한 데이터</button>
+        <button class="btn on" data-lr="cafe">🐚 전복 12마리</button>
+        <button class="btn" data-lr="noisy">🐚 전복 40마리</button>
         <button class="btn" data-lr="clear">🧹 전체 지우기 (직접 찍기)</button>
       </div>
       <div id="lrSvg" style="cursor:crosshair"></div>
-      <div class="ctrl"><label for="lrA"><b>기울기 a</b></label><input type="range" id="lrA" min="-1" max="4" step="0.05" value="0.5"><b id="lrAv" style="min-width:48px"></b></div>
-      <div class="ctrl"><label for="lrB"><b>절편 b</b></label><input type="range" id="lrB" min="-40" max="60" step="1" value="20"><b id="lrBv" style="min-width:48px"></b></div>
+      <div class="ctrl"><label for="lrA"><b>기울기 a</b></label><input type="range" id="lrA" min="-0.4" max="1.2" step="0.01" value="0.15"><b id="lrAv" style="min-width:48px"></b></div>
+      <div class="ctrl"><label for="lrB"><b>절편 b</b></label><input type="range" id="lrB" min="-60" max="100" step="1" value="40"><b id="lrBv" style="min-width:48px"></b></div>
       <div class="readout">
         <div><span class="small muted">지금 직선</span><b id="lrEq"></b></div>
         <div><span class="small muted">지금 MSE</span><b id="lrMse"></b></div>
@@ -490,7 +548,7 @@ body{padding-left:var(--gs-side)}
         <button class="btn" id="lrErr">오차선 끄기</button>
         <button class="btn" id="lrReset">직선 처음으로</button>
       </div>
-      <div class="ctrl"><label for="lrX">🔮 온도</label><input id="lrX" type="number" value="25" style="width:80px;border:1px solid var(--border2);border-radius:6px;padding:4px 8px;font:inherit">도일 때 예측 판매량 <b id="lrPred"></b></div>
+      <div class="ctrl"><label for="lrX">🔮 전체무게</label><input id="lrX" type="number" value="200" style="width:80px;border:1px solid var(--border2);border-radius:6px;padding:4px 8px;font:inherit">g인 전복의 예측 순살무게 <b id="lrPred"></b></div>
       <p class="small" id="lrMsg" style="margin:6px 0 0"></p>
     </div>
     <div class="key"><b>선형 회귀에서 학습이란?</b> 데이터를 가장 잘 설명하는 직선을 찾는 것이고, 그 방법은 오차(MSE)가 줄어들도록 a와 b를 계속 고쳐 나가는 것입니다. 학습이 끝나면 그 직선(모델)으로 처음 보는 x의 y를 예측합니다.</div>
@@ -501,20 +559,20 @@ body{padding-left:var(--gs-side)}
     <p class="ask">전복 실습에서는 x가 4개였다. 그때 모델은 어떻게 생겼을까?</p>
     <p>x가 하나면 직선 y = a × x + b이지만, x가 여러 개면 x마다 곱할 숫자(<b>가중치</b>, 오렌지3에서는 <b>계수 coefficient</b>)를 하나씩 찾습니다. 이것을 <b>다중 선형 회귀</b>라고 합니다.</p>
     <div class="note" style="font-size:16px"><b>전복 모델 (실험 ②)</b>순살무게 = w₁ × 길이 + w₂ × 직경 + w₃ × 두께 + w₄ × 전체무게 + b</div>
-    <p>실습의 「기계가 만든 식 엿보기」에서 Coefficients를 Data Table로 꺼냈을 때 나온 숫자들이 w₁, w₂, …와 b입니다. 기계는 MSE가 가장 작아지도록 이 숫자들을 한꺼번에 찾습니다.</p>
+    <p>위 시뮬레이터는 x가 전체무게 하나라서 직선이었습니다. 실습의 「기계가 만든 식 엿보기」에서 Coefficients를 Data Table로 꺼냈을 때 나온 숫자들이 w₁, w₂, …와 b입니다. 기계는 MSE가 가장 작아지도록 이 숫자들을 한꺼번에 찾습니다.</p>
     <div class="warn"><b>x를 많이 넣는다고 항상 좋아지지는 않는다</b>y와 상관없는 x를 넣으면 데이터의 우연한 잡음까지 외워 버릴 수 있습니다(과적합). 그리고 실습의 실험 ①처럼, 실제로 쓸 상황에서 얻을 수 없는 x(껍질을 깐 뒤에야 잴 수 있는 무게)는 점수가 높아도 쓸 수 없습니다.</div>
   </section>
 
   <section class="sec" id="b-range">
     <h2 data-short="학습 범위 밖">🚧 직선은 학습 범위 밖에서도 답한다</h2>
-    <p class="ask">20~70분 운동 기록만 배운 모델에게 2시간 운동을 물어보면?</p>
+    <p class="ask">작은 전복(길이 40~100mm)만 배운 직선에게 150mm짜리 큰 전복을 물어보면?</p>
     <div class="sim">
       <div id="exSvg"></div>
       <div class="ctrl">
-        <label for="exX"><b>물어볼 운동 시간 (x)</b></label>
-        <input type="range" id="exX" min="0" max="150" step="5" value="45">
+        <label for="exX"><b>물어볼 전복의 길이 (x)</b></label>
+        <input type="range" id="exX" min="30" max="160" step="5" value="70">
         <span id="exXv" style="min-width:56px;font-weight:700"></span>
-        <button class="btn" id="exReal">실제 기록 보이기</button>
+        <button class="btn" id="exReal">실제 전복 보이기</button>
       </div>
       <div class="readout">
         <div><span class="small muted">학습 범위</span><b id="exZone"></b></div>
@@ -523,7 +581,7 @@ body{padding-left:var(--gs-side)}
         <div><span class="small muted">차이</span><b id="exGap">?</b></div>
       </div>
     </div>
-    <p class="cap">파란 실선은 기록이 있는 구간, 주황 점선은 그 직선을 그냥 늘인 부분입니다. 숫자는 수업을 위해 만든 값입니다.</p>
+    <p class="cap">파란 점은 학습에 쓴 작은 전복, 파란 실선은 그 범위에서 찾은 직선, 주황 점선은 직선을 그냥 늘인 부분입니다. 「실제 전복」은 같은 길이인 전복 4,177마리의 평균 순살무게입니다. 길이가 늘면 무게는 세제곱으로 늘어서, 실제 관계는 휘어진 곡선입니다.</p>
     <div class="scroll-x">
     <table class="tbl" style="min-width:640px">
       <tr><th>오개념</th><th>바로잡기</th></tr>
@@ -630,211 +688,28 @@ body{padding-left:var(--gs-side)}
   </section>
 </div>
 
-<!-- ═════════════ PART D ═════════════ -->
-<div class="part" data-part="D">
-  <p class="part-intro">Test and Score 화면의 숫자들은 <b>어떻게</b> 계산되었고, <b>무엇을</b> 말해 줄까요? 교차 검증부터 R²까지 차례로 읽어 봅니다.</p>
-
-  <section class="sec" id="d-cv">
-    <h2 data-short="교차 검증">🔁 성적표 숫자는 이렇게 만들어진다: 교차 검증</h2>
-    <p class="ask">Test and Score는 어떤 데이터로 시험을 봤을까?</p>
-    <p>지난 수업에서 「공부한 문제집으로 시험을 보면 안 된다」고 했습니다. 그런데 데이터를 학습용과 평가용으로 한 번만 나누면, 어느 전복이 평가용에 들어갔느냐에 따라 점수가 운 좋게 또는 운 나쁘게 나올 수 있습니다. 그래서 Test and Score는 <b>교차 검증(Cross validation)</b>을 씁니다.</p>
-    <div class="sim"><div id="cvSvg"></div></div>
-    <ol class="steps">
-      <li>전체 데이터를 똑같은 크기의 덩어리 5개로 나눕니다(5겹).</li>
-      <li>1번 덩어리를 평가용으로 숨기고, 나머지 4개로 <b>알고리즘을 새로 학습</b>시킨 뒤 1번 덩어리로 점수를 냅니다.</li>
-      <li>평가용 덩어리를 2번, 3번, 4번, 5번으로 바꿔 가며 다섯 번 반복합니다. 모든 전복이 한 번씩 평가용이 됩니다.</li>
-      <li>다섯 번의 결과를 모아 낸 점수가 Test and Score에 적힌 숫자입니다.</li>
-    </ol>
-    <div class="key"><b>그래서 Test and Score에는 알고리즘(Learner)을 연결합니다.</b> 이미 학습을 마친 모델 하나를 받는 게 아니라, 덩어리마다 <b>새로 학습</b>을 시켜야 하기 때문입니다. 성적표의 숫자는 모두 <b>학습에 쓰지 않은 데이터</b>로 낸 점수입니다.</div>
-  </section>
-
-  <section class="sec" id="d-metrics">
-    <h2 data-short="회귀 지표 읽기">📊 회귀 성적표의 네 지표</h2>
-    <p class="ask">MAE, MSE, RMSE, R²는 각각 무엇을 잰 숫자일까?</p>
-    <div class="scroll-x">
-    <table class="tbl" style="min-width:820px">
-      <tr><th>지표</th><th>계산</th><th>단위</th><th>좋은 쪽</th><th>읽는 법</th></tr>
-      <tr><td><b>MAE</b><br>평균 절대 오차</td><td>|실제 y − 예측 y|의 평균</td><td>y와 같음</td><td>작을수록</td><td>「평균적으로 이만큼 틀렸다」</td></tr>
-      <tr><td><b>MSE</b><br>평균 제곱 오차</td><td>(실제 y − 예측 y)²의 평균</td><td>y의 제곱</td><td>작을수록</td><td>큰 실수에 벌을 크게 준 오차. PART B에서 직선을 찾을 때 줄인 바로 그 값</td></tr>
-      <tr><td><b>RMSE</b></td><td>√MSE</td><td>y와 같음</td><td>작을수록</td><td>MSE를 원래 단위로 되돌린 값. 전복 실습에서는 × 200을 해서 g으로 읽음</td></tr>
-      <tr><td><b>R²</b><br>결정계수</td><td>1 − (모델의 오차 제곱합 ÷ 평균으로 찍었을 때의 오차 제곱합)</td><td>없음</td><td>1에 가까울수록</td><td>평균으로만 찍었을 때보다 오차를 몇 %나 줄였나 (아래에서 자세히)</td></tr>
-    </table>
-    </div>
-    <div class="note"><b>RMSE를 실제 크기로 읽기</b>전복 데이터의 무게는 원래 g을 200으로 나눈 값입니다. RMSE가 0.02라면 0.02 × 200 = 4, 즉 「순살 무게를 평균 4g쯤 빗나간다」로 읽습니다. 단위가 있는 지표는 이렇게 원래 단위로 바꿔 말해야 뜻이 분명해집니다.</div>
-  </section>
-
-  <section class="sec" id="d-r2">
-    <h2 data-short="R² 결정계수">🎯 R² 결정계수: 평균으로 찍는 것보다 얼마나 나은가</h2>
-    <p class="ask">R² = 0.939는 「93.9% 맞혔다」는 뜻일까?</p>
-    <p>아닙니다. R²를 이해하려면 <b>기준</b>부터 알아야 합니다. 모델이 아무것도 배우지 않고 모든 전복을 <b>평균 순살 무게</b>로 찍는다고 해 봅시다. 이게 가장 쉬운 답입니다. R²는 모델이 이 「평균으로 찍기」보다 <b>오차를 몇 %나 줄였는지</b>를 나타냅니다.</p>
-    <div class="sim">
-      <div class="ctrl"><button class="btn on" id="r2Mean">① 평균으로만 찍기</button><button class="btn" id="r2Model">② 모델의 직선</button></div>
-      <div id="r2Svg"></div>
-      <div class="ctrl"><label for="r2A"><b>직선 기울기 바꿔 보기</b></label><input type="range" id="r2A" min="-0.3" max="1.4" step="0.02" value="0.9"><b id="r2Av" style="min-width:48px"></b><button class="btn" id="r2Best">가장 잘 맞는 직선</button></div>
-      <div id="r2Bars"></div>
-      <p class="small" id="r2Msg" style="margin:8px 0 0"></p>
-    </div>
-    <div class="g3">
-      <div class="card c-green"><h4>R² = 1</h4><p>모델의 오차가 0. 모든 점을 정확히 맞혔다.</p></div>
-      <div class="card"><h4>R² = 0</h4><p>평균으로 찍은 것과 오차가 같다. x에서 배운 것이 없다.</p></div>
-      <div class="card c-red"><h4>R² &lt; 0</h4><p>평균으로 찍은 것보다도 오차가 크다. 시뮬레이터에서 기울기를 반대로 돌려 보세요.</p></div>
-    </div>
-    <div class="key"><b>R² = 0.939 읽는 법</b> 「모든 전복을 평균 무게로 찍었을 때 생기는 오차(제곱의 합) 중 <b>93.9%를 모델이 줄였다</b>」. 전복 실습에서 쓴 「x들이 순살 무게의 변화를 93.9% 설명한다」와 같은 말입니다. 전복마다 순살 무게가 들쭉날쭉한 정도 가운데, x로 설명해 낸 몫이 93.9%라는 뜻입니다.</div>
-  </section>
-
-  <section class="sec" id="d-read">
-    <h2 data-short="성적표 다시 읽기">📝 전복 성적표 다시 읽기</h2>
-    <div class="quiz" data-a="1">
-      <div class="q">1. 실험 ②에서 Linear Regression 0.939, kNN 0.933. 이 차이를 어떻게 읽을까?</div>
-      <div class="opts"><button>Linear Regression이 kNN보다 훨씬 뛰어나다</button><button>두 모델이 평균으로 찍을 때보다 오차를 거의 같은 만큼(약 93~94%) 줄였다. 차이는 아주 작다</button><button>kNN은 6%를 틀렸다</button></div>
-      <div class="fb" data-why="R² 0.006 차이는 크지 않습니다. 이럴 때는 설명하기 쉬운지, 범위 밖에서 어떻게 행동하는지 같은 다른 기준도 함께 봅니다."></div>
-    </div>
-    <div class="quiz" data-a="2">
-      <div class="q">2. 도전 과제에서 나이테(나이)를 맞힐 때 R²는 약 0.52였다. 가장 알맞은 해석은?</div>
-      <div class="opts"><button>나이를 52% 맞혔다</button><button>모델이 잘못 만들어졌다</button><button>평균 나이로 찍을 때보다 오차를 절반쯤 줄였다. 크기·무게로는 나이를 설명하기 어려운 부분이 많다</button></div>
-      <div class="fb" data-why="같은 크기의 전복도 나이가 제각각입니다. 데이터에 없는 요인(먹이, 환경 등)이 나이에 많이 관여한다는 뜻입니다."></div>
-    </div>
-    <div class="quiz" data-a="0">
-      <div class="q">3. 다음 중 「클수록 좋은」 지표는?</div>
-      <div class="opts"><button>R²</button><button>RMSE</button><button>MAE</button></div>
-      <div class="fb" data-why="MAE · MSE · RMSE는 오차의 크기라 작을수록, R²는 줄인 오차의 비율이라 1에 가까울수록 좋습니다."></div>
-    </div>
-  </section>
-</div>
-
-<!-- ═════════════ PART E ═════════════ -->
-<div class="part" data-part="E">
-  <p class="part-intro">Rank, Test and Score, Predictions는 모두 표를 보여 주는 위젯이라 헷갈리기 쉽습니다. 세 위젯이 <b>모델링의 어느 단계에서, 무엇을 묻는지</b>로 구별합니다.</p>
-
-  <section class="sec" id="e-map">
-    <h2 data-short="모델링 흐름 위의 세 위젯">🗺️ 모델링 흐름 위의 세 위젯</h2>
-    <div class="g3">
-      <div class="card c-orange"><h4>① 데이터 살펴보기 — 모델 만들기 전</h4><p>Data Table · Column Statistics · Scatter Plot · <b>Rank</b></p><div class="goal">묻는 것 — <span>어떤 x가 y와 관련이 클까?</span></div></div>
-      <div class="card c-green"><h4>② 학습 · 평가</h4><p><b>Test and Score</b> ← 알고리즘(Learner)</p><div class="goal">묻는 것 — <span>이 알고리즘으로 만든 모델은 얼마나 정확할까?</span></div></div>
-      <div class="card c-blue"><h4>③ 사용 (예측)</h4><p><b>Predictions</b> ← 학습 마친 모델(Model)</p><div class="goal">묻는 것 — <span>이 새 데이터의 y는 얼마일까?</span></div></div>
-    </div>
-  </section>
-
-  <section class="sec" id="e-table">
-    <h2 data-short="한눈에 비교">⚖️ 세 위젯 한눈에 비교</h2>
-    <div class="scroll-x">
-    <table class="tbl" style="min-width:860px">
-      <tr><th></th><th style="color:var(--orange)">Rank</th><th style="color:var(--green)">Test and Score</th><th style="color:var(--primary)">Predictions</th></tr>
-      <tr><th>묻는 것</th><td>어떤 x가 y와 관련이 큰가?</td><td>이 알고리즘으로 만든 모델은 얼마나 정확한가?</td><td>이 새 x의 y는 얼마인가?</td></tr>
-      <tr><th>연결하는 것</th><td>데이터</td><td>데이터 + 알고리즘(<b>Learner</b>)</td><td>새 데이터 + 학습 마친 모델(<b>Model</b>)</td></tr>
-      <tr><th>정답 y가 필요한가</th><td>필요 (y와의 관련을 재니까)</td><td>필요 (예측과 비교해 점수를 내니까)</td><td>필요 없음 (모르는 y를 묻는 것이니까)</td></tr>
-      <tr><th>결과 화면</th><td>x마다 점수, 높은 순으로 줄 세움</td><td>알고리즘마다 지표(R², RMSE …)</td><td>데이터 한 건마다 모델별 예측 y</td></tr>
-      <tr><th>모델링 단계</th><td>모델 만들기 전</td><td>모델 평가</td><td>모델 사용</td></tr>
-      <tr><th>전복 실습에서</th><td>순살 무게와 관련 큰 단서 찾기</td><td>네 알고리즘의 성적 비교</td><td>내가 만든 전복의 순살 무게 묻기</td></tr>
-    </table>
-    </div>
-  </section>
-
-  <section class="sec" id="e-each">
-    <h2 data-short="연결과 읽는 법">🔌 연결 모양과 읽는 법</h2>
-    <h3 style="margin-top:4px;color:var(--orange)">Rank — 단서 줄 세우기</h3>
-    <div class="chain scroll-x">
-      <div class="w"><div class="ic">📁</div><b>File</b>x와 y</div><div class="ar">→</div>
-      <div class="w v"><div class="ic">🏅</div><b>Rank</b>x별 점수</div>
-    </div>
-    <p>표의 줄 하나가 x 하나입니다. 각 x가 y와 얼마나 관련 있는지를 여러 방법(예: Univariate Regression, RReliefF)으로 계산한 점수가 열로 나오고, 높은 순으로 정렬됩니다. 모델을 만들기 전에 <b>어떤 단서를 쓸지</b> 고를 때 참고합니다.</p>
-    <div class="warn"><b>Rank를 읽을 때 조심할 것</b>① Rank 점수는 모델의 성적이 아닙니다. ② 점수가 1등인 x라도 실제로 쓸 때 얻을 수 없는 값(껍질을 깐 뒤에야 재는 무게)이면 쓸 수 없습니다. ③ 관련이 크다고 원인이라는 뜻은 아닙니다.</div>
-
-    <h3 style="color:var(--green)">Test and Score — 알고리즘 성적 매기기</h3>
-    <div class="chain scroll-x">
-      <div class="w"><div class="ic">📁</div><b>File</b>x와 y</div><div class="ar">→</div>
-      <div class="w e"><div class="ic">🧾</div><b>Test and Score</b>Data</div><div class="ar">←</div>
-      <div class="w m"><div class="ic">📈</div><b>Linear Regression</b>Learner</div><div class="ar">＋</div>
-      <div class="w m"><div class="ic">📍</div><b>kNN</b>Learner</div>
-    </div>
-    <p>줄 하나가 알고리즘 하나, 열 하나가 지표 하나입니다. 교차 검증으로 학습과 시험을 반복해 낸 <b>성적</b>만 보여 줄 뿐, 전복 한 마리 한 마리의 예측값은 보여 주지 않습니다.</p>
-
-    <h3 style="color:var(--primary)">Predictions — 학습 마친 모델에게 묻기</h3>
-    <div class="chain scroll-x">
-      <div class="w"><div class="ic">📁</div><b>File</b>전복 데이터</div><div class="ar">→</div>
-      <div class="w m"><div class="ic">📈</div><b>Linear Regression</b>학습 → Model</div><div class="ar">→</div>
-      <div class="w e"><div class="ic">🔮</div><b>Predictions</b>Predictors</div><div class="ar">←</div>
-      <div class="w"><div class="ic">📁</div><b>새 File</b>내 전복 (y 없음)</div>
-    </div>
-    <p>새 데이터의 줄마다 모델별 <b>예측 y</b>가 열로 붙어 나옵니다. 알고리즘 위젯은 File에서 데이터를 받으면 그 자리에서 학습을 마친 모델(Model)을 내보내고, 그 모델이 Predictions로 갑니다. 선 위 글자가 <b>Model → Predictors</b>인지 확인하세요.</p>
-  </section>
-
-  <section class="sec" id="e-mistakes">
-    <h2 data-short="흔한 착각">⚠️ 자주 하는 착각</h2>
-    <div class="scroll-x">
-    <table class="tbl" style="min-width:720px">
-      <tr><th>착각</th><th>바로잡기</th></tr>
-      <tr><td>Test and Score에서 내 전복의 예측값을 찾는다</td><td>Test and Score는 성적만 보여 줍니다. 예측값은 Predictions에서 봅니다.</td></tr>
-      <tr><td>Predictions에 Learner 선을 연결했다</td><td>Predictions에는 학습을 마친 <b>Model</b>이 가야 합니다. 선을 더블클릭해 Edit Links에서 Model → Predictors로 바꿉니다.</td></tr>
-      <tr><td>Rank 1등 단서 = 가장 좋은 모델</td><td>Rank는 단서의 점수일 뿐 모델의 성적이 아닙니다. 모델 성적은 Test and Score에서 봅니다.</td></tr>
-      <tr><td>Predictions에 학습에 쓴 데이터를 넣고 「다 맞았으니 정확하다」고 판단</td><td>이미 본 데이터라 맞히기 쉽습니다. 정확도 판단은 학습에 안 쓴 데이터로 점수를 내는 Test and Score로 합니다.</td></tr>
-    </table>
-    </div>
-  </section>
-
-  <section class="sec" id="e-quiz">
-    <h2 data-short="어떤 위젯?">🧩 이 상황엔 어떤 위젯?</h2>
-    <div class="quiz" data-a="2">
-      <div class="q">1. 「내가 생성기로 만든 전복 5마리의 순살 무게가 각각 몇 g일지 알고 싶어요.」</div>
-      <div class="opts"><button>Rank</button><button>Test and Score</button><button>Predictions</button></div>
-      <div class="fb" data-why="새 데이터의 y를 묻는 것이니 Predictions입니다. 학습 마친 Model을 연결합니다."></div>
-    </div>
-    <div class="quiz" data-a="0">
-      <div class="q">2. 「모델을 만들기 전에, 7개 열 중 순살 무게와 관련이 큰 열부터 알고 싶어요.」</div>
-      <div class="opts"><button>Rank</button><button>Test and Score</button><button>Predictions</button></div>
-      <div class="fb" data-why="x마다 y와의 관련을 점수로 줄 세우는 위젯이 Rank입니다."></div>
-    </div>
-    <div class="quiz" data-a="1">
-      <div class="q">3. 「Linear Regression과 Random Forest 중 어느 쪽이 더 정확한지 비교하고 싶어요.」</div>
-      <div class="opts"><button>Rank</button><button>Test and Score</button><button>Predictions</button></div>
-      <div class="fb" data-why="알고리즘의 성적을 교차 검증으로 비교하는 위젯이 Test and Score입니다. Learner를 연결합니다."></div>
-    </div>
-    <div class="quiz" data-a="1">
-      <div class="q">4. Predictions에는 Model을, Test and Score에는 Learner를 연결하는 까닭은?</div>
-      <div class="opts"><button>오렌지3의 정해진 규칙일 뿐 이유는 없다</button><button>Predictions는 학습을 마친 모델로 답만 내면 되지만, Test and Score는 교차 검증을 하며 덩어리마다 새로 학습시켜야 하기 때문</button><button>Learner가 더 정확하기 때문</button></div>
-      <div class="fb" data-why="모델(결과)과 알고리즘(방법)의 차이가 연결의 차이입니다."></div>
-    </div>
-  </section>
-</div>
-
 <!-- ═════════════ PART F ═════════════ -->
-<div class="part" data-part="F">
-  <p class="part-intro">오늘 배운 것을 정리하고, 성적표에서 아직 설명하지 못한 모델 — 실험 ②에서 꼴찌였던 Tree — 를 미리 보며 다음 실습으로 넘어갑니다.</p>
+<div class="part" data-part="D">
+  <p class="part-intro">오늘 배운 두 모델의 원리를 정리하고, 다음 수업 「성적표 읽기」로 넘어갑니다.</p>
 
   <section class="sec" id="f-sum">
     <h2 data-short="오늘 정리">🧾 오늘의 질문에 답하기</h2>
     <div class="scroll-x">
     <table class="tbl" style="min-width:720px">
       <tr><th>질문</th><th>답</th></tr>
-      <tr><td>Linear Regression은 어떻게 답을 냈나?</td><td>MSE가 가장 작은 직선(x가 여럿이면 계수들)을 찾고, 새 x를 그 식에 넣어 계산했다</td></tr>
+      <tr><td>Linear Regression은 어떻게 답을 냈나?</td><td>MSE가 가장 작은 직선(x가 여럿이면 계수들)을 찾고, 새 x를 그 식에 넣어 계산했다. 전체무게 하나면 순살 ≈ 0.44 × 전체무게</td></tr>
       <tr><td>kNN은 어떻게 답을 냈나?</td><td>새 전복과 가장 가까운 전복 K마리를 찾아 순살 무게의 평균을 냈다</td></tr>
       <tr><td>실험 ③에서 kNN이 이긴 이유는?</td><td>겉모양과 순살 무게는 곡선 관계라 직선은 못 따라가고, 이웃 평균은 그 자리의 높이를 따라갔다</td></tr>
-      <tr><td>R² 0.939는?</td><td>평균으로만 찍었을 때의 오차(제곱합) 중 93.9%를 모델이 줄였다</td></tr>
-      <tr><td>세 위젯의 차이는?</td><td>Rank는 단서 고르기, Test and Score는 알고리즘 성적, Predictions는 새 데이터 예측</td></tr>
+      <tr><td>두 모델 모두 조심할 것은?</td><td>학습 범위 밖의 x에도 답을 낸다. 직선은 그대로 늘여서, kNN은 멀리 있는 이웃의 평균으로</td></tr>
     </table>
     </div>
+    <div class="note"><b>kNN은 분류도 한다</b>오늘은 y가 숫자(순살무게)라서 이웃의 <b>평균</b>을 냈습니다. y가 이름표(펭귄의 종)라면 이웃의 <b>다수결</b>로 답합니다. 이웃을 찾는 방법은 똑같고 마지막 한 단계만 다릅니다. 수업 7 「kNN 분류 — 펭귄」에서 다시 만납니다.</div>
   </section>
 
   <section class="sec" id="f-next">
-    <h2 data-short="다음 실습 미리보기">🌳 Tree는 왜 0.886이었을까?</h2>
-    <p class="ask">성적표에 있던 Tree와 Random Forest는 어떻게 답을 냈을까?</p>
-    <p>오늘은 Linear Regression과 kNN의 속을 열어 봤습니다. 실험 ②의 성적표에는 아직 설명하지 못한 숫자가 남아 있습니다. <b>Tree 0.886</b>, 네 모델 중 꼴찌입니다.</p>
-    <div class="g2">
-      <div class="card c-blue"><h4>Linear Regression: 직선 하나</h4><p>전체무게와 순살 무게가 <b>거의 곧게</b> 함께 늘어나니, 직선이 잘 따라갑니다. → 0.939</p></div>
-      <div class="card c-orange"><h4>Tree: 질문으로 나눈 칸마다 평균</h4><p>「전체무게가 186.5g보다 무거운가?」처럼 질문으로 전복을 나누고, 칸마다 <b>평균</b>으로 답합니다. 그래서 예측 그래프가 <b>계단</b>이 됩니다. → 0.886</p></div>
-    </div>
-    <div class="figure" style="text-align:center">
-      <svg viewBox="0 0 520 220" role="img" aria-label="직선 예측과 계단 예측 비교" style="max-width:520px;width:100%">
-        <line x1="40" y1="190" x2="500" y2="190" stroke="#cbd5e1"/><line x1="40" y1="20" x2="40" y2="190" stroke="#cbd5e1"/>
-        <g fill="#94a3b8" fill-opacity=".6"><circle cx="70" cy="178" r="3.5"/><circle cx="95" cy="168" r="3.5"/><circle cx="120" cy="160" r="3.5"/><circle cx="150" cy="146" r="3.5"/><circle cx="180" cy="136" r="3.5"/><circle cx="210" cy="120" r="3.5"/><circle cx="240" cy="112" r="3.5"/><circle cx="270" cy="96" r="3.5"/><circle cx="300" cy="88" r="3.5"/><circle cx="330" cy="72" r="3.5"/><circle cx="360" cy="66" r="3.5"/><circle cx="395" cy="52" r="3.5"/><circle cx="430" cy="42" r="3.5"/></g>
-        <line x1="55" y1="184" x2="470" y2="36" stroke="#2f6fe4" stroke-width="3" stroke-dasharray="7 5"/>
-        <path d="M55 170 H165 V140 H275 V100 H385 V58 H480" fill="none" stroke="#c56a04" stroke-width="4"/>
-        <text x="300" y="150" font-size="13" font-weight="700" fill="#2f6fe4">직선 (Linear Regression)</text>
-        <text x="60" y="60" font-size="13" font-weight="700" fill="#c56a04">계단 (Tree)</text>
-        <text x="270" y="210" text-anchor="middle" font-size="12" fill="#64748b">전체무게 →</text>
-      </svg>
-    </div>
-    <p>다음 실습에서는 이 계단이 어떻게 만들어지는지 전복으로 직접 확인하고, 같은 트리가 이름표(타이타닉 생존/사망)를 맞힐 때는 무엇이 달라지는지 봅니다. 트리 여러 그루를 모은 <b>랜덤 포레스트</b>도 만나요. kNN이 이름표를 맞히는 방법(다수결)은 그다음 kNN 실습에서 펭귄으로 다룹니다.</p>
+    <h2 data-short="다음 수업 미리보기">🧾 다음 수업: 0.939는 무엇을 잰 숫자일까?</h2>
+    <p class="ask">원리는 알았다. 그럼 성적표의 숫자는 어떻게 읽을까?</p>
+    <p>오늘의 질문 ②가 남았습니다. 실험 ②의 R² 0.939, 그리고 Test and Score 화면에 함께 나오는 RMSE · MAE는 무엇을 잰 숫자일까요? 다음 수업에서는 <b>Test and Score가 어떤 데이터로 점수를 매기는지</b>, Predictions와 무엇이 다른지 보고, <b>회귀 성적표(전복)</b>와 <b>분류 성적표(타이타닉)</b>를 나란히 놓고 읽습니다.</p>
   </section>
 
   <section class="sec" id="check">
@@ -845,22 +720,21 @@ body{padding-left:var(--gs-side)}
       <li>알고리즘(Learner)과 모델(Model)의 차이를 설명할 수 있다</li>
       <li>선형 회귀 시뮬레이터에서 MSE가 줄어드는 과정을 말로 설명할 수 있다</li>
       <li>kNN이 회귀에서 이웃의 평균으로 답한다는 것을 설명할 수 있다</li>
-      <li>MAE · MSE · RMSE · R²가 각각 무엇을 잰 것인지 말할 수 있다</li>
-      <li>R²를 「평균으로 찍을 때보다 줄인 오차의 비율」로 설명할 수 있다</li>
-      <li>Rank · Test and Score · Predictions를 상황에 맞게 고를 수 있다</li>
+      <li>직선과 kNN이 학습 범위 밖에서 어떻게 답하는지 말할 수 있다</li>
+      <li>kNN이 회귀에서는 평균, 분류에서는 다수결로 답한다는 것을 말할 수 있다</li>
     </ul>
     <h3>🎯 도달도 척도표</h3>
     <table class="tbl levels">
       <tr><th>수준</th><th>기준</th></tr>
-      <tr><td>상</td><td>실험 ②와 ③의 1등이 바뀐 이유를 두 알고리즘의 동작 원리로 설명하고, R²와 RMSE를 실제 단위와 기준(평균으로 찍기)으로 해석할 수 있다.</td></tr>
-      <tr><td>중</td><td>두 알고리즘의 원리와 R²의 뜻을 설명하고, 세 위젯의 쓰임을 구별할 수 있다.</td></tr>
-      <tr><td>하</td><td>x와 y를 구분하고, Test and Score에서 R²가 클수록 좋다는 것을 말할 수 있다.</td></tr>
+      <tr><td>상</td><td>실험 ②와 ③의 1등이 바뀐 이유를 두 알고리즘의 동작 원리(직선 대 이웃 평균)로 설명하고, 학습 범위 밖에서의 한계를 예로 들 수 있다.</td></tr>
+      <tr><td>중</td><td>선형 회귀가 MSE를 줄이는 직선을 찾고, kNN이 이웃의 평균을 낸다는 것을 시뮬레이터로 설명할 수 있다.</td></tr>
+      <tr><td>하</td><td>x와 y, 알고리즘과 모델을 구분할 수 있다.</td></tr>
     </table>
   </section>
 
   <div class="nextbox">
-    <div><span class="small">다음 실습</span><b>🌳 결정 트리와 랜덤 포레스트</b>전복으로 보는 회귀 트리(계단의 비밀), 타이타닉으로 보는 분류 트리, 그리고 나무 여러 그루의 숲까지.</div>
-    <a href="lab02.html">다음 실습으로</a>
+    <div><span class="small">다음 수업</span><b>🧾 성적표 읽기 — Test and Score</b>Test and Score와 Predictions의 차이, 회귀 성적표(전복)와 분류 성적표(타이타닉)를 나란히 읽습니다.</div>
+    <a href="chapter05b.html">다음 수업으로</a>
   </div>
 </div>
 
@@ -1014,30 +888,30 @@ function eqA(){} // (범위 밖 시뮬레이터가 쓰던 요소가 없을 때�
 
 /* ── 선형 회귀 시뮬레이터 ── */
 (function(){
-  var W=640,H=380,L=56,R=16,T=16,B=46,X0=15,X1=30,Y0=0,Y1=70;
+  var W=640,H=380,L=56,R=16,T=16,B=46,X0=0,X1=450,Y0=0,Y1=200;
   function sx(x){return L+(x-X0)*(W-L-R)/(X1-X0);} function sy(y){return H-B-(y-Y0)*(H-T-B)/(Y1-Y0);}
   function ix(px){return X0+(px-L)*(X1-X0)/(W-L-R);} function iy(py){return Y0+(H-B-py)*(Y1-Y0)/(H-T-B);}
-  var SETS={cafe:[[20,40],[21,42],[22,44],[23,46],[24,48]],noisy:[[19,36],[20,41],[21,39],[22,47],[22.5,44],[23,49],[24,46],[25,53]]};
-  var pts=SETS.cafe.slice(),a=0.5,b=20,ep=0,showErr=true,timer=null;
+  var SETS={cafe:[[50,22],[90,38],[112,57],[120,45],[137,33],[140,59],[151,66],[160,59],[170,55],[177,77],[213,97],[240,113]],noisy:[[20,8],[27,12],[40,16],[44,19],[45,16],[56,27],[62,23],[73,35],[79,32],[84,33],[88,36],[90,51],[93,37],[103,39],[120,48],[124,40],[125,53],[128,59],[133,62],[140,60],[149,70],[152,49],[159,76],[165,48],[175,83],[184,87],[185,92],[186,71],[218,98],[223,117],[240,98],[250,126],[258,119],[262,106],[295,143],[307,192],[308,120],[341,140],[342,127],[348,174]]};
+  var pts=SETS.cafe.slice(),a=0.15,b=40,ep=0,showErr=true,timer=null;
   function mse(A,Bb){if(!pts.length)return 0;var s=0;pts.forEach(function(p){var e=p[1]-(A*p[0]+Bb);s+=e*e;});return s/pts.length;}
   function best(){var n=pts.length;if(n<2)return null;var mx=0,my=0;pts.forEach(function(p){mx+=p[0];my+=p[1];});mx/=n;my/=n;var sxy=0,sxx=0;pts.forEach(function(p){sxy+=(p[0]-mx)*(p[1]-my);sxx+=(p[0]-mx)*(p[0]-mx);});if(!sxx)return null;var A=sxy/sxx;return [A,my-A*mx];}
   function draw(){
     var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="선형 회귀 시뮬레이터">';
     s+='<rect x="'+L+'" y="'+T+'" width="'+(W-L-R)+'" height="'+(H-T-B)+'" fill="#fff" stroke="#e2e8f0"/>';
-    for(var x=15;x<=30;x+=5)s+='<text x="'+sx(x)+'" y="'+(H-B+18)+'" text-anchor="middle" font-size="12" fill="#64748b">'+x+'</text>';
-    for(var y=0;y<=70;y+=10)s+='<text x="'+(L-8)+'" y="'+(sy(y)+4)+'" text-anchor="end" font-size="12" fill="#64748b">'+y+'</text><line x1="'+L+'" x2="'+(W-R)+'" y1="'+sy(y)+'" y2="'+sy(y)+'" stroke="#f1f5f9"/>';
-    s+='<text x="'+((W+L)/2)+'" y="'+(H-8)+'" text-anchor="middle" font-size="12.5" fill="#475569">온도 (x)</text><text x="14" y="'+(T+(H-T-B)/2)+'" font-size="12.5" fill="#475569" transform="rotate(-90 14 '+(T+(H-T-B)/2)+')" text-anchor="middle">판매량 (y)</text>';
+    for(var x=0;x<=450;x+=50)s+='<text x="'+sx(x)+'" y="'+(H-B+18)+'" text-anchor="middle" font-size="12" fill="#64748b">'+x+'</text>';
+    for(var y=0;y<=200;y+=25)s+='<text x="'+(L-8)+'" y="'+(sy(y)+4)+'" text-anchor="end" font-size="12" fill="#64748b">'+y+'</text><line x1="'+L+'" x2="'+(W-R)+'" y1="'+sy(y)+'" y2="'+sy(y)+'" stroke="#f1f5f9"/>';
+    s+='<text x="'+((W+L)/2)+'" y="'+(H-8)+'" text-anchor="middle" font-size="12.5" fill="#475569">전체무게 (x, g)</text><text x="14" y="'+(T+(H-T-B)/2)+'" font-size="12.5" fill="#475569" transform="rotate(-90 14 '+(T+(H-T-B)/2)+')" text-anchor="middle">순살무게 (y, g)</text>';
     s+='<line x1="'+sx(X0)+'" y1="'+sy(a*X0+b)+'" x2="'+sx(X1)+'" y2="'+sy(a*X1+b)+'" stroke="'+BLUE+'" stroke-width="3.5"/>';
     if(showErr)pts.forEach(function(p){s+='<line x1="'+sx(p[0])+'" y1="'+sy(p[1])+'" x2="'+sx(p[0])+'" y2="'+sy(a*p[0]+b)+'" stroke="'+RED+'" stroke-width="2" stroke-dasharray="4 3"/>';});
     pts.forEach(function(p){s+='<circle cx="'+sx(p[0])+'" cy="'+sy(p[1])+'" r="6" fill="'+ORANGE+'" stroke="#fff" stroke-width="1.5"/>';});
     $('lrSvg').innerHTML=s+'</svg>';
     $('lrA').value=a;$('lrB').value=b;$('lrAv').textContent=a.toFixed(2);$('lrBv').textContent=b.toFixed(1);
-    $('lrEq').textContent='판매량 = '+a.toFixed(2)+' × 온도 '+(b<0?'− ':'+ ')+Math.abs(b).toFixed(1);
-    var m=mse(a,b),bf=best();$('lrMse').textContent=pts.length?m.toFixed(2):'-';
-    $('lrBest').textContent=bf?mse(bf[0],bf[1]).toFixed(2):'-';$('lrEp').textContent=ep+'회';
-    var px=parseFloat($('lrX').value);$('lrPred').textContent=isNaN(px)?'-':(a*px+b).toFixed(1)+'잔';
+    $('lrEq').textContent='순살 = '+a.toFixed(2)+' × 전체무게 '+(b<0?'− ':'+ ')+Math.abs(b).toFixed(1);
+    var m=mse(a,b),bf=best();$('lrMse').textContent=pts.length?m.toFixed(1)+' g²':'-';
+    $('lrBest').textContent=bf?mse(bf[0],bf[1]).toFixed(1)+' g²':'-';$('lrEp').textContent=ep+'회';
+    var px=parseFloat($('lrX').value);$('lrPred').textContent=isNaN(px)?'-':(a*px+b).toFixed(1)+'g';
     if(!pts.length){$('lrMsg').textContent='그래프를 눌러 점(기록)을 찍어 보세요. 점이 2개 이상이면 학습시킬 수 있어요.';return;}
-    if(bf){var gap=m-mse(bf[0],bf[1]);$('lrMsg').textContent=gap<0.05?'🎉 오차가 가장 작은 직선을 찾았어요!'+(mse(bf[0],bf[1])>0.05?' 그래도 MSE가 0은 아니죠? 모든 점을 지나는 직선은 없기 때문이에요.':''):(m>40?'직선이 점들과 많이 떨어져 있어요. 빨간 오차선을 짧게 만들어 보세요.':'조금만 더! 빨간 오차선이 전체적으로 짧아지도록 움직여 보세요.');}
+    if(bf){var mb=mse(bf[0],bf[1]),gap=m-mb;$('lrMsg').textContent=gap<Math.max(0.5,mb*0.01)?'🎉 오차가 가장 작은 직선을 찾았어요!'+(mse(bf[0],bf[1])>0.05?' 그래도 MSE가 0은 아니죠? 모든 점을 지나는 직선은 없기 때문이에요.':''):(m>mb*3?'직선이 점들과 많이 떨어져 있어요. 빨간 오차선을 짧게 만들어 보세요.':'조금만 더! 빨간 오차선이 전체적으로 짧아지도록 움직여 보세요.');}
   }
   function stop(){clearInterval(timer);timer=null;$('lrTrain').textContent='▶ 기계에게 학습시키기';}
   function train(){
@@ -1058,15 +932,15 @@ function eqA(){} // (범위 밖 시뮬레이터가 쓰던 요소가 없을 때�
   $('lrTrain').onclick=train;
   $('lrShowBest').onclick=function(){stop();var bf=best();if(bf){a=bf[0];b=bf[1];draw();}};
   $('lrErr').onclick=function(){showErr=!showErr;this.textContent=showErr?'오차선 끄기':'오차선 켜기';draw();};
-  $('lrReset').onclick=function(){stop();a=0.5;b=20;ep=0;draw();};
+  $('lrReset').onclick=function(){stop();a=0.15;b=40;ep=0;draw();};
   document.querySelectorAll('[data-lr]').forEach(function(btn){btn.addEventListener('click',function(){
     stop();document.querySelectorAll('[data-lr]').forEach(function(x){x.classList.toggle('on',x===btn);});
-    var t=btn.dataset.lr;pts=t==='clear'?[]:SETS[t].slice();a=0.5;b=20;ep=0;draw();});});
+    var t=btn.dataset.lr;pts=t==='clear'?[]:SETS[t].slice();a=0.15;b=40;ep=0;draw();});});
   $('lrSvg').addEventListener('click',function(e){
     var svg=$('lrSvg').querySelector('svg'),r=svg.getBoundingClientRect();
     var px=(e.clientX-r.left)*W/r.width,py=(e.clientY-r.top)*H/r.height;
     if(px<L||px>W-R||py<T||py>H-B)return;
-    pts.push([Math.round(ix(px)*2)/2,Math.round(iy(py))]);ep=0;draw();
+    pts.push([Math.round(ix(px)),Math.round(iy(py))]);ep=0;draw();
   });
   draw();
 })();
@@ -1101,100 +975,46 @@ function eqA(){} // (범위 밖 시뮬레이터가 쓰던 요소가 없을 때�
   $('knX').addEventListener('input',draw);draw();
 })();
 
-/* ── 교차 검증 도식 ── */
+/* ── 외삽 시뮬레이터 (전복 길이) ── */
 (function(){
-  var W=640,H=250,s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="5겹 교차 검증">';
-  for(var r=0;r<5;r++){
-    var y=14+r*44;
-    s+='<text x="10" y="'+(y+24)+'" font-size="13" font-weight="700" fill="#334155">'+(r+1)+'회차</text>';
-    for(var c=0;c<5;c++){var test=(c===r);s+='<rect x="'+(70+c*76)+'" y="'+y+'" width="70" height="34" rx="7" fill="'+(test?'#ebfaf3':'#eef4ff')+'" stroke="'+(test?GREEN:'#bfd3fb')+'" stroke-width="'+(test?2.5:1)+'"/><text x="'+(105+c*76)+'" y="'+(y+22)+'" text-anchor="middle" font-size="12.5" fill="'+(test?GREEN:BLUE)+'" font-weight="700">'+(test?'평가':'학습')+'</text>';}
-    s+='<text x="460" y="'+(y+22)+'" font-size="18" fill="#94a3b8">→</text><text x="485" y="'+(y+23)+'" font-size="13" fill="#334155">새로 학습 → 점수 '+'①②③④⑤'[r]+'</text>';
-  }
-  s+='</svg>';
-  $('cvSvg').innerHTML=s+'<p class="small" style="text-align:center;margin:6px 0 0"><b>①~⑤를 모아 계산한 점수 = Test and Score에 적힌 숫자</b></p>';
-})();
-
-/* ── R² 시뮬레이터 ── */
-(function(){
-  var seed=31;function rnd(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646;}
-  var P=[];for(var i=0;i<24;i++){var x=0.1+rnd()*0.6;P.push([x,0.02+0.43*x+(rnd()-.5)*0.07]);}
-  var n=P.length,mx=0,my=0;P.forEach(function(p){mx+=p[0];my+=p[1];});mx/=n;my/=n;
-  var sxy=0,sxx=0;P.forEach(function(p){sxy+=(p[0]-mx)*(p[1]-my);sxx+=(p[0]-mx)*(p[0]-mx);});var AB=sxy/sxx;
-  var mode='mean',A=AB;
-  var W=640,H=320,L=56,R=16,T=16,B=40;
-  function sx(x){return L+x*(W-L-R)/0.8;} function sy(y){return H-B-(y+0.05)*(H-T-B)/0.45;}
-  function draw(){
-    var a=mode==='mean'?0:A;function f(x){return my+a*(x-mx);}
-    var sst=0,sse=0;P.forEach(function(p){sst+=(p[1]-my)*(p[1]-my);sse+=(p[1]-f(p[0]))*(p[1]-f(p[0]));});
-    var r2=1-sse/sst;
-    var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="R² 결정계수 시뮬레이터">';
-    s+='<rect x="'+L+'" y="'+T+'" width="'+(W-L-R)+'" height="'+(H-T-B)+'" fill="#fff" stroke="#e2e8f0"/>';
-    s+='<text x="'+((W+L)/2)+'" y="'+(H-10)+'" text-anchor="middle" font-size="12.5" fill="#475569">전체무게 (x)</text><text x="14" y="'+(T+(H-T-B)/2)+'" font-size="12.5" fill="#475569" transform="rotate(-90 14 '+(T+(H-T-B)/2)+')" text-anchor="middle">순살무게 (y)</text>';
-    s+='<line x1="'+sx(0.03)+'" x2="'+sx(0.77)+'" y1="'+sy(my)+'" y2="'+sy(my)+'" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/><text x="'+sx(0.77)+'" y="'+(sy(my)-6)+'" text-anchor="end" font-size="12" fill="#64748b">평균 y</text>';
-    if(mode==='model')s+='<line x1="'+sx(0.03)+'" y1="'+sy(f(0.03))+'" x2="'+sx(0.77)+'" y2="'+sy(f(0.77))+'" stroke="'+BLUE+'" stroke-width="3.5"/>';
-    P.forEach(function(p){s+='<line x1="'+sx(p[0])+'" x2="'+sx(p[0])+'" y1="'+sy(p[1])+'" y2="'+sy(f(p[0]))+'" stroke="'+(mode==='mean'?'#94a3b8':RED)+'" stroke-width="2" stroke-dasharray="3 3"/>';});
-    P.forEach(function(p){s+='<circle cx="'+sx(p[0])+'" cy="'+sy(p[1])+'" r="5.5" fill="'+ORANGE+'"/>';});
-    $('r2Svg').innerHTML=s+'</svg>';
-    var bw=520,w2=Math.min(bw*1.6,bw*sse/sst);
-    var bars='<div style="max-width:640px;margin:10px auto 0;font-size:14px">'+
-      '<div style="display:flex;align-items:center;gap:10px;margin:4px 0"><span style="width:150px">평균으로 찍었을 때 오차²의 합</span><span style="display:inline-block;height:18px;width:'+bw/1.6+'px;background:#cbd5e1;border-radius:4px"></span><b>100</b></div>'+
-      '<div style="display:flex;align-items:center;gap:10px;margin:4px 0"><span style="width:150px">'+(mode==='mean'?'평균으로 찍기의':'모델의')+' 오차²의 합</span><span style="display:inline-block;height:18px;width:'+(w2/1.6)+'px;background:'+(r2<0?RED:BLUE)+';border-radius:4px"></span><b>'+Math.round(100*sse/sst)+'</b></div>'+
-      '<div style="margin-top:8px;font-size:17px">R² = 1 − '+Math.round(100*sse/sst)+' ÷ 100 = <b style="color:'+(r2<0?RED:(r2>0.8?GREEN:INK))+'">'+r2.toFixed(3)+'</b></div></div>';
-    $('r2Bars').innerHTML=bars;
-    $('r2Av').textContent=mode==='mean'?'—':A.toFixed(2);
-    $('r2Msg').innerHTML=mode==='mean'?'회색 점선이 「모든 전복을 평균 무게로 찍었을 때」의 오차입니다. 이 오차들의 제곱합이 R²의 <b>기준(100)</b>입니다.':(r2<0?'⚠ 모델의 오차가 평균으로 찍었을 때보다 커서 R²가 <b>음수</b>가 되었습니다.':'빨간 점선이 모델의 오차입니다. 기준(100) 중 '+Math.round(100*(1-sse/sst))+'만큼을 모델이 줄였으니 R² ≈ '+r2.toFixed(2)+'입니다.');
-  }
-  $('r2Mean').onclick=function(){mode='mean';this.classList.add('on');$('r2Model').classList.remove('on');draw();};
-  $('r2Model').onclick=function(){mode='model';this.classList.add('on');$('r2Mean').classList.remove('on');draw();};
-  $('r2A').addEventListener('input',function(){A=+this.value;mode='model';$('r2Model').classList.add('on');$('r2Mean').classList.remove('on');draw();});
-  $('r2Best').onclick=function(){A=AB;$('r2A').value=AB;mode='model';$('r2Model').classList.add('on');$('r2Mean').classList.remove('on');draw();};
-  $('r2A').value=AB;draw();
-})();
-
-/* ── 외삽 시뮬레이터 ── */
-(function(){
-  function truth(x){return 9.6*x-0.032*x*x;}
-  var noise=[9,-14,6,-5,12,-9,4,-11,7,-4,10], xs=[], ys=[];
-  for(var i=0;i<11;i++){var x=20+i*5;xs.push(x);ys.push(truth(x)+noise[i]);}
-  var n=xs.length,mx=xs.reduce(function(a,b){return a+b;})/n,my=ys.reduce(function(a,b){return a+b;})/n,sxy=0,sxx=0;
-  for(i=0;i<n;i++){sxy+=(xs[i]-mx)*(ys[i]-my);sxx+=(xs[i]-mx)*(xs[i]-mx);}
-  var A=sxy/sxx,B=my-A*mx;
+  /* 실제: 길이(mm)별 전복 4,177마리의 평균 순살무게(g) */
+  var TRUE=[[30,1.3],[40,3.2],[50,6.5],[60,12.1],[70,17.8],[80,27.5],[90,38.9],[100,53.9],[110,72.0],[120,94.4],[130,120.5],[140,151.8],[150,187.6],[160,195]];
+  function truth(x){for(var i=1;i<TRUE.length;i++){if(x<=TRUE[i][0]){var a=TRUE[i-1],b=TRUE[i];return a[1]+(b[1]-a[1])*(x-a[0])/(b[0]-a[0]);}}return TRUE[TRUE.length-1][1];}
+  var PTS=[[42,4],[48,6],[55,9],[61,12],[65,16],[69,13],[69,22],[71,15],[74,14],[74,26],[80,22],[80,24],[83,33],[87,44],[90,36],[94,59],[98,50],[100,72]];
+  var A=0.936,B=-45.0; /* 길이 40~100mm 전복 1,548마리로 찾은 직선 */
   function line(x){return A*x+B;}
-  
-  var X=function(x){return 56+x*(560/150);},Y=function(y){return 300-y*(275/1120);};
+  var X=function(x){return 56+(x-25)*(560/140);},Y=function(y){return 300-(y+30)*(275/240);};
   var real=false;
   function draw(){
-    var x=+$('exX').value, inR=(x>=20&&x<=70);
-    var s='<svg viewBox="0 0 640 340" role="img" aria-label="운동 시간과 칼로리, 학습 범위 밖 예측">';
-    s+='<rect x="'+X(20)+'" y="20" width="'+(X(70)-X(20))+'" height="280" fill="#eef4ff"/>';
-    s+='<text x="'+X(45)+'" y="38" text-anchor="middle" font-size="13" fill="'+BLUE+'" font-weight="700">학습한 구간 (20~70분)</text>';
-    s+='<line x1="56" y1="300" x2="620" y2="300" stroke="#94a3b8"/><line x1="56" y1="300" x2="56" y2="20" stroke="#94a3b8"/>';
-    [0,30,60,90,120,150].forEach(function(t){s+='<text x="'+X(t)+'" y="318" text-anchor="middle" font-size="12" fill="#64748b">'+t+'분</text>';});
-    [0,250,500,750,1000].forEach(function(t){s+='<text x="50" y="'+(Y(t)+4)+'" text-anchor="end" font-size="11.5" fill="#64748b">'+t+'</text>';});
-    if(real){var p='';for(var t=0;t<=150;t+=3)p+=(t?'L':'M')+X(t)+' '+Y(truth(t));s+='<path d="'+p+'" fill="none" stroke="'+GREEN+'" stroke-width="2.5" opacity=".75"/><text x="'+X(150)+'" y="'+(Y(truth(150))+20)+'" text-anchor="end" font-size="12.5" fill="'+GREEN+'" font-weight="700">실제로 잰 값</text>';}
-    s+='<line x1="'+X(0)+'" y1="'+Y(line(0))+'" x2="'+X(20)+'" y2="'+Y(line(20))+'" stroke="'+ORANGE+'" stroke-width="2.5" stroke-dasharray="7 5"/>';
-    s+='<line x1="'+X(70)+'" y1="'+Y(line(70))+'" x2="'+X(150)+'" y2="'+Y(line(150))+'" stroke="'+ORANGE+'" stroke-width="2.5" stroke-dasharray="7 5"/>';
-    s+='<line x1="'+X(20)+'" y1="'+Y(line(20))+'" x2="'+X(70)+'" y2="'+Y(line(70))+'" stroke="'+BLUE+'" stroke-width="4"/>';
-    for(i=0;i<n;i++) s+='<circle cx="'+X(xs[i])+'" cy="'+Y(ys[i])+'" r="5" fill="'+BLUE+'"/>';
+    var x=+$('exX').value, inR=(x>=40&&x<=100);
+    var s='<svg viewBox="0 0 640 340" role="img" aria-label="전복 길이와 순살무게, 학습 범위 밖 예측">';
+    s+='<rect x="'+X(40)+'" y="20" width="'+(X(100)-X(40))+'" height="280" fill="#eef4ff"/>';
+    s+='<text x="'+X(70)+'" y="38" text-anchor="middle" font-size="13" fill="'+BLUE+'" font-weight="700">학습한 구간 (40~100mm)</text>';
+    s+='<line x1="56" y1="'+Y(0)+'" x2="620" y2="'+Y(0)+'" stroke="#94a3b8"/><line x1="56" y1="300" x2="56" y2="20" stroke="#94a3b8"/>';
+    [40,60,80,100,120,140,160].forEach(function(t){s+='<text x="'+X(t)+'" y="318" text-anchor="middle" font-size="12" fill="#64748b">'+t+'mm</text>';});
+    [0,50,100,150,200].forEach(function(t){s+='<text x="50" y="'+(Y(t)+4)+'" text-anchor="end" font-size="11.5" fill="#64748b">'+t+'g</text>';});
+    if(real){var p='';for(var t=30;t<=160;t+=2)p+=(t>30?'L':'M')+X(t)+' '+Y(truth(t));s+='<path d="'+p+'" fill="none" stroke="'+GREEN+'" stroke-width="2.5" opacity=".8"/><text x="'+X(150)+'" y="'+(Y(truth(150))-10)+'" text-anchor="end" font-size="12.5" fill="'+GREEN+'" font-weight="700">실제 전복 (평균)</text>';}
+    s+='<line x1="'+X(30)+'" y1="'+Y(line(30))+'" x2="'+X(40)+'" y2="'+Y(line(40))+'" stroke="'+ORANGE+'" stroke-width="2.5" stroke-dasharray="7 5"/>';
+    s+='<line x1="'+X(100)+'" y1="'+Y(line(100))+'" x2="'+X(160)+'" y2="'+Y(line(160))+'" stroke="'+ORANGE+'" stroke-width="2.5" stroke-dasharray="7 5"/>';
+    s+='<line x1="'+X(40)+'" y1="'+Y(line(40))+'" x2="'+X(100)+'" y2="'+Y(line(100))+'" stroke="'+BLUE+'" stroke-width="4"/>';
+    PTS.forEach(function(p){s+='<circle cx="'+X(p[0])+'" cy="'+Y(p[1])+'" r="4.5" fill="'+BLUE+'" fill-opacity=".75"/>';});
     s+='<line x1="'+X(x)+'" y1="300" x2="'+X(x)+'" y2="'+Y(line(x))+'" stroke="'+INK+'" stroke-dasharray="3 3"/>';
     s+='<circle cx="'+X(x)+'" cy="'+Y(line(x))+'" r="8" fill="'+(inR?BLUE:ORANGE)+'" stroke="#fff" stroke-width="2"/>';
     if(real){s+='<circle cx="'+X(x)+'" cy="'+Y(truth(x))+'" r="7" fill="#fff" stroke="'+GREEN+'" stroke-width="3"/>';}
     s+='</svg>';
     $('exSvg').innerHTML=s;
-    $('exXv').textContent=x+'분';
+    $('exXv').textContent=x+'mm';
     $('exZone').textContent=inR?'안 ✔':'밖 ⚠';$('exZone').style.color=inR?'var(--green)':'var(--orange)';
-    $('exPred').textContent=fmt(line(x))+' kcal';
-    $('exTrue').textContent=real?fmt(truth(x))+' kcal':'?';
-    $('exGap').textContent=real?fmt(Math.abs(line(x)-truth(x)))+' kcal':'?';
+    var lp=line(x);$('exPred').textContent=lp.toFixed(1)+'g'+(lp<0?' (음수!)':'');
+    $('exTrue').textContent=real?truth(x).toFixed(1)+'g':'?';
+    $('exGap').textContent=real?Math.abs(lp-truth(x)).toFixed(1)+'g':'?';
   }
   $('exX').addEventListener('input',draw);
-  $('exReal').addEventListener('click',function(){real=!real;this.textContent=real?'실제 기록 숨기기':'실제 기록 보이기';draw();});
+  $('exReal').addEventListener('click',function(){real=!real;this.textContent=real?'실제 전복 숨기기':'실제 전복 보이기';draw();});
   draw();
 })();
 
-
 })();
-
 </script>
 <script>window.__GS_TOC__=[];</script>
 <script>
