@@ -390,6 +390,11 @@ li.navpin a.cur .n{background:#f59e0b !important}
 .k.pin{background:#fff7ed;color:#c2410c;font-size:10.5px;font-weight:700;border-radius:4px;padding:0 5px;margin-left:auto;flex:none}
 @media (max-width:640px){.mmap-row{grid-template-columns:1fr;gap:4px}}
 .nav-list a{align-items:flex-start}.nav-list .n{margin-top:1px}
+.dl-btn{display:flex;align-items:center;gap:14px;margin-top:14px;padding:14px 22px;border-radius:12px;background:var(--primary);color:#fff!important;text-decoration:none!important;font-weight:700;font-size:17px;line-height:1.4;box-shadow:0 4px 12px rgba(59,130,246,.25);transition:background .15s,transform .15s}
+.dl-btn:hover{background:var(--primary-d);transform:translateY(-1px)}
+.dl-btn .dl-ic{font-size:26px;line-height:1}
+.dl-btn small{display:block;font-size:13px;font-weight:500;opacity:.9}
+@media (max-width:640px){.dl-btn{font-size:15px;padding:12px 16px}}
 </style>
 </head>
 <body>
@@ -572,7 +577,7 @@ li.navpin a.cur .n{background:#f59e0b !important}
     <div class="corekq">14개 열 중 무엇이 단서이고, 무엇을 빼야 할까?</div>
     <div class="sec-body">
       <div class="stepbar"><small>🚲 따릉이 모델 만들기 단계</small><span class="tag n0">① 문제</span><span class="tag n0">② 입력·출력</span><span class="tag n0">③ 유형</span><span class="tag y">④ 데이터</span><span class="tag n0">⑤ 학습</span><span class="tag n0">⑥ 테스트</span><span class="tag n0">⑦ 한계·개선</span></div>
-      <div class="note"><b>🚲 서울 공유 자전거 수요량 (Seoul Bike Sharing Demand) · 회귀</b>2017년 12월 1일부터 2018년 11월 30일까지 1년 동안, 1시간마다 서울 전체에서 빌려진 따릉이 수와 그 시간의 날씨를 기록한 데이터입니다. <b>8,760행</b>(365일 × 24시간) · 결측치 0<br><span class="small muted">원출처: UCI Machine Learning Repository · CC BY 4.0 · 실습용 파일: <a href="https://luminousky.com/teacher-utility-kit/ml-playgrounds/datasets/#datasets" target="_blank" rel="noopener">Machine Learning Playgrounds 예제 데이터셋</a>의 「서울 공유 자전거 수요량」</span></div>
+      <div class="note"><b>🚲 서울 공유 자전거 수요량 (Seoul Bike Sharing Demand) · 회귀</b>2017년 12월 1일부터 2018년 11월 30일까지 1년 동안, 1시간마다 서울 전체에서 빌려진 따릉이 수와 그 시간의 날씨를 기록한 데이터입니다. <b>8,760행</b>(365일 × 24시간) · 결측치 0<br><span class="small muted">원출처: <a href="https://archive.ics.uci.edu/dataset/560/seoul+bike+sharing+demand" target="_blank" rel="noopener">UCI Machine Learning Repository — Seoul Bike Sharing Demand</a> · CC BY 4.0</span><a class="dl-btn" href="data/seoul_bike_data.csv" download><span class="dl-ic">⬇</span><span>따릉이 CSV 내려받기<small>seoul_bike_data.csv · 8,760행 · 14개 열</small></span></a></div>
       <div class="scroll-x">
       <table class="tbl" style="min-width:720px">
         <tr><th>열</th><th>단위 · 값</th><th>역할</th></tr>
