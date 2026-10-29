@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>실습 · 나만의 데이터로 인공지능 프로젝트</title>
+<title>프로젝트 · 나만의 데이터</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
@@ -323,7 +323,9 @@ body{padding-left:var(--gs-side)}
 /* ═══════ 모델 지도 · 수업 칩 · PART 탭 색 ═══════ */
 .mm-chip{display:inline-block;font-size:10.5px;font-weight:700;border-radius:4px;padding:0 5px;line-height:1.6}
 .mm-reg{background:#e0ecff;color:#1d4ed8}.mm-cls{background:#ffedd5;color:#c2410c}.mm-clu{background:#f3e8ff;color:#7e22ce}
-.navchips{display:block;margin-top:2px}.navchips .mm-chip{margin-right:3px}
+.navchips{display:block;margin-top:2px}.navchips .mm-chip{margin-right:3px;margin-bottom:2px}
+.mm-data{background:#f1f5f9;color:#475569;font-weight:600}
+.navchips .navrow{display:block;white-space:nowrap;margin-top:2px}.navchips .navrow .mm-chip{margin-bottom:0}
 .mmap{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:14px 16px;margin:18px 0 14px;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;line-height:1.5}
 .mmap-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-bottom:10px}
 .mmap-h b{font-size:15px;color:#1e293b}.mmap-h span{font-size:13px;color:#4a5568}
@@ -368,7 +370,18 @@ body{padding-left:var(--gs-side)}
 [data-kind="wrap"] small::after,[data-kind="wrap"] .pt-label::after{content:'· 정리';color:#475569}
 [data-kind] small,[data-kind] .pt-label{white-space:nowrap}
 .part-tab[data-kind]{flex:1 0 auto}
+/* 고정 항목: 모델 한눈에 보기 */
+li.navpin{border-bottom:1px dashed #e2e8f0;margin-bottom:4px;padding-bottom:4px}
+li.navpin .n{background:#fff7ed !important;font-size:13px}
+li.navpin a.cur .n{background:#f59e0b !important}
+.k.pin{background:#fff7ed;color:#c2410c;font-size:10.5px;font-weight:700;border-radius:4px;padding:0 5px;margin-left:auto;flex:none}
 @media (max-width:640px){.mmap-row{grid-template-columns:1fr;gap:4px}}
+
+.gs-steps{display:flex;flex-wrap:wrap;align-items:center;gap:4px 3px;margin:4px 0 14px;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;line-height:1.4}
+.gs-steps small{font-size:12px;font-weight:700;color:#8a94a6;margin-right:8px}
+.gs-steps span{display:inline-block;font-size:12.5px;font-weight:700;border-radius:6px;padding:3px 9px;background:#f1f3f6;color:#8a94a6;border:1.5px solid transparent}
+.gs-steps span.y{background:#e3f5ec;color:#05875f}
+.gs-steps span.now{border-color:#05875f;background:#fff}
 </style>
 </head>
 <body>
@@ -383,26 +396,33 @@ body{padding-left:var(--gs-side)}
     <div class="gs-sub">GGHS 미디어정보리터러시</div>
   </div>
   <div class="gs-navtitle">수업 목록</div>
-  <ul class="gs-nav"><li><a href="chapter02.html"><span class="n">1</span><span style="flex:1;min-width:0">머신러닝 개념</span><span class="k c">개념</span></a></li>
-    <li><a href="chapter04.html"><span class="n">2</span><span style="flex:1;min-width:0">데이터</span><span class="k c">개념</span></a></li>
-    <li><a href="lab01.html"><span class="n">3</span><span style="flex:1;min-width:0">회귀 첫걸음 — 전복 무게<span class="navchips"><span class="mm-chip mm-reg">회귀</span></span></span><span class="k l">실습</span></a></li>
-    <li><a href="chapter05.html"><span class="n">4</span><span style="flex:1;min-width:0">모델 원리 — 선형 회귀 · kNN<span class="navchips"><span class="mm-chip mm-reg">회귀</span></span></span><span class="k c">개념</span></a></li>
-    <li><a href="chapter05b.html"><span class="n">5</span><span style="flex:1;min-width:0">성적표 읽기 — Test and Score<span class="navchips"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-cls">분류</span></span></span><span class="k c">개념</span></a></li>
-    <li><a href="lab02.html"><span class="n">6</span><span style="flex:1;min-width:0">결정 트리 · 랜덤 포레스트<span class="navchips"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-cls">분류</span></span></span><span class="k l">실습</span></a></li>
-    <li><a href="lab03.html"><span class="n">7</span><span style="flex:1;min-width:0">kNN 분류 — 펭귄<span class="navchips"><span class="mm-chip mm-cls">분류</span></span></span><span class="k l">실습</span></a></li>
-    <li><a href="lab04.html"><span class="n">8</span><span style="flex:1;min-width:0">분류 성적표 깊이 읽기 · 모델 대결<span class="navchips"><span class="mm-chip mm-cls">분류</span></span></span><span class="k l">실습</span></a></li>
-    <li><a href="chapter03.html"><span class="n">9</span><span style="flex:1;min-width:0">비지도학습 · 딥러닝<span class="navchips"><span class="mm-chip mm-clu">군집</span></span></span><span class="k c">개념</span></a></li>
-    <li><a href="lab05.html" class="cur" aria-current="page"><span class="n">10</span><span style="flex:1;min-width:0">나만의 데이터로 프로젝트</span><span class="k l">실습</span></a></li></ul>
-  <div class="mmini"><div class="mmini-t">🧭 모델 지도 <span style="font-weight:400;color:#64748b">(숫자 = 배우는 수업)</span></div><div class="mmini-r reg"><span>지도학습 · 회귀</span><a href="chapter05.html" class="on" title="수업 4에서 배워요">선형 회귀<sup>4</sup></a><a href="chapter05.html" class="on" title="수업 4에서 배워요">kNN<sup>4</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">결정 트리<sup>6</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">랜덤 포레스트<sup>6</sup></a></div><div class="mmini-r cls"><span>지도학습 · 분류</span><a href="lab04.html" class="on" title="수업 8에서 배워요">로지스틱 회귀<sup>8</sup></a><a href="lab03.html" class="on" title="수업 7에서 배워요">kNN<sup>7</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">결정 트리<sup>6</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">랜덤 포레스트<sup>6</sup></a></div><div class="mmini-r clu"><span>비지도학습 · 군집</span><a href="chapter03.html" class="on" title="수업 9에서 배워요">k-평균<sup>9</sup></a></div></div>
+  <ul class="gs-nav"><li class="navpin"><a href="models.html"><span class="n">🧭</span><span style="flex:1;min-width:0">모델 한눈에 보기<span class="navchips"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-cls">분류</span><span class="mm-chip mm-clu">군집</span></span></span><span class="k pin">도감</span></a></li>
+    <li><a href="chapter02.html"><span class="n">1</span><span style="flex:1;min-width:0">머신러닝 · 지도와 비지도</span><span class="k c">개념</span></a></li>
+    <li><a href="chapter04.html"><span class="n">2</span><span style="flex:1;min-width:0">데이터 · 읽고 의심하기</span><span class="k c">개념</span></a></li>
+    <li><a href="lab01.html"><span class="n">3</span><span style="flex:1;min-width:0">회귀 · 모델 4종 비교<span class="navchips"><span class="navrow"><span class="mm-chip mm-reg">회귀</span></span><span class="navrow"><span class="mm-chip mm-data">🐚 전복</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="chapter05.html"><span class="n">4</span><span style="flex:1;min-width:0">회귀 · 선형 회귀와 kNN<span class="navchips"><span class="navrow"><span class="mm-chip mm-reg">회귀</span></span><span class="navrow"><span class="mm-chip mm-data">🐚 전복</span></span></span></span><span class="k c">개념</span></a></li>
+    <li><a href="chapter05b.html"><span class="n">5</span><span style="flex:1;min-width:0">Test and Score와 Predictions<span class="navchips"><span class="navrow"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-cls">분류</span></span><span class="navrow"><span class="mm-chip mm-data">🐚 전복</span><span class="mm-chip mm-data">🚢 타이타닉</span></span></span></span><span class="k c">개념</span></a></li>
+    <li><a href="lab02.html"><span class="n">6</span><span style="flex:1;min-width:0">회귀 · 분류 · 결정 트리와 랜덤 포레스트<span class="navchips"><span class="navrow"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-cls">분류</span></span><span class="navrow"><span class="mm-chip mm-data">🐚 전복</span><span class="mm-chip mm-data">🚢 타이타닉</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab03.html"><span class="n">7</span><span style="flex:1;min-width:0">분류 · kNN<span class="navchips"><span class="navrow"><span class="mm-chip mm-cls">분류</span><span class="mm-chip mm-reg">회귀</span></span><span class="navrow"><span class="mm-chip mm-data">🐧 펭귄</span><span class="mm-chip mm-data">🏠 대만 집값</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab04.html"><span class="n">8</span><span style="flex:1;min-width:0">분류 · 로지스틱 회귀와 모델 대결<span class="navchips"><span class="navrow"><span class="mm-chip mm-cls">분류</span></span><span class="navrow"><span class="mm-chip mm-data">❤️ 심장병</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="chapter03.html"><span class="n">9</span><span style="flex:1;min-width:0">군집 · k-평균과 딥러닝<span class="navchips"><span class="navrow"><span class="mm-chip mm-clu">군집</span></span><span class="navrow"><span class="mm-chip mm-data">🛒 고객 소비 패턴</span></span></span></span><span class="k c">개념</span></a></li>
+    <li><a href="lab06.html"><span class="n">10</span><span style="flex:1;min-width:0">회귀 · 랜덤 포레스트<span class="navchips"><span class="navrow"><span class="mm-chip mm-reg">회귀</span></span><span class="navrow"><span class="mm-chip mm-data">🚲 따릉이</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab07.html"><span class="n">11</span><span style="flex:1;min-width:0">회귀 · 군집 — 같은 데이터, 두 가지 질문<span class="navchips"><span class="navrow"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-clu">군집</span></span><span class="navrow"><span class="mm-chip mm-data">🏠 대만 집값</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab08.html"><span class="n">12</span><span style="flex:1;min-width:0">분류 · 로지스틱 회귀<span class="navchips"><span class="navrow"><span class="mm-chip mm-cls">분류</span></span><span class="navrow"><span class="mm-chip mm-data">🏦 정기예금</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab09.html"><span class="n">13</span><span style="flex:1;min-width:0">군집 · k-평균<span class="navchips"><span class="navrow"><span class="mm-chip mm-clu">군집</span></span><span class="navrow"><span class="mm-chip mm-data">🌏 세계 지진</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab10.html"><span class="n">14</span><span style="flex:1;min-width:0">회귀 · 랜덤 포레스트<span class="navchips"><span class="navrow"><span class="mm-chip mm-reg">회귀</span></span><span class="navrow"><span class="mm-chip mm-data">🌍 세계 기대수명</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab11.html"><span class="n">15</span><span style="flex:1;min-width:0">회귀 · 분류 · 군집 — 한 데이터로 세 가지<span class="navchips"><span class="navrow"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-cls">분류</span><span class="mm-chip mm-clu">군집</span></span><span class="navrow"><span class="mm-chip mm-data">⚡ 포켓몬</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab05.html" class="cur" aria-current="page"><span class="n">16</span><span style="flex:1;min-width:0">프로젝트 · 나만의 데이터</span><span class="k l">실습</span></a></li></ul>
+  <div class="mmini"><div class="mmini-t">🧭 모델 지도 <span style="font-weight:400;color:#64748b">(숫자 = 배우는 수업)</span></div><div class="mmini-r reg"><span>지도학습 · 회귀</span><a href="chapter05.html" class="on" title="수업 4에서 배워요">선형 회귀<sup>4</sup></a><a href="chapter05.html" class="on" title="수업 4에서 배워요">kNN<sup>4</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">결정 트리<sup>6</sup></a><a href="lab02.html" class="on" title="수업 6 · 10 · 14에서 배워요">랜덤 포레스트<sup>6·10·14</sup></a></div><div class="mmini-r cls"><span>지도학습 · 분류</span><a href="lab04.html" class="on" title="수업 8 · 12에서 배워요">로지스틱 회귀<sup>8·12</sup></a><a href="lab03.html" class="on" title="수업 7에서 배워요">kNN<sup>7</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">결정 트리<sup>6</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">랜덤 포레스트<sup>6</sup></a></div><div class="mmini-r clu"><span>비지도학습 · 군집</span><a href="chapter03.html" class="on" title="수업 9 · 13에서 배워요">k-평균<sup>9·13</sup></a></div></div>
   <div class="gs-toc" id="gsToc"><div class="gs-toc-title">📌 이 페이지</div></div>
   <a class="gs-next" href="../python/chapter01.html">🍀 다음 과정: 파이썬 데이터 시각화 →</a>
 </nav>
 <div class="gs-backdrop" data-gs-toggle></div>
-<header class="gs-mbar"><button data-gs-toggle aria-label="수업 목록 열기">☰</button><span>10 · 나만의 데이터로 프로젝트</span></header>
+<header class="gs-mbar"><button data-gs-toggle aria-label="수업 목록 열기">☰</button><span>16 · 프로젝트 · 나만의 데이터</span></header>
 
 <main class="wrap">
 <section class="hero">
-  <span class="pill lab">수업 10 · 프로젝트 · 실습 5</span>
+  <span class="pill lab">수업 16 · 실습 · 프로젝트 · 나만의 데이터</span>
   <h1>🚀 나만의 데이터로<br>인공지능 프로젝트</h1>
   <p class="lead">지금까지 회귀, 분류, 군집을 하나씩 만나며 「왜 이 방법인가」를 따져 왔습니다. 이제 <b>내가 고른 문제</b>와 <b>내가 찾은 데이터</b>로 처음부터 끝까지 모델을 만들고, 그 과정을 보고서 여덟 문항으로 정리합니다.</p>
   <div class="goals">
@@ -432,7 +452,7 @@ body{padding-left:var(--gs-side)}
   </div>
 </section>
 
-<div class="mmap"><div class="mmap-h"><b>🧭 모델 지도 — 진하게 칠한 모델이 이번 수업의 주인공</b><span>지금까지 배운 모든 모델 중에서 내 문제에 맞는 것을 고릅니다.</span></div><div class="mmap-row reg"><div class="mmap-type"><b>지도학습 · 회귀</b><small>숫자 맞히기</small></div><div class="mmap-models"><a class="mmap-m on" href="chapter05.html">선형 회귀<i>수업 4</i></a><a class="mmap-m on" href="chapter05.html">kNN<i>수업 4</i></a><a class="mmap-m on" href="lab02.html">결정 트리<i>수업 6</i></a><a class="mmap-m on" href="lab02.html">랜덤 포레스트<i>수업 6</i></a></div></div><div class="mmap-row cls"><div class="mmap-type"><b>지도학습 · 분류</b><small>이름표 맞히기</small></div><div class="mmap-models"><a class="mmap-m on" href="lab04.html">로지스틱 회귀<i>수업 8</i></a><a class="mmap-m on" href="lab03.html">kNN<i>수업 7</i></a><a class="mmap-m on" href="lab02.html">결정 트리<i>수업 6</i></a><a class="mmap-m on" href="lab02.html">랜덤 포레스트<i>수업 6</i></a></div></div><div class="mmap-row clu"><div class="mmap-type"><b>비지도학습 · 군집</b><small>비슷한 것끼리 묶기</small></div><div class="mmap-models"><a class="mmap-m on" href="chapter03.html">k-평균<i>수업 9</i></a></div></div><div class="mmap-legend"><span class="lt">아래 PART 탭 색</span><span><em style="background:#94a3b8"></em>🗂 문제 · 데이터</span><span><em style="background:#3b82f6"></em>🧠 모델 원리</span><span><em style="background:#1e293b"></em>✅ 정리</span></div></div>
+<div class="mmap"><div class="mmap-h"><b>🧭 모델 지도 — 진하게 칠한 모델이 이번 수업의 주인공</b><span>지금까지 배운 모든 모델 중에서 내 문제에 맞는 것을 고릅니다.</span></div><div class="mmap-row reg"><div class="mmap-type"><b>지도학습 · 회귀</b><small>숫자 맞히기</small></div><div class="mmap-models"><a class="mmap-m on" href="chapter05.html">선형 회귀<i>수업 4</i></a><a class="mmap-m on" href="chapter05.html">kNN<i>수업 4</i></a><a class="mmap-m on" href="lab02.html">결정 트리<i>수업 6</i></a><a class="mmap-m on" href="lab02.html">랜덤 포레스트<i>수업 6 · 10 · 14</i></a></div></div><div class="mmap-row cls"><div class="mmap-type"><b>지도학습 · 분류</b><small>이름표 맞히기</small></div><div class="mmap-models"><a class="mmap-m on" href="lab04.html">로지스틱 회귀<i>수업 8 · 12</i></a><a class="mmap-m on" href="lab03.html">kNN<i>수업 7</i></a><a class="mmap-m on" href="lab02.html">결정 트리<i>수업 6</i></a><a class="mmap-m on" href="lab02.html">랜덤 포레스트<i>수업 6</i></a></div></div><div class="mmap-row clu"><div class="mmap-type"><b>비지도학습 · 군집</b><small>비슷한 것끼리 묶기</small></div><div class="mmap-models"><a class="mmap-m on" href="chapter03.html">k-평균<i>수업 9 · 13</i></a></div></div><div class="mmap-legend"><span class="lt">아래 PART 탭 색</span><span><em style="background:#94a3b8"></em>🗂 문제 · 데이터</span><span><em style="background:#3b82f6"></em>🧠 모델 원리</span><span><em style="background:#1e293b"></em>✅ 정리</span></div></div>
 <div class="parttabs">
   <div class="row" role="tablist">
     <button data-part="A" role="tab" data-kind="data"><small>PART A</small><span>주제 찾기</span></button>
@@ -449,7 +469,7 @@ body{padding-left:var(--gs-side)}
   <p class="part-intro">좋은 프로젝트는 「인공지능으로 뭘 해 볼까」가 아니라 <b>「이게 불편한데, 풀 수 있을까」</b>에서 시작합니다.</p>
 
   <section class="sec" id="a-stuck">
-    <h2 data-short="그 숫자는 어디서 왔나">🔢 그 숫자는 어디서 왔을까?</h2>
+    <h2 data-short="그 숫자는 어디서 왔나">🔢 그 숫자는 어디서 왔을까?</h2><div class="gs-steps" aria-label="지금 단계: ① 주제 찾기"><small>🚀 프로젝트 단계</small><span class="y now">① 주제 찾기</span><span class="">② 데이터 · 설계도</span><span class="">③ 유형과 도구</span><span class="">④ 보고서 8문항</span><span class="">⑤ 평가 · 제출</span></div>
     <p class="ask">규칙을 쓰긴 썼는데, 기준 숫자는 누가 정했지?</p>
     <p class="askd">여섯 명의 학생이 각자의 생활에서 문제를 찾고, 먼저 규칙으로 풀어 보려 했습니다. 카드를 눌러 어디서 막혔는지 확인하세요. 이 「막힌 지점」이 기계학습이 필요한 이유입니다.</p>
     <div class="g3">
@@ -488,7 +508,7 @@ body{padding-left:var(--gs-side)}
   </section>
 
   <section class="sec" id="a-rings">
-    <h2 data-short="세 겹에서 찾기">🎯 나에서 시작해 사회까지</h2>
+    <h2 data-short="세 겹에서 찾기">🎯 나에서 시작해 사회까지</h2><div class="gs-steps" aria-label="지금 단계: ① 주제 찾기"><small>🚀 프로젝트 단계</small><span class="y now">① 주제 찾기</span><span class="">② 데이터 · 설계도</span><span class="">③ 유형과 도구</span><span class="">④ 보고서 8문항</span><span class="">⑤ 평가 · 제출</span></div>
     <p class="ask">문제가 떠오르지 않을 때는 찾는 자리를 옮겨 보세요</p>
     <div class="g3">
       <div class="card c-blue"><h4>나</h4><p>매일 반복하는 일, 자주 헷갈리는 것, 궁금했던 숫자</p><p class="small muted">예: 운동 칼로리, 내 음악 취향, 공부 시간과 성적</p></div>
@@ -499,7 +519,7 @@ body{padding-left:var(--gs-side)}
   </section>
 
   <section class="sec" id="a-filter">
-    <h2 data-short="네 물음으로 거르기">🔍 이 주제, 프로젝트로 삼아도 될까?</h2>
+    <h2 data-short="네 물음으로 거르기">🔍 이 주제, 프로젝트로 삼아도 될까?</h2><div class="gs-steps" aria-label="지금 단계: ① 주제 찾기"><small>🚀 프로젝트 단계</small><span class="y now">① 주제 찾기</span><span class="">② 데이터 · 설계도</span><span class="">③ 유형과 도구</span><span class="">④ 보고서 8문항</span><span class="">⑤ 평가 · 제출</span></div>
     <p class="ask">후보 세 개를 네 물음으로 걸러 보세요</p>
     <div class="scroll-x">
     <table class="tbl" style="min-width:820px">
@@ -514,7 +534,7 @@ body{padding-left:var(--gs-side)}
   </section>
 
   <section class="sec" id="a-sentence">
-    <h2 data-short="한 문장으로">✍️ 남은 하나를 한 문장으로</h2>
+    <h2 data-short="한 문장으로">✍️ 남은 하나를 한 문장으로</h2><div class="gs-steps" aria-label="지금 단계: ① 주제 찾기"><small>🚀 프로젝트 단계</small><span class="y now">① 주제 찾기</span><span class="">② 데이터 · 설계도</span><span class="">③ 유형과 도구</span><span class="">④ 보고서 8문항</span><span class="">⑤ 평가 · 제출</span></div>
     <p class="ask">「무엇을 넣으면 무엇을 알려 주는 모델」인가?</p>
     <div class="io">
       <div class="b"><small>입력 · x (독립변수)</small><div class="v"><input style="width:100%;border:1px solid var(--border2);border-radius:6px;padding:4px 8px" placeholder="예: 하루 최고기온"></div></div>
@@ -534,7 +554,7 @@ body{padding-left:var(--gs-side)}
   <p class="part-intro">데이터를 모은 범위가 곧 모델이 답할 수 있는 범위입니다. 찾고, 확인하고, 설계도를 그립니다.</p>
 
   <section class="sec" id="b-sets">
-    <h2 data-short="수업 데이터">📦 수업에서 쓴 데이터로 시작하기</h2>
+    <h2 data-short="수업 데이터">📦 수업에서 쓴 데이터로 시작하기</h2><div class="gs-steps" aria-label="지금 단계: ② 데이터 · 설계도"><small>🚀 프로젝트 단계</small><span class="y">① 주제 찾기</span><span class="y now">② 데이터 · 설계도</span><span class="">③ 유형과 도구</span><span class="">④ 보고서 8문항</span><span class="">⑤ 평가 · 제출</span></div>
     <p class="ask">어디서부터 찾아야 할지 모르겠다면</p>
     <p>지금까지 수업에서 쓴 데이터는 모두 <b>원출처와 이용 조건이 확인된 공개 데이터</b>입니다. 같은 데이터로 다른 질문을 던져도 훌륭한 프로젝트가 됩니다(예: 펭귄 데이터로 「성별 맞히기」, 집값 데이터로 「편의점 수만으로 예측하기」).</p>
     <div class="scroll-x">
@@ -565,7 +585,7 @@ body{padding-left:var(--gs-side)}
   </section>
 
   <section class="sec" id="b-design">
-    <h2 data-short="데이터 설계도">📐 나만의 데이터 설계도</h2>
+    <h2 data-short="데이터 설계도">📐 나만의 데이터 설계도</h2><div class="gs-steps" aria-label="지금 단계: ② 데이터 · 설계도"><small>🚀 프로젝트 단계</small><span class="y">① 주제 찾기</span><span class="y now">② 데이터 · 설계도</span><span class="">③ 유형과 도구</span><span class="">④ 보고서 8문항</span><span class="">⑤ 평가 · 제출</span></div>
     <p class="ask">데이터를 받았다면, 모델을 만들기 전에 이것부터</p>
     <div class="g2" style="align-items:start">
       <div>
@@ -604,7 +624,7 @@ body{padding-left:var(--gs-side)}
   <p class="part-intro">데이터를 정리했다면 이제 유형을 고릅니다. 유형은 취향이 아니라 <b>두 번의 질문</b>으로 정해지고, 정해진 유형이 도구를 정합니다.</p>
 
   <section class="sec" id="c-sim">
-    <h2 data-short="유형 나무 시뮬레이터">🌲 유형 나무 시뮬레이터</h2>
+    <h2 data-short="유형 나무 시뮬레이터">🌲 유형 나무 시뮬레이터</h2><div class="gs-steps" aria-label="지금 단계: ③ 유형과 도구"><small>🚀 프로젝트 단계</small><span class="y">① 주제 찾기</span><span class="y">② 데이터 · 설계도</span><span class="y now">③ 유형과 도구</span><span class="">④ 보고서 8문항</span><span class="">⑤ 평가 · 제출</span></div>
     <p class="ask">연습 사례로 두 질문을 먼저 연습한 뒤, 내 프로젝트도 같은 질문에 답해 보세요.</p>
     <div class="ctrl" id="caseBtns" role="group" aria-label="사례 고르기"></div>
     <div class="split">
@@ -619,7 +639,7 @@ body{padding-left:var(--gs-side)}
   </section>
 
   <section class="sec" id="c-tree">
-    <h2 data-short="내 프로젝트 유형">🌲 내 프로젝트의 유형 고르기</h2>
+    <h2 data-short="내 프로젝트 유형">🌲 내 프로젝트의 유형 고르기</h2><div class="gs-steps" aria-label="지금 단계: ③ 유형과 도구"><small>🚀 프로젝트 단계</small><span class="y">① 주제 찾기</span><span class="y">② 데이터 · 설계도</span><span class="y now">③ 유형과 도구</span><span class="">④ 보고서 8문항</span><span class="">⑤ 평가 · 제출</span></div>
     <div class="ttree" id="pTree" style="max-width:640px;margin:0 auto"></div>
     <div class="ctrl" style="justify-content:center">
       <span><b>질문 1</b></span><button class="btn" data-t="q1:yes">정답을 학습에 쓴다</button><button class="btn" data-t="q1:no">쓰지 않는다</button>
@@ -638,7 +658,7 @@ body{padding-left:var(--gs-side)}
   </section>
 
   <section class="sec" id="c-tools">
-    <h2 data-short="도구 고르기">🧰 도구 고르기</h2>
+    <h2 data-short="도구 고르기">🧰 도구 고르기</h2><div class="gs-steps" aria-label="지금 단계: ③ 유형과 도구"><small>🚀 프로젝트 단계</small><span class="y">① 주제 찾기</span><span class="y">② 데이터 · 설계도</span><span class="y now">③ 유형과 도구</span><span class="">④ 보고서 8문항</span><span class="">⑤ 평가 · 제출</span></div>
     <div class="g3">
       <div class="card c-orange"><h4>🍊 오렌지3</h4><p>표(CSV) 데이터. 위젯을 이어 회귀·분류·군집을 모두 할 수 있고, 성적표와 그래프가 바로 보인다.</p></div>
       <div class="card c-purple"><h4>📷 티처블머신</h4><p>사진·소리·자세 데이터. 클래스별로 사진을 넣어 이미지 분류를 하고, 칸마다 확률 막대를 볼 수 있다.</p></div>
@@ -647,7 +667,7 @@ body{padding-left:var(--gs-side)}
   </section>
 
   <section class="sec" id="c-chains">
-    <h2 data-short="유형별 연결도">🔗 유형별 오렌지3 연결도</h2>
+    <h2 data-short="유형별 연결도">🔗 유형별 오렌지3 연결도</h2><div class="gs-steps" aria-label="지금 단계: ③ 유형과 도구"><small>🚀 프로젝트 단계</small><span class="y">① 주제 찾기</span><span class="y">② 데이터 · 설계도</span><span class="y now">③ 유형과 도구</span><span class="">④ 보고서 8문항</span><span class="">⑤ 평가 · 제출</span></div>
     <h3 style="margin-top:4px">📈 회귀</h3>
     <div class="chain scroll-x">
       <div class="w"><div class="ic">📁</div><b>File</b>target 지정</div><div class="ar">→</div>
@@ -680,7 +700,7 @@ body{padding-left:var(--gs-side)}
   <p class="part-intro">문항마다 <b>무엇을 묻는지</b>, <b>어떻게 쓰면 좋은지</b>, <b>여섯 예시 프로젝트에서 무엇을 배울지</b>를 정리했습니다.</p>
 
   <section class="sec" id="d-examples">
-    <h2 data-short="여섯 사례">📚 여섯 사례에서 배울 점</h2>
+    <h2 data-short="여섯 사례">📚 여섯 사례에서 배울 점</h2><div class="gs-steps" aria-label="지금 단계: ④ 보고서 8문항"><small>🚀 프로젝트 단계</small><span class="y">① 주제 찾기</span><span class="y">② 데이터 · 설계도</span><span class="y">③ 유형과 도구</span><span class="y now">④ 보고서 8문항</span><span class="">⑤ 평가 · 제출</span></div>
     <p>PART A에서 본 여섯 사례는 보고서 문항마다 무엇을 따져야 하는지 보여 줍니다. 내 프로젝트와 같은 유형의 사례에서 <b>따지는 방식</b>을 가져오세요.</p>
     <div class="scroll-x">
     <table class="tbl" style="min-width:760px">
@@ -696,7 +716,7 @@ body{padding-left:var(--gs-side)}
   </section>
 
   <section class="sec" id="d-q12">
-    <h2 data-short="문항 1·2">1️⃣ 문항 1 문제 정의 · 2️⃣ 문항 2 입력과 출력</h2>
+    <h2 data-short="문항 1·2">1️⃣ 문항 1 문제 정의 · 2️⃣ 문항 2 입력과 출력</h2><div class="gs-steps" aria-label="지금 단계: ④ 보고서 8문항"><small>🚀 프로젝트 단계</small><span class="y">① 주제 찾기</span><span class="y">② 데이터 · 설계도</span><span class="y">③ 유형과 도구</span><span class="y now">④ 보고서 8문항</span><span class="">⑤ 평가 · 제출</span></div>
     <div class="g2">
       <div class="card">
         <h4>문항 1 · 무엇을 풀 것인가</h4>
@@ -714,7 +734,7 @@ body{padding-left:var(--gs-side)}
   </section>
 
   <section class="sec" id="d-q34">
-    <h2 data-short="문항 3·4">3️⃣ 문항 3 유형과 도구 · 4️⃣ 문항 4 데이터</h2>
+    <h2 data-short="문항 3·4">3️⃣ 문항 3 유형과 도구 · 4️⃣ 문항 4 데이터</h2><div class="gs-steps" aria-label="지금 단계: ④ 보고서 8문항"><small>🚀 프로젝트 단계</small><span class="y">① 주제 찾기</span><span class="y">② 데이터 · 설계도</span><span class="y">③ 유형과 도구</span><span class="y now">④ 보고서 8문항</span><span class="">⑤ 평가 · 제출</span></div>
     <div class="g2">
       <div class="card">
         <h4>문항 3 · 어떤 방법으로 풀 것인가</h4>
@@ -732,7 +752,7 @@ body{padding-left:var(--gs-side)}
   </section>
 
   <section class="sec" id="d-q5">
-    <h2 data-short="문항 5">5️⃣ 문항 5 학습 결과</h2>
+    <h2 data-short="문항 5">5️⃣ 문항 5 학습 결과</h2><div class="gs-steps" aria-label="지금 단계: ④ 보고서 8문항"><small>🚀 프로젝트 단계</small><span class="y">① 주제 찾기</span><span class="y">② 데이터 · 설계도</span><span class="y">③ 유형과 도구</span><span class="y now">④ 보고서 8문항</span><span class="">⑤ 평가 · 제출</span></div>
     <p>학습 완료 화면과 수치·지표를 첨부하고, 그 의미를 씁니다.</p>
     <div class="g3">
       <div class="card c-blue"><h4>회귀라면</h4><p class="small">R², RMSE(MAE)를 쓰고 단위로 풀어 말하기(「평균 ○○kcal쯤 빗나간다」). 기울기는 관찰이지 원인이 아님, 절편은 범위 밖이면 해석하지 않음.</p></div>
@@ -743,7 +763,7 @@ body{padding-left:var(--gs-side)}
   </section>
 
   <section class="sec" id="d-q6">
-    <h2 data-short="문항 6">6️⃣ 문항 6 테스트와 결과 분석</h2>
+    <h2 data-short="문항 6">6️⃣ 문항 6 테스트와 결과 분석</h2><div class="gs-steps" aria-label="지금 단계: ④ 보고서 8문항"><small>🚀 프로젝트 단계</small><span class="y">① 주제 찾기</span><span class="y">② 데이터 · 설계도</span><span class="y">③ 유형과 도구</span><span class="y now">④ 보고서 8문항</span><span class="">⑤ 평가 · 제출</span></div>
     <p>학습에 쓰지 않은 새 데이터를 넣고, <b>넣기 전 예상</b>과 실제 결과를 비교해 차이의 원인을 분석합니다. 테스트는 세 종류로 설계하세요.</p>
     <div class="scroll-x">
     <table class="tbl tests" style="min-width:820px">
@@ -757,7 +777,7 @@ body{padding-left:var(--gs-side)}
   </section>
 
   <section class="sec" id="d-q78">
-    <h2 data-short="문항 7·8">7️⃣ 문항 7 기대 효과와 개선 · 8️⃣ 문항 8 소감</h2>
+    <h2 data-short="문항 7·8">7️⃣ 문항 7 기대 효과와 개선 · 8️⃣ 문항 8 소감</h2><div class="gs-steps" aria-label="지금 단계: ④ 보고서 8문항"><small>🚀 프로젝트 단계</small><span class="y">① 주제 찾기</span><span class="y">② 데이터 · 설계도</span><span class="y">③ 유형과 도구</span><span class="y now">④ 보고서 8문항</span><span class="">⑤ 평가 · 제출</span></div>
     <div class="g2">
       <div class="card">
         <h4>문항 7 · 어디에 쓰고 무엇을 고칠 것인가</h4>
@@ -786,7 +806,7 @@ body{padding-left:var(--gs-side)}
   <p class="part-intro">제출 전에 스스로 점검하고, 평가 기준을 확인합니다.</p>
 
   <section class="sec" id="e-levels">
-    <h2 data-short="평가 기준">🎯 도달도 척도표</h2>
+    <h2 data-short="평가 기준">🎯 도달도 척도표</h2><div class="gs-steps" aria-label="지금 단계: ⑤ 평가 · 제출"><small>🚀 프로젝트 단계</small><span class="y">① 주제 찾기</span><span class="y">② 데이터 · 설계도</span><span class="y">③ 유형과 도구</span><span class="y">④ 보고서 8문항</span><span class="y now">⑤ 평가 · 제출</span></div>
     <div class="scroll-x">
     <table class="tbl levels" style="min-width:720px">
       <tr><th>수준</th><th>기준</th></tr>
@@ -798,7 +818,7 @@ body{padding-left:var(--gs-side)}
   </section>
 
   <section class="sec" id="e-submit">
-    <h2 data-short="제출 체크리스트">📮 제출 전 체크리스트</h2>
+    <h2 data-short="제출 체크리스트">📮 제출 전 체크리스트</h2><div class="gs-steps" aria-label="지금 단계: ⑤ 평가 · 제출"><small>🚀 프로젝트 단계</small><span class="y">① 주제 찾기</span><span class="y">② 데이터 · 설계도</span><span class="y">③ 유형과 도구</span><span class="y">④ 보고서 8문항</span><span class="y now">⑤ 평가 · 제출</span></div>
     <div class="g2">
       <ul class="check">
         <li>한 문장 정의(입력 → 출력 → 사람이 정할 것)가 있다</li>
