@@ -670,7 +670,8 @@ li.navpin a.cur .n{background:#f59e0b !important}
       <div class="w e"><div class="ic">🧾</div><b>Test and Score</b></div><div class="ar">→</div>
       <div class="w v"><div class="ic">🔲</div><b>Confusion Matrix</b></div>
     </div>
-    <ol class="steps">
+    <div class="note"><b>❤️ 심장병 (Heart Disease) · 분류</b>미국 클리블랜드 병원 환자 <b>303명</b>의 검사 기록입니다. 나이 · 성별 · 가슴 통증 유형 · 혈압 · 콜레스테롤 등 검사 수치 13가지와, 심장 혈관이 좁아졌는지(<b>diameter narrowing</b>, 0 또는 1)가 들어 있습니다.<br>File 위젯의 데이터 목록에서 <b>heart_disease</b>를 고르면 바로 열립니다. 목록에서 찾기 어려우면 아래 파일을 받아 File 위젯으로 불러오세요.<br><span class="small muted">원출처: Detrano 외 (1989), <a href="https://archive.ics.uci.edu/dataset/45/heart+disease" target="_blank" rel="noopener">UCI Machine Learning Repository — Heart Disease</a> · CC BY 4.0 · 실습용 파일: 오렌지3 내장 데이터 heart_disease.tab</span><br><a class="btn" href="data/heart_disease.tab" download style="display:inline-block;margin-top:10px;text-decoration:none">⬇ 심장병 데이터 내려받기 (.tab)</a></div>
+<ol class="steps">
       <li><b>File</b>에서 오렌지3 내장 <b>heart_disease</b>를 불러오고, 「diameter narrowing」 열이 <b>target</b>, 즉 종속변수 y인지 확인합니다. 1이 「혈관이 좁아짐」입니다. 나머지 검사 수치들이 feature, 즉 독립변수 x입니다.</li>
       <li><b>Distributions</b>로 target의 비율을 보고 <b>기준점</b>(많은 쪽으로만 답했을 때의 정확도)을 확인합니다.<span class="miss">⚠ 기준점 없이는 CA가 잘한 숫자인지 판단할 수 없습니다.</span></li>
       <li>네 모델을 모두 <b>Test and Score</b>에 연결하고 Cross validation(10겹)으로 둡니다. 창 아래의 <b>Target class</b>를 <b>1</b>로 바꿉니다.<span class="miss">⚠ Target class가 「평균」이면 정밀도·재현율이 어느 쪽 기준인지 흐려집니다.</span></li>
