@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>실습 · 결정 트리와 랜덤 포레스트</title>
+<title>회귀 · 분류 · 결정 트리와 랜덤 포레스트</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -352,7 +352,9 @@ h4.sub{font-size:16px;margin:22px 0 8px;color:var(--ink)}
 /* ═══════ 모델 지도 · 수업 칩 · PART 탭 색 ═══════ */
 .mm-chip{display:inline-block;font-size:10.5px;font-weight:700;border-radius:4px;padding:0 5px;line-height:1.6}
 .mm-reg{background:#e0ecff;color:#1d4ed8}.mm-cls{background:#ffedd5;color:#c2410c}.mm-clu{background:#f3e8ff;color:#7e22ce}
-.navchips{display:block;margin-top:2px}.navchips .mm-chip{margin-right:3px}
+.navchips{display:block;margin-top:2px}.navchips .mm-chip{margin-right:3px;margin-bottom:2px}
+.mm-data{background:#f1f5f9;color:#475569;font-weight:600}
+.navchips .navrow{display:block;white-space:nowrap;margin-top:2px}.navchips .navrow .mm-chip{margin-bottom:0}
 .mmap{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:14px 16px;margin:18px 0 14px;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;line-height:1.5}
 .mmap-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-bottom:10px}
 .mmap-h b{font-size:15px;color:#1e293b}.mmap-h span{font-size:13px;color:#4a5568}
@@ -397,6 +399,11 @@ h4.sub{font-size:16px;margin:22px 0 8px;color:var(--ink)}
 [data-kind="wrap"] small::after,[data-kind="wrap"] .pt-label::after{content:'· 정리';color:#475569}
 [data-kind] small,[data-kind] .pt-label{white-space:nowrap}
 .part-tab[data-kind]{flex:1 0 auto}
+/* 고정 항목: 모델 한눈에 보기 */
+li.navpin{border-bottom:1px dashed #e2e8f0;margin-bottom:4px;padding-bottom:4px}
+li.navpin .n{background:#fff7ed !important;font-size:13px}
+li.navpin a.cur .n{background:#f59e0b !important}
+.k.pin{background:#fff7ed;color:#c2410c;font-size:10.5px;font-weight:700;border-radius:4px;padding:0 5px;margin-left:auto;flex:none}
 @media (max-width:640px){.mmap-row{grid-template-columns:1fr;gap:4px}}
 .nav-list a{align-items:flex-start}.nav-list .n{margin-top:1px}
 </style>
@@ -423,18 +430,25 @@ h4.sub{font-size:16px;margin:22px 0 8px;color:var(--ink)}
 
   <div class="nav-title">수업 목록</div>
   <ul class="nav-list">
-    <li><a href="chapter02.html"><span class="n">1</span><span style="flex:1;min-width:0">머신러닝 개념</span><span class="k c">개념</span></a></li>
-    <li><a href="chapter04.html"><span class="n">2</span><span style="flex:1;min-width:0">데이터</span><span class="k c">개념</span></a></li>
-    <li><a href="lab01.html"><span class="n">3</span><span style="flex:1;min-width:0">회귀 첫걸음 — 전복 무게<span class="navchips"><span class="mm-chip mm-reg">회귀</span></span></span><span class="k l">실습</span></a></li>
-    <li><a href="chapter05.html"><span class="n">4</span><span style="flex:1;min-width:0">모델 원리 — 선형 회귀 · kNN<span class="navchips"><span class="mm-chip mm-reg">회귀</span></span></span><span class="k c">개념</span></a></li>
-    <li><a href="chapter05b.html"><span class="n">5</span><span style="flex:1;min-width:0">성적표 읽기 — Test and Score<span class="navchips"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-cls">분류</span></span></span><span class="k c">개념</span></a></li>
-    <li><a href="lab02.html" class="cur" aria-current="page"><span class="n">6</span><span style="flex:1;min-width:0">결정 트리 · 랜덤 포레스트<span class="navchips"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-cls">분류</span></span></span><span class="k l">실습</span></a></li>
-    <li><a href="lab03.html"><span class="n">7</span><span style="flex:1;min-width:0">kNN 분류 — 펭귄<span class="navchips"><span class="mm-chip mm-cls">분류</span></span></span><span class="k l">실습</span></a></li>
-    <li><a href="lab04.html"><span class="n">8</span><span style="flex:1;min-width:0">분류 성적표 깊이 읽기 · 모델 대결<span class="navchips"><span class="mm-chip mm-cls">분류</span></span></span><span class="k l">실습</span></a></li>
-    <li><a href="chapter03.html"><span class="n">9</span><span style="flex:1;min-width:0">비지도학습 · 딥러닝<span class="navchips"><span class="mm-chip mm-clu">군집</span></span></span><span class="k c">개념</span></a></li>
-    <li><a href="lab05.html"><span class="n">10</span><span style="flex:1;min-width:0">나만의 데이터로 프로젝트</span><span class="k l">실습</span></a></li>
+    <li class="navpin"><a href="models.html"><span class="n">🧭</span><span style="flex:1;min-width:0">모델 한눈에 보기<span class="navchips"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-cls">분류</span><span class="mm-chip mm-clu">군집</span></span></span><span class="k pin">도감</span></a></li>
+    <li><a href="chapter02.html"><span class="n">1</span><span style="flex:1;min-width:0">머신러닝 · 지도와 비지도</span><span class="k c">개념</span></a></li>
+    <li><a href="chapter04.html"><span class="n">2</span><span style="flex:1;min-width:0">데이터 · 읽고 의심하기</span><span class="k c">개념</span></a></li>
+    <li><a href="lab01.html"><span class="n">3</span><span style="flex:1;min-width:0">회귀 · 모델 4종 비교<span class="navchips"><span class="navrow"><span class="mm-chip mm-reg">회귀</span></span><span class="navrow"><span class="mm-chip mm-data">🐚 전복</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="chapter05.html"><span class="n">4</span><span style="flex:1;min-width:0">회귀 · 선형 회귀와 kNN<span class="navchips"><span class="navrow"><span class="mm-chip mm-reg">회귀</span></span><span class="navrow"><span class="mm-chip mm-data">🐚 전복</span></span></span></span><span class="k c">개념</span></a></li>
+    <li><a href="chapter05b.html"><span class="n">5</span><span style="flex:1;min-width:0">Test and Score와 Predictions<span class="navchips"><span class="navrow"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-cls">분류</span></span><span class="navrow"><span class="mm-chip mm-data">🐚 전복</span><span class="mm-chip mm-data">🚢 타이타닉</span></span></span></span><span class="k c">개념</span></a></li>
+    <li><a href="lab02.html" class="cur" aria-current="page"><span class="n">6</span><span style="flex:1;min-width:0">회귀 · 분류 · 결정 트리와 랜덤 포레스트<span class="navchips"><span class="navrow"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-cls">분류</span></span><span class="navrow"><span class="mm-chip mm-data">🐚 전복</span><span class="mm-chip mm-data">🚢 타이타닉</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab03.html"><span class="n">7</span><span style="flex:1;min-width:0">분류 · kNN<span class="navchips"><span class="navrow"><span class="mm-chip mm-cls">분류</span><span class="mm-chip mm-reg">회귀</span></span><span class="navrow"><span class="mm-chip mm-data">🐧 펭귄</span><span class="mm-chip mm-data">🏠 대만 집값</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab04.html"><span class="n">8</span><span style="flex:1;min-width:0">분류 · 로지스틱 회귀와 모델 대결<span class="navchips"><span class="navrow"><span class="mm-chip mm-cls">분류</span></span><span class="navrow"><span class="mm-chip mm-data">❤️ 심장병</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="chapter03.html"><span class="n">9</span><span style="flex:1;min-width:0">군집 · k-평균과 딥러닝<span class="navchips"><span class="navrow"><span class="mm-chip mm-clu">군집</span></span><span class="navrow"><span class="mm-chip mm-data">🛒 고객 소비 패턴</span></span></span></span><span class="k c">개념</span></a></li>
+    <li><a href="lab06.html"><span class="n">10</span><span style="flex:1;min-width:0">회귀 · 랜덤 포레스트<span class="navchips"><span class="navrow"><span class="mm-chip mm-reg">회귀</span></span><span class="navrow"><span class="mm-chip mm-data">🚲 따릉이</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab07.html"><span class="n">11</span><span style="flex:1;min-width:0">회귀 · 군집 — 같은 데이터, 두 가지 질문<span class="navchips"><span class="navrow"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-clu">군집</span></span><span class="navrow"><span class="mm-chip mm-data">🏠 대만 집값</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab08.html"><span class="n">12</span><span style="flex:1;min-width:0">분류 · 로지스틱 회귀<span class="navchips"><span class="navrow"><span class="mm-chip mm-cls">분류</span></span><span class="navrow"><span class="mm-chip mm-data">🏦 정기예금</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab09.html"><span class="n">13</span><span style="flex:1;min-width:0">군집 · k-평균<span class="navchips"><span class="navrow"><span class="mm-chip mm-clu">군집</span></span><span class="navrow"><span class="mm-chip mm-data">🌏 세계 지진</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab10.html"><span class="n">14</span><span style="flex:1;min-width:0">회귀 · 랜덤 포레스트<span class="navchips"><span class="navrow"><span class="mm-chip mm-reg">회귀</span></span><span class="navrow"><span class="mm-chip mm-data">🌍 세계 기대수명</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab11.html"><span class="n">15</span><span style="flex:1;min-width:0">회귀 · 분류 · 군집 — 한 데이터로 세 가지<span class="navchips"><span class="navrow"><span class="mm-chip mm-reg">회귀</span><span class="mm-chip mm-cls">분류</span><span class="mm-chip mm-clu">군집</span></span><span class="navrow"><span class="mm-chip mm-data">⚡ 포켓몬</span></span></span></span><span class="k l">실습</span></a></li>
+    <li><a href="lab05.html"><span class="n">16</span><span style="flex:1;min-width:0">프로젝트 · 나만의 데이터</span><span class="k l">실습</span></a></li>
   </ul>
-  <div class="mmini"><div class="mmini-t">🧭 모델 지도 <span style="font-weight:400;color:#64748b">(숫자 = 배우는 수업)</span></div><div class="mmini-r reg"><span>지도학습 · 회귀</span><a href="chapter05.html" class="" title="수업 4에서 배워요">선형 회귀<sup>4</sup></a><a href="chapter05.html" class="" title="수업 4에서 배워요">kNN<sup>4</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">결정 트리<sup>6</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">랜덤 포레스트<sup>6</sup></a></div><div class="mmini-r cls"><span>지도학습 · 분류</span><a href="lab04.html" class="" title="수업 8에서 배워요">로지스틱 회귀<sup>8</sup></a><a href="lab03.html" class="" title="수업 7에서 배워요">kNN<sup>7</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">결정 트리<sup>6</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">랜덤 포레스트<sup>6</sup></a></div><div class="mmini-r clu"><span>비지도학습 · 군집</span><a href="chapter03.html" class="" title="수업 9에서 배워요">k-평균<sup>9</sup></a></div></div>
+  <div class="mmini"><div class="mmini-t">🧭 모델 지도 <span style="font-weight:400;color:#64748b">(숫자 = 배우는 수업)</span></div><div class="mmini-r reg"><span>지도학습 · 회귀</span><a href="chapter05.html" class="" title="수업 4에서 배워요">선형 회귀<sup>4</sup></a><a href="chapter05.html" class="" title="수업 4에서 배워요">kNN<sup>4</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">결정 트리<sup>6</sup></a><a href="lab02.html" class="on" title="수업 6 · 10 · 14에서 배워요">랜덤 포레스트<sup>6·10·14</sup></a></div><div class="mmini-r cls"><span>지도학습 · 분류</span><a href="lab04.html" class="" title="수업 8 · 12에서 배워요">로지스틱 회귀<sup>8·12</sup></a><a href="lab03.html" class="" title="수업 7에서 배워요">kNN<sup>7</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">결정 트리<sup>6</sup></a><a href="lab02.html" class="on" title="수업 6에서 배워요">랜덤 포레스트<sup>6</sup></a></div><div class="mmini-r clu"><span>비지도학습 · 군집</span><a href="chapter03.html" class="" title="수업 9 · 13에서 배워요">k-평균<sup>9·13</sup></a></div></div>
 
   <div class="toc" id="toc">
     <div class="toc-title">📌 이 페이지</div>
@@ -446,13 +460,13 @@ h4.sub{font-size:16px;margin:22px 0 8px;color:var(--ink)}
 <div class="main">
 <header class="mbar">
   <button data-nav-toggle aria-label="수업 목록 열기">☰</button>
-  <span>6 · 결정 트리 · 랜덤 포레스트</span>
+  <span>6 · 회귀 · 분류 · 결정 트리와 랜덤 포레스트</span>
 </header>
 
 <main class="content">
 
   <div class="chapter-header">
-    <span class="badge lab">수업 6 · 오렌지3 실습 2 · 회귀와 분류</span>
+    <span class="badge lab">수업 6 · 실습 · 회귀 · 분류 · 결정 트리와 랜덤 포레스트 · 🐚 전복 · 🚢 타이타닉</span>
     <h1 class="chapter-title">🌳 질문을 이어 가면 답이 나올까?<br>결정 트리와 랜덤 포레스트</h1>
     <p class="chapter-desc">전복 실습의 성적표에 있던 Tree, 그 안에서는 무슨 일이 일어났을까요? 오늘은 <b>스무고개처럼 질문을 이어 가며</b> 답을 찾는 결정 트리를 열어 봅니다. 먼저 이미 아는 <b>전복 데이터로 숫자를 맞히는 회귀 트리</b>를 보고, 이어서 <b>타이타닉 승객 2,201명으로 생존/사망을 가르는 분류 트리</b>를 봅니다. 마지막으로 나무를 여러 그루 모아 <b>숲</b>을 만들면 무엇이 달라지는지 확인합니다.</p>
     <div class="head-grid">
@@ -474,7 +488,7 @@ h4.sub{font-size:16px;margin:22px 0 8px;color:var(--ink)}
     </div>
   </div>
 
-  <div class="mmap"><div class="mmap-h"><b>🧭 모델 지도 — 진하게 칠한 모델이 이번 수업의 주인공</b><span>결정 트리와 랜덤 포레스트는 회귀와 분류를 모두 합니다. 전복(회귀)과 타이타닉(분류)으로 둘 다 봅니다.</span></div><div class="mmap-row reg"><div class="mmap-type"><b>지도학습 · 회귀</b><small>숫자 맞히기</small></div><div class="mmap-models"><a class="mmap-m" href="chapter05.html">선형 회귀<i>수업 4</i></a><a class="mmap-m" href="chapter05.html">kNN<i>수업 4</i></a><a class="mmap-m on" href="lab02.html">결정 트리<i>수업 6</i></a><a class="mmap-m on" href="lab02.html">랜덤 포레스트<i>수업 6</i></a></div></div><div class="mmap-row cls"><div class="mmap-type"><b>지도학습 · 분류</b><small>이름표 맞히기</small></div><div class="mmap-models"><a class="mmap-m" href="lab04.html">로지스틱 회귀<i>수업 8</i></a><a class="mmap-m" href="lab03.html">kNN<i>수업 7</i></a><a class="mmap-m on" href="lab02.html">결정 트리<i>수업 6</i></a><a class="mmap-m on" href="lab02.html">랜덤 포레스트<i>수업 6</i></a></div></div><div class="mmap-row clu"><div class="mmap-type"><b>비지도학습 · 군집</b><small>비슷한 것끼리 묶기</small></div><div class="mmap-models"><a class="mmap-m" href="chapter03.html">k-평균<i>수업 9</i></a></div></div><div class="mmap-legend"><span class="lt">아래 PART 탭 색</span><span><em style="background:#3b82f6"></em>🧠 모델 원리</span><span><em style="background:#10b981"></em>📊 성적표 읽기 (Test and Score)</span><span><em style="background:#f97316"></em>🔮 예측 · 테스트 (Predictions)</span><span><em style="background:#1e293b"></em>✅ 정리</span></div></div>
+  <div class="mmap"><div class="mmap-h"><b>🧭 모델 지도 — 진하게 칠한 모델이 이번 수업의 주인공</b><span>결정 트리와 랜덤 포레스트는 회귀와 분류를 모두 합니다. 전복(회귀)과 타이타닉(분류)으로 둘 다 봅니다.</span></div><div class="mmap-row reg"><div class="mmap-type"><b>지도학습 · 회귀</b><small>숫자 맞히기</small></div><div class="mmap-models"><a class="mmap-m" href="chapter05.html">선형 회귀<i>수업 4</i></a><a class="mmap-m" href="chapter05.html">kNN<i>수업 4</i></a><a class="mmap-m on" href="lab02.html">결정 트리<i>수업 6</i></a><a class="mmap-m on" href="lab02.html">랜덤 포레스트<i>수업 6 · 10 · 14</i></a></div></div><div class="mmap-row cls"><div class="mmap-type"><b>지도학습 · 분류</b><small>이름표 맞히기</small></div><div class="mmap-models"><a class="mmap-m" href="lab04.html">로지스틱 회귀<i>수업 8 · 12</i></a><a class="mmap-m" href="lab03.html">kNN<i>수업 7</i></a><a class="mmap-m on" href="lab02.html">결정 트리<i>수업 6</i></a><a class="mmap-m on" href="lab02.html">랜덤 포레스트<i>수업 6</i></a></div></div><div class="mmap-row clu"><div class="mmap-type"><b>비지도학습 · 군집</b><small>비슷한 것끼리 묶기</small></div><div class="mmap-models"><a class="mmap-m" href="chapter03.html">k-평균<i>수업 9 · 13</i></a></div></div><div class="mmap-legend"><span class="lt">아래 PART 탭 색</span><span><em style="background:#3b82f6"></em>🧠 모델 원리</span><span><em style="background:#10b981"></em>📊 성적표 읽기 (Test and Score)</span><span><em style="background:#f97316"></em>🔮 예측 · 테스트 (Predictions)</span><span><em style="background:#1e293b"></em>✅ 정리</span></div></div>
 <div class="part-tabs">
     <div class="row" role="tablist">
       <button class="part-tab" data-part="A" role="tab" data-kind="model"><small>PART A</small><span>스무고개와 트리</span></button>
@@ -520,7 +534,7 @@ h4.sub{font-size:16px;margin:22px 0 8px;color:var(--ink)}
         </tbody>
       </table>
       </div>
-      <div class="tip"><b>🔁 헷갈리기 쉬운 두 가지</b>① 「정답이 있다」는 것은 <b>학습할 때 쓰는 자료에 정답 열이 있다</b>는 뜻입니다. 새 전복의 순살무게를 아직 모른다고 비지도학습이 되는 것은 아닙니다. 모르는 값을 맞히는 것은 지도학습의 목적입니다. ② 군집은 비지도학습의 <b>한 종류</b>입니다. 비지도학습이 곧 군집이라는 뜻은 아닙니다. 군집은 「비지도학습과 딥러닝」 수업에서 자세히 다룹니다.</div>
+      <div class="tip"><b>🔁 헷갈리기 쉬운 두 가지</b>① 「정답이 있다」는 것은 <b>학습할 때 쓰는 자료에 정답 열이 있다</b>는 뜻입니다. 새 전복의 순살무게를 아직 모른다고 비지도학습이 되는 것은 아닙니다. 모르는 값을 맞히는 것은 지도학습의 목적입니다. ② 군집은 비지도학습의 <b>한 종류</b>입니다. 비지도학습이 곧 군집이라는 뜻은 아닙니다. 군집은 「군집 · k-평균과 딥러닝」 수업에서 자세히 다룹니다.</div>
       <div class="tip"><b>유형을 정하는 두 질문</b>① 학습 자료에 정답(레이블)이 함께 있는가? → 있으면 <b>지도학습</b> ② 맞힐 값이 숫자인가, 이름표인가? → 숫자면 <b>회귀</b>, 이름표면 <b>분류</b></div>
       <div class="key"><b>오늘의 모든 활동은 한 질문으로 이어집니다. 「트리는 입력을 받아, 어떤 질문을 거쳐, 어떤 출력을 만드는가?」</b> 시뮬레이터는 트리가 질문을 고르는 방법을, 오렌지3는 실제 트리가 고른 질문을, 테스트는 처음 보는 입력에 대한 출력을 확인하는 활동입니다.</div>
     </div>
@@ -1160,7 +1174,7 @@ h4.sub{font-size:16px;margin:22px 0 8px;color:var(--ink)}
     <div class="sec-head"><span class="sec-num">26</span><h3>점수표 읽기 — 세 모델의 결과</h3></div>
     <div class="corekq">세 모델 중 누가 이겼고, 그 차이는 의미가 있을까?</div>
     <div class="sec-body">
-      <p class="small muted">CA(Classification Accuracy)는 「전체 중 몇 %를 맞혔나」입니다. 나머지 지표(AUC, F1 등)는 「성적표 읽기」 수업에서 본 그대로 읽으면 됩니다. 자기 화면의 숫자를 먼저 본 뒤 펼쳐 비교하세요.</p>
+      <p class="small muted">CA(Classification Accuracy)는 「전체 중 몇 %를 맞혔나」입니다. 나머지 지표(AUC, F1 등)는 「Test and Score와 Predictions」 수업에서 본 그대로 읽으면 됩니다. 자기 화면의 숫자를 먼저 본 뒤 펼쳐 비교하세요.</p>
       <button class="reveal-btn" data-reveal="eResult" data-label="💡 선생님 화면과 비교하기" data-label2="접기">💡 선생님 화면과 비교하기</button>
       <div id="eResult" hidden>
         <table class="tbl" style="max-width:640px">
@@ -1183,7 +1197,7 @@ h4.sub{font-size:16px;margin:22px 0 8px;color:var(--ink)}
       <button class="reveal-btn" data-reveal="knnWhy" data-label="💡 단서를 모은 뒤 눌러 보기" data-label2="접기">💡 단서를 모은 뒤 눌러 보기</button>
       <div id="knnWhy" hidden>
         <p><b>0.323 = 711 ÷ 2,201, 실제 생존율과 같은 숫자입니다.</b> kNN이 2,201명 <b>모두에게 「생존」</b>이라고 답했다는 뜻입니다. 모두에게 같은 답을 하니 AUC도 동전 던지기 수준인 0.5입니다. 「전부 사망」이라고만 해도 68%인데, kNN은 거꾸로 「전부 생존」이라고 답해 버렸습니다.</p>
-        <div class="note"><b>그럼 왜 모두에게 「생존」이라고 답했을까요?</b>힌트는 PART C의 14개 무리 표에 있습니다. kNN은 가장 <b>가까운</b> 이웃 K명에게 묻는 모델이었죠. 3등석 성인 남성 462명은 서로 얼마나 가까울까요? 이 수수께끼는 다음 실습 「kNN — 가까운 이웃에게 묻기」에서 풉니다.</div>
+        <div class="note"><b>그럼 왜 모두에게 「생존」이라고 답했을까요?</b>힌트는 PART C의 14개 무리 표에 있습니다. kNN은 가장 <b>가까운</b> 이웃 K명에게 묻는 모델이었죠. 3등석 성인 남성 462명은 서로 얼마나 가까울까요? 이 수수께끼는 다음 실습 「분류 · kNN」에서 풉니다.</div>
       </div>
       <div class="key"><b>점수표의 숫자가 이상하면, 모델을 탓하기 전에 그 숫자가 어떻게 나왔는지부터 따져 봅니다.</b> 기준점, 실제 비율, 혼동 행렬은 숫자를 의심할 때 쓰는 기본 도구입니다.</div>
     </div>
@@ -1317,7 +1331,7 @@ h4.sub{font-size:16px;margin:22px 0 8px;color:var(--ink)}
         <tr><td>하</td><td>안내를 따라 데이터를 불러오고 Tree와 Test and Score 결과를 확인할 수 있다.</td></tr>
       </table>
       <div class="nextbox">
-        <div><small>다음 실습</small><b>📍 kNN — 가까운 이웃에게 묻기</b>몸이 비슷하면 같은 종일까요? 남극 펭귄으로 kNN 분류를 하고, 오늘 남겨 둔 「kNN 0.323」 수수께끼도 풉니다.</div>
+        <div><small>다음 실습</small><b>📍 분류 · kNN — 🐧 펭귄</b>몸이 비슷하면 같은 종일까요? 남극 펭귄으로 kNN 분류를 하고, 오늘 남겨 둔 「kNN 0.323」 수수께끼도 풉니다.</div>
         <a href="lab03.html">다음 실습으로 →</a>
       </div>
     </div>
