@@ -958,16 +958,22 @@ li.navpin a.cur .n{background:#f59e0b !important}
     <div class="sec-body">
       <div class="stepbar"><small>🛍️ 고객 군집 만들기 단계</small><span class="tag n0">① 문제</span><span class="tag n0">② 입력·출력</span><span class="tag n0">③ 유형</span><span class="tag n0">④ 데이터</span><span class="tag n0">⑤ 학습</span><span class="tag y">⑥ 평가</span><span class="tag n0">⑦ 활용·한계</span></div>
       <div class="chain scroll-x"><div class="w m"><div class="ic">🎯</div><b>k-Means</b>k = 5</div><div class="ar">→</div><div class="w v"><div class="ic">📊</div><b>Silhouette Plot</b>묶음별 점수</div><div class="ar">＋</div><div class="w v"><div class="ic">📋</div><b>Data Table</b>고객 비교</div></div>
+      <div class="wblock wexp"><h5><span class="wn">🗺️</span>Silhouette Plot 창은 이렇게 생겼다 — 왼쪽 메뉴 3칸 + 오른쪽 그림</h5>
+        <div class="wrow"><b>Distance</b><div>거리 재는 방법. <b>Euclidean</b>이 기본값 — 그대로 둔다</div></div>
+        <div class="wrow"><b>Grouping</b><div>어떤 무리로 나눠 실루엣을 잴지 고르는 칸. 보통 <b>Cluster</b>(k-Means가 만든 묶음)가 골라져 있다. 아래 <b>Show in groups</b>가 체크되어 있으면 무리별로 모아서 보여 준다</div></div>
+        <div class="wrow"><b>Bars</b><div><b>Bar width</b> = 막대 두께. <b>Annotations</b> = 막대 옆에 붙일 이름표(예: 고객 번호). 「increase the width to show」라고 나오면 Bar width를 키워야 이름표가 보인다</div></div>
+        <div class="wrow"><b>오른쪽 그림</b><div>막대 하나 = 고객 한 명. 무리마다 왼쪽에 <b>세로 글씨 「C1 (0.597)」</b>처럼 무리 이름과 <b>괄호 안 평균 실루엣</b>이 나온다. 막대가 오른쪽으로 길수록 잘 묶였고, 0 근처는 경계, 왼쪽(음수)은 옆 무리가 더 가깝다</div></div>
+      </div>
       <div class="wblock"><h5><span class="wn">3</span>📊 Silhouette Plot — 고객마다 실루엣 막대 보기</h5>
         <div class="wrow"><b>🔗 연결</b><div><b>k-Means → Silhouette Plot</b> (Visualize 카테고리)</div></div>
-        <div class="wrow"><b>⚙️ 바꿀 설정 ①</b><div><span class="qtag">E</span> 먼저 Grouping <b>성별 (Gender)</b> — 남녀 두 무리로 나눠 실루엣을 잰다 (처음 열면 성별이 골라져 있을 수 있다)<div class="capture-slot" data-img="lab09_silplot_gender.png" data-label="Silhouette Plot — Grouping: 성별 (질문 E 확인)">📷 캡처 자리 — Silhouette Plot — Grouping: 성별 (질문 E 확인)<small>img/lab09_silplot_gender.png 파일을 넣으면 그림으로 바뀝니다</small></div></div></div>
-        <div class="wrow"><b>✅ 확인 ①</b><div>남성 · 여성 무리의 실루엣 평균이 <b>0 근처</b>다 (계산값 0.003)</div></div>
-        <div class="wrow"><b>⚙️ 바꿀 설정 ②</b><div>Distance <b>Euclidean</b> · Grouping <b>Cluster</b>로 바꾼다 · Show in groups 체크 (묶음별로 모아 보기)<div class="capture-slot" data-img="lab09_mall_silplot.png" data-label="Silhouette Plot — Euclidean, Grouping: Cluster">📷 캡처 자리 — Silhouette Plot — Euclidean, Grouping: Cluster<small>img/lab09_mall_silplot.png 파일을 넣으면 그림으로 바뀝니다</small></div></div></div>
-        <div class="wrow"><b>✅ 확인 ②</b><div>묶음 이름 옆 괄호 안에 묶음별 실루엣 평균이 나온다. 다섯 묶음 모두 <b>0.50 ~ 0.60</b>쯤</div></div>
-        <div class="wrow"><b>🔍 해 보기</b><div>막대 끝이 0 근처이거나 왼쪽(음수)으로 나간 고객을 찾아 보자. 그 고객들은 어디쯤 있을까?</div></div>
-              </div>
+        <div class="wrow"><b>⚙️ 설정</b><div>바꿀 것 없음. 열었을 때 Distance <b>Euclidean</b> · Grouping <b>Cluster</b> · Show in groups <b>체크</b>인지만 확인한다 (Grouping이 다른 열이면 Cluster로 고른다)<div class="capture-slot" data-img="lab09_mall_silplot.png" data-label="Silhouette Plot — Euclidean, Grouping: Cluster, Show in groups">📷 캡처 자리 — Silhouette Plot — Euclidean, Grouping: Cluster, Show in groups<small>img/lab09_mall_silplot.png 파일을 넣으면 그림으로 바뀝니다</small></div></div></div>
+        <div class="wrow"><b>✅ 확인</b><div>세로 글씨 C1 ~ C5의 괄호 값이 모두 <b>0.50 ~ 0.60</b>쯤이다</div></div>
+        <div class="wrow wwarn"><b>⚠ 이럴 땐</b><div>괄호 값이 0.41 · 0.46 · 0.57처럼 제각각이고 0 근처 무리가 있다 → File에서 고객 번호 · 나이가 <b>feature</b>로 남아 있다. File로 돌아가 <b>meta</b>로 바꾼다</div></div>
+        <div class="wrow"><b>🔍 해 보기 ①</b><div>Annotations를 <b>고객 번호</b>로 고르고 Bar width를 오른쪽으로 키운다 → 막대 옆에 고객 번호가 보인다. 막대가 0 근처이거나 왼쪽으로 나간 고객은 몇 번일까? Scatter Plot에서 그 고객은 어디쯤 있을까?</div></div>
+        <div class="wrow"><b>🔍 해 보기 ②</b><div><span class="qtag">E</span> Grouping을 <b>성별 (Gender)</b>로 바꾼다 → 세로 글씨가 <b>남성 · 여성</b> 두 무리가 되고, 괄호 값이 <b>0 근처</b>다 (계산값 0.003). 확인했으면 Grouping을 <b>Cluster</b>로 돌려 둔다<div class="capture-slot" data-img="lab09_silplot_gender.png" data-label="Silhouette Plot — Grouping: 성별 (질문 E 확인)">📷 캡처 자리 — Silhouette Plot — Grouping: 성별 (질문 E 확인)<small>img/lab09_silplot_gender.png 파일을 넣으면 그림으로 바뀝니다</small></div></div></div>
+      </div>
       <div class="wblock wexp"><h5><span class="wn">💡</span>질문 E — 성별로 나누면 왜 점수가 0 근처일까?</h5>
-        <div class="wrow"><b>Grouping</b><div>「어떤 무리로 나눠서 실루엣을 잴까?」를 고르는 칸이다. Cluster를 고르면 k-평균이 만든 다섯 묶음, 성별을 고르면 남녀 두 무리로 잰다</div></div>
+        <div class="wrow"><b>Grouping</b><div>Cluster를 고르면 k-평균이 만든 다섯 묶음으로, 성별을 고르면 남녀 두 무리로 실루엣을 잰다. 거리는 두 경우 모두 같은 feature(연간 소득 · 지출 점수)로 잰다</div></div>
         <div class="wrow"><b>성별의 결과</b><div>남녀 무리의 실루엣 평균이 <b>0에 가깝다</b>. 소득 · 지출 그림에서 남성과 여성이 뒤섞여 있어 두 무리가 갈라지지 않는다는 뜻이다</div></div>
         <div class="wrow"><b>숫자로도</b><div>남녀 평균 연간 소득 <b>62 vs 59</b>, 평균 지출 점수 <b>49 vs 52</b>로 거의 같다. 위 다섯 묶음에서도 남성 비율이 모두 39 ~ 54%로 비슷하다</div></div>
         <div class="wrow"><b>알게 된 것</b><div>이 데이터에서는 <b>성별로는 쇼핑 성향이 나뉘지 않는다</b>. 질문 E의 답은 「비슷하다」이고, 성별을 feature가 아니라 meta로 둔 것과도 맞는다</div></div>
