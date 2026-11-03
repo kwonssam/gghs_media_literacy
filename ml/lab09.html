@@ -566,6 +566,19 @@ li.navpin a.cur .n{background:#f59e0b !important}
 .cqb.qa{border-color:#93c5fd}.cqb.qa .lt{background:#2f6fe4}.cqb.qb{border-color:#c4b5fd}.cqb.qb .lt{background:#7c3aed}
 .cqb.qc{border-color:#fcd34d}.cqb.qc .lt{background:#d97706}.cqb.qe{border-color:#f9a8d4}.cqb.qe .lt{background:#db2777}
 @media (max-width:900px){.cq4b{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* N13 question tabs */
+.cqb .qq2{font-weight:700;color:var(--text);font-size:14.5px}
+.cqb{cursor:pointer}.cqb.cur{box-shadow:0 0 0 3px rgba(30,41,59,.18)}
+.qtabbar{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 8px;align-items:center}
+.qtabbar>small{font-weight:700;color:var(--text2);margin-right:4px}
+.qtabbar button{border:2px solid var(--border2);background:#fff;border-radius:999px;padding:4px 12px;font-size:13.5px;font-weight:700;color:var(--text2);cursor:pointer}
+.qtabbar button[data-qsel=A]{border-color:#93c5fd}.qtabbar button[data-qsel=B]{border-color:#c4b5fd}.qtabbar button[data-qsel=C]{border-color:#fcd34d}.qtabbar button[data-qsel=E]{border-color:#f9a8d4}
+.qtabbar button.on[data-qsel=A]{background:#2f6fe4;border-color:#2f6fe4;color:#fff}.qtabbar button.on[data-qsel=B]{background:#7c3aed;border-color:#7c3aed;color:#fff}
+.qtabbar button.on[data-qsel=C]{background:#d97706;border-color:#d97706;color:#fff}.qtabbar button.on[data-qsel=E]{background:#db2777;border-color:#db2777;color:#fff}
+.qpanes{border:1.5px solid var(--border);border-radius:14px;padding:10px 14px;background:var(--surface);margin:0 0 12px}
+.qpane[hidden]{display:none}
+.qpane .qph{font-weight:700;font-size:15.5px;margin:2px 0 6px}
 </style>
 </head>
 <body>
@@ -711,12 +724,12 @@ li.navpin a.cur .n{background:#f59e0b !important}
           <div class="st ng"><span class="sh">⚠ 걸림돌</span>「○○형 고객」 <b>정답 칸이 없다</b><br>몇 무리인지도 모른다</div>
         </div>
         <div class="pq">❓ 정답 칸이 없는데, 우리 쇼핑몰 고객은 어떤 유형으로 나뉠까?</div>
-        <p style="margin:8px 0 2px"><b>「비슷하다」는 무엇으로 재느냐에 따라 달라진다</b> → 같은 고객에게 네 가지로 물어볼 수 있다. 카드마다 예상을 골라 보세요.</p>
+        <p style="margin:8px 0 2px"><b>「비슷하다」는 무엇으로 재느냐에 따라 달라진다</b> → 같은 고객에게 네 가지로 물어볼 수 있다. 카드마다 예상을 골라 보세요. 카드를 누르면 아래 02 · 04 · 06의 질문 탭도 그 질문으로 바뀝니다.</p>
         <div class="cq4b">
-          <div class="cqb qa"><span class="lt">A</span><span class="tt">소득 × 지출</span><svg viewBox="0 0 150 110" aria-hidden="true"><line x1="28" y1="8" x2="28" y2="84" stroke="#2f6fe4" stroke-width="2.5"/><line x1="28" y1="84" x2="144" y2="84" stroke="#2f6fe4" stroke-width="2.5"/><text x="86" y="102" text-anchor="middle" font-size="12" font-weight="700" fill="#334155">연간 소득 →</text><text x="14" y="46" text-anchor="middle" font-size="12" font-weight="700" fill="#334155" transform="rotate(-90 14 46)">지출 점수 →</text><text x="86" y="50" text-anchor="middle" font-size="22" fill="#cbd5e1">?</text></svg><span class="qq2">버는 것 · 쓰는 것으로 나뉠까?</span><span class="pv"><button type="button">뚜렷</button><button type="button">애매</button></span></div>
-          <div class="cqb qb"><span class="lt">B</span><span class="tt">나이 × 지출</span><svg viewBox="0 0 150 110" aria-hidden="true"><line x1="28" y1="8" x2="28" y2="84" stroke="#7c3aed" stroke-width="2.5"/><line x1="28" y1="84" x2="144" y2="84" stroke="#7c3aed" stroke-width="2.5"/><text x="86" y="102" text-anchor="middle" font-size="12" font-weight="700" fill="#334155">나이 →</text><text x="14" y="46" text-anchor="middle" font-size="12" font-weight="700" fill="#334155" transform="rotate(-90 14 46)">지출 점수 →</text><text x="86" y="50" text-anchor="middle" font-size="22" fill="#cbd5e1">?</text></svg><span class="qq2">나이에 따라 쓰는 게 다를까?</span><span class="pv"><button type="button">뚜렷</button><button type="button">애매</button></span></div>
-          <div class="cqb qc"><span class="lt">C</span><span class="tt">나이 × 소득</span><svg viewBox="0 0 150 110" aria-hidden="true"><line x1="28" y1="8" x2="28" y2="84" stroke="#d97706" stroke-width="2.5"/><line x1="28" y1="84" x2="144" y2="84" stroke="#d97706" stroke-width="2.5"/><text x="86" y="102" text-anchor="middle" font-size="12" font-weight="700" fill="#334155">나이 →</text><text x="14" y="46" text-anchor="middle" font-size="12" font-weight="700" fill="#334155" transform="rotate(-90 14 46)">연간 소득 →</text><text x="86" y="50" text-anchor="middle" font-size="22" fill="#cbd5e1">?</text></svg><span class="qq2">나이와 버는 것으로 나뉠까?</span><span class="pv"><button type="button">뚜렷</button><button type="button">애매</button></span></div>
-          <div class="cqb qe"><span class="lt">E</span><span class="tt">성별</span><svg viewBox="0 0 150 110" aria-hidden="true"><circle cx="48" cy="46" r="26" fill="#dbeafe" stroke="#2f6fe4" stroke-width="2"/><circle cx="102" cy="46" r="26" fill="#fce7f3" stroke="#db2777" stroke-width="2"/><text x="48" y="52" text-anchor="middle" font-size="16" font-weight="700" fill="#1d4ed8">남</text><text x="102" y="52" text-anchor="middle" font-size="16" font-weight="700" fill="#be185d">여</text><text x="75" y="100" text-anchor="middle" font-size="12" font-weight="700" fill="#334155">성별 (두 값뿐)</text></svg><span class="qq2">남녀의 쇼핑 성향이 다를까?</span><span class="pv"><button type="button">다르다</button><button type="button">비슷</button></span></div>
+          <div class="cqb qa" data-qsel="A"><span class="lt">A</span><span class="tt">소득 × 지출</span><svg viewBox="0 0 150 110" aria-hidden="true"><line x1="28" y1="8" x2="28" y2="84" stroke="#2f6fe4" stroke-width="2.5"/><line x1="28" y1="84" x2="144" y2="84" stroke="#2f6fe4" stroke-width="2.5"/><text x="86" y="102" text-anchor="middle" font-size="12" font-weight="700" fill="#334155">연간 소득 →</text><text x="14" y="46" text-anchor="middle" font-size="12" font-weight="700" fill="#334155" transform="rotate(-90 14 46)">지출 점수 →</text><text x="86" y="50" text-anchor="middle" font-size="22" fill="#cbd5e1">?</text></svg><span class="qq2">버는 것 · 쓰는 것으로 나뉠까?</span><span class="pv"><button type="button">뚜렷</button><button type="button">애매</button></span></div>
+          <div class="cqb qb" data-qsel="B"><span class="lt">B</span><span class="tt">나이 × 지출</span><svg viewBox="0 0 150 110" aria-hidden="true"><line x1="28" y1="8" x2="28" y2="84" stroke="#7c3aed" stroke-width="2.5"/><line x1="28" y1="84" x2="144" y2="84" stroke="#7c3aed" stroke-width="2.5"/><text x="86" y="102" text-anchor="middle" font-size="12" font-weight="700" fill="#334155">나이 →</text><text x="14" y="46" text-anchor="middle" font-size="12" font-weight="700" fill="#334155" transform="rotate(-90 14 46)">지출 점수 →</text><text x="86" y="50" text-anchor="middle" font-size="22" fill="#cbd5e1">?</text></svg><span class="qq2">나이에 따라 쓰는 게 다를까?</span><span class="pv"><button type="button">뚜렷</button><button type="button">애매</button></span></div>
+          <div class="cqb qc" data-qsel="C"><span class="lt">C</span><span class="tt">나이 × 소득</span><svg viewBox="0 0 150 110" aria-hidden="true"><line x1="28" y1="8" x2="28" y2="84" stroke="#d97706" stroke-width="2.5"/><line x1="28" y1="84" x2="144" y2="84" stroke="#d97706" stroke-width="2.5"/><text x="86" y="102" text-anchor="middle" font-size="12" font-weight="700" fill="#334155">나이 →</text><text x="14" y="46" text-anchor="middle" font-size="12" font-weight="700" fill="#334155" transform="rotate(-90 14 46)">연간 소득 →</text><text x="86" y="50" text-anchor="middle" font-size="22" fill="#cbd5e1">?</text></svg><span class="qq2">나이와 버는 것으로 나뉠까?</span><span class="pv"><button type="button">뚜렷</button><button type="button">애매</button></span></div>
+          <div class="cqb qe" data-qsel="E"><span class="lt">E</span><span class="tt">성별</span><svg viewBox="0 0 150 110" aria-hidden="true"><circle cx="48" cy="46" r="26" fill="#dbeafe" stroke="#2f6fe4" stroke-width="2"/><circle cx="102" cy="46" r="26" fill="#fce7f3" stroke="#db2777" stroke-width="2"/><text x="48" y="52" text-anchor="middle" font-size="16" font-weight="700" fill="#1d4ed8">남</text><text x="102" y="52" text-anchor="middle" font-size="16" font-weight="700" fill="#be185d">여</text><text x="75" y="100" text-anchor="middle" font-size="12" font-weight="700" fill="#334155">성별 (두 값뿐)</text></svg><span class="qq2">남녀의 쇼핑 성향이 다를까?</span><span class="pv"><button type="button">다르다</button><button type="button">비슷</button></span></div>
         </div>
         <div class="mission">
           <div><span class="msn-t">미션 ①</span>네 질문 중 <b>뚜렷한 무리로 나뉘는 질문</b>은?<br><small>PART A 04 · PART B 06 · 08</small></div>
@@ -746,14 +759,11 @@ li.navpin a.cur .n{background:#f59e0b !important}
     <div class="sec-body">
       <div class="stepbar"><small>🛍️ 고객 군집 만들기 단계</small><span class="tag n0">① 문제</span><span class="tag n0">② 입력·출력</span><span class="tag n0">③ 유형</span><span class="tag y">④ 데이터</span><span class="tag n0">⑤ 학습</span><span class="tag n0">⑥ 평가</span><span class="tag n0">⑦ 활용·한계</span></div>
       <div class="card c-green"><h5>🛍️ 쇼핑몰 고객 (Mall Customer Segmentation Data) · 군집</h5><p>쇼핑몰 회원 <b>200명</b>의 성별 · 나이 · 연간 소득 · 지출 점수입니다. 지출 점수는 쇼핑몰이 구매 행동을 보고 매긴 점수로, 1~100 사이이며 클수록 많이 씁니다. 빈칸(결측치) 없음. <b>실제 쇼핑몰 기록이 아니라, 고객 군집을 연습하라고 만든 학습용 데이터</b>입니다.</p><p class="small muted">원출처: Kaggle 「Mall Customer Segmentation Data」 · <a href="https://www.kaggle.com/code/anirudhchauhan/mall-customer-segmentation-data" target="_blank" rel="noopener">https://www.kaggle.com/code/anirudhchauhan/mall-customer-segmentation-data</a></p><a class="dl-btn" href="data/mall_customers.csv" download><span class="dl-ic">⬇</span><span>쇼핑몰 고객 CSV 내려받기<small>mall_customers.csv · 200명 · 5개 열</small></span></a></div>
-      <div class="pbox"><h5>🎯 Role은 질문이 정한다</h5>
-        <p style="margin:0">군집은 고객 사이의 <b>거리</b>를 재서 가까운 고객끼리 묶습니다. 거리를 재는 열이 <b>feature</b>이고, 그 열이 곧 「무엇이 비슷한가」입니다. 그래서 <b>질문이 바뀌면 feature도 바뀝니다</b>. 질문 B · C는 이렇게 정합니다.</p>
-        <div class="scroll-x"><table class="tbl rtq" style="min-width:640px;margin-top:8px"><tr><th>질문</th><th class="c">고객 번호</th><th class="c">성별</th><th class="c">나이</th><th class="c">연간 소득</th><th class="c">지출 점수</th></tr>
-          <tr><td><span class="qtag">A</span>버는 것 · 쓰는 것</td><td colspan="5" class="c"><b>❓ 아래 ✏️에서 직접 정해 보기</b> — B · C를 보고 같은 방법으로</td></tr>
-          <tr><td><span class="qtag">B</span>나이 · 쓰는 것</td><td class="c"><span class="rcode r-m">meta</span></td><td class="c"><span class="rcode r-m">meta</span></td><td class="c"><span class="rcode r-f">feature</span></td><td class="c"><span class="rcode r-m">meta</span></td><td class="c"><span class="rcode r-f">feature</span></td></tr>
-          <tr><td><span class="qtag">C</span>나이 · 버는 것</td><td class="c"><span class="rcode r-m">meta</span></td><td class="c"><span class="rcode r-m">meta</span></td><td class="c"><span class="rcode r-f">feature</span></td><td class="c"><span class="rcode r-f">feature</span></td><td class="c"><span class="rcode r-m">meta</span></td></tr>
-          <tr><td><span class="qtag">E</span>남녀 비교</td><td colspan="5" class="c small">성별은 남 · 여 두 값뿐이라 거리를 재는 열로 쓰지 않는다 → A로 묶은 뒤 <b>성별(meta)로 나눠 보며</b> 확인 (PART A 04 · PART B 08)</td></tr></table></div>
-        <p class="small" style="margin:6px 0 0">어느 질문에서도 <b>고객 번호는 meta</b>입니다. 숫자지만 이름표라서, 넣으면 1번과 200번을 「멀다」고 재게 됩니다. <b>target은 어느 질문에도 없습니다</b> — 정답 칸이 없는 데이터이기 때문입니다.</p>
+      <div class="chain scroll-x"><div class="w"><div class="ic">📁</div><b>File</b>mall_customers.csv</div><div class="ar">→</div><div class="w v"><div class="ic">📋</div><b>Data Table</b>표로 보기</div></div>
+      <div class="wblock"><h5><span class="wn">0-1</span>📁 File — 열고, 바꾸기 전 상태 보기</h5>
+        <div class="wrow"><b>🔗 연결</b><div>캔버스에 <b>File</b>을 놓고 mall_customers.csv를 연다</div></div>
+        <div class="wrow"><b>✅ 확인</b><div>아래 표의 Role 칸을 본다. 처음 열면 숫자 열 <b>고객 번호 · 나이 · 연간 소득 · 지출 점수</b>가 모두 <b>feature</b>로 잡혀 있다 (오렌지3 기본값)</div></div>
+        <div class="wrow wwarn"><b>💬 이대로면?</b><div>네 열 <b>모두로</b> 거리를 잰다 → 01의 어느 질문과도 맞지 않는 묶음이 나온다. 그래서 <b>고른 질문에 맞게</b> Role을 바꿔야 한다</div></div>
       </div>
       <div class="wblock wexp"><h5><span class="wn">💡</span>Role(역할)은 네 가지 — 오렌지3에게 「이 열을 어떻게 쓸지」 알려 주는 표시</h5>
         <div class="wrow"><b><span class="rcode r-t">target</span></b><div>맞혀야 할 <b>정답</b> 열. 지도학습에서만 쓴다</div></div>
@@ -761,7 +771,13 @@ li.navpin a.cur .n{background:#f59e0b !important}
         <div class="wrow"><b><span class="rcode r-m">meta</span></b><div>계산에는 안 쓰지만 표에 <b>남겨 두는</b> 열. 누구인지 찾거나, 묶은 뒤 확인할 때 쓴다</div></div>
         <div class="wrow"><b><span class="rcode r-s">skip</span></b><div>아예 빼 버리는 열. 표에서도 사라진다</div></div>
       </div>
-      <h4 style="margin:18px 0 4px">🧭 열마다 세 가지를 차례로 물어본다</h4>
+      <h4 style="margin:18px 0 4px">🧭 고른 질문에 맞게 Role 정하기</h4>
+      <p style="margin:0">거리를 재는 열이 <b>feature</b>, 그 열이 곧 「무엇이 비슷한가」입니다. 질문 탭을 바꿔 보세요. <b>A는 본 실습</b>이라 직접 골라 봅니다.</p>
+      <div class="qtabbar"><small>🧭 질문 고르기</small><button type="button" data-qsel="A" class="on">A 소득 × 지출 · 본 실습</button><button type="button" data-qsel="B">B 나이 × 지출</button><button type="button" data-qsel="C">C 나이 × 소득</button><button type="button" data-qsel="E">E 성별</button></div>
+      <div class="qpanes">
+        <div class="qpane" data-qpane="A">
+          <div class="qph"><span class="qtag" style="background:#2f6fe4">A</span>버는 것 · 쓰는 것으로 나뉠까? — 직접 정해 보기</div>
+          <h4 style="margin:18px 0 4px">🧭 열마다 세 가지를 차례로 물어본다</h4>
       <div class="rflow">
         <div class="rq"><div class="qq">① 맞혀야 할 정답인가?<small>예: 대만 집값의 「평당 가격」</small></div><div class="yes">예 → <span class="rcode r-t">target</span></div><div class="no">아니오 → ②로</div></div>
         <div class="rarr">→</div>
@@ -793,15 +809,31 @@ li.navpin a.cur .n{background:#f59e0b !important}
       </div>
       <p class="small muted">수업 7 질문 2(k-평균으로 동네 묶기)에서도 평당 가격은 target이 아니라, 묶은 뒤 비교하는 데만 썼습니다.</p>
       </div>
-      <div class="wdown">↓<div style="font-size:14px;margin-top:2px">이제 오렌지3에서 정한 대로 바꿉니다</div></div>
-      <div class="chain scroll-x"><div class="w"><div class="ic">📁</div><b>File</b>mall_customers.csv</div><div class="ar">→</div><div class="w v"><div class="ic">📋</div><b>Data Table</b>표로 보기</div></div>
-      <div class="wblock"><h5><span class="wn">0</span>📁 File — 불러오고 Role 정하기</h5>
-        <div class="wrow"><b>🔗 연결</b><div>캔버스에 <b>File</b>을 놓고 mall_customers.csv를 연다</div></div>
-        <div class="wrow"><b>⚙️ 바꿀 설정</b><div><b>먼저 질문 A로:</b> 고객 번호 · 성별 · 나이 → <b>meta</b> · 연간 소득 · 지출 점수 → <b>feature</b> (질문 B · C는 06에서 Role만 바꿔 해 본다)<div class="capture-slot" data-img="lab09_mall_file.png" data-label="File — 고객 번호 · 성별 · 나이 meta, 연간 소득 · 지출 점수 feature">📷 캡처 자리 — File — 고객 번호 · 성별 · 나이 meta, 연간 소득 · 지출 점수 feature<small>img/lab09_mall_file.png 파일을 넣으면 그림으로 바뀝니다</small></div></div></div>
-        <div class="wrow"><b>✅ 확인</b><div>feature가 <b>연간 소득 · 지출 점수 2개</b>뿐이고, target은 비어 있다</div></div>
-        <div class="wrow wwarn"><b>⚠ 이럴 땐</b><div>나이까지 feature로 두면 묶음이 달라진다. 두 열로만 묶어야 그림 한 장(가로 · 세로)으로 결과를 볼 수 있다</div></div>
+        </div>
+        <div class="qpane" data-qpane="B" hidden>
+          <div class="qph"><span class="qtag" style="background:#7c3aed">B</span>나이에 따라 쓰는 게 다를까?</div>
+          <div class="scroll-x"><table class="tbl rtq" style="min-width:520px;margin:6px 0"><tr><th class="c">고객 번호</th><th class="c">성별</th><th class="c">나이</th><th class="c">연간 소득</th><th class="c">지출 점수</th></tr><tr><td class="c"><span class="rcode r-m">meta</span></td><td class="c"><span class="rcode r-m">meta</span></td><td class="c"><span class="rcode r-f">feature</span></td><td class="c"><span class="rcode r-m">meta</span></td><td class="c"><span class="rcode r-f">feature</span></td></tr></table></div>
+          <p class="small" style="margin:0">거리를 재는 열 = <b>나이 · 지출 점수</b>. 연간 소득은 이 질문의 기준이 아니라 meta로 둔다 — 묶은 뒤 「이 무리는 얼마나 버나?」를 볼 때 쓴다</p>
+        </div>
+        <div class="qpane" data-qpane="C" hidden>
+          <div class="qph"><span class="qtag" style="background:#d97706">C</span>나이와 버는 것으로 나뉠까?</div>
+          <div class="scroll-x"><table class="tbl rtq" style="min-width:520px;margin:6px 0"><tr><th class="c">고객 번호</th><th class="c">성별</th><th class="c">나이</th><th class="c">연간 소득</th><th class="c">지출 점수</th></tr><tr><td class="c"><span class="rcode r-m">meta</span></td><td class="c"><span class="rcode r-m">meta</span></td><td class="c"><span class="rcode r-f">feature</span></td><td class="c"><span class="rcode r-f">feature</span></td><td class="c"><span class="rcode r-m">meta</span></td></tr></table></div>
+          <p class="small" style="margin:0">거리를 재는 열 = <b>나이 · 연간 소득</b>. 지출 점수는 이 질문의 기준이 아니라 meta로 둔다</p>
+        </div>
+        <div class="qpane" data-qpane="E" hidden>
+          <div class="qph"><span class="qtag" style="background:#db2777">E</span>남녀의 쇼핑 성향이 다를까?</div>
+          <div class="scroll-x"><table class="tbl rtq" style="min-width:520px;margin:6px 0"><tr><th class="c">고객 번호</th><th class="c">성별</th><th class="c">나이</th><th class="c">연간 소득</th><th class="c">지출 점수</th></tr><tr><td class="c"><span class="rcode r-m">meta</span></td><td class="c"><span class="rcode r-m">meta</span></td><td class="c"><span class="rcode r-m">meta</span></td><td class="c"><span class="rcode r-f">feature</span></td><td class="c"><span class="rcode r-f">feature</span></td></tr></table></div>
+          <p class="small" style="margin:0">성별은 <b>남 · 여 두 값뿐</b>이라 거리를 재는 열로 쓰지 않는다. A와 같은 설정으로 두고, <b>성별(meta)로 나눠 보며</b> 확인한다 — 04에서는 Color = 성별, 08에서는 Grouping = 성별</p>
+        </div>
       </div>
-
+      <p class="small muted" style="margin:0 0 10px">어느 질문에서도 <b>고객 번호는 meta</b>(숫자지만 이름표), <b>target은 없음</b>(정답 칸이 없는 데이터)입니다.</p>
+      <div class="wdown">↓</div>
+      <div class="wblock"><h5><span class="wn">0-2</span>📁 File — Role 바꾸기 (질문 A로)</h5>
+        <div class="wrow"><b>⚙️ 바꿀 설정</b><div>Role 칸을 더블클릭해 고객 번호 · 성별 · 나이 → <b>meta</b> · 연간 소득 · 지출 점수 → <b>feature</b><div class="capture-slot" data-img="lab09_mall_file.png" data-label="File — 고객 번호 · 성별 · 나이 meta, 연간 소득 · 지출 점수 feature">📷 캡처 자리 — File — 고객 번호 · 성별 · 나이 meta, 연간 소득 · 지출 점수 feature<small>img/lab09_mall_file.png 파일을 넣으면 그림으로 바뀝니다</small></div></div></div>
+        <div class="wrow"><b>✅ 확인</b><div>feature가 <b>연간 소득 · 지출 점수 2개</b>뿐이고, target은 비어 있다</div></div>
+        <div class="wrow wwarn"><b>⚠ 이럴 땐</b><div>Role을 바꾸지 않고 지나가면 08 Silhouette Plot에서 무리 점수가 0.41 · 0.46 · 0.57처럼 제각각이고 <b>0 근처 무리</b>가 생긴다 → 이 화면으로 돌아와 바꾼다</div></div>
+        <div class="wrow"><b>📌 B · C는</b><div>06에서 이 화면의 Role만 질문 탭대로 바꿔 해 본다</div></div>
+      </div>
     </div>
   </section>
 
@@ -829,18 +861,18 @@ li.navpin a.cur .n{background:#f59e0b !important}
       <div class="stepbar"><small>🛍️ 고객 군집 만들기 단계</small><span class="tag n0">① 문제</span><span class="tag n0">② 입력·출력</span><span class="tag n0">③ 유형</span><span class="tag y">④ 데이터</span><span class="tag n0">⑤ 학습</span><span class="tag n0">⑥ 평가</span><span class="tag n0">⑦ 활용·한계</span></div>
       <div class="wblock"><h5><span class="wn">2</span>🔵 Scatter Plot — 네 질문을 눈으로 먼저 비교하기</h5>
         <div class="wrow"><b>🔗 연결</b><div><b>File → Scatter Plot</b></div></div>
-        <div class="wrow"><b>⚙️ 바꿀 설정</b><div>축을 질문의 feature 두 개로 바꿔 가며 본다 · Color는 <b>그대로</b> (아직 묶음이 없다)
-          <div class="scroll-x"><table class="tbl" style="min-width:460px;margin:6px 0 0"><tr><th>질문</th><th class="c">Axis x</th><th class="c">Axis y</th><th class="c">Color</th></tr>
-          <tr><td><span class="qtag">A</span></td><td class="c">연간 소득</td><td class="c">지출 점수</td><td class="c">그대로</td></tr>
-          <tr><td><span class="qtag">B</span></td><td class="c">나이</td><td class="c">지출 점수</td><td class="c">그대로</td></tr>
-          <tr><td><span class="qtag">C</span></td><td class="c">나이</td><td class="c">연간 소득</td><td class="c">그대로</td></tr>
-          <tr><td><span class="qtag">E</span></td><td class="c">연간 소득</td><td class="c">지출 점수</td><td class="c"><b>성별</b></td></tr></table></div></div></div>
+        <div class="wrow"><b>⚙️ 바꿀 설정</b><div>질문 탭에 따라 축을 그 질문의 feature 두 개로 바꾼다 · Color는 <b>그대로</b> (아직 묶음이 없다)
+          <div class="qtabbar"><small>🧭 질문 고르기</small><button type="button" data-qsel="A" class="on">A 소득 × 지출 · 본 실습</button><button type="button" data-qsel="B">B 나이 × 지출</button><button type="button" data-qsel="C">C 나이 × 소득</button><button type="button" data-qsel="E">E 성별</button></div>
+          <div class="qpane" data-qpane="A">Axis x <b>연간 소득</b> · Axis y <b>지출 점수</b> · Color 그대로</div>
+          <div class="qpane" data-qpane="B" hidden>Axis x <b>나이</b> · Axis y <b>지출 점수</b> · Color 그대로</div>
+          <div class="qpane" data-qpane="C" hidden>Axis x <b>나이</b> · Axis y <b>연간 소득</b> · Color 그대로</div>
+          <div class="qpane" data-qpane="E" hidden>Axis x <b>연간 소득</b> · Axis y <b>지출 점수</b> · Color <b>성별</b> (meta 열로 확인할 때만 색을 바꾼다)</div></div></div>
         <div class="wrow"><b>✅ 확인</b><div>덩어리 사이에 <b>빈틈</b>이 보이는 질문이 있다. E는 남녀 색이 그림 전체에 섞여 있다</div></div>
         <div class="wrow"><b>↩️ 마치면</b><div>Axis x <b>연간 소득</b> · Axis y <b>지출 점수</b> · Color <b>그대로</b>로 돌려 둔다 (질문 A로 계속)</div></div>
         <div class="wrow wwarn"><b>⚠ 이럴 땐</b><div>점이 세로줄 · 가로줄로 고르게 깔린다 → 축에 <b>고객 번호</b>가 들어갔다. 고객 번호는 이름표라 그림에 아무 모양도 안 생긴다. 두 축을 연간 소득 · 지출 점수로 고른다</div></div>
       </div>
       <div class="sim"><div class="sim-head">👀 네 질문을 그림으로 — 오렌지3 Scatter Plot과 같은 그림</div><div class="sim-body">
-        <div class="ctrl"><button class="btn on" data-q4="A">A 소득 × 지출</button><button class="btn" data-q4="B">B 나이 × 지출</button><button class="btn" data-q4="C">C 나이 × 소득</button><button class="btn" data-q4="E">E 소득 × 지출 · 색 = 성별</button></div>
+        <p class="small muted" style="margin:0 0 6px">위의 질문 탭을 바꾸면 그림도 바뀝니다.</p>
         <div class="sim-canvas" id="q4Svg"></div><p class="sim-msg" id="q4Msg"></p></div></div>
       <div class="doit"><b>✏️ 먼저 예상하기</b>네 그림 중 덩어리 사이에 <b>빈틈</b>이 뚜렷한 것은? 01의 카드에 적은 예상과 같나요? PART B 06에서 실루엣 점수로 확인합니다.</div>
       <div class="wblock wexp"><h5><span class="wn">💡</span>축은 왜 질문의 feature 두 개일까? — 질문 A로 보기</h5>
@@ -921,7 +953,12 @@ li.navpin a.cur .n{background:#f59e0b !important}
     <div class="wdown">↓</div>
       <div class="wblock"><h5><span class="wn">3</span>🔁 질문 B · C도 해 보기 — Role만 바꿔 실루엣 비교</h5>
         <div class="wrow"><b>🔗 연결</b><div>그대로 (File → k-Means → Scatter Plot)</div></div>
-        <div class="wrow"><b>⚙️ 바꿀 설정</b><div>File의 Role만 바꾼다 — <span class="qtag">B</span> 나이 · 지출 점수 → feature, 연간 소득 → meta · <span class="qtag">C</span> 나이 · 연간 소득 → feature, 지출 점수 → meta. Scatter Plot 축도 그 두 열로 바꾸고 Color <b>Cluster</b></div></div>
+        <div class="wrow"><b>⚙️ 바꿀 설정</b><div>질문 탭대로 File의 Role만 바꾸고, Scatter Plot 축도 그 두 열로 바꾼다 · Color <b>Cluster</b>
+          <div class="qtabbar"><small>🧭 질문 고르기</small><button type="button" data-qsel="A" class="on">A 소득 × 지출 · 본 실습</button><button type="button" data-qsel="B">B 나이 × 지출</button><button type="button" data-qsel="C">C 나이 × 소득</button><button type="button" data-qsel="E">E 성별</button></div>
+          <div class="qpane" data-qpane="A">지금 설정 그대로 (위 1 · 2에서 한 것)</div>
+          <div class="qpane" data-qpane="B" hidden>File: <b>나이 · 지출 점수 → feature</b>, 연간 소득 → meta · Scatter Plot: x 나이, y 지출 점수</div>
+          <div class="qpane" data-qpane="C" hidden>File: <b>나이 · 연간 소득 → feature</b>, 지출 점수 → meta · Scatter Plot: x 나이, y 연간 소득</div>
+          <div class="qpane" data-qpane="E" hidden>성별은 거리 재는 열이 아니라 k-Means로 묶지 않는다 → <b>08 해 보기 ②</b>에서 Silhouette Plot의 Grouping = 성별로 확인</div></div></div>
         <div class="wrow"><b>✅ 확인</b><div>k-Means 표에서 <b>가장 높은 실루엣 점수와 그때의 k</b>를 아래 표에 적는다</div></div>
         <div class="wrow"><b>↩️ 마치면</b><div>File의 Role을 <b>질문 A</b>(연간 소득 · 지출 점수 feature)로 돌려 둔다. PART B 07부터는 질문 A로 계속한다</div></div>
       </div>
@@ -932,7 +969,7 @@ li.navpin a.cur .n{background:#f59e0b !important}
         <tr><td>🎲 무작위 점</td><td class="c">아무 모양 없는 점 200개</td><td class="c bad">0.42</td><td class="c">4</td><td>덩어리가 없어도 k-평균은 나눠 버린다</td></tr></table></div>
       <div class="sim"><div class="sim-head">📊 k-평균으로 묶은 결과 비교 — 막대는 0.3부터, 점선 = 무작위 점의 점수(0.42)</div><div class="sim-body">
         <div id="q6Bars"></div>
-        <div class="ctrl" style="margin-top:8px"><button class="btn on" data-q6="A">A 소득 × 지출 (k=5)</button><button class="btn" data-q6="B">B 나이 × 지출 (k=2)</button><button class="btn" data-q6="C">C 나이 × 소득 (k=3)</button><button class="btn" data-q6="R">🎲 무작위 점 (k=4)</button></div>
+        <div class="ctrl" style="margin-top:8px"><span class="small muted">위의 질문 탭을 바꾸면 그림이 바뀝니다.</span><button class="btn" id="q6Rand">🎲 무작위 점 보기</button></div>
         <div class="sim-canvas" id="q6Svg"></div><p class="sim-msg" id="q6Msg"></p></div></div>
       <div class="wblock wexp"><h5><span class="wn">💡</span>점수를 이렇게 읽는다</h5>
         <div class="wrow"><b>기준선</b><div>아무 모양 없는 무작위 점도 <b>0.42</b>가 나온다. k-평균은 덩어리가 없어도 k개로 <b>억지로 나누기</b> 때문이다. 그래서 점수만 보지 말고 <b>기준선보다 확실히 높은지</b>, 그림에 빈틈이 있는지 함께 본다</div></div>
@@ -1781,14 +1818,27 @@ var RG={inc:[0,140],sp:[0,100],age:[10,70],rx:[0,100],ry:[0,100]};
 var MSG4={A:'질문 A — 덩어리 사이에 빈 곳이 보이나요?',B:'질문 B — 왼쪽 위와 나머지를 비교해 보세요.',C:'질문 C — 덩어리 사이에 빈 곳이 있나요?',E:'질문 E — <b style="color:#2f6fe4">●</b> 남성 · <b style="color:#db2777">●</b> 여성. 남녀가 어느 덩어리에 몰려 있나요?'};
 function on(sel,b){document.querySelectorAll(sel).forEach(function(x){x.classList.toggle('on',x===b);});}
 function d4(q){var s=SET[q],cs=Q.m.map(function(m){return q==='E'?(m?'#2f6fe4':'#db2777'):GRAY;});svg('q4Svg',Q[s[0]],Q[s[1]],cs,s[2],s[3],RG[s[0]],RG[s[1]]);document.getElementById('q4Msg').innerHTML=MSG4[q];}
-if(document.getElementById('q4Svg')){document.querySelectorAll('[data-q4]').forEach(function(b){b.addEventListener('click',function(){on('[data-q4]',b);d4(b.dataset.q4);});});d4('A');}
+
 var SIL={A:0.555,B:0.47,C:0.44,R:0.42},NM={A:'A 소득 × 지출',B:'B 나이 × 지출',C:'C 나이 × 소득',R:'🎲 무작위 점'},BC={A:'#2f6fe4',B:'#7c3aed',C:'#d97706',R:'#94a3b8'};
 var MSG6={A:'k=5 — 색이 바뀌는 곳마다 빈틈이 있습니다.',B:'k=2 — 「젊고 많이 쓰는」 무리와 나머지로 나뉩니다.',C:'k=3 — 빈틈이 없는데도 세 가지 색으로 나뉘었습니다.',R:'k=4 — 아무 모양 없는 점인데도 네 가지 색으로 나뉩니다. 이것이 기준선입니다.'};
 function d6(q){var s=SET[q],L=Q['L'+q];svg('q6Svg',Q[s[0]],Q[s[1]],L.map(function(c){return COL[c%5];}),s[2],s[3],RG[s[0]],RG[s[1]]);document.getElementById('q6Msg').innerHTML=MSG6[q];}
 if(document.getElementById('q6Svg')){
   var h='';['A','B','C','R'].forEach(function(k){h+='<div class="silbar"><span>'+NM[k]+'</span><span class="bar"><i style="width:'+((SIL[k]-0.3)/0.3*100)+'%;background:'+BC[k]+'"></i><s style="left:'+((0.42-0.3)/0.3*100)+'%"></s></span><b>'+SIL[k].toFixed(k==='A'?3:2)+'</b></div>';});
   document.getElementById('q6Bars').innerHTML=h;
-  document.querySelectorAll('[data-q6]').forEach(function(b){b.addEventListener('click',function(){on('[data-q6]',b);d6(b.dataset.q6);});});d6('A');}
+}
+var CUR='A',RAND=false;
+MSG6.E='질문 E는 k-Means로 묶지 않습니다. 그림은 질문 A의 자리에 <b style="color:#2f6fe4">●</b> 남성 · <b style="color:#db2777">●</b> 여성을 칠한 것입니다. 08에서 점수로 확인합니다.';
+function d6x(q){if(q==='E'){svg('q6Svg',Q.inc,Q.sp,Q.m.map(function(m){return m?'#2f6fe4':'#db2777';}),SET.E[2],SET.E[3],RG.inc,RG.sp);document.getElementById('q6Msg').innerHTML=MSG6.E;}else d6(q);}
+function setQ(q){CUR=q;RAND=false;
+  document.querySelectorAll('.qtabbar button').forEach(function(b){b.classList.toggle('on',b.dataset.qsel===q);});
+  document.querySelectorAll('.cqb[data-qsel]').forEach(function(c){c.classList.toggle('cur',c.dataset.qsel===q);});
+  document.querySelectorAll('[data-qpane]').forEach(function(p){if(p.dataset.qpane===q)p.removeAttribute('hidden');else p.setAttribute('hidden','');});
+  var rb=document.getElementById('q6Rand');if(rb){rb.classList.remove('on');rb.textContent='🎲 무작위 점 보기';}
+  if(document.getElementById('q4Svg'))d4(q);if(document.getElementById('q6Svg'))d6x(q);}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.qtabbar button,.cqb[data-qsel]');if(b)setQ(b.dataset.qsel);});
+var rb=document.getElementById('q6Rand');
+if(rb)rb.addEventListener('click',function(e){e.stopPropagation();RAND=!RAND;rb.classList.toggle('on',RAND);rb.textContent=RAND?'↩️ 질문 '+CUR+' 그림으로':'🎲 무작위 점 보기';if(RAND)d6('R');else d6x(CUR);});
+setQ('A');
 })();
 </script>
 
