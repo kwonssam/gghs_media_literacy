@@ -58,7 +58,24 @@
     height: 100vh;
     overflow-y: auto;
     padding: 24px 0;
+    transition: margin-left .25s;
   }
+  .wrapper.nav-closed .sidebar { margin-left: -280px; }
+
+  /* 메뉴 접기/펼치기 버튼 */
+  .nav-toggle {
+    position: fixed; top: 14px; left: 236px; z-index: 100;
+    width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--surface); color: var(--text2);
+    border: 1px solid var(--border2); border-radius: 8px;
+    font-size: 16px; cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    transition: left .25s, color .15s, background .15s;
+  }
+  .nav-toggle:hover { color: var(--primary); background: var(--primary-bg); }
+  .wrapper.nav-closed .nav-toggle { left: 14px; }
+
   .sidebar-logo {
     padding: 0 20px 20px;
     border-bottom: 1px solid var(--border);
@@ -407,10 +424,78 @@
     z-index: 9999; white-space: nowrap;
   }
   #soon-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ===== A4 인쇄 ===== */
+  @page { size: A4 portrait; margin: 15mm; }
+
+  @media print {
+    html, body {
+      background: #fff;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* 메뉴·버튼은 인쇄하지 않음 */
+    .sidebar, .nav-toggle, #soon-toast { display: none !important; }
+
+    .wrapper { display: block; min-height: 0; }
+    .main { width: 100%; }
+    .content { max-width: none; margin: 0; padding: 0; }
+
+    .chapter-header { margin-bottom: 28px; padding-bottom: 20px; }
+    .section { margin-bottom: 32px; }
+
+    /* 제목이 페이지 끝에 혼자 남지 않게 */
+    h1, h2, h3, .section-title, .step-head, .concept-card-head, .check-title, .mission-title {
+      break-after: avoid; page-break-after: avoid;
+    }
+    p, li { orphans: 3; widows: 3; }
+
+    /* 상자·표·이미지가 페이지 경계에서 잘리지 않게 */
+    .goal-box, .compare-card, .output-box, .tip, .warn, .note,
+    .mission-task, .mode-card, .code-block, tr, img {
+      break-inside: avoid; page-break-inside: avoid;
+    }
+    img { max-width: 100%; }
+    .compare-grid, .mode-grid { break-inside: avoid; page-break-inside: avoid; }
+
+    /* 코드·프롬프트 블록: 흰 배경 + 검은 글씨, 줄바꿈 */
+    .code-block {
+      background: #fff;
+      border: 1.5px solid var(--border2);
+      overflow: visible;
+    }
+    .code-block pre {
+      color: #1a202c;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .output-box {
+      background: #fff;
+      border: 1.5px solid var(--border2);
+      color: #4d7c0f;
+    }
+    .full-code-head {
+      background: #fff;
+      border-bottom: 1.5px solid var(--border2);
+    }
+    .kw  { color: #6d28d9; }
+    .fn  { color: #1d4ed8; }
+    .str { color: #15803d; }
+    .num { color: #c2410c; }
+    .cm  { color: #64748b; }
+    .out { color: #4d7c0f; }
+
+    a { color: inherit; text-decoration: none; }
+    .step-item, .concept-card, .check-section, .mission-box { box-shadow: none; }
+  }
 </style>
 </head>
 <body>
-<div class="wrapper">
+<div class="wrapper" id="wrapper">
+
+  <!-- 메뉴 접기/펼치기 버튼 -->
+  <button type="button" class="nav-toggle" id="navToggle" aria-label="메뉴 접기" title="메뉴 접기">☰</button>
 
   <!-- 사이드바 -->
   <nav class="sidebar">
@@ -868,5 +953,18 @@
     </div><!-- .content -->
   </main>
 </div><!-- .wrapper -->
+
+<script>
+  (function () {
+    var wrapper = document.getElementById('wrapper');
+    var btn = document.getElementById('navToggle');
+    btn.addEventListener('click', function () {
+      var closed = wrapper.classList.toggle('nav-closed');
+      var label = closed ? '메뉴 펼치기' : '메뉴 접기';
+      btn.setAttribute('aria-label', label);
+      btn.setAttribute('title', label);
+    });
+  })();
+</script>
 </body>
 </html>
