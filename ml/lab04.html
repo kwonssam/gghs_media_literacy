@@ -465,6 +465,17 @@ li.navpin a.cur .n{background:#f59e0b !important}
 .lm-o.bad{border-color:var(--red);background:var(--red-bg)}.lm-o.bad b{color:var(--red)}
 #lmX{accent-color:var(--ink)}
 @media (max-width:560px){.lm-out{grid-template-columns:1fr}}
+
+/* ═══ PART B 간단 비교 ═══ */
+.mcs{display:grid;grid-template-columns:118px repeat(3,1fr);border:1.5px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff;min-width:560px}
+.mcs>div{padding:8px 12px;border-top:1px dashed #e2e8f0;font-size:15px;line-height:1.55}
+.mcs>.h{border-top:none;font-weight:800;font-size:15.5px}
+.mcs>.h.reg{background:#eff6ff;color:#1d4ed8}.mcs>.h.cls{background:#fff7ed;color:#c2410c}.mcs>.h.clu{background:#faf5ff;color:#7e22ce}
+.mcs>.lab{font-size:13px;font-weight:700;color:#64748b;background:#f8fafc}
+.mcs>.on{background:#fff7ed}
+.mcs>.strong{font-weight:700}
+.mcs-wrap{margin:14px 0 6px}
+.mcs-wrap>b{display:block;font-size:16px;margin-bottom:8px}
 </style>
 </head>
 <body>
@@ -678,15 +689,18 @@ li.navpin a.cur .n{background:#f59e0b !important}
     <div class="corekq">확률을 내는 모델은 어떤 위젯일까? 새 신청자는 어떻게 만들까?</div>
     <div class="sec-body">
       <div class="stepbar"><small>🏦 대출 모델 만들기 단계</small><span class="tag n0">① 문제</span><span class="tag n0">② 입력·출력</span><span class="tag n0">③ 유형</span><span class="tag n0">④ 데이터</span><span class="tag y">⑤ 학습</span><span class="tag y">⑥ 테스트</span><span class="tag n0">⑦ 한계·개선</span></div>
-      <div class="g2"><div class="wblock"><h5>📈 Logistic Regression — 확률을 내는 분류 모델</h5><div class="wrow"><b>한 줄로</b><div>단서들을 보고 <b>「좋음」일 확률</b>을 0~100%로 낸다</div></div><div class="wrow"><b>왜 필요한가</b><div>「빌려준다 / 안 빌려준다」만 말하면 <b>얼마나 확실한지</b> 알 수 없기 때문. 확률을 알면 몇 %부터 빌려줄지 <b>사람이 정할 수</b> 있다</div></div><div class="wrow"><b>넣는 것</b><div><b>File</b> — 공부할 1,000명의 기록</div></div><div class="wrow"><b>나오는 것</b><div><b>두 가지</b>를 내보낸다 — <b>Model</b>과 <b>Learner</b> (아래 그림)</div></div></div><div class="wblock"><h5>✏️ Create Instance — 새 신청자 한 명을 만드는 위젯</h5><div class="wrow"><b>한 줄로</b><div>데이터에 없는 <b>새 신청자 한 명</b>을 직접 만들어 Predictions로 보낸다. 처음엔 중간값 · 가장 많은 값이 채워져 있고, 바꾸고 싶은 칸만 고친다</div></div><div class="wrow wwarn"><b>⚠ 주의</b><div><b>Append this instance to input data</b> 체크 해제</div></div></div></div>
+      <div class="mcs-wrap"><b>🔁 세 모델은 무엇을 내놓을까?</b><div class="scroll-x"><div class="mcs"><div class="h lab"></div><div class="h reg">📏 선형 회귀</div><div class="h cls on">📈 로지스틱 회귀 · 오늘</div><div class="h clu">🔵 k-평균</div><div class="lab">정답 (target)</div><div class="">있다 · 숫자</div><div class="on">있다 · 이름표</div><div class="">없다</div><div class="lab">모델이 내는 것</div><div class="strong">숫자 하나</div><div class="on strong"><b>확률</b> → 선과 비교해 이름표</div><div class="strong">묶음 번호 (C1 · C2 · C3)</div><div class="lab">사람이 정하는 숫자</div><div class="">없음</div><div class="on"><b>선</b> (몇 %부터)</div><div class=""><b>k</b> (몇 묶음)</div></div></div></div>
       <h4 class="sub">📏 같은 대출 데이터에 선형 회귀를 쓰면?</h4><div class="sim"><div class="sim-head">🎚️ 선형 회귀 vs 로지스틱 회귀 — 대출 기간으로 「좋음」 맞히기</div><div class="sim-body"><p class="sim-guide">좋음 = 100%, 나쁨 = 0%로 놓고 두 모델이 그은 선을 비교합니다. 슬라이더로 대출 기간을 데이터 범위(4~72개월) 밖까지 옮겨 보세요.</p><div class="ctrl"><button class="btn on" data-lm="both">둘 다</button><button class="btn" data-lm="lin">📏 선형 회귀만</button><button class="btn" data-lm="log">📈 로지스틱 회귀만</button></div><div class="sim-canvas" id="lmSvg"></div><div class="ctrl" style="margin:12px 0 0"><label for="lmX"><b>대출 기간</b></label><input type="range" id="lmX" min="4" max="150" step="1" value="24" style="flex:1;min-width:160px"><b id="lmXv">24개월</b></div><div class="lm-out"><div class="lm-o lin" id="lmLinBox"><small>📏 선형 회귀가 낸 값</small><b id="lmLin"></b><span id="lmLinM"></span></div><div class="lm-o log"><small>📈 로지스틱 회귀가 낸 값</small><b id="lmLog"></b><span id="lmLogM"></span></div></div><p class="small muted" style="margin:8px 0 0">점은 대출 기간을 네 구간으로 나눈 실제 1,000명의 좋은 고객 비율(점 크기 = 사람 수)이고, 두 선은 선생님이 이 네 구간 값으로 계산한 근삿값입니다.</p></div></div>
+      <div class="wblock"><h5>📈 Logistic Regression — 확률을 내는 분류 모델</h5><div class="wrow"><b>한 줄로</b><div>단서들을 보고 <b>「좋음」일 확률</b>을 0~100%로 낸다</div></div><div class="wrow"><b>왜 필요한가</b><div>「빌려준다 / 안 빌려준다」만 말하면 <b>얼마나 확실한지</b> 알 수 없기 때문. 확률을 알면 몇 %부터 빌려줄지 <b>사람이 정할 수</b> 있다</div></div><div class="wrow"><b>넣는 것</b><div><b>File</b> — 공부할 1,000명의 기록</div></div><div class="wrow"><b>나오는 것</b><div><b>두 가지</b>를 내보낸다 — <b>Model</b>과 <b>Learner</b> (아래 그림)</div></div></div>
       <h4 class="sub">📈 Logistic Regression이 내보내는 두 가지 — 어디에 연결할까?</h4>
       <div class="g2">
         <div class="card c-blue"><h5>🎓 Model — 공부를 마친 모델</h5><div class="chain scroll-x" style="margin:8px 0"><div class="w m"><div class="ic">📈</div><b>Logistic Regression</b></div><div class="ar">→</div><div class="w e"><div class="ic">🔮</div><b>Predictions</b></div></div><p>1,000명의 기록으로 <b>이미 공부를 끝낸</b> 모델입니다. 새 신청자를 넣으면 바로 확률을 냅니다.</p><p>선 위 글자: <b>Model → Predictors</b></p><div class="goal">언제 — <span>한 사람에게 물어볼 때 (PART B)</span></div></div>
         <div class="card c-orange"><h5>📘 Learner — 공부하는 방법</h5><div class="chain scroll-x" style="margin:8px 0"><div class="w m"><div class="ic">📈</div><b>Logistic Regression</b></div><div class="ar">→</div><div class="w e"><div class="ic">🧪</div><b>Test and Score</b></div></div><p>아직 공부하지 않은 <b>방법</b>입니다. Test and Score가 1,000명을 나눠 <b>여러 번 새로 공부시키고 시험</b>을 봅니다.</p><p>선 위 글자: <b>Learner</b></p><div class="goal">언제 — <span>1,000명 전체의 성적을 볼 때 (PART C)</span></div></div>
       </div>
       <div class="key"><b>지금 PART B에서는 왼쪽 🎓 Model → 🔮 Predictions만 씁니다.</b> 오른쪽 🧪 Test and Score는 PART C에서 처음 놓습니다. 한 사람에게 물어볼 땐 <b>Predictions</b>, 1,000명으로 시험을 볼 땐 <b>Test and Score</b>입니다.</div>
+      <h4 class="sub">✏️ Create Instance — 새 신청자 한 명을 만드는 위젯</h4><div class="wblock"><div class="wrow"><b>한 줄로</b><div>데이터에 없는 <b>새 신청자 한 명</b>을 내가 직접 만든다</div></div><div class="wrow"><b>왜 필요한가</b><div>궁금한 신청자를 모델에게 <b>물어보려면</b>, 그 사람을 먼저 오렌지3 안에 만들어야 하기 때문</div></div><div class="wrow"><b>처음 열면</b><div>숫자 열은 <b>중간값</b>, 글자 열은 <b>가장 많은 값</b>이 채워져 있다. 바꾸고 싶은 칸만 고친다</div></div><div class="wrow wwarn"><b>⚠ 주의</b><div><b>Append this instance to input data</b> 체크 해제</div></div></div><div class="chain scroll-x"><div class="w"><div class="ic">📁</div><b>File</b>지난 1,000명</div><div class="ar">→</div><div class="w v"><div class="ic">✏️</div><b>Create Instance</b>새 신청자 1명</div><div class="ar">→</div><div class="w e"><div class="ic">🔮</div><b>Predictions</b>확률 보기</div><div class="ar">←</div><div class="w m"><div class="ic">📈</div><b>Logistic Regression</b>Model</div></div>
       <div class="key"><b>File은 「지난 신청자들의 기록」, Create Instance는 「오늘 온 새 신청자」입니다.</b> 새 신청자를 <b>Predictions</b>로 보내면, 지난 기록으로 공부한 모델이 그 사람의 확률을 알려 줍니다.</div>
+      
     </div>
   </section>
 
